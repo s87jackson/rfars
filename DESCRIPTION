@@ -14,7 +14,7 @@ Description: This package downloads raw data from the National
     geographic scales. Functions facilitate high-level analysis 
     including custom crash counts and rates, exploratory analysis 
     of user-specified crashes and the people involved in them, and 
-    hotspot mapping.
+    hotspot mapping. 
 License: CC0
 Encoding: UTF-8
 LazyData: true
@@ -39,3 +39,5 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://github.com/s87jackson/rfars
+BugReports: https://github.com/s87jackson/rfars/issues
