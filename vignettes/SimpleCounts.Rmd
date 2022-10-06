@@ -2,7 +2,7 @@
 title: "Simple Counts"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{my-vignette}
+  %\VignetteIndexEntry{simple-counts}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -28,6 +28,12 @@ myFARS <-
   get_fars(years = 2016:2020, states="Virginia") %>%
   use_fars()
 ```
+
+```{r}
+myFARS <-
+  use_fars("C:/Users/s87ja/Dropbox/Work/toXcel/FARS/rfars/vignettes/FARS data/prepared/")
+```
+
 
 ```{r}
 myFARS %>%

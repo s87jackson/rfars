@@ -3,23 +3,44 @@
 library(tidyr)
 library(dplyr)
 library(readr)
+library(tidycensus)
+library(tigris)
+
+temp_county <- tigris::counties(year = 2010) %>% as.data.frame() %>% select(-geometry)
+temp_states <- tigris::states(year = 2010) %>% as.data.frame() %>% select(-geometry)
+
+for(i in 1:nrow(temp_states)){
+
+    temp <- tigris::tracts(year = 2010, state = temp_states$STATEFP10[i])
+
+    if(i == 1){
+      temp_tracts <- temp
+    } else{
+      temp_tracts <- bind_rows(temp_tracts, temp)
+    }
+
+}
+
+temp_tracts <- temp_tracts %>% as.data.frame() %>% select(-geometry)
 
 geo_relations <-
-  read_csv("data-raw/geo relations 2015.csv",
-           col_types = cols(.default = "c")) %>%
-  separate(`2015 Geography Name`, c("county_name", "state_name"), sep = ", ", remove = TRUE) %>%
-  mutate(
-    FIPS = stringr::str_pad(`2015 GEOID`, 5, "left", "0"),
-    state_fips = substr(FIPS, 1, 2),
-    county_fips = substr(FIPS, 3, 5)
-    ) %>%
-  select(
-    FIPS,
-    state_fips,
-    county_fips,
-    state_abbr = State,
-    state_name,
-    county_name
+  temp_county %>%
+    select(fips_state = STATEFP10,
+           fips_county = COUNTYFP10,
+           county_name_abbr = NAME10,
+           county_name_full = NAMELSAD10
+           ) %>%
+    full_join(
+      temp_states %>%
+        select(fips_state = STATEFP10,
+               state_name_abbr = STUSPS10,
+               state_name_full = NAME10)
+      ) %>%
+    full_join(
+      temp_tracts %>%
+        select(fips_state = STATEFP10,
+               fips_county = COUNTYFP10,
+               fips_tract = TRACTCE10)
     )
 
 usethis::use_data(geo_relations, overwrite = TRUE)

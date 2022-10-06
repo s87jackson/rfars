@@ -59,7 +59,7 @@ prep_fars <- function(raw_dir = getwd(), states = NULL){
       geo_filtered <-
         rfars::geo_relations %>%
         filter(
-          state_fips %in% states | state_abbr %in% states | state_name %in% states
+          fips_state %in% states | state_name_abbr %in% states | state_name_full %in% states
           ) #this lets the user specify states in any of these ways
       } else{
         geo_filtered <- rfars::geo_relations

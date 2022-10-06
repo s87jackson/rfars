@@ -237,7 +237,7 @@ prep_fars_2017 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
     as.data.frame() %>%
 
   # State filter
-    filter(state %in% geo_filtered$state_name) %>%
+    filter(state %in% geo_filtered$state_name_full) %>%
 
   # Dates
     mutate(
