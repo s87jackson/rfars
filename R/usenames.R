@@ -31,7 +31,7 @@ usenames <- function(df){
              grepl("mn", varname) |
              grepl("hrs", varname) |
              grepl("mins", varname),
-           time = ifelse(varname=="crashrf", FALSE, time)
+           time = ifelse(varname %in% c("crashrf", "mnmdstrd"), FALSE, time)
            ) %>%
     filter(n==2, !time)
 

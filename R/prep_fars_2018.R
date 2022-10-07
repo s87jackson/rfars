@@ -20,34 +20,26 @@ prep_fars_2018 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
   ## accident ----
 
-    fars.accident <-
-      read_csv(paste0(wd, rawfiles$filename[rawfiles$cleaned=="accident"]), col_types = cols()) %>%
-      janitor::clean_names() %>%
-      usenames()
-
+  fars.accident <- read_basic_csv(x = "accident", wd = wd, rawfiles = rawfiles)
 
   ## vehicle ----
 
-    fars.vehicle <-
-      read_csv(paste0(wd, rawfiles$filename[rawfiles$cleaned=="vehicle"]), col_types = cols()) %>%
-      janitor::clean_names() %>%
-      usenames() %>%
-      select(
-        -starts_with("vin_"),
-        -setdiff(intersect(names(fars.accident), names(.)),
-                 c("state", "st_case")),
-        -gvwr #discontinued...vpic
-        )
+  fars.vehicle <-
+    read_basic_csv(x = "vehicle", wd = wd, rawfiles = rawfiles) %>%
+    select(
+      -starts_with("vin_"),
+      -setdiff(intersect(names(fars.accident), names(.)),
+               c("state", "st_case")),
+      -contains("gvwr")
+      )
 
 
   ## person ----
 
-    fars.person <-
-      read_csv(paste0(wd, rawfiles$filename[rawfiles$cleaned=="person"]), col_types = cols()) %>%
-      janitor::clean_names() %>%
-      usenames() %>%
-      select(-setdiff(intersect(names(fars.accident), names(.)), c("state", "st_case"))) %>%
-      select(-setdiff(intersect(names(fars.vehicle), names(.)), c("state", "st_case", "veh_no")))
+  fars.person <-
+    read_basic_csv(x = "person", wd = wd, rawfiles = rawfiles) %>%
+    select(-setdiff(intersect(names(fars.accident), names(.)), c("state", "st_case"))) %>%
+    select(-setdiff(intersect(names(fars.vehicle), names(.)), c("state", "st_case", "veh_no")))
 
 
 # accident-level files ----
@@ -57,40 +49,36 @@ prep_fars_2018 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
     ### cevent ----
 
-      fars.cevent <-
-          read_csv(paste0(wd, rawfiles$filename[rawfiles$cleaned=="cevent"]), col_types = cols()) %>%
-          janitor::clean_names() %>%
-          usenames()
-
+    fars.cevent <- read_basic_csv(x = "cevent", wd = wd, rawfiles = rawfiles)
 
     ### weather ----
 
-        # NOTE this moves from the accident file to the weather file in 2020
+    # NOTE this moves from the accident file to the weather file in 2020
 
-        fars.weather <-
-          fars.accident %>%
-          select(state, st_case, weather1, weather2) %>%
-          mutate_all(as.character) %>%
-          pivot_longer(cols = -c(1:2), values_to = "weather") %>%
-          select(-name) %>%
-          filter(weather != "No Additional Atmospheric Conditions")
+    fars.weather <-
+      fars.accident %>%
+      select(state, st_case, weather1, weather2) %>%
+      mutate_all(as.character) %>%
+      pivot_longer(cols = -c(1:2), values_to = "weather") %>%
+      select(-name) %>%
+      filter(weather != "No Additional Atmospheric Conditions")
 
-        fars.accident <- fars.accident %>% select(-contains("weather"))
+    fars.accident <- fars.accident %>% select(-contains("weather"))
 
 
     ### crashrf ----
 
-        # NOTE this moves from the accident file to the weather file in 2020
+    # NOTE this moves from the accident file to the weather file in 2020
 
-        fars.crashrf <-
-          fars.accident %>%
-          select(state, st_case, cf1, cf2, cf3) %>%
-          mutate_all(as.character) %>%
-          pivot_longer(cols = -c(1:2), values_to = "crashrf") %>%
-          select(-name) %>%
-          unique()
+    fars.crashrf <-
+      fars.accident %>%
+      select(state, st_case, cf1, cf2, cf3) %>%
+      mutate_all(as.character) %>%
+      pivot_longer(cols = -c(1:2), values_to = "crashrf") %>%
+      select(-name) %>%
+      unique()
 
-        fars.accident <- fars.accident %>% select(-c(cf1, cf2, cf3))
+    fars.accident <- fars.accident %>% select(-c(cf1, cf2, cf3))
 
 
 
@@ -103,44 +91,76 @@ prep_fars_2018 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
   ## multi-row files ----
 
     ### x vsoe ----
-    ### x distract ----
-    ### x drimpair ----
-    ### x factor ----
-    ### x maneuver ----
-    ### x violatn ----
-    ### x vision ----
-    ### x damage ----
+
+    ### distract ----
+
+    fars.distract <- read_basic_csv(x = "distract", wd = wd, rawfiles = rawfiles)
+
+    ### drimpair ----
+
+    fars.drimpair <- read_basic_csv(x = "drimpair", wd = wd, rawfiles = rawfiles)
+
+    ### factor ----
+
+    fars.factor <- read_basic_csv(x = "factor", wd = wd, rawfiles = rawfiles)
+
+    ### maneuver ----
+
+    fars.maneuver <- read_basic_csv(x = "maneuver", wd = wd, rawfiles = rawfiles)
+
+    ### violatn ----
+
+    fars.violatn <- read_basic_csv(x = "violatn", wd = wd, rawfiles = rawfiles)
+
+    ### vision ----
+
+    fars.vision <- read_basic_csv(x = "vision", wd = wd, rawfiles = rawfiles)
+
+    ### damage ----
+
+    fars.damage <- read_basic_csv(x = "damage", wd = wd, rawfiles = rawfiles)
 
     ### vehiclesf ----
 
-        # NOTE this was moved from the vehicle file in 2020
+    # NOTE this was moved from the vehicle file in 2020
 
-        fars.vehiclesf <-
-          fars.vehicle %>%
-          select(state, st_case, veh_no, veh_sc1, veh_sc2) %>%
-          mutate_all(as.character) %>%
-          pivot_longer(cols = -c(1:3), values_to = "vehiclesf") %>%
-          select(-name) %>%
-          unique()
+    fars.vehiclesf <-
+      fars.vehicle %>%
+      select(state, st_case, veh_no, veh_sc1, veh_sc2) %>%
+      mutate_all(as.character) %>%
+      pivot_longer(cols = -c(1:3), values_to = "vehiclesf") %>%
+      select(-name) %>%
+      unique()
 
-        fars.vehicle <- fars.vehicle %>% select(-starts_with("veh_sc"))
+    fars.vehicle <- fars.vehicle %>% select(-starts_with("veh_sc"))
 
 
     ### x pvehiclesf ----
 
+    # NOTE this was moved from the vehicle file in 2020
+
+    # fars.pvehiclesf <- fars.vehicle %>%
+    #   select(state, st_case, veh_no, veh_sc1, veh_sc2) %>%
+    #   mutate_all(as.character) %>%
+    #   pivot_longer(cols = -c(1:3), values_to = "pvehiclesf") %>%
+    #   select(-name) %>%
+    #   unique()
+    #
+    # fars.vehicle <- fars.vehicle %>% select(-starts_with("veh_sc"))
+
     ### driverrf ----
 
-        # NOTE this was moved from the vehicle file in 2020
+    # NOTE this was moved from the vehicle file in 2020
 
-        fars.driverrf <-
-          fars.vehicle %>%
-          select(state, st_case, veh_no, dr_sf1, dr_sf2, dr_sf3, dr_sf4) %>%
-          mutate_all(as.character) %>%
-          pivot_longer(cols = -c(1:3), values_to = "driverrf") %>%
-          select(-name) %>%
-          unique()
+    fars.driverrf <-
+      fars.vehicle %>%
+      select(state, st_case, veh_no, dr_sf1, dr_sf2, dr_sf3, dr_sf4) %>%
+      mutate_all(as.character) %>%
+      pivot_longer(cols = -c(1:3), values_to = "driverrf") %>%
+      select(-name) %>%
+      unique()
 
-        fars.vehicle <- fars.vehicle %>% select(-starts_with("dr_sf"))
+    fars.vehicle <- fars.vehicle %>% select(-starts_with("dr_sf"))
 
 
 
@@ -149,66 +169,70 @@ prep_fars_2018 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
   ## pbtype ----
 
-    fars.pbtype <-
-      read_csv(paste0(wd, rawfiles$filename[rawfiles$cleaned=="pbtype"]), col_types = cols()) %>%
-      janitor::clean_names() %>%
-      usenames() %>%
-      select(-setdiff(intersect(names(fars.person), names(.)), c("state", "st_case", "veh_no", "per_no"))) %>%
-      select(-pbptype, -pbage, -pbsex)
+  fars.pbtype <-
+    read_basic_csv(x = "pbtype", wd = wd, rawfiles = rawfiles) %>%
+    select(-setdiff(intersect(names(fars.person), names(.)), c("state", "st_case", "veh_no", "per_no"))) %>%
+    select(-pbptype, -pbage, -pbsex)
 
 
   ## safetyeq ----
 
-    fars.safetyeq <-
-      read_csv(paste0(wd, rawfiles$filename[rawfiles$cleaned=="safetyeq"]), col_types = cols()) %>%
-      janitor::clean_names() %>%
-      usenames() %>%
-      select(-setdiff(intersect(names(fars.person), names(.)), c("state", "st_case", "veh_no", "per_no")))
+  fars.safetyeq <-
+    read_basic_csv(x = "safetyeq", wd = wd, rawfiles = rawfiles) %>%
+    select(-setdiff(intersect(names(fars.person), names(.)),
+                    c("state", "st_case", "veh_no", "per_no")))
 
 
   ## multi-row files ----
 
-    ### x nmcrash ----
-    ### x nmimpair ----
-    ### x nmprior ----
+    ### nmcrash ----
+
+    fars.nmcrash <- read_basic_csv(x = "nmcrash", wd = wd, rawfiles = rawfiles)
+
+    ### nmimpair ----
+
+    fars.nmimpair <- read_basic_csv(x = "nmimpair", wd = wd, rawfiles = rawfiles)
+
+    ### nmprior ----
+
+    fars.nmprior <- read_basic_csv(x = "nmprior", wd = wd, rawfiles = rawfiles)
+
     ### x nmdistract ----
+
+    # NOTE this data was not captured prior to 2019
 
     ### drugs ----
 
-        fars.drugs <-
-          read_csv(paste0(wd, rawfiles$filename[rawfiles$cleaned=="drugs"]), col_types = cols()) %>%
-          janitor::clean_names() %>%
-          usenames()
-
+    fars.drugs <- read_basic_csv(x = "drugs", wd = wd, rawfiles = rawfiles)
 
     ### race ----
 
-        # NOTE this was moved from the person file in 2019
+    # NOTE this was moved from the person file in 2019
 
-        fars.race <-
-          fars.person %>%
-          select(state, st_case, veh_no, per_no, race) %>%
-          mutate_all(as.character) %>%
-          pivot_longer(cols = -c(1:4), values_to = "race") %>%
-          select(-name) %>%
-          unique()
+    fars.race <-
+      fars.person %>%
+      select(state, st_case, veh_no, per_no, race) %>%
+      mutate_all(as.character) %>%
+      pivot_longer(cols = -c(1:4), values_to = "race") %>%
+      select(-name) %>%
+      unique()
 
-        fars.person <- fars.person %>% select(-race)
+    fars.person <- fars.person %>% select(-race)
 
 
     ### personrf ----
 
-        # NOTE this was moved from the person file in 2020
+    # NOTE this was moved from the person file in 2020
 
-        fars.personrf <-
-          fars.person %>%
-          select(state, st_case, veh_no, per_no, p_sf1, p_sf2, p_sf3) %>%
-          mutate_all(as.character) %>%
-          pivot_longer(cols = -c(1:4), values_to = "personrf") %>%
-          select(-name) %>%
-          unique()
+    fars.personrf <-
+      fars.person %>%
+      select(state, st_case, veh_no, per_no, p_sf1, p_sf2, p_sf3) %>%
+      mutate_all(as.character) %>%
+      pivot_longer(cols = -c(1:4), values_to = "personrf") %>%
+      select(-name) %>%
+      unique()
 
-        fars.person <- fars.person %>% select(-starts_with("p_sf"))
+    fars.person <- fars.person %>% select(-starts_with("p_sf"))
 
 
 
@@ -216,26 +240,29 @@ prep_fars_2018 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
   fars <-
     fars.accident %>%
-    left_join(fars.person) %>% #! This order (accident >> person >> vehicle) is very important for including non-motorists
-    left_join(fars.vehicle) %>%
-    left_join(fars.pbtype) %>%
-    left_join(fars.safetyeq) %>%
+    left_join(fars.person, by = c("state", "st_case")) %>%
+    #! This order (accident >> person >> vehicle) is very important for including non-motorists
+    left_join(fars.vehicle, by = c("state", "st_case", "veh_no")) %>%
+    left_join(fars.pbtype, by = c("state", "st_case", "veh_no", "per_no")) %>%
+    left_join(fars.safetyeq, by = c("state", "st_case", "veh_no", "per_no")) %>%
     as.data.frame() %>%
 
   # State filter
     filter(state %in% geo_filtered$state_name_full) %>%
 
   # Dates
-    mutate(
-      date_crash = lubridate::make_datetime(year, match(month, month.name), day, hour, minute),
-      date_death = lubridate::make_datetime(death_yr, match(death_mo, month.name), death_da, death_hr, death_mn),
-      ) %>%
+    # mutate(
+    #   date_crash = lubridate::make_datetime(year, match(month, month.name), day, hour, minute),
+    #   date_death = lubridate::make_datetime(death_yr, match(death_mo, month.name), death_da, death_hr, death_mn),
+    #   ) %>%
 
   # Generate state-independent id for each crash
     mutate(id = paste0(year, st_case)) %>%
 
   # Final organization
-    select(year, state, st_case, id, date_crash, veh_no, per_no,
+    select(year, state, st_case, id,
+           #date_crash,
+           veh_no, per_no,
            county, city,
            lon = longitud,
            lat = latitude,
@@ -255,14 +282,24 @@ prep_fars_2018 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
   multi_veh <-
     bind_rows(
       fars.vehiclesf %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
-      fars.driverrf %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3))
+      fars.driverrf %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
+      fars.drimpair %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
+      fars.distract %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
+      fars.factor %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
+      fars.maneuver %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
+      fars.violatn %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
+      fars.vision %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
+      fars.damage %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3))
       )
 
   multi_per <-
     bind_rows(
       fars.race %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:4)),
       fars.personrf %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:4)),
-      fars.drugs %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:4))
+      fars.drugs %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:4)),
+      fars.nmcrash %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:4)),
+      fars.nmimpair %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:4)),
+      fars.nmprior %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:4))
       )
 
 

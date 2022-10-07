@@ -15,7 +15,7 @@ or FIPS code (51).}
 }
 \value{
 Produces four files for each year: yyyy_flat.csv, yyyy_multi_acc.csv,
-    yyyy_multi_veh.csv, and yyyy_multi_per.csv
+    yyyy_multi_veh.csv, and yyyy_multi_per.csv.
 }
 \description{
 Combine raw files to create analysis-ready FARS data files.

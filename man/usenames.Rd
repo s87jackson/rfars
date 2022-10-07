@@ -2,7 +2,7 @@
 % Please edit documentation in R/usenames.R
 \name{usenames}
 \alias{usenames}
-\title{Used decoded variables instead of encoded ones}
+\title{(INTERNAL) Use decoded variables instead of encoded ones}
 \usage{
 usenames(df)
 }

@@ -20,23 +20,38 @@
 #' @export
 download_fars <- function(years, save_dir=getwd()){
 
-  for(y in 1:length(years)){
+  # Check years
+    ymax <- max(as.numeric(years), na.rm = TRUE)
+    ymin <- min(as.numeric(years), na.rm = TRUE)
 
-    zipfiledest = paste0(save_dir, "/FARS data ", years[y], ".zip")
+    if(ymin < 2015) stop("Data not available prior to 2015.")
+    if(ymax > 2020) stop("Data not available beyond to 2020")
 
-    "https://static.nhtsa.gov/nhtsa/downloads/FARS/myYear/National/FARSmyYearNationalCSV.zip" %>%
-      gsub(x=., pattern = "myYear", replacement = as.character(years[y])) %>%
-      downloader::download(dest=zipfiledest, mode="wb")
+  # Ask permission to download files to the user's computer
+    x <- readline("We will now download several files from https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/ \n Proceed? (Y/N) \n")
+    if(!(x %in% c("y", "Y"))) return(message("Download cancelled."))
 
-    utils::unzip(zipfiledest, exdir = paste0(save_dir, "/FARS data/raw/", years[y], "/"), overwrite = TRUE)
 
-    unlink(zipfiledest)
+  # Download and unzip raw data files
+    for(y in 1:length(years)){
 
-  }
+      zipfiledest = paste0(save_dir, "/FARS data ", years[y], ".zip")
 
-  message(paste0("Raw data files have been saved to ", save_dir, "/FARS data/raw/"))
+      "https://static.nhtsa.gov/nhtsa/downloads/FARS/myYear/National/FARSmyYearNationalCSV.zip" %>%
+        gsub(x=., pattern = "myYear", replacement = as.character(years[y])) %>%
+        downloader::download(dest=zipfiledest, mode="wb")
 
-  return(invisible(paste0(save_dir, "/FARS data/raw/")))
+      utils::unzip(zipfiledest, exdir = paste0(save_dir, "/FARS data/raw/", years[y], "/"), overwrite = TRUE)
+
+      unlink(zipfiledest)
+
+    }
+
+  # Tell user what happened
+    message(paste0("Raw data files have been saved to ", save_dir, "/FARS data/raw/"))
+
+  # Return the path to use as input for prep_fars
+    return(invisible(paste0(save_dir, "/FARS data/raw/")))
 
 
 }
