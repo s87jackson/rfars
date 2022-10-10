@@ -12,16 +12,18 @@ allows users to generate queries, and can produce simple tables and
 graphs. This suffices for simple analysis, but often leaves researchers
 wanting more. Digging any deeper, however, involves a time-consuming
 process of downloading annual ZIP files and attempting to stitch them
-together - after combing through the immense data dictionary to
-determine the required variables and table names. rfars allows users to
-download five years of FARS data with just two lines of code. The result
-is a full, rich dataset ready for mapping, modeling, and other
+together - after first combing through the immense [data
+dictionary](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254)
+to determine the required variables and table names. `rfars`allows users
+to download five years of FARS data with just two lines of code. The
+result is a full, rich dataset ready for mapping, modeling, and other
 downstream analysis. Helper functions are also provided to produce
-common counts and comparisons.
+common counts and comparisons. A companion package `rfarsplus`provides
+exposure data and facilitates the calculation of various rates.
 
 ## Installation
 
-You can install the latest version of rfars from
+You can install the latest version of `rfars`from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -31,12 +33,13 @@ devtools::install_github("s87jackson/rfars")
 
 ## Getting Data
 
-Here we import 5 years of data for Virginia. Note that get_fars requires
-your permission to download the ZIP files from NHTSA and save the
-prepared files on your hard drive. This only has to be run once and
-defaults to saving everything in the current working directory. The
-use_fars function looks in that directory for certain files and compiles
-them into one.
+Here we import 5 years of data for Virginia. Note that
+`get_fars`requires your permission to download the ZIP files from NHTSA
+and save the prepared files on your hard drive. This only has to be run
+once and defaults to saving everything in the current working directory.
+The `use_fars`function looks in that directory for certain files and
+compiles them into a list of data frames: `flat`, `multi_acc`,
+`multi_veh`, and `multi_per`.
 
 ``` r
 library(rfars)
@@ -63,13 +66,13 @@ You can review the list of variables to help guide your analysis with:
 View(fars_varnames)
 ```
 
-``` r
-DT::datatable(fars_varnames, rownames = FALSE)
-```
-
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
-
 ## Counts
+
+A first step in many transportation analyses involves counting the
+number of relevant crashes, fatalities, or people involved. `counts`lets
+users specify a time period and aggregation interval, and focus in on
+specific road users and factors. It can be combined with `ggplot`to
+quickly visualize counts.
 
 ``` r
 library(ggplot2)
@@ -85,7 +88,7 @@ counts(myFARS,
     labs(x=NULL, y=NULL, title = "Annual Crashes in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
 ``` r
 counts(myFARS,
@@ -99,7 +102,7 @@ counts(myFARS,
     labs(x=NULL, y=NULL, title = "Annual Fatalities in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
 ``` r
 counts(myFARS,
@@ -114,10 +117,10 @@ counts(myFARS,
     labs(x=NULL, y=NULL, title = "Annual Rural Fatalities in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
-Let’s compare the number of speeding-related fatalities in rural and
-urban places.
+We can combine two `counts`to make a comparison. Here we compare the
+number of speeding-related fatalities in rural and urban places:
 
 ``` r
 bind_rows(
@@ -145,14 +148,12 @@ bind_rows(
     labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Virginia", fill=NULL)
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 ## Mapping
 
-We can take advantage of having access to the full data with maps.
-
-Here we map the locations of pedbikes involved in fatal crashes in
-Virginia:
+We can take advantage of having access to the full data with maps. Here
+we map the locations of pedbikes involved in fatal crashes in Virginia:
 
 ``` r
 library(leaflet)
@@ -176,9 +177,10 @@ myFARS$flat %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
-We can also use the counts(…, filterOnly=TRUE)
+We can also use the `counts(..., filterOnly=TRUE)` to access the
+filtered data prior to aggregating:
 
 ``` r
 counts(myFARS, what = "fatalities", when = 2016:2020, involved = "alcohol", 
@@ -195,12 +197,12 @@ counts(myFARS, what = "fatalities", when = 2016:2020, involved = "alcohol",
 #> missing or invalid lat/lon values and will be ignored
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
 
 ## Modeling
 
 Having access to the full dataset also allows us to develop statistical
-models. Here we fit a simple model of injury severity.
+models. Here we fit a simple model of injury severity:
 
 ``` r
 table(myFARS$flat$inj_sev)
