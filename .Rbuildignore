@@ -7,7 +7,6 @@
 [.]xlsx$
 ^FARS data$
 ^test environment$
-^prep_fars_2015_sas\.R$
-^prep_fars_2013\.R$
-^prep_fars_2011\.R$
 ^R/prep_fars_2015_sas\.R$
+^R/prep_fars_2013\.R$
+^R/prep_fars_2011\.R$

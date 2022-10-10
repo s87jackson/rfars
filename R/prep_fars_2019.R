@@ -11,6 +11,8 @@
 #'
 #' @return Produces four files for each year: yyyy_flat.csv, yyyy_multi_acc.csv,
 #'     yyyy_multi_veh.csv, and yyyy_multi_per.csv
+#'
+#' @importFrom rlang .data
 
 
 prep_fars_2019 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
@@ -29,7 +31,7 @@ prep_fars_2019 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
     read_basic_csv(x = "vehicle", wd = wd, rawfiles = rawfiles) %>%
     select(
       -starts_with("vin_"),
-      -setdiff(intersect(names(fars.accident), names(.)),
+      -setdiff(intersect(names(fars.accident), names(.data)),
                c("state", "st_case")),
       -contains("gvwr")
       )
@@ -39,8 +41,8 @@ prep_fars_2019 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
   fars.person <-
     read_basic_csv(x = "person", wd = wd, rawfiles = rawfiles) %>%
-    select(-setdiff(intersect(names(fars.accident), names(.)), c("state", "st_case"))) %>%
-    select(-setdiff(intersect(names(fars.vehicle), names(.)), c("state", "st_case", "veh_no")))
+    select(-setdiff(intersect(names(fars.accident), names(.data)), c("state", "st_case"))) %>%
+    select(-setdiff(intersect(names(fars.vehicle), names(.data)), c("state", "st_case", "veh_no")))
 
 
 # accident-level files ----
@@ -58,11 +60,11 @@ prep_fars_2019 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
     fars.weather <-
       fars.accident %>%
-      select(state, st_case, weather1, weather2) %>%
+      select(.data$state, .data$st_case, .data$weather1, .data$weather2) %>%
       mutate_all(as.character) %>%
       pivot_longer(cols = -c(1:2), values_to = "weather") %>%
-      select(-name) %>%
-      filter(weather != "No Additional Atmospheric Conditions")
+      select(-.data$name) %>%
+      filter(.data$weather != "No Additional Atmospheric Conditions")
 
     fars.accident <- fars.accident %>% select(-contains("weather"))
 
@@ -73,13 +75,13 @@ prep_fars_2019 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
     fars.crashrf <-
       fars.accident %>%
-      select(state, st_case, cf1, cf2, cf3) %>%
+      select(.data$state, .data$st_case, .data$cf1, .data$cf2, .data$cf3) %>%
       mutate_all(as.character) %>%
       pivot_longer(cols = -c(1:2), values_to = "crashrf") %>%
-      select(-name) %>%
+      select(-.data$name) %>%
       unique()
 
-    fars.accident <- fars.accident %>% select(-c(cf1, cf2, cf3))
+    fars.accident <- fars.accident %>% select(-c(.data$cf1, .data$cf2, .data$cf3))
 
 
 
@@ -127,10 +129,10 @@ prep_fars_2019 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
     fars.vehiclesf <-
       fars.vehicle %>%
-      select(state, st_case, veh_no, veh_sc1, veh_sc2) %>%
+      select(.data$state, .data$st_case, .data$veh_no, .data$veh_sc1, .data$veh_sc2) %>%
       mutate_all(as.character) %>%
       pivot_longer(cols = -c(1:3), values_to = "vehiclesf") %>%
-      select(-name) %>%
+      select(-.data$name) %>%
       unique()
 
     fars.vehicle <- fars.vehicle %>% select(-starts_with("veh_sc"))
@@ -156,10 +158,10 @@ prep_fars_2019 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
     fars.driverrf <-
       fars.vehicle %>%
-      select(state, st_case, veh_no, dr_sf1, dr_sf2, dr_sf3, dr_sf4) %>%
+      select(.data$state, .data$st_case, .data$veh_no, .data$dr_sf1, .data$dr_sf2, .data$dr_sf3, .data$dr_sf4) %>%
       mutate_all(as.character) %>%
       pivot_longer(cols = -c(1:3), values_to = "driverrf") %>%
-      select(-name) %>%
+      select(-.data$name) %>%
       unique()
 
     fars.vehicle <- fars.vehicle %>% select(-starts_with("dr_sf"))
@@ -173,15 +175,15 @@ prep_fars_2019 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
   fars.pbtype <-
     read_basic_csv(x = "pbtype", wd = wd, rawfiles = rawfiles) %>%
-    select(-setdiff(intersect(names(fars.person), names(.)), c("state", "st_case", "veh_no", "per_no"))) %>%
-    select(-pbptype, -pbage, -pbsex)
+    select(-setdiff(intersect(names(fars.person), names(.data)), c("state", "st_case", "veh_no", "per_no"))) %>%
+    select(-.data$pbptype, -.data$pbage, -.data$pbsex)
 
 
   ## safetyeq ----
 
   fars.safetyeq <-
     read_basic_csv(x = "safetyeq", wd = wd, rawfiles = rawfiles) %>%
-    select(-setdiff(intersect(names(fars.person), names(.)),
+    select(-setdiff(intersect(names(fars.person), names(.data)),
                     c("state", "st_case", "veh_no", "per_no")))
 
 
@@ -211,7 +213,7 @@ prep_fars_2019 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
     fars.race <-
       read_basic_csv(x = "race", wd = wd, rawfiles = rawfiles) %>%
-      select(-setdiff(intersect(names(fars.person), names(.)),
+      select(-setdiff(intersect(names(fars.person), names(.data)),
                       c("state", "st_case", "veh_no", "per_no")))
 
 
@@ -221,10 +223,10 @@ prep_fars_2019 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
     fars.personrf <-
       fars.person %>%
-      select(state, st_case, veh_no, per_no, p_sf1, p_sf2, p_sf3) %>%
+      select(.data$state, .data$st_case, .data$veh_no, .data$per_no, .data$p_sf1, .data$p_sf2, .data$p_sf3) %>%
       mutate_all(as.character) %>%
       pivot_longer(cols = -c(1:4), values_to = "personrf") %>%
-      select(-name) %>%
+      select(-.data$name) %>%
       unique()
 
     fars.person <- fars.person %>% select(-starts_with("p_sf"))
@@ -243,7 +245,7 @@ prep_fars_2019 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
     as.data.frame() %>%
 
   # State filter
-    filter(state %in% geo_filtered$state_name_full) %>%
+    filter(.data$state %in% geo_filtered$state_name_full) %>%
 
   # Dates
     # mutate(
@@ -252,15 +254,15 @@ prep_fars_2019 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
     #   ) %>%
 
   # Generate state-independent id for each crash
-    mutate(id = paste0(year, st_case)) %>%
+    mutate(id = paste0(.data$year, .data$st_case)) %>%
 
   # Final organization
-    select(year, state, st_case, id,
+    select(.data$year, .data$state, .data$st_case, .data$id,
            #date_crash,
-           veh_no, per_no,
-           county, city,
-           lon = longitud,
-           lat = latitude,
+           .data$veh_no, .data$per_no,
+           .data$county, .data$city,
+           lon = .data$longitud,
+           lat = .data$latitude,
            everything())
 
 
@@ -275,7 +277,7 @@ prep_fars_2019 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
       ) %>%
     as.data.frame() %>%
     mutate(year = y) %>%
-    filter(state %in% unique(geo_filtered$state_name_full))
+    filter(.data$state %in% unique(geo_filtered$state_name_full))
 
   multi_veh <-
     bind_rows(
@@ -291,7 +293,7 @@ prep_fars_2019 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
       ) %>%
     as.data.frame() %>%
     mutate(year = y) %>%
-    filter(state %in% unique(geo_filtered$state_name_full))
+    filter(.data$state %in% unique(geo_filtered$state_name_full))
 
   multi_per <-
     bind_rows(
@@ -305,7 +307,7 @@ prep_fars_2019 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
       ) %>%
     as.data.frame() %>%
     mutate(year = y) %>%
-    filter(state %in% unique(geo_filtered$state_name_full))
+    filter(.data$state %in% unique(geo_filtered$state_name_full))
 
 
 # return ----

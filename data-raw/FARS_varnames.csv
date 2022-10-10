@@ -115,7 +115,7 @@ vehicle,TRAV_SP,Travel Speed
 vehicle,UNDERIDE,Underride/Override
 vehicle,ROLLOVER,Rollover
 vehicle,ROLINLOC,Location of Rollover
-vehicle,IMPACT1,Area of Impact – Initial Contact Point
+vehicle,IMPACT1,Area of Impact - Initial Contact Point
 vehicle,DEFORMED,Extent of Damage
 vehicle,TOWED,Vehicle Removal
 vehicle,M_HARM,Most Harmful Event
@@ -318,7 +318,7 @@ parkwork,PBUS_USE,Bus Use
 parkwork,PSP_USE,Special Use
 parkwork,PEM_USE,Emergency Motor Vehicle Use
 parkwork,PUNDERIDE,Underride/Override
-parkwork,PIMPACT1,Area of Impact – Initial Contact Point
+parkwork,PIMPACT1,Area of Impact - Initial Contact Point
 parkwork,PVEH_SEV,Extent of Damage
 parkwork,PTOWED,Vehicle Removal
 parkwork,PM_HARM,Most Harmful Event
@@ -418,10 +418,10 @@ pbtype,PBPTYPE,Person Type
 pbtype,PBCWALK,Marked Crosswalk Present
 pbtype,PBSWALK,Sidewalk Present
 pbtype,PBSZONE,School Zone
-pbtype,PEDCTYPE,Crash Type – Pedestrian
-pbtype,BIKECTYPE,Crash Type – Bicycle
-pbtype,PEDLOC,Crash Location – Pedestrian
-pbtype,BIKELOC,Crash Location – Bicycle
+pbtype,PEDCTYPE,Crash Type - Pedestrian
+pbtype,BIKECTYPE,Crash Type - Bicycle
+pbtype,PEDLOC,Crash Location - Pedestrian
+pbtype,BIKELOC,Crash Location - Bicycle
 pbtype,PEDPOS,Pedestrian Position
 pbtype,BIKEPOS,Bicyclist Position
 pbtype,PEDDIR,Pedestrian Initial Direction of Travel
@@ -430,8 +430,8 @@ pbtype,MOTDIR,Motorist Initial Direction of Travel
 pbtype,MOTMAN,Motorist Maneuver
 pbtype,PEDLEG,Intersection Leg
 pbtype,PEDSNR,Pedestrian Scenario
-pbtype,PEDCGP,Crash Group – Pedestrian
-pbtype,BIKECGP,Crash Group – Bicycle
+pbtype,PEDCGP,Crash Group - Pedestrian
+pbtype,BIKECGP,Crash Group - Bicycle
 cevent,VNUMBER1,Vehicle Number (This Vehicle)
 cevent,AOI1,Area of Impact (This Vehicle)
 cevent,SOE,Sequence of Events
@@ -465,7 +465,7 @@ weather ,WEATHER,Atmospheric Conditions
 vehiclesf ,VEHICLESF,Related Factors- Vehicle Level (Motor Vehicles in Transport)
 pvehiclesf ,PVEHICLESF,Related Factors- Vehicle Level (Parked/Working Vehicles)
 driverrf ,DRIVERRF,Related Factors- Driver Level
-damage ,DAMAGE,Area of Impact – Damaged Areas
+damage ,DAMAGE,Area of Impact - Damaged Areas
 distract ,DRDISTRACT,Driver Distracted By
 drimpair ,DRIMPAIR,Condition (Impairment) at Time of Crash - Driver
 factor ,VEHICLECC,"Contributing Circumstances, Motor Vehicle"

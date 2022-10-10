@@ -18,6 +18,7 @@
 #' @details ...
 #' @importFrom timetk pad_by_time
 #' @import lubridate
+#' @importFrom rlang .data
 #'
 #' @examples
 #' \dontrun{
@@ -57,9 +58,9 @@ counts <- function(FARS, what="crashes",
     if("alcohol" %in% involved)           flat <- inner_join(flat, alcohol(FARS), by = c("year", "state", "st_case"))
     if("drugs" %in% involved)             flat <- inner_join(flat, drugs(FARS), by = c("year", "state", "st_case"))
 
-    if("hit and run" %in% involved) flat <- flat %>% filter(hit_run == "Yes")
-    if("roadway departure" %in% involved) flat <- flat %>% filter(grepl("departure", acc_type, ignore.case = TRUE))
-    if("rollover" %in% involved) flat <- flat %>% filter(!grepl("No Roll", rollover))
+    if("hit and run" %in% involved) flat <- flat %>% filter(.data$hit_run == "Yes")
+    if("roadway departure" %in% involved) flat <- flat %>% filter(grepl("departure", .data$acc_type, ignore.case = TRUE))
+    if("rollover" %in% involved) flat <- flat %>% filter(!grepl("No Roll", .data$rollover))
 
     # large trucks
 
@@ -71,7 +72,7 @@ counts <- function(FARS, what="crashes",
     #interval = c("year", "month")
     flat <-
       flat %>%
-      filter(data.table::between(year, when[1], when[length(when)])) %>%
+      filter(data.table::between(.data$year, when[1], when[length(when)])) %>%
       group_by(across(all_of(interval)), .add=FALSE)
 
 
@@ -89,7 +90,7 @@ counts <- function(FARS, what="crashes",
 
       flat <-
         flat %>%
-        filter(per_typ %in% who_convert$indata[who_convert$simple %in% who])
+        filter(.data$per_typ %in% who_convert$indata[who_convert$simple %in% who])
 
     }
 
@@ -99,7 +100,7 @@ counts <- function(FARS, what="crashes",
     #what = "fatalities"
     #what = "people"
 
-    if(what == "fatalities") flat <- flat %>% filter(inj_sev=="Fatal Injury (K)")
+    if(what == "fatalities") flat <- flat %>% filter(.data$inj_sev=="Fatal Injury (K)")
 
 
   # Where
@@ -110,25 +111,23 @@ counts <- function(FARS, what="crashes",
 
     if(!is.null(where)){
 
-      if(grepl("rural", tolower(where))) flat <- flat %>% filter(rur_urb == "Rural")
-      if(grepl("urban", tolower(where))) flat <- flat %>% filter(rur_urb == "Urban")
+      if(grepl("rural", tolower(where))) flat <- flat %>% filter(.data$rur_urb == "Rural")
+      if(grepl("urban", tolower(where))) flat <- flat %>% filter(.data$rur_urb == "Urban")
 
-      where_state <-
-        where %>%
-        gsub("rural", "", ., ignore.case = FALSE) %>%
-        gsub("urban", "", ., ignore.case = FALSE) %>%
-        trimws()
+      where_state <- gsub(x = where, "rural", "", ignore.case = FALSE)
+      where_state <- gsub(x = where_state, "urban", "", ignore.case = FALSE)
+      where_state <- trimws(where_state)
 
-      if(!is.null(where_state) & where_state != "") flat <- flat %>% filter(state == where_state)
+      if(!is.null(where_state) & where_state != "") flat <- flat %>% filter(.data$state == where_state)
 
     }
 
 
   # Count
-    if(what == "crashes") flat <- flat %>% summarize(n=n_distinct(id))
+    if(what == "crashes") flat <- flat %>% summarize(n=n_distinct(.data$id))
 
     if(what %in% c("fatalities", "people")) {
-      flat <- flat %>% summarize(n=n_distinct(id, veh_no, per_no))
+      flat <- flat %>% summarize(n=n_distinct(.data$id, .data$veh_no, .data$per_no))
       }
 
 
@@ -138,10 +137,10 @@ counts <- function(FARS, what="crashes",
       flat <-
         flat %>%
         ungroup() %>%
-        mutate(date = lubridate::make_date(year, match(month, month.name))) %>%
-        timetk::pad_by_time(.date_var = date, .by = "month", .pad_value = 0) %>%
-        mutate(month = lubridate::month(date, label = TRUE, abbr = FALSE),
-               year  = lubridate::year(date))
+        mutate(date = lubridate::make_date(.data$year, match(.data$month, month.name))) %>%
+        timetk::pad_by_time(.date_var = .data$date, .by = "month", .pad_value = 0) %>%
+        mutate(month = lubridate::month(.data$date, label = TRUE, abbr = FALSE),
+               year  = lubridate::year(.data$date))
 
     }
 
@@ -152,9 +151,9 @@ counts <- function(FARS, what="crashes",
         flat <-
           flat %>%
           ungroup() %>%
-          mutate(date = lubridate::make_date(year)) %>%
-          timetk::pad_by_time(.date_var = date, .by = "year", .pad_value = 0) %>%
-          mutate(year  = lubridate::year(date))
+          mutate(date = lubridate::make_date(.data$year)) %>%
+          timetk::pad_by_time(.date_var = .data$date, .by = "year", .pad_value = 0) %>%
+          mutate(year  = lubridate::year(.data$date))
 
       }
 

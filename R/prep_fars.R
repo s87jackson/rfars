@@ -37,6 +37,8 @@
 #' prep_fars()
 #' prep_fars("NC")
 #' }
+#'
+#' @importFrom rlang .data
 
 
 #' @export
@@ -52,9 +54,9 @@ prep_fars <- function(raw_dir = getwd(), states = NULL, years = NULL){
     if(is.null(years)){
       years <-
         data.frame(year=list.files(raw_dir)) %>%
-        mutate(year = as.numeric(year)) %>%
-        filter(!is.na(year)) %>%
-        pull(year)
+        mutate(year = as.numeric(.data$year)) %>%
+        filter(!is.na(.data$year)) %>%
+        pull(.data$year)
       }
 
   # Create directory for prepared files
@@ -66,7 +68,7 @@ prep_fars <- function(raw_dir = getwd(), states = NULL, years = NULL){
       geo_filtered <-
         rfars::geo_relations %>%
         filter(
-          fips_state %in% states | state_name_abbr %in% states | state_name_full %in% states
+          .data$fips_state %in% states | .data$state_name_abbr %in% states | .data$state_name_full %in% states
           ) #this lets the user specify states in any of these ways
       } else{
         geo_filtered <- rfars::geo_relations
@@ -78,14 +80,15 @@ for(y in years){ # y = 2016
 
   # Logistics
     message(paste("Importing the raw", y, "files..................."))
-    wd <- paste0(raw_dir, "/", y, "/") %>% gsub(pattern = "//", replacement = "/", x = .)
+    wd <- paste0(raw_dir, "/", y, "/")
+    wd <- gsub(pattern = "//", replacement = "/", x = wd)
 
 
   # Get list of raw data files
     rawfiles <-
       data.frame(filename = list.files(wd, recursive = TRUE)) %>%
-      mutate(cleaned  = stringr::str_to_lower(filename) %>%
-               gsub(x=., pattern = ".csv", replacement = "")
+      mutate(cleaned  = stringr::str_to_lower(.data$filename),
+             cleaned  = gsub(x=.data$cleaned, pattern = ".csv", replacement = "")
              )
 
 

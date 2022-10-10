@@ -74,9 +74,9 @@ counts(myFARS,
        interval = c("year")
        ) %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
-  geom_col() + 
-    geom_label(vjust=1) +
-  labs(x=NULL, y=NULL, title = "Annual Crashes in Virginia")
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    labs(x=NULL, y=NULL, title = "Annual Crashes in Virginia")
 ```
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
@@ -88,9 +88,9 @@ counts(myFARS,
        interval = c("year")
        ) %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
-  geom_col() + 
-    geom_label(vjust=1) +
-  labs(x=NULL, y=NULL, title = "Annual Fatalities in Virginia")
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    labs(x=NULL, y=NULL, title = "Annual Fatalities in Virginia")
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
@@ -103,9 +103,9 @@ counts(myFARS,
        interval = c("year")
        ) %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
-  geom_col() + 
-    geom_label(vjust=1) +
-  labs(x=NULL, y=NULL, title = "Annual Rural Fatalities in Virginia")
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    labs(x=NULL, y=NULL, title = "Annual Rural Fatalities in Virginia")
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
@@ -134,7 +134,7 @@ bind_rows(
     ) %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
     geom_col() + 
-    geom_label(vjust=1) +
+    geom_label(vjust=1.2) +
     facet_wrap(.~where) +
     labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Virginia", fill=NULL)
 ```

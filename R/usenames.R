@@ -13,27 +13,29 @@
 #' @return A data frame with the encoded variables replaced with decoded versions.
 #'
 #' @seealso \code{prep_fars()}
+#'
+#' @importFrom rlang .data
 
 
 usenames <- function(df){
 
   replacenames <-
     data.frame(varname = names(df)) %>%
-    mutate(hasname = grepl("name", varname),
-           varname = ifelse(hasname, gsub(pattern = "name", replacement = "", x=varname), varname)
+    mutate(hasname = grepl("name", .data$varname),
+           varname = ifelse(.data$hasname, gsub(pattern = "name", replacement = "", x=.data$varname), .data$varname)
            ) %>%
-    group_by(varname) %>%
+    group_by(.data$varname) %>%
     summarize(n=n()) %>%
-    mutate(time =
-             grepl("hour", varname) |
-             grepl("min", varname) |
-             grepl("hr", varname) |
-             grepl("mn", varname) |
-             grepl("hrs", varname) |
-             grepl("mins", varname),
-           time = ifelse(varname %in% c("crashrf", "mnmdstrd"), FALSE, time)
+    mutate(t =
+             grepl("hour", .data$varname) |
+             grepl("min", .data$varname) |
+             grepl("hr", .data$varname) |
+             grepl("mn", .data$varname) |
+             grepl("hrs", .data$varname) |
+             grepl("mins", .data$varname),
+           t = ifelse(.data$varname %in% c("crashrf", "mnmdstrd"), FALSE, .data$t)
            ) %>%
-    filter(n==2, !time)
+    filter(n==2, !t)
 
   df2 <- df %>%
     select(-all_of(replacenames$varname),

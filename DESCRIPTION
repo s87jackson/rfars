@@ -17,14 +17,14 @@ Imports:
     downloader,
     lubridate,
     data.table,
-    zoo,
     stringr,
     janitor,
     readr,
     tidyselect,
     tidyr,
     timetk,
-    magrittr
+    magrittr,
+    rlang
 RoxygenNote: 7.2.1
 Depends: 
     R (>= 2.10)
