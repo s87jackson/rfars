@@ -3,3 +3,11 @@
 ^old_import_code\.R$  # Code used during development
 ^generate_data_frames\.R$  # Code used during development
 ^data-raw$
+^README\.Rmd$
+[.]xlsx$
+^FARS data$
+^test environment$
+^prep_fars_2015_sas\.R$
+^prep_fars_2013\.R$
+^prep_fars_2011\.R$
+^R/prep_fars_2015_sas\.R$

@@ -1,43 +1,38 @@
 Package: rfars
 Type: Package
-Title: Download and Analyze Data from FARS
-Version: 0.1.0.9000
+Title: Download and Analyze FARS Data
+Version: 0.1.0
 Authors@R: person("Steve", "Jackson", 
     email="s87jackson@gmail.com",
     role = c("aut", "cre"))
 Description: This package downloads raw data from the National 
     Highway Traffic Safety Administration's (NHTSA's) Fatality 
     Analysis Reporting System (FARS) File Transfer Protocol (FTP) 
-    site, cleans and decodes it according to an included data 
-    dictionary, and saves the resulting data tables to the user's 
-    hard drive. Exposure data (VMT, etc.) is included at various 
-    geographic scales. Functions facilitate high-level analysis 
-    including custom crash counts and rates, exploratory analysis 
-    of user-specified crashes and the people involved in them, and 
-    hotspot mapping. 
+    site, and prepares it for use by researchers.
 License: CC0
 Encoding: UTF-8
 LazyData: true
 Imports:
-    tidyverse,
-    leaflet,
+    dplyr,
     downloader,
     lubridate,
     data.table,
     zoo,
-    ggplot2,
     stringr,
     janitor,
-    dplyr,
     readr,
     tidyselect,
-    tidyr
+    tidyr,
+    timetk,
+    magrittr
 RoxygenNote: 7.2.1
 Depends: 
     R (>= 2.10)
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    leaflet,
+    ggplot2
 VignetteBuilder: knitr
 URL: https://github.com/s87jackson/rfars
 BugReports: https://github.com/s87jackson/rfars/issues
