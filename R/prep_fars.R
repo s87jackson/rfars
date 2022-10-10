@@ -3,9 +3,11 @@
 #' Combine raw files to create analysis-ready FARS data files.
 #'
 #' @param raw_dir Directory where raw files are currently saved.
-#' @param states (Optional) states to keep. Leave as NULL to keep all states.
+#' @param states (Optional) States to keep. Leave as NULL to keep all states.
 #'     Can be specified as full state name (e.g. "Virginia"), abbreviation ("VA"),
 #'     or FIPS code (51).
+#' @param years (Optional) Years to keep. Leave as NULL to use all years of data
+#'     that exist in the raw_dir.
 #'
 #' @return Produces four files for each year: yyyy_flat.csv, yyyy_multi_acc.csv,
 #'     yyyy_multi_veh.csv, and yyyy_multi_per.csv.
@@ -30,27 +32,30 @@
 #'     for more information.
 #'
 #' @examples
-#' prep_fars()
 #' prep_fars("Virginia")
+#' \dontrun{
+#' prep_fars()
 #' prep_fars("NC")
+#' }
 
 
 #' @export
-prep_fars <- function(raw_dir = getwd(), states = NULL){
+prep_fars <- function(raw_dir = getwd(), states = NULL, years = NULL){
 
-  # raw_dir = "test environment/FARS data/raw"
-  # states  = "VA"
 
   # Ask permission to download files to the user's computer
     x <- readline(paste0("We will now create several CSV files and save them in ", raw_dir, "\n Proceed? (Y/N) \n"))
     if(!(x %in% c("y", "Y"))) return(message("Operation cancelled."))
 
+
   # Determine years from existing files
-    years <-
-      data.frame(year=list.files(raw_dir)) %>%
-      mutate(year = as.numeric(year)) %>%
-      filter(!is.na(year)) %>%
-      pull(year)
+    if(is.null(years)){
+      years <-
+        data.frame(year=list.files(raw_dir)) %>%
+        mutate(year = as.numeric(year)) %>%
+        filter(!is.na(year)) %>%
+        pull(year)
+      }
 
   # Create directory for prepared files
     prepared_dir <- gsub(pattern = "raw", replacement = "prepared", x = raw_dir)
@@ -90,16 +95,14 @@ for(y in years){ # y = 2016
     if(y==2018) prep_fars_2018(y, wd, rawfiles, prepared_dir, geo_filtered)
     if(y==2017) prep_fars_2017(y, wd, rawfiles, prepared_dir, geo_filtered)
     if(y==2016) prep_fars_2017(y, wd, rawfiles, prepared_dir, geo_filtered)
-    if(y==2015) prep_fars_2017(y, wd, rawfiles, prepared_dir, geo_filtered)
-    # Prior to 2015, only the encoded variables were provided
-      #if(y==2014) prep_fars_2017(y, wd, rawfiles, prepared_dir, geo_filtered)
-      #if(y==2013) prep_fars_2013(y, wd, rawfiles, prepared_dir, geo_filtered)
-      #if(y==2012) prep_fars_2013(y, wd, rawfiles, prepared_dir, geo_filtered)
-      #if(y==2011) prep_fars_2011(y, wd, rawfiles, prepared_dir, geo_filtered)
+    # NOTE prep_fars_2017 on y=2016 is intentional as nothing changed during that year to warrant a new function
+    # Prior to 2016, only the encoded versions of many variables were provided
+    # Eventually, we will parse the formats.sas file into a data dictionary and
+        #do it by hand
 
   } # ends the loop through years
 
-  message(paste0("Prepared data files have been saved to ", prepared_dir))
+  message(paste0("Prepared data files have been saved to ", prepared_dir, "\n"))
 
   return(invisible(prepared_dir))
 

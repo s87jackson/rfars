@@ -4,14 +4,12 @@
 \alias{use_fars}
 \title{Use FARS data files}
 \usage{
-use_fars(prepared_dir = getwd(), multi = NULL)
+use_fars(prepared_dir = getwd(), years = NULL)
 }
 \arguments{
 \item{prepared_dir}{Directory where prepared files are currently saved.}
 
-\item{multi}{Which multiple-value-per-entity files to be returned. Can be
-any of \code{c("acc", "veh", "per")} or \code{NULL} (the default) to
-return only the combined flat files.}
+\item{years}{(Optional) Years to use.}
 }
 \value{
 Returns either a single data frame (if \code{multi=NULL}) or a list
@@ -23,7 +21,9 @@ Combine multiple years of prepared FARS data stored in CSV files and bring
     into the current environment.
 }
 \examples{
+\dontrun{
 myData <- use_fars()
+}
 }
 \seealso{
 \code{download_fars()} \code{prep_fars()} \code{get_fars()}

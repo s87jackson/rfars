@@ -25,8 +25,10 @@ Raw files are downloaded from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa
     and stored in \code{save_dir}/FARS data/raw/
 }
 \examples{
+\dontrun{
 download_fars(c("2019", "2020"))
 download_fars(2016:2020)
+}
 }
 \seealso{
 \code{prep_fars}

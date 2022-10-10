@@ -4,7 +4,14 @@
 \alias{read_basic_csv}
 \title{Internal function that takes care of basic CSV reading}
 \usage{
-read_basic_csv(x, wd = wd, rawfiles = rawfiles)
+read_basic_csv(x, wd, rawfiles)
+}
+\arguments{
+\item{x}{The cleaned name of the data table (CSV).}
+
+\item{wd}{The working directory for these files}
+
+\item{rawfiles}{The data frame connecting raw filenames to cleaned ones.}
 }
 \description{
 Internal function that takes care of basic CSV reading

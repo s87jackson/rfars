@@ -4,14 +4,17 @@
 \alias{prep_fars}
 \title{Prepare FARS data}
 \usage{
-prep_fars(raw_dir = getwd(), states = NULL)
+prep_fars(raw_dir = getwd(), states = NULL, years = NULL)
 }
 \arguments{
 \item{raw_dir}{Directory where raw files are currently saved.}
 
-\item{states}{(Optional) states to keep. Leave as NULL to keep all states.
+\item{states}{(Optional) States to keep. Leave as NULL to keep all states.
 Can be specified as full state name (e.g. "Virginia"), abbreviation ("VA"),
 or FIPS code (51).}
+
+\item{years}{(Optional) Years to keep. Leave as NULL to use all years of data
+that exist in the raw_dir.}
 }
 \value{
 Produces four files for each year: yyyy_flat.csv, yyyy_multi_acc.csv,
@@ -41,7 +44,9 @@ Flat files are wide-formatted and presented at the person level.
     for more information.
 }
 \examples{
-prep_fars()
 prep_fars("Virginia")
+\dontrun{
+prep_fars()
 prep_fars("NC")
+}
 }

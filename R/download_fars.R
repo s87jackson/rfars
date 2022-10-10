@@ -13,8 +13,10 @@
 #'     and stored in \code{save_dir}/FARS data/raw/
 #' @seealso \code{prep_fars}
 #' @examples
+#' \dontrun{
 #' download_fars(c("2019", "2020"))
 #' download_fars(2016:2020)
+#' }
 
 
 #' @export
@@ -24,12 +26,12 @@ download_fars <- function(years, save_dir=getwd()){
     ymax <- max(as.numeric(years), na.rm = TRUE)
     ymin <- min(as.numeric(years), na.rm = TRUE)
 
-    if(ymin < 2015) stop("Data not available prior to 2015.")
+    if(ymin < 2016) stop("Data not available prior to 2016")
     if(ymax > 2020) stop("Data not available beyond to 2020")
 
   # Ask permission to download files to the user's computer
-    x <- readline("We will now download several files from https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/ \n Proceed? (Y/N) \n")
-    if(!(x %in% c("y", "Y"))) return(message("Download cancelled."))
+    x <- readline("We will now download several files from https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/ \nProceed? (Y/N) \n")
+    if(!(x %in% c("y", "Y"))) return(message("Download cancelled.\n"))
 
 
   # Download and unzip raw data files
@@ -37,8 +39,12 @@ download_fars <- function(years, save_dir=getwd()){
 
       zipfiledest = paste0(save_dir, "/FARS data ", years[y], ".zip")
 
-      "https://static.nhtsa.gov/nhtsa/downloads/FARS/myYear/National/FARSmyYearNationalCSV.zip" %>%
-        gsub(x=., pattern = "myYear", replacement = as.character(years[y])) %>%
+      thisURL <-
+        ifelse(years[y] >= 2016,
+               "https://static.nhtsa.gov/nhtsa/downloads/FARS/myYear/National/FARSmyYearNationalCSV.zip",
+               "https://static.nhtsa.gov/nhtsa/downloads/FARS/myYear/National/FARSmyYearNationalSAS.zip")
+
+      gsub(x=thisURL, pattern = "myYear", replacement = as.character(years[y])) %>%
         downloader::download(dest=zipfiledest, mode="wb")
 
       utils::unzip(zipfiledest, exdir = paste0(save_dir, "/FARS data/raw/", years[y], "/"), overwrite = TRUE)
@@ -48,7 +54,7 @@ download_fars <- function(years, save_dir=getwd()){
     }
 
   # Tell user what happened
-    message(paste0("Raw data files have been saved to ", save_dir, "/FARS data/raw/"))
+    message(paste0("Raw data files have been saved to ", save_dir, "/FARS data/raw/\n"))
 
   # Return the path to use as input for prep_fars
     return(invisible(paste0(save_dir, "/FARS data/raw/")))

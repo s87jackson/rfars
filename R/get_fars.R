@@ -10,8 +10,10 @@
 #' @seealso \code{download_fars} \code{prep_fars}
 #' @examples
 #' get_fars(c("2019", "2020"))
+#' \dontrun{
 #' get_fars(2016:2020, "Virginia")
 #' get_fars(2020, "NC")
+#' }
 
 #' @export
 get_fars <- function(years = 2020, states = NULL, save_dir = getwd()){
@@ -23,6 +25,7 @@ get_fars <- function(years = 2020, states = NULL, save_dir = getwd()){
     save_dir = save_dir
     ) %>%
   prep_fars(
+    years = years,
     states = states
     )
 

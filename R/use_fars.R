@@ -4,9 +4,7 @@
 #'     into the current environment.
 #'
 #' @param prepared_dir Directory where prepared files are currently saved.
-#' @param multi Which multiple-value-per-entity files to be returned. Can be
-#'     any of \code{c("acc", "veh", "per")} or \code{NULL} (the default) to
-#'     return only the combined flat files.
+#' @param years (Optional) Years to use.
 #'
 #' @return Returns either a single data frame (if \code{multi=NULL}) or a list
 #'     containing the combined flat file data frame and specified \code{multi}
@@ -14,47 +12,61 @@
 #'
 #' @seealso \code{download_fars()} \code{prep_fars()} \code{get_fars()}
 #' @examples
+#' \dontrun{
 #' myData <- use_fars()
+#' }
 
 #' @export
-use_fars <- function(prepared_dir=getwd(), multi=NULL){
+use_fars <- function(prepared_dir=getwd(), years = NULL){
 
-  temp <-
-    list.files(prepared_dir, full.names = TRUE, pattern = "_flat") %>%
-    lapply(function(x){read_csv(x) %>% mutate_at(c("lat", "lon"), as.numeric)}) %>%
-    bind_rows
+  flat <-
 
-  if(is.null(multi)){
+    suppressWarnings({ #this is just for the small number of coercion errors with mutate_at(lat, lon, as.numeric)
 
-    return(temp)
+      list.files(prepared_dir, full.names = TRUE, pattern = "_flat.csv", recursive = TRUE) %>%
+      lapply(function(x){
+        readr::read_csv(x, show_col_types = FALSE) %>%
+        mutate_at(c("lat", "lon"), as.numeric)
+        }) %>%
+      bind_rows() %>%
+      as.data.frame()
 
-  } else{
+    })
 
-    out <- list("flat" = temp)
 
-    if("acc" %in% multi){
-      out[["multi_acc"]] <-
-        list.files(prepared_dir, full.names = TRUE, pattern = "multi_acc") %>%
-          lapply(readr::read_csv) %>%
-          bind_rows
-    }
+  multi_acc <-
+      list.files(prepared_dir, full.names = TRUE, pattern = "multi_acc", recursive = TRUE) %>%
+      lapply(readr::read_csv, show_col_types = FALSE) %>%
+      bind_rows() %>%
+      as.data.frame()
 
-    if("veh" %in% multi){
-      out[["multi_veh"]] <-
-        list.files(prepared_dir, full.names = TRUE, pattern = "multi_veh") %>%
-          lapply(readr::read_csv) %>%
-          bind_rows
-    }
+  multi_veh <-
+    list.files(prepared_dir, full.names = TRUE, pattern = "multi_veh", recursive = TRUE) %>%
+    lapply(readr::read_csv, show_col_types = FALSE) %>%
+    bind_rows() %>%
+    as.data.frame()
 
-    if("per" %in% multi){
-      out[["multi_per"]] <-
-        list.files(prepared_dir, full.names = TRUE, pattern = "multi_per") %>%
-          lapply(readr::read_csv) %>%
-          bind_rows
-    }
+  multi_per <-
+    list.files(prepared_dir, full.names = TRUE, pattern = "multi_per", recursive = TRUE) %>%
+    lapply(readr::read_csv, show_col_types = FALSE) %>%
+    bind_rows() %>%
+    as.data.frame()
 
-    return(out)
-
+  if(!is.null(years)){
+    flat <- flat %>% filter(year %in% years)
+    multi_acc <- multi_acc %>% filter(year %in% years)
+    multi_veh <- multi_veh %>% filter(year %in% years)
+    multi_per <- multi_per %>% filter(year %in% years)
   }
+
+
+  out <- list(
+    "flat" = flat,
+    "multi_acc" = multi_acc,
+    "multi_veh" = multi_veh,
+    "multi_per" = multi_per)
+
+
+  return(out)
 
   }

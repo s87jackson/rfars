@@ -10,7 +10,7 @@ get_fars(years = 2020, states = NULL, save_dir = getwd())
 \item{years}{Years to be downloaded, in yyyy (character or numeric formats),
 currently limited to 2016-2020}
 
-\item{states}{(Optional) states to keep. Leave as NULL to keep all states.
+\item{states}{(Optional) States to keep. Leave as NULL to keep all states.
 Can be specified as full state name (e.g. "Virginia"), abbreviation ("VA"),
 or FIPS code (51).}
 
@@ -25,8 +25,10 @@ Prepared data files are stored in \code{save_dir}/FARS data/prepared/
 }
 \examples{
 get_fars(c("2019", "2020"))
+\dontrun{
 get_fars(2016:2020, "Virginia")
 get_fars(2020, "NC")
+}
 }
 \seealso{
 \code{download_fars} \code{prep_fars}

@@ -2,22 +2,55 @@
 % Please edit documentation in R/counts.R
 \name{counts}
 \alias{counts}
-\title{Get FARS data}
+\title{Generate a variety of counts from FARS data}
 \usage{
-counts(df, what, when, interval, where, who, why)
+counts(
+  FARS,
+  what = "crashes",
+  when,
+  interval = "year",
+  where = NULL,
+  who = NULL,
+  involved = NULL
+)
+}
+\arguments{
+\item{FARS}{The input FARS data with flat and multi components.}
+
+\item{what}{What to count: crashes, fatalities, people involved.}
+
+\item{when}{The years over which to count.}
+
+\item{interval}{The interval in which to count: months or years.}
+
+\item{where}{Where to count: can specify rural/urban and/or state (e.g.,
+where = "rural Virginia", where = "rural", where = "North Carolina")}
+
+\item{who}{The type of person to count: driver, passenger, pedestrian,
+bicyclist, or motorcyclist.}
+
+\item{involved}{Factors involved with the crash. Can be any of: distracted
+driver, drowsy driver, police pursuit, motorcycle, pedalcyclist,
+bicyclist, pedestrian, pedbike, young driver, older driver, speeding,
+alcohol, drugs, hit and run, roadway departure, rollover, or large
+trucks.}
 }
 \description{
-This function is a wrapper for \code{download_fars} and \code{prep_fars}.
-    It downloads raw files from NHTSA and produces analysis-ready data files.
+Generate a variety of counts from FARS data
 }
 \details{
-Prepared data files are stored in \code{save_dir}/FARS data/prepared/
+...
 }
 \examples{
-get_fars(c("2019", "2020"))
-get_fars(2016:2020, "Virginia")
-get_fars(2020, "NC")
-}
-\seealso{
-\code{download_fars} \code{prep_fars}
+\dontrun{
+get_fars(years = 2016:2020, states="Virginia") \%>\%
+  use_fars()
+  counts(
+    what = "fatalities",
+    when = 2016:2020,
+    who = c("bicyclists", "pedestrians"),
+    where = "urban"
+    ) \%>\%
+  ggplot(aes(x=date, y=n, label=scales::comma(n))) + geom_col() + geom_label()
+  }
 }

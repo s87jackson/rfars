@@ -219,7 +219,10 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
       fars.cevent %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:2)),
       fars.weather %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:2)),
       fars.crashrf %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:2))
-      )
+      ) %>%
+    as.data.frame() %>%
+    mutate(year = y) %>%
+    filter(state %in% unique(geo_filtered$state_name_full))
 
   multi_veh <-
     bind_rows(
@@ -232,7 +235,10 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
       fars.violatn %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
       fars.vision %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
       fars.damage %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3))
-      )
+      ) %>%
+    as.data.frame() %>%
+    mutate(year = y) %>%
+    filter(state %in% unique(geo_filtered$state_name_full))
 
   multi_per <-
     bind_rows(
@@ -243,7 +249,10 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
       fars.nmimpair %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:4)),
       fars.nmprior %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:4)),
       fars.nmdistract %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:4))
-      )
+      ) %>%
+    as.data.frame() %>%
+    mutate(year = y) %>%
+    filter(state %in% unique(geo_filtered$state_name_full))
 
 
 # return ----
