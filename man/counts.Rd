@@ -11,7 +11,8 @@ counts(
   interval = "year",
   where = NULL,
   who = NULL,
-  involved = NULL
+  involved = NULL,
+  filterOnly = FALSE
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ driver, drowsy driver, police pursuit, motorcycle, pedalcyclist,
 bicyclist, pedestrian, pedbike, young driver, older driver, speeding,
 alcohol, drugs, hit and run, roadway departure, rollover, or large
 trucks.}
+
+\item{filterOnly}{Logical, whether to only filter or reduce to counts.}
 }
 \description{
 Generate a variety of counts from FARS data

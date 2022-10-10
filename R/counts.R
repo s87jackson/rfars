@@ -13,6 +13,7 @@
 #'     bicyclist, pedestrian, pedbike, young driver, older driver, speeding,
 #'     alcohol, drugs, hit and run, roadway departure, rollover, or large
 #'     trucks.
+#' @param filterOnly Logical, whether to only filter or reduce to counts.
 #'
 #'
 #' @details ...
@@ -39,7 +40,8 @@
 #' @export
 counts <- function(FARS, what="crashes",
                    when, interval="year",
-                   where=NULL, who=NULL, involved=NULL){
+                   where=NULL, who=NULL, involved=NULL,
+                   filterOnly=FALSE){
 
   flat <- FARS$flat
 
@@ -124,50 +126,56 @@ counts <- function(FARS, what="crashes",
 
 
   # Count
-    if(what == "crashes") flat <- flat %>% summarize(n=n_distinct(.data$id))
 
-    if(what %in% c("fatalities", "people")) {
-      flat <- flat %>% summarize(n=n_distinct(.data$id, .data$veh_no, .data$per_no))
-      }
+    if(!filterOnly){
+
+      if(what == "crashes") flat <- flat %>% summarize(n=n_distinct(.data$id))
+
+      if(what %in% c("fatalities", "people")) {
+        flat <- flat %>% summarize(n=n_distinct(.data$id, .data$veh_no, .data$per_no))
+        }
 
 
-  # Pad
-    if("year" %in% interval & "month" %in% interval){
-
-      flat <-
-        flat %>%
-        ungroup() %>%
-        mutate(date = lubridate::make_date(.data$year, match(.data$month, month.name))) %>%
-        timetk::pad_by_time(.date_var = .data$date, .by = "month", .pad_value = 0) %>%
-        mutate(month = lubridate::month(.data$date, label = TRUE, abbr = FALSE),
-               year  = lubridate::year(.data$date))
-
-    }
-
-    if(length(interval)==1){
-
-      if(interval == "year"){
+    # Pad
+      if("year" %in% interval & "month" %in% interval){
 
         flat <-
           flat %>%
           ungroup() %>%
-          mutate(date = lubridate::make_date(.data$year)) %>%
-          timetk::pad_by_time(.date_var = .data$date, .by = "year", .pad_value = 0) %>%
-          mutate(year  = lubridate::year(.data$date))
+          mutate(date = lubridate::make_date(.data$year, match(.data$month, month.name))) %>%
+          timetk::pad_by_time(.date_var = .data$date, .by = "month", .pad_value = 0) %>%
+          mutate(month = lubridate::month(.data$date, label = TRUE, abbr = FALSE),
+                 year  = lubridate::year(.data$date))
 
       }
 
+      if(length(interval)==1){
 
-      if(interval == "month"){
+        if(interval == "year"){
 
-        flat <-
-          data.frame(month = month.name) %>%
-          left_join(ungroup(flat)) %>%
-          mutate(n = ifelse(is.na(n), 0, n))
+          flat <-
+            flat %>%
+            ungroup() %>%
+            mutate(date = lubridate::make_date(.data$year)) %>%
+            timetk::pad_by_time(.date_var = .data$date, .by = "year", .pad_value = 0) %>%
+            mutate(year  = lubridate::year(.data$date))
+
+        }
+
+
+        if(interval == "month"){
+
+          flat <-
+            data.frame(month = month.name) %>%
+            left_join(ungroup(flat)) %>%
+            mutate(n = ifelse(is.na(n), 0, n))
+
+        }
 
       }
 
-      }
+    }
+
 
   # return
     return(flat)
