@@ -35,21 +35,20 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
   # "icfinalbody"   "gvwr_from"     "gvwr_to"       "trlr1gvwr"
   # "trlr2gvwr"     "trlr3gvwr"
 
+
   fars.vehicle <-
     read_basic_csv(x = "vehicle", wd = wd, rawfiles = rawfiles) %>%
-    select(
-      -starts_with("vin_"),
-      -setdiff(intersect(names(fars.accident), names(.data)),
-               c("state", "st_case"))
-      )
+    select(-starts_with("vin_"))
+
+  fars.vehicle <- fars.vehicle[,!names(fars.vehicle) %in% setdiff(intersect(names(fars.accident), names(fars.vehicle)), c("state", "st_case"))]
 
 
   ## person ----
 
-  fars.person <-
-    read_basic_csv(x = "person", wd = wd, rawfiles = rawfiles) %>%
-    select(-setdiff(intersect(names(fars.accident), names(.data)), c("state", "st_case"))) %>%
-    select(-setdiff(intersect(names(fars.vehicle), names(.data)), c("state", "st_case", "veh_no")))
+  fars.person <- read_basic_csv(x = "person", wd = wd, rawfiles = rawfiles)
+
+  fars.person <- fars.person[,!names(fars.person) %in% setdiff(intersect(names(fars.accident), names(fars.person)), c("state", "st_case"))]
+  fars.person <- fars.person[,!names(fars.person) %in% setdiff(intersect(names(fars.vehicle), names(fars.person)), c("state", "st_case", "veh_no"))]
 
 
 # accident-level files ----
@@ -129,16 +128,18 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
   fars.pbtype <-
     read_basic_csv(x = "pbtype", wd = wd, rawfiles = rawfiles) %>%
-    select(-setdiff(intersect(names(fars.person), names(.data)), c("state", "st_case", "veh_no", "per_no"))) %>%
     select(-.data$pbptype, -.data$pbage, -.data$pbsex)
+
+  fars.pbtype <- fars.pbtype[,!names(fars.pbtype) %in% setdiff(intersect(names(fars.person), names(fars.pbtype)), c("state", "st_case", "veh_no", "per_no"))]
+
 
 
   ## safetyeq ----
 
-  fars.safetyeq <-
-    read_basic_csv(x = "safetyeq", wd = wd, rawfiles = rawfiles) %>%
-    select(-setdiff(intersect(names(fars.person), names(.data)),
-                    c("state", "st_case", "veh_no", "per_no")))
+  fars.safetyeq <- read_basic_csv(x = "safetyeq", wd = wd, rawfiles = rawfiles)
+
+  fars.safetyeq <- fars.safetyeq[,!names(fars.safetyeq) %in% setdiff(intersect(names(fars.person), names(fars.safetyeq)), c("state", "st_case", "veh_no", "per_no"))]
+
 
 
   ## multi-row files ----
@@ -165,18 +166,16 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
     ### race ----
 
-    fars.race <-
-      read_basic_csv(x = "race", wd = wd, rawfiles = rawfiles) %>%
-      select(-setdiff(intersect(names(fars.person), names(.data)),
-                      c("state", "st_case", "veh_no", "per_no")))
+    fars.race <- read_basic_csv(x = "race", wd = wd, rawfiles = rawfiles)
+
+    fars.race <- fars.race[,!names(fars.race) %in% setdiff(intersect(names(fars.person), names(fars.race)), c("state", "st_case", "veh_no", "per_no"))]
 
 
     ### personrf ----
 
-    fars.personrf <-
-      read_basic_csv(x = "personrf", wd = wd, rawfiles = rawfiles) %>%
-      select(-setdiff(intersect(names(fars.person), names(.data)),
-                      c("state", "st_case", "veh_no", "per_no")))
+    fars.personrf <- read_basic_csv(x = "personrf", wd = wd, rawfiles = rawfiles)
+
+    fars.personrf <- fars.personrf[,!names(fars.personrf) %in% setdiff(intersect(names(fars.person), names(fars.personrf)), c("state", "st_case", "veh_no", "per_no"))]
 
 
 

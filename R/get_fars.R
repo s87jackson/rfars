@@ -25,6 +25,7 @@ get_fars <- function(years = 2020, states = NULL, save_dir = getwd()){
     save_dir = save_dir
     ) %>%
   prep_fars(
+    # download_fars returns the path used by the raw_dir parameter of prep_fars
     years = years,
     states = states
     )

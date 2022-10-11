@@ -55,7 +55,7 @@ library(dplyr)
 
 # get_fars(years = 2016:2020, states="Virginia")
 
-myFARS <- use_fars()
+myFARS <- use_fars() 
 
 #head(myFARS)
 ```
@@ -208,23 +208,23 @@ models. Here we fit a simple model of injury severity:
 table(myFARS$flat$inj_sev)
 #> 
 #>         Died Prior to Crash*             Fatal Injury (K) 
-#>                            1                         4100 
+#>                            1                         4950 
 #>       No Apparent Injury (O)          Possible Injury (C) 
-#>                         1657                          373 
+#>                         1969                          458 
 #>   Suspected Minor Injury (B)    Suspected Minor Injury(B) 
-#>                          933                          183 
+#>                         1153                          183 
 #> Suspected Serious Injury (A)  Suspected Serious Injury(A) 
-#>                         1014                          227 
+#>                         1262                          227 
 #>         Unknown/Not Reported 
-#>                           96
+#>                          119
 table(myFARS$flat$rest_mis)
 #> 
 #>                           No     No Indication of Mis-Use 
-#>                         4667                         1769 
+#>                         4667                         2654 
 #>     None Used/Not Applicable Not a Motor Vehicle Occupant 
-#>                         1436                          702 
+#>                         2154                          831 
 #>   Yes, Indication of Mis-Use 
-#>                           10
+#>                           16
 
 myFARS$flat %>%
   mutate(kabco = case_when(inj_sev == "Fatal Injury (K)" ~ 4,
@@ -245,21 +245,21 @@ myFARS$flat %>%
 #> 
 #> Residuals:
 #>     Min      1Q  Median      3Q     Max 
-#> -3.7767 -0.6870  0.3193  1.2169  2.1080 
+#> -3.7896 -0.6757  0.3125  1.1824  2.0983 
 #> 
 #> Coefficients:
 #>                                        Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)                           2.4440395  0.0380498  64.233  < 2e-16 ***
-#> age_n                                 0.0056513  0.0007664   7.373 1.83e-13 ***
-#> rest_misNo Indication of Mis-Use     -0.5576416  0.0392407 -14.211  < 2e-16 ***
-#> rest_misNone Used/Not Applicable      0.8692978  0.0443118  19.618  < 2e-16 ***
-#> rest_misNot a Motor Vehicle Occupant  1.1800812  0.0568344  20.763  < 2e-16 ***
-#> rest_misYes, Indication of Mis-Use   -0.2095945  0.4391045  -0.477    0.633    
+#> (Intercept)                           2.4431478  0.0353397  69.133  < 2e-16 ***
+#> age_n                                 0.0056728  0.0006919   8.199 2.72e-16 ***
+#> rest_misNo Indication of Mis-Use     -0.5471232  0.0337612 -16.206  < 2e-16 ***
+#> rest_misNone Used/Not Applicable      0.8812804  0.0376549  23.404  < 2e-16 ***
+#> rest_misNot a Motor Vehicle Occupant  1.1872643  0.0521402  22.771  < 2e-16 ***
+#> rest_misYes, Indication of Mis-Use   -0.1824123  0.3427040  -0.532    0.595    
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> Residual standard error: 1.385 on 8061 degrees of freedom
-#>   (517 observations deleted due to missingness)
-#> Multiple R-squared:  0.1377, Adjusted R-squared:  0.1372 
-#> F-statistic: 257.5 on 5 and 8061 DF,  p-value: < 2.2e-16
+#> Residual standard error: 1.365 on 9696 degrees of freedom
+#>   (620 observations deleted due to missingness)
+#> Multiple R-squared:  0.158,  Adjusted R-squared:  0.1575 
+#> F-statistic: 363.8 on 5 and 9696 DF,  p-value: < 2.2e-16
 ```

@@ -1,0 +1,31 @@
+---
+title: "Rural_roads"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Rural_roads}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+getwd()
+```
+
+```{r setup}
+library(rfars)
+library(dplyr)
+```
+
+```{r}
+# get_fars(years = 2020, states="Virginia")
+
+myFARS <- use_fars()
+
+head(myFARS$flat[,1:10])
+```
+

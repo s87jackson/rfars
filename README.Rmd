@@ -62,7 +62,7 @@ library(dplyr)
 
 # get_fars(years = 2016:2020, states="Virginia")
 
-myFARS <- use_fars()
+myFARS <- use_fars() 
 
 #head(myFARS)
 ```
