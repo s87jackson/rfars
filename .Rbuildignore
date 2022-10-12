@@ -10,3 +10,8 @@
 ^R/prep_fars_2015_sas\.R$
 ^R/prep_fars_2013\.R$
 ^R/prep_fars_2011\.R$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^doc$
+^Meta$

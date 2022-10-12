@@ -32,7 +32,9 @@ Suggests:
     knitr,
     rmarkdown,
     leaflet,
-    ggplot2
+    ggplot2,
+    scales,
+    viridis
 VignetteBuilder: knitr
 URL: https://github.com/s87jackson/rfars
 BugReports: https://github.com/s87jackson/rfars/issues
