@@ -1,0 +1,68 @@
+---
+title: "The Idaho Stop"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{idaho_stop}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rfars)
+library(dplyr)
+library(ggplot2)
+library(magrittr)
+library(leaflet)
+library(leaflet.extras)
+```
+
+```{r}
+# get_fars(years = 2016:2020)
+
+myFARS <- use_fars()
+
+myFARS$flat <- myFARS$flat %>% filter(state=="Idaho")
+```
+
+First let's get an idea of where the stop-controlled intersections are (even
+though the Idaho Stop law also applies to traffic signals).
+
+```{r}
+myFARS$flat$vtrafcon %>% table()
+
+myFARS$flat %>%
+  filter(vtrafcon == "Stop Sign") %>%
+  select(lat, lon) %>% 
+  unique() %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(
+    radius = 1.5,
+    color = "red",
+    stroke = FALSE,
+    fillOpacity = 0.7) 
+```
+
+
+Now let's look at the crashes at stop signs involving bicyclists
+
+```{r}
+counts(myFARS,
+       when = 2015:2020,
+       where = "Idaho",
+       involved = "bicyclist",
+       filterOnly = TRUE) %>%
+  filter(vtrafcon == "Stop Sign") %>%
+  # Filter out crashes that didn't involve vehicles
+    mutate(involved_vehicle = 1*(grepl("Motor Vehicle", unittype))) %>%
+    group_by(id) %>% mutate(involved_vehicle = max(involved_vehicle)) %>%
+    filter(involved_vehicle == 1) %>% select(-involved_vehicle)
+```
+

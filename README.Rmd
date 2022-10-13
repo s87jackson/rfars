@@ -12,7 +12,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%", 
+  dpi = 500
 )
 ```
 
@@ -47,24 +48,47 @@ with:
 devtools::install_github("s87jackson/rfars")
 ```
 
-## Getting Data
-
-Here we import 5 years of data for Virginia. Note that `get_fars`requires your
-permission to download the ZIP files from NHTSA and save the prepared files on
-your hard drive. This only has to be run once and defaults to saving everything
-in the current working directory. The `use_fars`function looks in that directory
-for certain files and compiles them into a list of data frames: `flat`,
-`multi_acc`, `multi_veh`, and `multi_per`.
-
-```{r example}
+```{r}
 library(rfars)
 library(dplyr)
+library(ggplot2)
+```
 
-# get_fars(years = 2016:2020, states="Virginia")
 
-myFARS <- use_fars() 
+## Getting and Using FARS Data
 
-#head(myFARS)
+Use the `get_fars()` function to download the ZIP files from NHTSA and save 
+the prepared files to your hard drive. This only has to be run once and defaults 
+to saving everything in the current working directory. Below we import 5 years 
+of data for Virginia. Note that `get_fars()` requires your permission to 
+download the ZIP files and store prepared CSVs locally. 
+
+```{r, eval=FALSE}
+get_fars(years = 2016:2020, states="Virginia")
+```
+
+The `use_fars()` function looks in that directory for certain files and compiles 
+them into a list of four data frames: `flat`, `multi_acc`, `multi_veh`, and 
+`multi_per`. The `flat` file contains all variables for which there is just one
+value per person, vehicle, or crash (e.g., age, travel speed, lighting). Each 
+row in this table corresponds to a person involved in a crash. As there may be
+multiple people and/or vehicles involved in one crash, some variable-values
+are repeated within a crash or vehicle. Each crash is uniquely identified with
+`id`, which is a combination of `year` and `st_case`. Note that `st_case` is not
+unique across years, for example, `st_case` 510001 will appear in each year. The
+`id` variable attempts to avoid this issue.
+
+The `multi_` files contain those variables for which there may be multiple 
+values for any entity (e.g., driver impairments, vehicle events, weather 
+conditions at time of crash). Each table has the requisite data elements
+corresponding to the entity: `multi_acc` includes `st_case` and `year`,
+`multi_veh` adds `veh_no` (vehicle number), and `multi_per` adds `per_no` 
+(person number). 
+
+```{r}
+myFARS <- use_fars("FARS data") 
+
+str(myFARS)
 ```
 
 You can review the list of variables to help guide your analysis with:
@@ -76,12 +100,11 @@ View(fars_varnames)
 ## Counts
 
 A first step in many transportation analyses involves counting the number of
-relevant crashes, fatalities, or people involved. `counts`lets users specify a
+relevant crashes, fatalities, or people involved. `counts()` lets users specify a
 time period and aggregation interval, and focus in on specific road users and
-factors. It can be combined with `ggplot`to quickly visualize counts.
+factors. It can be combined with `ggplot()` to quickly visualize counts.
 
 ```{r, fig.height=2.2}
-library(ggplot2)
 
 counts(myFARS,
        what = "crashes",
@@ -91,7 +114,7 @@ counts(myFARS,
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
     geom_col() + 
     geom_label(vjust=1.2) +
-    labs(x=NULL, y=NULL, title = "Annual Crashes in Virginia")
+    labs(x=NULL, y=NULL, title = "Annual Fatal Crashes in Virginia")
 ```
 
 ```{r, fig.height=2.2}
@@ -119,8 +142,22 @@ counts(myFARS,
     labs(x=NULL, y=NULL, title = "Annual Rural Fatalities in Virginia")
 ```
 
-We can combine two `counts`to make a comparison. Here we compare the number of
-speeding-related fatalities in rural and urban places:
+```{r, fig.height=2.2}
+counts(myFARS,
+       what = "fatalities",
+       when = 2016:2020,
+       where = "rural",
+       interval = c("year"),
+       involved = "speeding"
+       ) %>%
+  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities\nin Rural Virginia")
+```
+
+We can combine two `counts()` results to make a comparison. Here we compare the 
+number of speeding-related fatalities in rural and urban Virginia:
 
 ```{r, fig.height=2.4}
 bind_rows(
@@ -150,43 +187,99 @@ bind_rows(
 
 ## Mapping
 
-We can take advantage of having access to the full data with maps. Here we map
-the locations of pedbikes involved in fatal crashes in Virginia:
+We can take advantage of having access to the full data with maps. 
+
+Here we map pedestrian and bicyclist fatalities in Virginia:
 
 ```{r}
 library(leaflet)
 library(leaflet.extras)
 
-myFARS$flat %>% 
-  filter(per_typ %in% c("Bicyclist", "Pedestrian")) %>%
-  #filter(per_typ %in% c("Bicyclist")) %>%
-  leaflet() %>%
-    addTiles() %>%
-    addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 10) %>%
-    addCircleMarkers(
-      radius = 1,
-      color = "red",
-      stroke = FALSE,
-      fillOpacity = 0.7, group = "Crash Locations") %>%
-    addLayersControl(
-      overlayGroups = c("Crash Locations", "Heatmap"),
-      options = layersControlOptions(collapsed = FALSE))
-```
-
-We can also use the `counts(..., filterOnly=TRUE)` to access the filtered data
-prior to aggregating:
-
-```{r}
-counts(myFARS, what = "fatalities", when = 2016:2020, involved = "alcohol", 
-       filterOnly = TRUE) %>%
-  leaflet() %>%
+counts(
+  myFARS, 
+  what = "fatalities", 
+  when = 2016:2020, 
+  involved = "pedbike", 
+  filterOnly = TRUE
+  ) %>%
+leaflet() %>%
   addTiles() %>%
+  addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 10) %>%
   addCircleMarkers(
-    radius = 1,
+    radius = 1.5,
     color = "red",
     stroke = FALSE,
-    fillOpacity = 0.7)
+    fillOpacity = 0.7, group = "Crash Locations") 
 ```
+
+
+Drug-related fatalities:
+
+```{r}
+counts(
+  myFARS, 
+  what = "fatalities", 
+  when = 2016:2020, 
+  involved = "drugs", 
+  filterOnly = TRUE
+  ) %>%
+  filter(!is.na(lat), !is.na(lon)) %>%
+leaflet() %>%
+  addTiles() %>%
+  addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 10) %>%
+  addCircleMarkers(
+    radius = 1.5,
+    color = "red",
+    stroke = FALSE,
+    fillOpacity = 0.7, group = "Crash Locations") 
+```
+
+
+Older driver crashes:
+
+```{r}
+counts(
+  myFARS, 
+  what = "crashes", 
+  when = 2016:2020, 
+  involved = "older driver", 
+  filterOnly = TRUE
+  ) %>%
+  filter(!is.na(lat), !is.na(lon)) %>%
+leaflet() %>%
+  addTiles() %>%
+  addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 10) %>%
+  addCircleMarkers(
+    radius = 1.5,
+    color = "red",
+    stroke = FALSE,
+    fillOpacity = 0.7, group = "Crash Locations") 
+```
+
+
+Young drivers:
+
+```{r}
+counts(
+  myFARS, 
+  what = "crashes", 
+  when = 2016:2020, 
+  involved = "young driver", 
+  filterOnly = TRUE
+  ) %>%
+  filter(!is.na(lat), !is.na(lon)) %>%
+leaflet() %>%
+  addTiles() %>%
+  addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 10) %>%
+  addCircleMarkers(
+    radius = 1.5,
+    color = "red",
+    stroke = FALSE,
+    fillOpacity = 0.7, group = "Crash Locations") 
+```
+
+
+
 
 ## Modeling
 
@@ -194,8 +287,8 @@ Having access to the full dataset also allows us to develop statistical models.
 Here we fit a simple model of injury severity:
 
 ```{r}
-table(myFARS$flat$inj_sev)
-table(myFARS$flat$rest_mis)
+#table(myFARS$flat$inj_sev)
+#table(myFARS$flat$rest_mis)
 
 myFARS$flat %>%
   mutate(kabco = case_when(inj_sev == "Fatal Injury (K)" ~ 4,
