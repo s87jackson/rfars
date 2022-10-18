@@ -4,7 +4,7 @@
 \alias{prep_fars}
 \title{Prepare FARS data}
 \usage{
-prep_fars(raw_dir = getwd(), states = NULL, years = NULL)
+prep_fars(raw_dir = "~/FARS data/raw", states = NULL, years = NULL)
 }
 \arguments{
 \item{raw_dir}{Directory where raw files are currently saved.}

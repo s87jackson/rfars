@@ -52,6 +52,8 @@ devtools::install_github("s87jackson/rfars")
 library(rfars)
 library(dplyr)
 library(ggplot2)
+library(leaflet)
+library(leaflet.extras)
 ```
 
 
@@ -64,7 +66,7 @@ of data for Virginia. Note that `get_fars()` requires your permission to
 download the ZIP files and store prepared CSVs locally. 
 
 ```{r, eval=FALSE}
-get_fars(years = 2016:2020, states="Virginia")
+get_fars(years = 2015:2020, states="Virginia")
 ```
 
 The `use_fars()` function looks in that directory for certain files and compiles 
@@ -86,7 +88,7 @@ corresponding to the entity: `multi_acc` includes `st_case` and `year`,
 (person number). 
 
 ```{r}
-myFARS <- use_fars("FARS data") 
+myFARS <- use_fars("FARS data", years = 2015:2020) 
 
 str(myFARS)
 ```
@@ -105,47 +107,48 @@ time period and aggregation interval, and focus in on specific road users and
 factors. It can be combined with `ggplot()` to quickly visualize counts.
 
 ```{r, fig.height=2.2}
-
-counts(myFARS,
-       what = "crashes",
-       when = 2016:2020,
-       interval = c("year")
-       ) %>%
+counts(
+  myFARS,
+  what = "crashes",
+  when = 2015:2020,
+  interval = c("year")
+  ) %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
     geom_col() + 
     geom_label(vjust=1.2) +
-    labs(x=NULL, y=NULL, title = "Annual Fatal Crashes in Virginia")
+    labs(x=NULL, y=NULL, title = "Fatal Crashes in Virginia")
+```
+
+```{r, fig.height=2.2}
+counts(
+  myFARS,
+  what = "fatalities",
+  when = 2015:2020,
+  interval = c("year")
+  ) %>%
+  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    labs(x=NULL, y=NULL, title = "Fatalities in Virginia")
 ```
 
 ```{r, fig.height=2.2}
 counts(myFARS,
        what = "fatalities",
-       when = 2016:2020,
-       interval = c("year")
-       ) %>%
-  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
-    geom_col() + 
-    geom_label(vjust=1.2) +
-    labs(x=NULL, y=NULL, title = "Annual Fatalities in Virginia")
-```
-
-```{r, fig.height=2.2}
-counts(myFARS,
-       what = "fatalities",
-       when = 2016:2020,
+       when = 2015:2020,
        where = "rural",
        interval = c("year")
        ) %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
     geom_col() + 
     geom_label(vjust=1.2) +
-    labs(x=NULL, y=NULL, title = "Annual Rural Fatalities in Virginia")
+    labs(x=NULL, y=NULL, title = "Rural Fatalities in Virginia")
 ```
 
 ```{r, fig.height=2.2}
 counts(myFARS,
        what = "fatalities",
-       when = 2016:2020,
+       when = 2015:2020,
        where = "rural",
        interval = c("year"),
        involved = "speeding"
@@ -163,7 +166,7 @@ number of speeding-related fatalities in rural and urban Virginia:
 bind_rows(
   counts(myFARS,
        what = "fatalities",
-       when = 2016:2020,
+       when = 2015:2020,
        where = "rural",
        interval = c("year"),
        involved = "speeding"
@@ -171,7 +174,7 @@ bind_rows(
     mutate(where = "Rural"),
   counts(myFARS,
        what = "fatalities",
-       when = 2016:2020,
+       when = 2015:2020,
        where = "urban",
        interval = c("year"),
        involved = "speeding"
@@ -192,19 +195,16 @@ We can take advantage of having access to the full data with maps.
 Here we map pedestrian and bicyclist fatalities in Virginia:
 
 ```{r}
-library(leaflet)
-library(leaflet.extras)
-
 counts(
   myFARS, 
-  what = "fatalities", 
-  when = 2016:2020, 
+  what = "crashes", 
+  when = 2015:2020, 
   involved = "pedbike", 
   filterOnly = TRUE
   ) %>%
 leaflet() %>%
   addTiles() %>%
-  addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 10) %>%
+  addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 1) %>%
   addCircleMarkers(
     radius = 1.5,
     color = "red",
@@ -213,20 +213,20 @@ leaflet() %>%
 ```
 
 
-Drug-related fatalities:
+Drug-related crashes:
 
 ```{r}
 counts(
   myFARS, 
-  what = "fatalities", 
-  when = 2016:2020, 
+  what = "crashes", 
+  when = 2015:2020, 
   involved = "drugs", 
   filterOnly = TRUE
   ) %>%
   filter(!is.na(lat), !is.na(lon)) %>%
 leaflet() %>%
   addTiles() %>%
-  addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 10) %>%
+  addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 1) %>%
   addCircleMarkers(
     radius = 1.5,
     color = "red",
@@ -241,14 +241,14 @@ Older driver crashes:
 counts(
   myFARS, 
   what = "crashes", 
-  when = 2016:2020, 
+  when = 2015:2020, 
   involved = "older driver", 
   filterOnly = TRUE
   ) %>%
   filter(!is.na(lat), !is.na(lon)) %>%
 leaflet() %>%
   addTiles() %>%
-  addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 10) %>%
+  addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 1) %>%
   addCircleMarkers(
     radius = 1.5,
     color = "red",
@@ -263,14 +263,14 @@ Young drivers:
 counts(
   myFARS, 
   what = "crashes", 
-  when = 2016:2020, 
+  when = 2015:2020, 
   involved = "young driver", 
   filterOnly = TRUE
   ) %>%
   filter(!is.na(lat), !is.na(lon)) %>%
 leaflet() %>%
   addTiles() %>%
-  addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 10) %>%
+  addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 1) %>%
   addCircleMarkers(
     radius = 1.5,
     color = "red",

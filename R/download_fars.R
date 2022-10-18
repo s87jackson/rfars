@@ -26,8 +26,8 @@ download_fars <- function(years, save_dir=getwd()){
     ymax <- max(as.numeric(years), na.rm = TRUE)
     ymin <- min(as.numeric(years), na.rm = TRUE)
 
-    if(ymin < 2016) stop("Data not available prior to 2016")
-    if(ymax > 2020) stop("Data not available beyond to 2020")
+    if(ymin < 2011) stop("Data not (yet) available prior to 2011")
+    if(ymax > 2020) stop("Data not available beyond 2020")
 
   # Ask permission to download files to the user's computer
     x <- readline("We will now download several files from https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/ \nProceed? (Y/N) \n")
@@ -40,9 +40,10 @@ download_fars <- function(years, save_dir=getwd()){
       zipfiledest = paste0(save_dir, "/FARS data ", years[y], ".zip")
 
       thisURL <-
-        ifelse(years[y] >= 2016,
-               "https://static.nhtsa.gov/nhtsa/downloads/FARS/myYear/National/FARSmyYearNationalCSV.zip",
-               "https://static.nhtsa.gov/nhtsa/downloads/FARS/myYear/National/FARSmyYearNationalSAS.zip")
+        #ifelse(years[y] >= 2018,
+               #"https://static.nhtsa.gov/nhtsa/downloads/FARS/myYear/National/FARSmyYearNationalCSV.zip",
+               "https://static.nhtsa.gov/nhtsa/downloads/FARS/myYear/National/FARSmyYearNationalSAS.zip"
+               #)
 
       gsub(x=thisURL, pattern = "myYear", replacement = as.character(years[y])) %>%
         downloader::download(dest=zipfiledest, mode="wb")

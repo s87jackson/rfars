@@ -4,7 +4,7 @@
 \alias{use_fars}
 \title{Use FARS data files}
 \usage{
-use_fars(prepared_dir = getwd(), years = NULL)
+use_fars(prepared_dir = "FARS data", years = NULL)
 }
 \arguments{
 \item{prepared_dir}{Directory where prepared files are currently saved.}

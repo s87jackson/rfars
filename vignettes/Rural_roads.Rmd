@@ -12,8 +12,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-
-getwd()
 ```
 
 ```{r setup}
@@ -26,9 +24,17 @@ library(magrittr)
 ## Data
 
 ```{r}
-# get_fars(years = 2016:2020)
+# get_fars(years = 2015:2020)
 
 myFARS <- use_fars()
+
+# for(y in 2015:2020){
+#   assign(
+#     paste0("myFARS_", y),
+#     use_fars("FARS data", years = y),
+#     envir = 
+#   )
+# }
 
 myFARS$flat$per_typ <- 
   ifelse(grepl("motorcycle", 
@@ -44,7 +50,7 @@ myFARS$flat$per_typ <-
 
 ```{r}
 compare_counts <- function(myFARS, what, involved=NULL, 
-                           when=2016:2020, interval="year"){
+                           when=2015:2020, interval="year"){
   
   bind_rows(
     counts(myFARS, what=what, when=when, interval=interval, involved=involved,
@@ -80,7 +86,7 @@ ggplot(aes(x=date, y=n, label=scales::comma(n))) +
 bind_rows(
   counts(myFARS,
        what = "crashes",
-       when = 2016:2020,
+       when = 2015:2020,
        where = "rural",
        interval = c("year"),
        filterOnly = TRUE
@@ -90,7 +96,7 @@ bind_rows(
     mutate(where = "Rural"),
   counts(myFARS,
        what = "crashes",
-       when = 2016:2020,
+       when = 2015:2020,
        where = "urban",
        interval = c("year"),
        filterOnly = TRUE
@@ -122,9 +128,9 @@ bind_rows(
 ### Road Curvature
 
 ```{r}
-myFARS$flat %$% table(valign, year)
-myFARS$flat %$% table(vprofile, year)
-myFARS$flat %$% table(vprofile, valign)
+# myFARS$flat %$% table(valign, year)
+# myFARS$flat %$% table(vprofile, year)
+# myFARS$flat %$% table(vprofile, valign)
 
 myFARS$flat %>%
   mutate(valign = ifelse(grepl("Curve", valign), "Curve", valign)) %>%
@@ -350,8 +356,8 @@ myFARS$flat %>%
 crashfactors <- c("distracted driver", "drowsy driver", "police pursuit", 
                   "motorcycle", "pedalcyclist", "bicyclist", "pedestrian", 
                   "pedbike", "young driver", "older driver", "speeding", 
-                  "alcohol", "drugs", "hit and run", "roadway departure", "rollover"#, 
-                  #"large trucks"
+                  "alcohol", "drugs", "hit and run", "roadway departure", "rollover", 
+                  "large trucks"
                   )
 
 for(crashfactor in crashfactors){

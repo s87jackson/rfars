@@ -24,7 +24,7 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
   ## accident ----
 
   fars.accident <-
-    read_basic_csv(x = "accident", wd = wd, rawfiles = rawfiles) %>%
+    read_basic_sas(x = "accident", wd = wd, rawfiles = rawfiles) %>%
     select(-starts_with("weather"))
 
 
@@ -37,7 +37,7 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
 
   fars.vehicle <-
-    read_basic_csv(x = "vehicle", wd = wd, rawfiles = rawfiles) %>%
+    read_basic_sas(x = "vehicle", wd = wd, rawfiles = rawfiles) %>%
     select(-starts_with("vin_"))
 
   fars.vehicle <- fars.vehicle[,!names(fars.vehicle) %in% setdiff(intersect(names(fars.accident), names(fars.vehicle)), c("state", "st_case"))]
@@ -45,7 +45,7 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
   ## person ----
 
-  fars.person <- read_basic_csv(x = "person", wd = wd, rawfiles = rawfiles)
+  fars.person <- read_basic_sas(x = "person", wd = wd, rawfiles = rawfiles)
 
   fars.person <- fars.person[,!names(fars.person) %in% setdiff(intersect(names(fars.accident), names(fars.person)), c("state", "st_case"))]
   fars.person <- fars.person[,!names(fars.person) %in% setdiff(intersect(names(fars.vehicle), names(fars.person)), c("state", "st_case", "veh_no"))]
@@ -58,15 +58,15 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
     ### cevent ----
 
-    fars.cevent <- read_basic_csv(x = "cevent", wd = wd, rawfiles = rawfiles)
+    fars.cevent <- read_basic_sas(x = "cevent", wd = wd, rawfiles = rawfiles)
 
     ### weather ----
 
-    fars.weather <- read_basic_csv(x = "weather", wd = wd, rawfiles = rawfiles)
+    fars.weather <- read_basic_sas(x = "weather", wd = wd, rawfiles = rawfiles)
 
     ### crashrf ----
 
-    fars.crashrf <- read_basic_csv(x = "crashrf", wd = wd, rawfiles = rawfiles)
+    fars.crashrf <- read_basic_sas(x = "crashrf", wd = wd, rawfiles = rawfiles)
 
 
 
@@ -79,47 +79,47 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
     ### x vsoe ----
 
-    # fars.vsoe <- read_basic_csv(x = "vsoe", wd = wd, rawfiles = rawfiles)
+    # fars.vsoe <- read_basic_sas(x = "vsoe", wd = wd, rawfiles = rawfiles)
 
     ### distract ----
 
-    fars.distract <- read_basic_csv(x = "distract", wd = wd, rawfiles = rawfiles)
+    fars.distract <- read_basic_sas(x = "distract", wd = wd, rawfiles = rawfiles)
 
     ### drimpair ----
 
-    fars.drimpair <- read_basic_csv(x = "drimpair", wd = wd, rawfiles = rawfiles)
+    fars.drimpair <- read_basic_sas(x = "drimpair", wd = wd, rawfiles = rawfiles)
 
     ### factor ----
 
-    fars.factor <- read_basic_csv(x = "factor", wd = wd, rawfiles = rawfiles)
+    fars.factor <- read_basic_sas(x = "factor", wd = wd, rawfiles = rawfiles)
 
     ### maneuver ----
 
-    fars.maneuver <- read_basic_csv(x = "maneuver", wd = wd, rawfiles = rawfiles)
+    fars.maneuver <- read_basic_sas(x = "maneuver", wd = wd, rawfiles = rawfiles)
 
     ### violatn ----
 
-    fars.violatn <- read_basic_csv(x = "violatn", wd = wd, rawfiles = rawfiles)
+    fars.violatn <- read_basic_sas(x = "violatn", wd = wd, rawfiles = rawfiles)
 
     ### vision ----
 
-    fars.vision <- read_basic_csv(x = "vision", wd = wd, rawfiles = rawfiles)
+    fars.vision <- read_basic_sas(x = "vision", wd = wd, rawfiles = rawfiles)
 
     ### damage ----
 
-    fars.damage <- read_basic_csv(x = "damage", wd = wd, rawfiles = rawfiles)
+    fars.damage <- read_basic_sas(x = "damage", wd = wd, rawfiles = rawfiles)
 
     ### vehiclesf ----
 
-    fars.vehiclesf <- read_basic_csv(x = "vehiclesf", wd = wd, rawfiles = rawfiles)
+    fars.vehiclesf <- read_basic_sas(x = "vehiclesf", wd = wd, rawfiles = rawfiles)
 
     ### x pvehiclesf ----
 
-    #fars.pvehiclesf <- read_basic_csv(x = "pvehiclesf", wd = wd, rawfiles = rawfiles)
+    #fars.pvehiclesf <- read_basic_sas(x = "pvehiclesf", wd = wd, rawfiles = rawfiles)
 
     ### driverrf ----
 
-    fars.driverrf <- read_basic_csv(x = "driverrf", wd = wd, rawfiles = rawfiles)
+    fars.driverrf <- read_basic_sas(x = "driverrf", wd = wd, rawfiles = rawfiles)
 
 
 # person-level files ----
@@ -127,7 +127,7 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
   ## pbtype ----
 
   fars.pbtype <-
-    read_basic_csv(x = "pbtype", wd = wd, rawfiles = rawfiles) %>%
+    read_basic_sas(x = "pbtype", wd = wd, rawfiles = rawfiles) %>%
     select(-.data$pbptype, -.data$pbage, -.data$pbsex)
 
   fars.pbtype <- fars.pbtype[,!names(fars.pbtype) %in% setdiff(intersect(names(fars.person), names(fars.pbtype)), c("state", "st_case", "veh_no", "per_no"))]
@@ -136,7 +136,7 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
   ## safetyeq ----
 
-  fars.safetyeq <- read_basic_csv(x = "safetyeq", wd = wd, rawfiles = rawfiles)
+  fars.safetyeq <- read_basic_sas(x = "safetyeq", wd = wd, rawfiles = rawfiles)
 
   fars.safetyeq <- fars.safetyeq[,!names(fars.safetyeq) %in% setdiff(intersect(names(fars.person), names(fars.safetyeq)), c("state", "st_case", "veh_no", "per_no"))]
 
@@ -146,34 +146,34 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
     ### nmcrash ----
 
-    fars.nmcrash <- read_basic_csv(x = "nmcrash", wd = wd, rawfiles = rawfiles)
+    fars.nmcrash <- read_basic_sas(x = "nmcrash", wd = wd, rawfiles = rawfiles)
 
     ### nmimpair ----
 
-    fars.nmimpair <- read_basic_csv(x = "nmimpair", wd = wd, rawfiles = rawfiles)
+    fars.nmimpair <- read_basic_sas(x = "nmimpair", wd = wd, rawfiles = rawfiles)
 
     ### nmprior ----
 
-    fars.nmprior <- read_basic_csv(x = "nmprior", wd = wd, rawfiles = rawfiles)
+    fars.nmprior <- read_basic_sas(x = "nmprior", wd = wd, rawfiles = rawfiles)
 
     ### nmdistract ----
 
-    fars.nmdistract <- read_basic_csv(x = "nmdistract", wd = wd, rawfiles = rawfiles)
+    fars.nmdistract <- read_basic_sas(x = "nmdistract", wd = wd, rawfiles = rawfiles)
 
     ### drugs ----
 
-    fars.drugs <- read_basic_csv(x = "drugs", wd = wd, rawfiles = rawfiles)
+    fars.drugs <- read_basic_sas(x = "drugs", wd = wd, rawfiles = rawfiles)
 
     ### race ----
 
-    fars.race <- read_basic_csv(x = "race", wd = wd, rawfiles = rawfiles)
+    fars.race <- read_basic_sas(x = "race", wd = wd, rawfiles = rawfiles)
 
     fars.race <- fars.race[,!names(fars.race) %in% setdiff(intersect(names(fars.person), names(fars.race)), c("state", "st_case", "veh_no", "per_no"))]
 
 
     ### personrf ----
 
-    fars.personrf <- read_basic_csv(x = "personrf", wd = wd, rawfiles = rawfiles)
+    fars.personrf <- read_basic_sas(x = "personrf", wd = wd, rawfiles = rawfiles)
 
     fars.personrf <- fars.personrf[,!names(fars.personrf) %in% setdiff(intersect(names(fars.person), names(fars.personrf)), c("state", "st_case", "veh_no", "per_no"))]
 

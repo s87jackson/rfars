@@ -9,8 +9,8 @@
 #' @details Prepared data files are stored in \code{save_dir}/FARS data/prepared/
 #' @seealso \code{download_fars} \code{prep_fars}
 #' @examples
-#' get_fars(c("2019", "2020"))
 #' \dontrun{
+#' get_fars(c("2019", "2020"))
 #' get_fars(2016:2020, "Virginia")
 #' get_fars(2020, "NC")
 #' }

@@ -15,8 +15,8 @@
 #'     trucks.
 #' @param filterOnly Logical, whether to only filter or reduce to counts.
 #'
-#'
 #' @details ...
+#'
 #' @importFrom timetk pad_by_time
 #' @import lubridate
 #' @importFrom rlang .data
@@ -59,6 +59,8 @@ counts <- function(FARS, what="crashes",
     if("speeding" %in% involved)          flat <- inner_join(flat, speeding(FARS), by = c("year", "state", "st_case"))
     if("alcohol" %in% involved)           flat <- inner_join(flat, alcohol(FARS), by = c("year", "state", "st_case"))
     if("drugs" %in% involved)             flat <- inner_join(flat, drugs(FARS), by = c("year", "state", "st_case"))
+
+    if("large trucks" %in% involved)      flat <- inner_join(flat, large_trucks(FARS), by = c("year", "state", "st_case"))
 
     if("hit and run" %in% involved) flat <- flat %>% filter(.data$hit_run == "Yes")
     if("roadway departure" %in% involved) flat <- flat %>% filter(grepl("departure", .data$acc_type, ignore.case = TRUE))

@@ -42,26 +42,39 @@
 
 
 #' @export
-prep_fars <- function(raw_dir = getwd(), states = NULL, years = NULL){
+prep_fars <- function(raw_dir = "~/FARS data/raw", states = NULL, years = NULL){
+
+  # Check value for states
+    for(state in states){
+
+      state_check <- state %in% unique(c(rfars::geo_relations$state_name_abbr,
+                                    rfars::geo_relations$state_name_full,
+                                    rfars::geo_relations$fips_state))
+
+      if(!state_check) stop(paste0("'", state, "' not recognized. Please check rfars::geo_relations for valid ways to specify states (state_name_abbr, state_name_full, or fips_state)."))
+
+    }
 
 
-  # Ask permission to download files to the user's computer
-    x <- readline(paste0("We will now create several CSV files and save them in ", raw_dir, "\n Proceed? (Y/N) \n"))
-    if(!(x %in% c("y", "Y"))) return(message("Operation cancelled."))
+  # Check years
+    if(is.null(years)) years <- list.files(raw_dir)
 
+    ymax <- max(as.numeric(years), na.rm = TRUE)
+    ymin <- min(as.numeric(years), na.rm = TRUE)
 
-  # Determine years from existing files
-    if(is.null(years)){
-      years <-
-        data.frame(year=list.files(raw_dir)) %>%
-        mutate(year = as.numeric(.data$year)) %>%
-        filter(!is.na(.data$year)) %>%
-        pull(.data$year)
-      }
+    if(ymin < 2014) stop("Data not (yet) available prior to 2014")
+    if(ymax > 2020) stop("Data not available beyond 2020")
+
 
   # Create directory for prepared files
     prepared_dir <- gsub(pattern = "raw", replacement = "prepared", x = raw_dir)
     dir.create(prepared_dir, showWarnings = FALSE)
+
+
+  # Ask permission to download files to the user's computer
+    x <- readline(paste0("We will now create several CSV files and save them in ", prepared_dir, "\n Proceed? (Y/N) \n"))
+    if(!(x %in% c("y", "Y"))) return(message("Operation cancelled."))
+
 
   # Optional state filter
     if(!is.null(states)){
@@ -79,16 +92,18 @@ prep_fars <- function(raw_dir = getwd(), states = NULL, years = NULL){
 for(y in years){ # y = 2016
 
   # Logistics
-    message(paste("Importing the raw", y, "files..................."))
+    message(paste("Preparing the", y, "files..................."))
     wd <- paste0(raw_dir, "/", y, "/")
     wd <- gsub(pattern = "//", replacement = "/", x = wd)
+    wd <- gsub(pattern = "~/", replacement = "", x = wd)
 
 
   # Get list of raw data files
     rawfiles <-
       data.frame(filename = list.files(wd, recursive = TRUE)) %>%
       mutate(cleaned  = stringr::str_to_lower(.data$filename),
-             cleaned  = gsub(x=.data$cleaned, pattern = ".csv", replacement = "")
+             cleaned  = gsub(x=.data$cleaned, pattern = ".csv", replacement = ""),
+             cleaned  = gsub(x=.data$cleaned, pattern = ".sas7bdat", replacement = "")
              )
 
 
@@ -98,10 +113,34 @@ for(y in years){ # y = 2016
     if(y==2018) prep_fars_2018(y, wd, rawfiles, prepared_dir, geo_filtered)
     if(y==2017) prep_fars_2017(y, wd, rawfiles, prepared_dir, geo_filtered)
     if(y==2016) prep_fars_2017(y, wd, rawfiles, prepared_dir, geo_filtered)
-    # NOTE prep_fars_2017 on y=2016 is intentional as nothing changed during that year to warrant a new function
-    # Prior to 2016, only the encoded versions of many variables were provided
-    # Eventually, we will parse the formats.sas file into a data dictionary and
-        #do it by hand
+    if(y==2015) prep_fars_2015(y, wd, rawfiles, prepared_dir, geo_filtered)
+
+
+    # Years 2012-2014 have corrupt (?) sas7bcat files
+    # Fortunately, we can use 2011 and 2015 to construct data dictionaries
+    # The code below shows this:
+    #
+    # fars_data_changes %>%
+    #   filter(data.table::between(year, 2011, 2015)) %>%
+    #   pivot_longer(-1) %>%
+    #   arrange(name, year) %>%
+    #   group_by(name) %>% mutate(n = length(unique(value))) %>%
+    #   filter(n>1) %>%
+    #   pivot_wider(names_from="year", values_from="value") %>%
+    #   #filter(`2011` != `2012`, `2014` != `2015`) %>%
+    #   View()
+    #
+    # Next steps:
+    #   Develop function to generate data dictionary from each raw file
+    #   Determine which data dictionary (2011 or 2015) to use
+    #   Develop logic to do this for 2012:2014
+
+    # if(y==2014) prep_fars_2015(y, wd, rawfiles, prepared_dir, geo_filtered)
+    # if(y==2013) prep_fars_2013(y, wd, rawfiles, prepared_dir, geo_filtered)
+    # if(y==2012) prep_fars_2013(y, wd, rawfiles, prepared_dir, geo_filtered)
+
+    if(y==2011) prep_fars_2011(y, wd, rawfiles, prepared_dir, geo_filtered)
+    # NOTE prep_fars_2017 on y=2016 (example) is intentional as nothing changed during that year to warrant a new function
 
   } # ends the loop through years
 
