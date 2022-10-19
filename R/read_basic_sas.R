@@ -6,8 +6,19 @@
 
 read_basic_sas <- function(x, wd, rawfiles){
 
-  cat_file <- list.files(path = wd, pattern = "formats.sas7bcat",
-                              full.names = TRUE, recursive = TRUE)[1]
+  # thisYear <- stringr::word(wd, -2, sep=stringr::fixed("/"))
+  #
+  # if(thisYear %in% 2012:2014){
+  #   cat_file <- list.files(
+  #     path = gsub(x = wd, pattern = thisYear, replacement = "2015"),
+  #     pattern = "formats.sas7bcat",
+  #     full.names = TRUE, recursive = TRUE)[1]
+  # } else{
+    cat_file <- list.files(
+      path = wd,
+      pattern = "formats.sas7bcat",
+      full.names = TRUE, recursive = TRUE)[1]
+  # }
 
   # message(cat_file)
 

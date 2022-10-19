@@ -4,7 +4,7 @@
 \alias{get_fars}
 \title{Get FARS data}
 \usage{
-get_fars(years = 2020, states = NULL, save_dir = getwd())
+get_fars(years = 2015:2020, states = NULL, save_dir = getwd(), proceed = FALSE)
 }
 \arguments{
 \item{years}{Years to be downloaded, in yyyy (character or numeric formats),
@@ -15,6 +15,9 @@ Can be specified as full state name (e.g. "Virginia"), abbreviation ("VA"),
 or FIPS code (51).}
 
 \item{save_dir}{Directory to store files}
+
+\item{proceed}{Logical, should the downloading proceed without the user's
+permission (set to FALSE by default).}
 }
 \description{
 This function is a wrapper for \code{download_fars} and \code{prep_fars}.
@@ -24,8 +27,8 @@ This function is a wrapper for \code{download_fars} and \code{prep_fars}.
 Prepared data files are stored in \code{save_dir}/FARS data/prepared/
 }
 \examples{
-get_fars(c("2019", "2020"))
 \dontrun{
+get_fars(c("2019", "2020"))
 get_fars(2016:2020, "Virginia")
 get_fars(2020, "NC")
 }

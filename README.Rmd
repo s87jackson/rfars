@@ -66,7 +66,7 @@ of data for Virginia. Note that `get_fars()` requires your permission to
 download the ZIP files and store prepared CSVs locally. 
 
 ```{r, eval=FALSE}
-get_fars(years = 2015:2020, states="Virginia")
+get_fars(states="VA")
 ```
 
 The `use_fars()` function looks in that directory for certain files and compiles 
@@ -88,7 +88,7 @@ corresponding to the entity: `multi_acc` includes `st_case` and `year`,
 (person number). 
 
 ```{r}
-myFARS <- use_fars("FARS data", years = 2015:2020) 
+myFARS <- use_fars() 
 
 str(myFARS)
 ```
@@ -110,7 +110,6 @@ factors. It can be combined with `ggplot()` to quickly visualize counts.
 counts(
   myFARS,
   what = "crashes",
-  when = 2015:2020,
   interval = c("year")
   ) %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
@@ -123,7 +122,6 @@ counts(
 counts(
   myFARS,
   what = "fatalities",
-  when = 2015:2020,
   interval = c("year")
   ) %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
@@ -135,7 +133,6 @@ counts(
 ```{r, fig.height=2.2}
 counts(myFARS,
        what = "fatalities",
-       when = 2015:2020,
        where = "rural",
        interval = c("year")
        ) %>%
@@ -148,7 +145,6 @@ counts(myFARS,
 ```{r, fig.height=2.2}
 counts(myFARS,
        what = "fatalities",
-       when = 2015:2020,
        where = "rural",
        interval = c("year"),
        involved = "speeding"
@@ -166,7 +162,6 @@ number of speeding-related fatalities in rural and urban Virginia:
 bind_rows(
   counts(myFARS,
        what = "fatalities",
-       when = 2015:2020,
        where = "rural",
        interval = c("year"),
        involved = "speeding"
@@ -174,7 +169,6 @@ bind_rows(
     mutate(where = "Rural"),
   counts(myFARS,
        what = "fatalities",
-       when = 2015:2020,
        where = "urban",
        interval = c("year"),
        involved = "speeding"
@@ -198,7 +192,6 @@ Here we map pedestrian and bicyclist fatalities in Virginia:
 counts(
   myFARS, 
   what = "crashes", 
-  when = 2015:2020, 
   involved = "pedbike", 
   filterOnly = TRUE
   ) %>%
@@ -206,7 +199,7 @@ leaflet() %>%
   addTiles() %>%
   addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 1) %>%
   addCircleMarkers(
-    radius = 1.5,
+    radius = 1,
     color = "red",
     stroke = FALSE,
     fillOpacity = 0.7, group = "Crash Locations") 
@@ -219,7 +212,6 @@ Drug-related crashes:
 counts(
   myFARS, 
   what = "crashes", 
-  when = 2015:2020, 
   involved = "drugs", 
   filterOnly = TRUE
   ) %>%
@@ -228,7 +220,7 @@ leaflet() %>%
   addTiles() %>%
   addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 1) %>%
   addCircleMarkers(
-    radius = 1.5,
+    radius = 1,
     color = "red",
     stroke = FALSE,
     fillOpacity = 0.7, group = "Crash Locations") 
@@ -241,7 +233,6 @@ Older driver crashes:
 counts(
   myFARS, 
   what = "crashes", 
-  when = 2015:2020, 
   involved = "older driver", 
   filterOnly = TRUE
   ) %>%
@@ -250,7 +241,7 @@ leaflet() %>%
   addTiles() %>%
   addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 1) %>%
   addCircleMarkers(
-    radius = 1.5,
+    radius = 1,
     color = "red",
     stroke = FALSE,
     fillOpacity = 0.7, group = "Crash Locations") 
@@ -263,7 +254,6 @@ Young drivers:
 counts(
   myFARS, 
   what = "crashes", 
-  when = 2015:2020, 
   involved = "young driver", 
   filterOnly = TRUE
   ) %>%
@@ -272,7 +262,7 @@ leaflet() %>%
   addTiles() %>%
   addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 1) %>%
   addCircleMarkers(
-    radius = 1.5,
+    radius = 1,
     color = "red",
     stroke = FALSE,
     fillOpacity = 0.7, group = "Crash Locations") 
@@ -284,23 +274,48 @@ leaflet() %>%
 ## Modeling
 
 Having access to the full dataset also allows us to develop statistical models.
-Here we fit a simple model of injury severity:
+Here we fit a simple model of injury severity as a function of age and restraint 
+use. It tells us that the average severity score among motor vehicle drivers and
+occupants wearing seatbelts (both the lap and shoulder belts) is 1.7 (close to, 
+but less than "Suspected Minor Injury (B)"). Partial seatbelt use increases the
+predicted score to 2.1 (slightly above "Suspected Minor Injury (B)"). Not
+wearing any seatbelt, however increases the predicted score to 3.2 (slightly 
+above "Suspected Serious Injury (A)").
 
 ```{r}
-#table(myFARS$flat$inj_sev)
-#table(myFARS$flat$rest_mis)
+# table(myFARS$flat$inj_sev)
+# table(myFARS$flat$rest_use, useNA = "ifany")
+# table(myFARS$flat$per_typ, useNA = "ifany")
 
 myFARS$flat %>%
-  mutate(kabco = case_when(inj_sev == "Fatal Injury (K)" ~ 4,
-                           inj_sev %in% c("Suspected Serious Injury (A)", 
-                                          "Suspected Serious Injury(A)") ~ 3,
-                           inj_sev %in% c("Suspected Minor Injury (B)", 
-                                          "Suspected Minor Injury(B)") ~ 2,
-                           inj_sev == "Possible Injury (C)" ~ 1,
-                           inj_sev == "No Apparent Injury (O)" ~ 0,
-                           TRUE ~ as.numeric(NA)
-                           ),
-         age_n = gsub("\\D+","", age) %>% as.numeric()) %>%
-  lm(kabco ~ age_n + rest_mis, data = .) %>%
+  filter(rest_use %in% c("Lap Belt Only Used",
+                         "Shoulder Belt Only Used",
+                         "None Used / Not Applicable",
+                         "None Used/Not Applicable",
+                         "Shoulder and Lap Belt Used"),
+         per_typ %in% c("Driver of a Motor Vehicle In-Transport",
+                        "Passenger of a Motor Vehicle In-Transport")
+         ) %>%
+  mutate(
+    rest_use = case_when(
+      rest_use %in% c("Lap Belt Only Used", "Shoulder Belt Only Used") ~ "Partial",
+      rest_use %in% c("None Used / Not Applicable", "None Used/Not Applicable") ~ "None",
+      rest_use %in% c("Shoulder and Lap Belt Used") ~ "Full",
+      TRUE ~ "Unknown"
+      ) %>%
+      as.factor() %>%
+      relevel(ref = "Full"),
+    kabco = case_when(
+      inj_sev == "Fatal Injury (K)" ~ 4,
+      inj_sev %in% c("Suspected Serious Injury (A)", 
+                     "Suspected Serious Injury(A)") ~ 3,
+      inj_sev %in% c("Suspected Minor Injury (B)", 
+                     "Suspected Minor Injury(B)") ~ 2,
+      inj_sev == "Possible Injury (C)" ~ 1,
+      inj_sev == "No Apparent Injury (O)" ~ 0,
+      TRUE ~ as.numeric(NA)
+      ),
+    age_n = gsub("\\D+","", age) %>% as.numeric()) %>%
+  lm(kabco ~ age_n + rest_use, data = .) %>%
   summary()
 ```

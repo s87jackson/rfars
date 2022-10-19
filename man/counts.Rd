@@ -7,7 +7,7 @@
 counts(
   FARS,
   what = "crashes",
-  when,
+  years = NULL,
   interval = "year",
   where = NULL,
   who = NULL,
@@ -20,7 +20,7 @@ counts(
 
 \item{what}{What to count: crashes, fatalities, people involved.}
 
-\item{when}{The years over which to count.}
+\item{years}{The years over which to count.}
 
 \item{interval}{The interval in which to count: months or years.}
 
@@ -50,7 +50,7 @@ get_fars(years = 2016:2020, states="Virginia") \%>\%
   use_fars()
   counts(
     what = "fatalities",
-    when = 2016:2020,
+    years = 2015:2020,
     who = c("bicyclists", "pedestrians"),
     where = "urban"
     ) \%>\%

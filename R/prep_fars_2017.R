@@ -17,27 +17,25 @@
 
 prep_fars_2017 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
-
-
 # core files ----
 
   ## accident ----
 
-  fars.accident <- read_basic_sas(x = "accident", wd = wd, rawfiles = rawfiles)
+  fars.accident <- read_basic_csv(x = "accident", wd = wd, rawfiles = rawfiles)
+
 
   ## vehicle ----
 
   fars.vehicle <-
-    read_basic_sas(x = "vehicle", wd = wd, rawfiles = rawfiles) %>%
+    read_basic_csv(x = "vehicle", wd = wd, rawfiles = rawfiles) %>%
     select(-starts_with("vin_"), -contains("gvwr"))
 
   fars.vehicle <- fars.vehicle[,!names(fars.vehicle) %in% setdiff(intersect(names(fars.accident), names(fars.vehicle)), c("state", "st_case"))]
 
 
-
   ## person ----
 
-  fars.person <- read_basic_sas(x = "person", wd = wd, rawfiles = rawfiles)
+  fars.person <- read_basic_csv(x = "person", wd = wd, rawfiles = rawfiles)
 
   fars.person <- fars.person[,!names(fars.person) %in% setdiff(intersect(names(fars.accident), names(fars.person)), c("state", "st_case"))]
   fars.person <- fars.person[,!names(fars.person) %in% setdiff(intersect(names(fars.vehicle), names(fars.person)), c("state", "st_case", "veh_no"))]
@@ -50,7 +48,7 @@ prep_fars_2017 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
     ### cevent ----
 
-    fars.cevent <- read_basic_sas(x = "cevent", wd = wd, rawfiles = rawfiles)
+    fars.cevent <- read_basic_csv(x = "cevent", wd = wd, rawfiles = rawfiles)
 
     ### weather ----
 
@@ -95,31 +93,31 @@ prep_fars_2017 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
     ### distract ----
 
-    fars.distract <- read_basic_sas(x = "distract", wd = wd, rawfiles = rawfiles)
+    fars.distract <- read_basic_csv(x = "distract", wd = wd, rawfiles = rawfiles)
 
     ### drimpair ----
 
-    fars.drimpair <- read_basic_sas(x = "drimpair", wd = wd, rawfiles = rawfiles)
+    fars.drimpair <- read_basic_csv(x = "drimpair", wd = wd, rawfiles = rawfiles)
 
     ### factor ----
 
-    fars.factor <- read_basic_sas(x = "factor", wd = wd, rawfiles = rawfiles)
+    fars.factor <- read_basic_csv(x = "factor", wd = wd, rawfiles = rawfiles)
 
     ### maneuver ----
 
-    fars.maneuver <- read_basic_sas(x = "maneuver", wd = wd, rawfiles = rawfiles)
+    fars.maneuver <- read_basic_csv(x = "maneuver", wd = wd, rawfiles = rawfiles)
 
     ### violatn ----
 
-    fars.violatn <- read_basic_sas(x = "violatn", wd = wd, rawfiles = rawfiles)
+    fars.violatn <- read_basic_csv(x = "violatn", wd = wd, rawfiles = rawfiles)
 
     ### vision ----
 
-    fars.vision <- read_basic_sas(x = "vision", wd = wd, rawfiles = rawfiles)
+    fars.vision <- read_basic_csv(x = "vision", wd = wd, rawfiles = rawfiles)
 
     ### damage ----
 
-    fars.damage <- read_basic_sas(x = "damage", wd = wd, rawfiles = rawfiles)
+    fars.damage <- read_basic_csv(x = "damage", wd = wd, rawfiles = rawfiles)
 
     ### vehiclesf ----
 
@@ -171,7 +169,7 @@ prep_fars_2017 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
   ## pbtype ----
 
   fars.pbtype <-
-    read_basic_sas(x = "pbtype", wd = wd, rawfiles = rawfiles) %>%
+    read_basic_csv(x = "pbtype", wd = wd, rawfiles = rawfiles) %>%
     select(-.data$pbptype, -.data$pbage, -.data$pbsex)
 
   fars.pbtype <- fars.pbtype[,!names(fars.pbtype) %in% setdiff(intersect(names(fars.person), names(fars.pbtype)), c("state", "st_case", "veh_no", "per_no"))]
@@ -180,7 +178,7 @@ prep_fars_2017 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
   ## safetyeq ----
 
-  fars.safetyeq <- read_basic_sas(x = "safetyeq", wd = wd, rawfiles = rawfiles)
+  fars.safetyeq <- read_basic_csv(x = "safetyeq", wd = wd, rawfiles = rawfiles)
 
   fars.safetyeq <- fars.safetyeq[,!names(fars.safetyeq) %in% setdiff(intersect(names(fars.person), names(fars.safetyeq)), c("state", "st_case", "veh_no", "per_no"))]
 
@@ -189,15 +187,15 @@ prep_fars_2017 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
     ### nmcrash ----
 
-    fars.nmcrash <- read_basic_sas(x = "nmcrash", wd = wd, rawfiles = rawfiles)
+    fars.nmcrash <- read_basic_csv(x = "nmcrash", wd = wd, rawfiles = rawfiles)
 
     ### nmimpair ----
 
-    fars.nmimpair <- read_basic_sas(x = "nmimpair", wd = wd, rawfiles = rawfiles)
+    fars.nmimpair <- read_basic_csv(x = "nmimpair", wd = wd, rawfiles = rawfiles)
 
     ### nmprior ----
 
-    fars.nmprior <- read_basic_sas(x = "nmprior", wd = wd, rawfiles = rawfiles)
+    fars.nmprior <- read_basic_csv(x = "nmprior", wd = wd, rawfiles = rawfiles)
 
     ### x nmdistract ----
 
@@ -209,7 +207,9 @@ prep_fars_2017 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
     fars.drugs <-
       fars.person %>%
-      select(.data$state, .data$st_case, .data$veh_no, .data$per_no, .data$drugtst1, .data$drugtst2, .data$drugres3) %>%
+      select(.data$state, .data$st_case, .data$veh_no, .data$per_no,
+             .data$drugtst1, .data$drugtst2, .data$drugtst3,
+             .data$drugres1, .data$drugres2, .data$drugres3) %>%
       mutate_all(as.character) %>%
       pivot_longer(cols = -c(1:4)) %>%
       mutate(what = substr(.data$name, 5, 7),
@@ -333,9 +333,9 @@ prep_fars_2017 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
 # return ----
 
-  write_csv(fars, paste0(prepared_dir, y, "_flat.csv"))
-  write_csv(multi_acc, paste0(prepared_dir, y, "_multi_acc.csv"))
-  write_csv(multi_veh, paste0(prepared_dir, y, "_multi_veh.csv"))
-  write_csv(multi_per, paste0(prepared_dir, y, "_multi_per.csv"))
+  write_csv(fars, paste0(prepared_dir, "/", y, "_flat.csv"))
+  write_csv(multi_acc, paste0(prepared_dir, "/", y, "_multi_acc.csv"))
+  write_csv(multi_veh, paste0(prepared_dir, "/", y, "_multi_veh.csv"))
+  write_csv(multi_per, paste0(prepared_dir, "/", y, "_multi_per.csv"))
 
 }

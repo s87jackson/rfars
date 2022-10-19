@@ -1,17 +1,14 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^old_import_code\.R$  # Code used during development
-^generate_data_frames\.R$  # Code used during development
 ^data-raw$
 ^README\.Rmd$
 [.]xlsx$
 ^FARS data$
 ^test environment$
-^R/prep_fars_2015_sas\.R$
-^R/prep_fars_2013\.R$
-^R/prep_fars_2011\.R$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
 ^doc$
 ^Meta$
+^R/prep_fars_2011\.R$
+^R/prep_fars_2013\.R$

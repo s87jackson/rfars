@@ -16,18 +16,25 @@
 #' }
 
 #' @export
-get_fars <- function(years = 2020, states = NULL, save_dir = getwd()){
+get_fars <- function(years = 2015:2020, states = NULL, save_dir = getwd(), proceed=FALSE){
 
-  # save_dir = "./test environment"
+  # Check value for states
+    validate_states(states)
 
-  download_fars(
-    years = years,
-    save_dir = save_dir
-    ) %>%
-  prep_fars(
-    # download_fars returns the path used by the raw_dir parameter of prep_fars
-    years = years,
-    states = states
-    )
+  # Check years
+    validate_years(years)
+
+  # Get FARS
+    download_fars(
+      years = years,
+      save_dir = save_dir,
+      proceed = proceed
+      ) %>%
+    prep_fars(
+      # download_fars returns the path used by the raw_dir parameter of prep_fars
+      years = years,
+      states = states,
+      proceed = proceed
+      )
 
 }

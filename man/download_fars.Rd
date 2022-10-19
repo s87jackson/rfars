@@ -4,13 +4,16 @@
 \alias{download_fars}
 \title{Download FARS data files}
 \usage{
-download_fars(years, save_dir = getwd())
+download_fars(years, save_dir = getwd(), proceed = FALSE)
 }
 \arguments{
 \item{years}{Years to be downloaded, in yyyy (character or numeric formats),
 currently limited to 2016-2020}
 
 \item{save_dir}{Directory to store files}
+
+\item{proceed}{Logical, should the downloading proceed without the user's
+permission (set to FALSE by default).}
 }
 \value{
 Returns the location of the raw data data (\code{save_dir}/FARS data/raw),
@@ -27,7 +30,7 @@ Raw files are downloaded from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa
 \examples{
 \dontrun{
 download_fars(c("2019", "2020"))
-download_fars(2016:2020)
+download_fars(2011:2020, proceed=TRUE)
 }
 }
 \seealso{

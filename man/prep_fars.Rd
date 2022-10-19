@@ -4,7 +4,12 @@
 \alias{prep_fars}
 \title{Prepare FARS data}
 \usage{
-prep_fars(raw_dir = "~/FARS data/raw", states = NULL, years = NULL)
+prep_fars(
+  raw_dir = "FARS data/raw",
+  states = NULL,
+  years = NULL,
+  proceed = FALSE
+)
 }
 \arguments{
 \item{raw_dir}{Directory where raw files are currently saved.}
@@ -15,6 +20,9 @@ or FIPS code (51).}
 
 \item{years}{(Optional) Years to keep. Leave as NULL to use all years of data
 that exist in the raw_dir.}
+
+\item{proceed}{Logical, should the downloading proceed without the user's
+permission (set to FALSE by default).}
 }
 \value{
 Produces four files for each year: yyyy_flat.csv, yyyy_multi_acc.csv,
@@ -44,8 +52,8 @@ Flat files are wide-formatted and presented at the person level.
     for more information.
 }
 \examples{
-prep_fars("Virginia")
 \dontrun{
+prep_fars("Virginia")
 prep_fars()
 prep_fars("NC")
 }

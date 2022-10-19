@@ -8,6 +8,8 @@
 #'     or FIPS code (51).
 #' @param years (Optional) Years to keep. Leave as NULL to use all years of data
 #'     that exist in the raw_dir.
+#' @param proceed Logical, should the downloading proceed without the user's
+#'     permission (set to FALSE by default).
 #'
 #' @return Produces four files for each year: yyyy_flat.csv, yyyy_multi_acc.csv,
 #'     yyyy_multi_veh.csv, and yyyy_multi_per.csv.
@@ -32,8 +34,8 @@
 #'     for more information.
 #'
 #' @examples
-#' prep_fars("Virginia")
 #' \dontrun{
+#' prep_fars("Virginia")
 #' prep_fars()
 #' prep_fars("NC")
 #' }
@@ -42,28 +44,18 @@
 
 
 #' @export
-prep_fars <- function(raw_dir = "~/FARS data/raw", states = NULL, years = NULL){
+prep_fars <- function(raw_dir = "FARS data/raw", states = NULL, years = NULL, proceed=FALSE){
 
   # Check value for states
-    for(state in states){
-
-      state_check <- state %in% unique(c(rfars::geo_relations$state_name_abbr,
-                                    rfars::geo_relations$state_name_full,
-                                    rfars::geo_relations$fips_state))
-
-      if(!state_check) stop(paste0("'", state, "' not recognized. Please check rfars::geo_relations for valid ways to specify states (state_name_abbr, state_name_full, or fips_state)."))
-
-    }
+    validate_states(states)
 
 
   # Check years
-    if(is.null(years)) years <- list.files(raw_dir)
-
-    ymax <- max(as.numeric(years), na.rm = TRUE)
-    ymin <- min(as.numeric(years), na.rm = TRUE)
-
-    if(ymin < 2014) stop("Data not (yet) available prior to 2014")
-    if(ymax > 2020) stop("Data not available beyond 2020")
+    if(is.null(years)){
+      years <- list.files(raw_dir)
+    } else{
+      validate_years(years)
+    }
 
 
   # Create directory for prepared files
@@ -72,8 +64,10 @@ prep_fars <- function(raw_dir = "~/FARS data/raw", states = NULL, years = NULL){
 
 
   # Ask permission to download files to the user's computer
-    x <- readline(paste0("We will now create several CSV files and save them in ", prepared_dir, "\n Proceed? (Y/N) \n"))
-    if(!(x %in% c("y", "Y"))) return(message("Operation cancelled."))
+    if(!proceed){
+      x <- readline(paste0("We will now create several CSV files and save them in ", prepared_dir, "\n Proceed? (Y/N) \n"))
+      if(!(x %in% c("y", "Y"))) return(message("Operation cancelled."))
+      }
 
 
   # Optional state filter
@@ -89,7 +83,7 @@ prep_fars <- function(raw_dir = "~/FARS data/raw", states = NULL, years = NULL){
 
 
 
-for(y in years){ # y = 2016
+for(y in years){ # y = 2014
 
   # Logistics
     message(paste("Preparing the", y, "files..................."))
@@ -108,39 +102,13 @@ for(y in years){ # y = 2016
 
 
   # Year-specific import-then-export-CSV functions
-    if(y==2020) prep_fars_2020(y, wd, rawfiles, prepared_dir, geo_filtered)
-    if(y==2019) prep_fars_2019(y, wd, rawfiles, prepared_dir, geo_filtered)
-    if(y==2018) prep_fars_2018(y, wd, rawfiles, prepared_dir, geo_filtered)
-    if(y==2017) prep_fars_2017(y, wd, rawfiles, prepared_dir, geo_filtered)
-    if(y==2016) prep_fars_2017(y, wd, rawfiles, prepared_dir, geo_filtered)
-    if(y==2015) prep_fars_2015(y, wd, rawfiles, prepared_dir, geo_filtered)
-
-
-    # Years 2012-2014 have corrupt (?) sas7bcat files
-    # Fortunately, we can use 2011 and 2015 to construct data dictionaries
-    # The code below shows this:
-    #
-    # fars_data_changes %>%
-    #   filter(data.table::between(year, 2011, 2015)) %>%
-    #   pivot_longer(-1) %>%
-    #   arrange(name, year) %>%
-    #   group_by(name) %>% mutate(n = length(unique(value))) %>%
-    #   filter(n>1) %>%
-    #   pivot_wider(names_from="year", values_from="value") %>%
-    #   #filter(`2011` != `2012`, `2014` != `2015`) %>%
-    #   View()
-    #
-    # Next steps:
-    #   Develop function to generate data dictionary from each raw file
-    #   Determine which data dictionary (2011 or 2015) to use
-    #   Develop logic to do this for 2012:2014
-
-    # if(y==2014) prep_fars_2015(y, wd, rawfiles, prepared_dir, geo_filtered)
-    # if(y==2013) prep_fars_2013(y, wd, rawfiles, prepared_dir, geo_filtered)
-    # if(y==2012) prep_fars_2013(y, wd, rawfiles, prepared_dir, geo_filtered)
-
-    if(y==2011) prep_fars_2011(y, wd, rawfiles, prepared_dir, geo_filtered)
-    # NOTE prep_fars_2017 on y=2016 (example) is intentional as nothing changed during that year to warrant a new function
+    if(y==2020)          prep_fars_2020(y, wd, rawfiles, prepared_dir, geo_filtered)
+    if(y==2019)          prep_fars_2019(y, wd, rawfiles, prepared_dir, geo_filtered)
+    if(y==2018)          prep_fars_2018(y, wd, rawfiles, prepared_dir, geo_filtered)
+    if(y %in% 2016:2017) prep_fars_2017(y, wd, rawfiles, prepared_dir, geo_filtered)
+    if(y %in% 2014:2015) prep_fars_2015(y, wd, rawfiles, prepared_dir, geo_filtered)
+    #if(y %in% 2012:2013) prep_fars_2013(y, wd, rawfiles, prepared_dir, geo_filtered)
+    #if(y==2011)          prep_fars_2011(y, wd, rawfiles, prepared_dir, geo_filtered)
 
   } # ends the loop through years
 

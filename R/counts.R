@@ -2,7 +2,7 @@
 #'
 #' @param FARS The input FARS data with flat and multi components.
 #' @param what What to count: crashes, fatalities, people involved.
-#' @param when The years over which to count.
+#' @param years The years over which to count.
 #' @param interval The interval in which to count: months or years.
 #' @param where Where to count: can specify rural/urban and/or state (e.g.,
 #'     where = "rural Virginia", where = "rural", where = "North Carolina")
@@ -27,7 +27,7 @@
 #'   use_fars()
 #'   counts(
 #'     what = "fatalities",
-#'     when = 2016:2020,
+#'     years = 2015:2020,
 #'     who = c("bicyclists", "pedestrians"),
 #'     where = "urban"
 #'     ) %>%
@@ -38,12 +38,19 @@
 
 
 #' @export
-counts <- function(FARS, what="crashes",
-                   when, interval="year",
+counts <- function(FARS,
+                   what="crashes",
+                   years=NULL, interval="year",
                    where=NULL, who=NULL, involved=NULL,
                    filterOnly=FALSE){
 
   flat <- FARS$flat
+
+  # Years filter
+    if(!is.null(years)){
+      validate_years(years)
+      flat <- flat %>% filter(year %in% years)
+    }
 
   # Involved
     if("distracted driver" %in% involved) flat <- inner_join(flat, distracted_driver(FARS), by = c("year", "state", "st_case"))
@@ -59,25 +66,18 @@ counts <- function(FARS, what="crashes",
     if("speeding" %in% involved)          flat <- inner_join(flat, speeding(FARS), by = c("year", "state", "st_case"))
     if("alcohol" %in% involved)           flat <- inner_join(flat, alcohol(FARS), by = c("year", "state", "st_case"))
     if("drugs" %in% involved)             flat <- inner_join(flat, drugs(FARS), by = c("year", "state", "st_case"))
-
     if("large trucks" %in% involved)      flat <- inner_join(flat, large_trucks(FARS), by = c("year", "state", "st_case"))
 
     if("hit and run" %in% involved) flat <- flat %>% filter(.data$hit_run == "Yes")
     if("roadway departure" %in% involved) flat <- flat %>% filter(grepl("departure", .data$acc_type, ignore.case = TRUE))
     if("rollover" %in% involved) flat <- flat %>% filter(!grepl("No Roll", .data$rollover))
 
-    # large trucks
 
-  # When and interval
-    #when = 2020
-    #when = 2016:2020
-    #interval = "month"
+  # Interval
     #interval = "year"
     #interval = c("year", "month")
-    flat <-
-      flat %>%
-      filter(data.table::between(.data$year, when[1], when[length(when)])) %>%
-      group_by(across(all_of(interval)), .add=FALSE)
+
+    flat <- flat %>% group_by(across(all_of(interval)), .add=FALSE)
 
 
   # Who
@@ -99,7 +99,7 @@ counts <- function(FARS, what="crashes",
     }
 
 
-  # What
+  # What (also determines how counts are done)
     #what = "crashes"
     #what = "fatalities"
     #what = "people"
