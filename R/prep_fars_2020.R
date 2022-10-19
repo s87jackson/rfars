@@ -18,7 +18,6 @@
 prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
 
-
 # core files ----
 
   ## accident ----
@@ -56,9 +55,10 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
   ## multiple-row files ----
 
-    ### cevent ----
+    ### x cevent ----
 
-    fars.cevent <- read_basic_csv(x = "cevent", wd = wd, rawfiles = rawfiles)
+    # fars.cevent <- read_basic_csv(x = "cevent", wd = wd, rawfiles = rawfiles)
+    # Cevent, Vevent, and vsoe are very similar; vsoe is the one to use (p. 16)
 
     ### weather ----
 
@@ -77,9 +77,9 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
   ## multi-row files ----
 
-    ### x vsoe ----
+    ### vsoe ----
 
-    # fars.vsoe <- read_basic_csv(x = "vsoe", wd = wd, rawfiles = rawfiles)
+    fars.vsoe <- read_basic_csv(x = "vsoe", wd = wd, rawfiles = rawfiles)
 
     ### distract ----
 
@@ -217,7 +217,6 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
   multi_acc <-
     bind_rows(
-      fars.cevent %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:2)),
       fars.weather %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:2)),
       fars.crashrf %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:2))
       ) %>%
@@ -235,7 +234,8 @@ prep_fars_2020 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
       fars.maneuver %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
       fars.violatn %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
       fars.vision %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
-      fars.damage %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3))
+      fars.damage %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
+      fars.vsoe %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3))
       ) %>%
     as.data.frame() %>%
     mutate(year = y) %>%
