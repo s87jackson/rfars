@@ -14,8 +14,6 @@
 
 
 
-# REMEMBER THAT THIS IS CURRENTLY LISTED IN .RBuildignore
-
 prep_fars_2013 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
 
 
@@ -294,7 +292,10 @@ prep_fars_2013 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
       fars.cevent %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:2)),
       fars.weather %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:2)),
       fars.crashrf %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:2))
-      )
+      ) %>%
+    as.data.frame() %>%
+    mutate(year = y) %>%
+    filter(.data$state %in% unique(geo_filtered$state_name_full))
 
   multi_veh <-
     bind_rows(
@@ -307,7 +308,10 @@ prep_fars_2013 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
       fars.violatn %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
       fars.vision %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
       fars.damage %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3))
-      )
+      ) %>%
+    as.data.frame() %>%
+    mutate(year = y) %>%
+    filter(.data$state %in% unique(geo_filtered$state_name_full))
 
   multi_per <-
     bind_rows(
@@ -317,14 +321,17 @@ prep_fars_2013 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
       fars.nmcrash %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:4)),
       fars.nmimpair %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:4)),
       fars.nmprior %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:4))
-      )
+      ) %>%
+    as.data.frame() %>%
+    mutate(year = y) %>%
+    filter(.data$state %in% unique(geo_filtered$state_name_full))
 
 
 # return ----
 
-  write_csv(fars, paste0(prepared_dir, y, "_flat.csv"))
-  write_csv(multi_acc, paste0(prepared_dir, y, "_multi_acc.csv"))
-  write_csv(multi_veh, paste0(prepared_dir, y, "_multi_veh.csv"))
-  write_csv(multi_per, paste0(prepared_dir, y, "_multi_per.csv"))
+  write_csv(fars, paste0(prepared_dir, "/", y, "_flat.csv"))
+  write_csv(multi_acc, paste0(prepared_dir, "/", y, "_multi_acc.csv"))
+  write_csv(multi_veh, paste0(prepared_dir, "/", y, "_multi_veh.csv"))
+  write_csv(multi_per, paste0(prepared_dir, "/", y, "_multi_per.csv"))
 
 }
