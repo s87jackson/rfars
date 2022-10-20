@@ -31,6 +31,8 @@ use_fars <- function(prepared_dir="FARS data", years = NULL){
 
     suppressWarnings({ #this is just for the small number of coercion errors with mutate_at(lat, lon, as.numeric)
 
+    suppressMessages({
+
       data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "_flat.csv", recursive = TRUE)) %>%
       mutate(year = stringr::word(.data$path, -1, sep = "/") %>% substr(1,4)) %>%
       filter(.data$year %in% years) %>%
@@ -38,8 +40,7 @@ use_fars <- function(prepared_dir="FARS data", years = NULL){
       lapply(function(x){
         readr::read_csv(x, show_col_types = FALSE,
                         col_types = readr::cols(.default = readr::col_character())) %>%
-        mutate_at(c("lat", "lon"), as.numeric) #%>%
-        # The variables below change format: mutate_at(c("city", "hour", "not_hour", "not_min", "arr_hour"), as.character)
+        mutate_at(c("lat", "lon"), as.numeric)
         }) %>%
       bind_rows() %>%
       readr::type_convert()
@@ -62,11 +63,13 @@ use_fars <- function(prepared_dir="FARS data", years = NULL){
 
 
 
-    })
+    }) #suppressMessages
+
+    }) #suppressWarnings
 
 
   multi_acc <-
-    data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "multi_acc", recursive = TRUE)) %>%
+    data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "multi_acc.csv", recursive = TRUE)) %>%
     mutate(year = stringr::word(.data$path, -1, sep = "/") %>% substr(1,4)) %>%
     filter(.data$year %in% years) %>%
     pull(.data$path) %>%
@@ -75,7 +78,7 @@ use_fars <- function(prepared_dir="FARS data", years = NULL){
     as.data.frame()
 
   multi_veh <-
-    data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "multi_veh", recursive = TRUE)) %>%
+    data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "multi_veh.csv", recursive = TRUE)) %>%
     mutate(year = stringr::word(.data$path, -1, sep = "/") %>% substr(1,4)) %>%
     filter(.data$year %in% years) %>%
     pull(.data$path) %>%
@@ -84,7 +87,16 @@ use_fars <- function(prepared_dir="FARS data", years = NULL){
     as.data.frame()
 
   multi_per <-
-    data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "multi_per", recursive = TRUE)) %>%
+    data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "multi_per.csv", recursive = TRUE)) %>%
+    mutate(year = stringr::word(.data$path, -1, sep = "/") %>% substr(1,4)) %>%
+    filter(.data$year %in% years) %>%
+    pull(.data$path) %>%
+    lapply(readr::read_csv, show_col_types = FALSE) %>%
+    bind_rows() %>%
+    as.data.frame()
+
+  events <-
+    data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "_events.csv", recursive = TRUE)) %>%
     mutate(year = stringr::word(.data$path, -1, sep = "/") %>% substr(1,4)) %>%
     filter(.data$year %in% years) %>%
     pull(.data$path) %>%
@@ -97,7 +109,8 @@ use_fars <- function(prepared_dir="FARS data", years = NULL){
     "flat" = flat,
     "multi_acc" = multi_acc,
     "multi_veh" = multi_veh,
-    "multi_per" = multi_per)
+    "multi_per" = multi_per,
+    "events"    = events)
 
   class(out) <- c(class(out), "FARS")
 

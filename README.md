@@ -14,22 +14,26 @@ wanting more. Digging any deeper, however, involves a time-consuming
 process of downloading annual ZIP files and attempting to stitch them
 together - after first combing through the immense [data
 dictionary](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254)
-to determine the required variables and table names. `rfars`allows users
-to download five years of FARS data with just two lines of code. The
-result is a full, rich dataset ready for mapping, modeling, and other
-downstream analysis. Helper functions are also provided to produce
-common counts and comparisons. A companion package `rfarsplus`provides
-exposure data and facilitates the calculation of various rates.
+to determine the required variables and table names. `rfars` allows
+users to download FARS data back to 2016 with just two lines of code.
+The result is a full, rich dataset ready for mapping, modeling, and
+other downstream analysis. Helper functions are also provided to produce
+common counts and comparisons.
+
+A companion package `rfarsplus` (currently in development) will provide
+exposure data and facilitate the calculation of various rates.
 
 ## Installation
 
-You can install the latest version of `rfars`from
+You can install the latest version of `rfars` from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("s87jackson/rfars")
 ```
+
+Then load the required packages:
 
 ``` r
 library(rfars)
@@ -52,66 +56,61 @@ library(leaflet.extras)
 Use the `get_fars()` function to download the ZIP files from NHTSA and
 save the prepared files to your hard drive. This only has to be run once
 and defaults to saving everything in the current working directory.
-Below we import 5 years of data for Virginia. Note that `get_fars()`
-requires your permission to download the ZIP files and store prepared
-CSVs locally.
+Below we import all available data for the state of Virginia. Note that
+`get_fars()` requires your permission to download the ZIP files and
+store prepared CSVs locally, unless you set `proceed=TRUE`.
 
 ``` r
-get_fars(states="VA")
+get_fars(states="VA", proceed=TRUE)
+#> Raw data files have been saved to C:/Users/s87ja/Dropbox/Work/toXcel/FARS/rfars/FARS data/raw/
+#> Preparing the 2015 files...................
+#> Preparing the 2016 files...................
+#> Warning: One or more parsing issues, see `problems()` for details
+#> Preparing the 2017 files...................
+#> Warning: One or more parsing issues, see `problems()` for details
+#> Preparing the 2018 files...................
+#> Warning: One or more parsing issues, see `problems()` for details
+#> One or more parsing issues, see `problems()` for details
+#> Preparing the 2019 files...................
+#> Warning: One or more parsing issues, see `problems()` for details
+#> Preparing the 2020 files...................
+#> Warning: One or more parsing issues, see `problems()` for details
+#> Prepared data files have been saved to C:/Users/s87ja/Dropbox/Work/toXcel/FARS/rfars/FARS data/prepared/
 ```
 
-The `use_fars()` function looks in that directory for certain files and
-compiles them into a list of four data frames: `flat`, `multi_acc`,
-`multi_veh`, and `multi_per`. The `flat` file contains all variables for
-which there is just one value per person, vehicle, or crash (e.g., age,
-travel speed, lighting). Each row in this table corresponds to a person
-involved in a crash. As there may be multiple people and/or vehicles
-involved in one crash, some variable-values are repeated within a crash
-or vehicle. Each crash is uniquely identified with `id`, which is a
-combination of `year` and `st_case`. Note that `st_case` is not unique
-across years, for example, `st_case` 510001 will appear in each year.
-The `id` variable attempts to avoid this issue.
-
-The `multi_` files contain those variables for which there may be
-multiple values for any entity (e.g., driver impairments, vehicle
-events, weather conditions at time of crash). Each table has the
-requisite data elements corresponding to the entity: `multi_acc`
-includes `st_case` and `year`, `multi_veh` adds `veh_no` (vehicle
-number), and `multi_per` adds `per_no` (person number).
+The `use_fars()` function looks in a specified directory (the working
+directory by default) for certain CSV files and compiles them into a
+list with five tibbles: `flat`, `multi_acc`, `multi_veh`, `multi_per`,
+and `events`.
 
 ``` r
 myFARS <- use_fars() 
-#> 
-#> ── Column specification ────────────────────────────────────────────────────────
-#> cols(
-#>   .default = col_character(),
-#>   year = col_double(),
-#>   st_case = col_double(),
-#>   id = col_double(),
-#>   veh_no = col_double(),
-#>   per_no = col_double(),
-#>   ve_total = col_double(),
-#>   ve_forms.x = col_double(),
-#>   pvh_invl = col_double(),
-#>   peds = col_double(),
-#>   persons = col_double(),
-#>   permvit = col_double(),
-#>   pernotmvit = col_double(),
-#>   day.x = col_double(),
-#>   hour.x = col_double(),
-#>   minute.x = col_double(),
-#>   not_hour = col_double(),
-#>   not_min = col_double(),
-#>   arr_hour = col_double(),
-#>   arr_min = col_double(),
-#>   hosp_hr = col_double()
-#>   # ... with 18 more columns
-#> )
-#> ℹ Use `spec()` for the full column specifications.
+```
 
+The `flat` tibble contains all variables for which there is just one
+value per person, vehicle, or crash (e.g., age, travel speed, lighting).
+Each row corresponds to a person involved in a crash. As there may be
+multiple people and/or vehicles involved in one crash, some
+variable-values are repeated within a crash or vehicle. Each crash is
+uniquely identified with `id`, which is a combination of `year` and
+`st_case`. Note that `st_case` is not unique across years, for example,
+`st_case` 510001 will appear in each year. The `id` variable attempts to
+avoid this issue.
+
+The `multi_` tibbles contain those variables for which there may be a
+varying number of values for any entity (e.g., driver impairments,
+vehicle events, weather conditions at time of crash). Each tibble has
+the requisite data elements corresponding to the entity: `multi_acc`
+includes `st_case` and `year`, `multi_veh` adds `veh_no` (vehicle
+number), and `multi_per` adds `per_no` (person number).
+
+The `events` tibble provides a sequence of numbered events for each
+vehicle in each crash.
+
+``` r
 str(myFARS)
-#> List of 4
-#>  $ flat     : tibble [10,150 × 210] (S3: tbl_df/tbl/data.frame)
+#> List of 5
+#>  $ flat     : tibble [10,150 × 196] (S3: tbl_df/tbl/data.frame)
 #>   ..$ year         : num [1:10150] 2015 2015 2015 2015 2015 ...
 #>   ..$ state        : chr [1:10150] "Virginia" "Virginia" "Virginia" "Virginia" ...
 #>   ..$ st_case      : num [1:10150] 510001 510002 510002 510003 510004 ...
@@ -123,17 +122,17 @@ str(myFARS)
 #>   ..$ lon          : num [1:10150] -79.2 -78.2 -78.2 -81.8 -79.3 ...
 #>   ..$ lat          : num [1:10150] 37 39.2 39.2 37 37.1 ...
 #>   ..$ ve_total     : num [1:10150] 1 1 1 1 2 2 2 1 1 1 ...
-#>   ..$ ve_forms.x   : num [1:10150] 1 1 1 1 2 2 2 1 1 1 ...
+#>   ..$ ve_forms     : num [1:10150] 1 1 1 1 2 2 2 1 1 1 ...
 #>   ..$ pvh_invl     : num [1:10150] 0 0 0 0 0 0 0 0 0 0 ...
 #>   ..$ peds         : num [1:10150] 0 1 1 0 0 0 0 0 0 0 ...
 #>   ..$ persons      : num [1:10150] 1 1 1 1 3 3 3 1 2 2 ...
 #>   ..$ permvit      : num [1:10150] 1 1 1 1 3 3 3 1 2 2 ...
 #>   ..$ pernotmvit   : num [1:10150] 0 1 1 0 0 0 0 0 0 0 ...
-#>   ..$ day.x        : num [1:10150] 1 2 2 2 4 4 4 3 6 6 ...
-#>   ..$ month.x      : chr [1:10150] "January" "January" "January" "January" ...
+#>   ..$ day          : num [1:10150] 1 2 2 2 4 4 4 3 6 6 ...
+#>   ..$ month        : chr [1:10150] "January" "January" "January" "January" ...
 #>   ..$ day_week     : chr [1:10150] "Thursday" "Friday" "Friday" "Friday" ...
-#>   ..$ hour.x       : num [1:10150] 15 18 18 13 15 15 15 7 1 1 ...
-#>   ..$ minute.x     : num [1:10150] 30 59 59 55 15 15 15 58 19 19 ...
+#>   ..$ hour         : num [1:10150] 15 18 18 13 15 15 15 7 1 1 ...
+#>   ..$ minute       : num [1:10150] 30 59 59 55 15 15 15 58 19 19 ...
 #>   ..$ nhs          : chr [1:10150] "This section IS NOT on the NHS" "This section IS NOT on the NHS" "This section IS NOT on the NHS" "This section IS NOT on the NHS" ...
 #>   ..$ route        : chr [1:10150] "County Road" "Unknown" "Unknown" "County Road" ...
 #>   ..$ tway_id      : chr [1:10150] "CR-668" "HANDLEY BLVD" "HANDLEY BLVD" "CR-609" ...
@@ -143,8 +142,8 @@ str(myFARS)
 #>   ..$ rd_owner     : chr [1:10150] "State Highway Agency" "Not Reported" "Not Reported" "State Highway Agency" ...
 #>   ..$ milept       : chr [1:10150] "68" "None" "None" "87" ...
 #>   ..$ sp_jur       : chr [1:10150] "No Special Jurisdiction" "No Special Jurisdiction" "No Special Jurisdiction" "No Special Jurisdiction" ...
-#>   ..$ harm_ev.x    : chr [1:10150] "Other Post, Other Pole or Other Supports" "Pedalcyclist" "Pedalcyclist" "Rollover/Overturn" ...
-#>   ..$ man_coll.x   : chr [1:10150] "Not a Collision with Motor Vehicle In-Transport" "Not a Collision with Motor Vehicle In-Transport" "Not a Collision with Motor Vehicle In-Transport" "Not a Collision with Motor Vehicle In-Transport" ...
+#>   ..$ harm_ev      : chr [1:10150] "Other Post, Other Pole or Other Supports" "Pedalcyclist" "Pedalcyclist" "Rollover/Overturn" ...
+#>   ..$ man_coll     : chr [1:10150] "Not a Collision with Motor Vehicle In-Transport" "Not a Collision with Motor Vehicle In-Transport" "Not a Collision with Motor Vehicle In-Transport" "Not a Collision with Motor Vehicle In-Transport" ...
 #>   ..$ reljct1      : chr [1:10150] "No" "No" "No" "No" ...
 #>   ..$ reljct2      : chr [1:10150] "Non-Junction" "Intersection" "Intersection" "Non-Junction" ...
 #>   ..$ typ_int      : chr [1:10150] "Not an Intersection" "T-Intersection" "T-Intersection" "Not an Intersection" ...
@@ -194,14 +193,7 @@ str(myFARS)
 #>   ..$ work_inj     : chr [1:10150] "No" "No" "Not Applicable (not a fatality)" "No" ...
 #>   ..$ hispanic     : chr [1:10150] "Non-Hispanic" "Non-Hispanic" "Not A Fatality (not Applicable)" "Non-Hispanic" ...
 #>   ..$ location     : chr [1:10150] "Occupant of a Motor Vehicle" "At Intersection - Not In Crosswalk" "Occupant of a Motor Vehicle" "Occupant of a Motor Vehicle" ...
-#>   ..$ ve_forms.y   : num [1:10150] 1 NA 1 1 2 2 2 1 1 1 ...
 #>   ..$ numoccs      : chr [1:10150] "01" NA "01" "01" ...
-#>   ..$ day.y        : num [1:10150] 1 NA 2 2 4 4 4 3 6 6 ...
-#>   ..$ month.y      : chr [1:10150] "January" NA "January" "January" ...
-#>   ..$ hour.y       : num [1:10150] 15 NA 18 13 15 15 15 7 1 1 ...
-#>   ..$ minute.y     : num [1:10150] 30 NA 59 55 15 15 15 58 19 19 ...
-#>   ..$ harm_ev.y    : chr [1:10150] "Other Post, Other Pole or Other Supports" NA "Pedalcyclist" "Rollover/Overturn" ...
-#>   ..$ man_coll.y   : chr [1:10150] "Not a Collision with Motor Vehicle In-Transport" NA "Not a Collision with Motor Vehicle In-Transport" "Not a Collision with Motor Vehicle In-Transport" ...
 #>   ..$ unittype     : chr [1:10150] "Motor Vehicle In-Transport (Inside or Outside the Trafficway)" NA "Motor Vehicle In-Transport (Inside or Outside the Trafficway)" "Motor Vehicle In-Transport (Inside or Outside the Trafficway)" ...
 #>   ..$ hit_run      : chr [1:10150] "No" NA "No" "No" ...
 #>   ..$ reg_stat     : chr [1:10150] "Virginia" NA "Virginia" "Virginia" ...
@@ -211,13 +203,20 @@ str(myFARS)
 #>   ..$ mak_mod      : chr [1:10150] "Volvo 70 Series (For XC70 for 2014 on, use model code 402)" NA "Ford Bronco (thru 1977)/Bronco II/Explorer/Explorer Sport" "Chevrolet Cavalier" ...
 #>   ..$ body_typ     : chr [1:10150] "Station Wagon (excluding van and truck based)" NA "Compact Utility (Utility Vehicle Categories \"Small\" and \"Midsize\")" "2-door sedan,hardtop,coupe" ...
 #>   ..$ mod_year     : chr [1:10150] "2001" NA "2004" "1999" ...
+#>   ..$ vin          : chr [1:10150] "YV1SZ58D1110" NA "1FMZU73W64ZA" "1G1JC1246X72" ...
+#>   ..$ tow_veh      : chr [1:10150] "No Trailing Units" NA "No Trailing Units" "No Trailing Units" ...
+#>   ..$ j_knife      : chr [1:10150] "Not an Articulated Vehicle" NA "Not an Articulated Vehicle" "Not an Articulated Vehicle" ...
+#>   ..$ mcarr_i1     : chr [1:10150] "Not Applicable" NA "Not Applicable" "Not Applicable" ...
+#>   ..$ mcarr_i2     : chr [1:10150] "Not Applicable" NA "Not Applicable" "Not Applicable" ...
+#>   ..$ mcarr_id     : chr [1:10150] "Not Applicable" NA "Not Applicable" "Not Applicable" ...
+#>   ..$ v_config     : chr [1:10150] "Not Applicable" NA "Not Applicable" "Not Applicable" ...
 #>   .. [list output truncated]
-#>  $ multi_acc:'data.frame':   93099 obs. of  5 variables:
-#>   ..$ state  : chr [1:93099] "Virginia" "Virginia" "Virginia" "Virginia" ...
-#>   ..$ st_case: num [1:93099] 510001 510001 510001 510001 510001 ...
-#>   ..$ name   : chr [1:93099] "eventnum" "vnumber1" "aoi1" "soe" ...
-#>   ..$ value  : chr [1:93099] "1" "1" "Non-Harmful Event" "Ran Off Roadway - Right" ...
-#>   ..$ year   : num [1:93099] 2015 2015 2015 2015 2015 ...
+#>  $ multi_acc:'data.frame':   9939 obs. of  5 variables:
+#>   ..$ state  : chr [1:9939] "Virginia" "Virginia" "Virginia" "Virginia" ...
+#>   ..$ st_case: num [1:9939] 510001 510001 510002 510002 510003 ...
+#>   ..$ name   : chr [1:9939] "weather" "weather" "weather" "weather" ...
+#>   ..$ value  : chr [1:9939] "Clear" "Cloudy" "Clear" "Cloudy" ...
+#>   ..$ year   : num [1:9939] 2015 2015 2015 2015 2015 ...
 #>  $ multi_veh:'data.frame':   92933 obs. of  6 variables:
 #>   ..$ state  : chr [1:92933] "Virginia" "Virginia" "Virginia" "Virginia" ...
 #>   ..$ st_case: num [1:92933] 510001 510002 510003 510004 510004 ...
@@ -233,6 +232,14 @@ str(myFARS)
 #>   ..$ name   : chr [1:56963] "race" "race" "race" "race" ...
 #>   ..$ value  : chr [1:56963] "White" "White" "Not a Fatality (not Applicable)" "White" ...
 #>   ..$ year   : num [1:56963] 2015 2015 2015 2015 2015 ...
+#>  $ events   :'data.frame':   16162 obs. of  7 variables:
+#>   ..$ state    : chr [1:16162] "Virginia" "Virginia" "Virginia" "Virginia" ...
+#>   ..$ st_case  : num [1:16162] 510001 510001 510001 510001 510001 ...
+#>   ..$ veh_no   : num [1:16162] 1 1 1 1 1 1 1 1 1 1 ...
+#>   ..$ veventnum: num [1:16162] 1 2 3 4 5 1 1 2 3 4 ...
+#>   ..$ soe      : chr [1:16162] "Ran Off Roadway - Right" "Re-entering Roadway" "Ran Off Roadway - Left" "Other Post, Other Pole or Other Supports" ...
+#>   ..$ aoi      : chr [1:16162] "Non-Harmful Event" "Non-Harmful Event" "Non-Harmful Event" "11 Clock Point" ...
+#>   ..$ year     : num [1:16162] 2015 2015 2015 2015 2015 ...
 #>  - attr(*, "class")= chr [1:2] "list" "FARS"
 ```
 
@@ -244,11 +251,13 @@ View(fars_varnames)
 
 ## Counts
 
-A first step in many transportation analyses involves counting the
-number of relevant crashes, fatalities, or people involved. `counts()`
-lets users specify a time period and aggregation interval, and focus in
-on specific road users and factors. It can be combined with `ggplot()`
-to quickly visualize counts.
+A first step in many transportation safety analyses involves counting
+the number of relevant crashes, fatalities, or people involved.
+`counts()` lets users specify *what* to count, *where* to count them
+(rural/urban and/or in specified states), *who* to include, which
+*years* to include and an aggregation *interval* (annually or monthly),
+and factors *involved* in the crash. It returns a simple tibble that can
+be easily piped into `ggplot()` to quickly visualize counts.
 
 ``` r
 counts(
@@ -262,7 +271,7 @@ counts(
     labs(x=NULL, y=NULL, title = "Fatal Crashes in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
 ``` r
 counts(
@@ -276,7 +285,7 @@ counts(
     labs(x=NULL, y=NULL, title = "Fatalities in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
 
 ``` r
 counts(myFARS,
@@ -290,7 +299,7 @@ counts(myFARS,
     labs(x=NULL, y=NULL, title = "Rural Fatalities in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
 ``` r
 counts(myFARS,
@@ -305,7 +314,7 @@ counts(myFARS,
     labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities\nin Rural Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
 We can combine two `counts()` results to make a comparison. Here we
 compare the number of speeding-related fatalities in rural and urban
@@ -335,13 +344,12 @@ bind_rows(
     labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Virginia", fill=NULL)
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
 
 ## Mapping
 
-We can take advantage of having access to the full data with maps.
-
-Here we map pedestrian and bicyclist fatalities in Virginia:
+We can take advantage of having access to the full data with maps. Here
+we map pedestrian and bicyclist fatalities in Virginia:
 
 ``` r
 counts(
@@ -362,7 +370,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
 
 Drug-related crashes:
 
@@ -386,7 +394,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
 
 Older driver crashes:
 
@@ -412,7 +420,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
 
 Young drivers:
 
@@ -438,7 +446,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-14-1.png" width="100%" />
 
 ## Modeling
 

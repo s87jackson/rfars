@@ -3,8 +3,11 @@ title: "Rural_roads"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Rural_roads}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 80
 ---
 
 ```{r, include = FALSE}
@@ -14,6 +17,12 @@ knitr::opts_chunk$set(
 )
 ```
 
+This vignette demonstrates how to use the `rfars` package to download FARS data
+and use it to compare crash characteristics and trends in rural and urban areas.
+First we download the data, then make a convenient adjustment to the given
+coding scheme. Rural and urban crashes and fatalities are then compared on many
+different dimensions.
+
 ```{r setup}
 library(rfars)
 library(dplyr)
@@ -21,17 +30,11 @@ library(ggplot2)
 library(magrittr)
 ```
 
-This vignette demonstrates how to use the rfars package to download FARS data
-and use it to compare crash characteristics and trends in rural and urban areas.
-First we download the data, then make a convenient adjustment to the given
-coding scheme. Rural and urban crashes and fatalities are then compared on many
-different dimensions.
-
 ## Data
 
-First we download the data. Calling get_fars(proceed=TRUE) will download data from
-2015 to 2020 for all states, and store a 'FARS data' folder in your working
-directory, with subfolders for raw and prepared files. When proceed=FALSE, (the 
+Calling `get_fars(proceed=TRUE)` will download data from 2015 to 2020 for all
+states, and store a 'FARS data' folder in your working directory, with
+subfolders for raw and prepared files. When `proceed` is set to `FALSE`, (the
 default) R will ask your permission before downloading files.
 
 ```{r}
@@ -39,18 +42,18 @@ get_fars(proceed=TRUE)
 ```
 
 Once you have the data on your hard drive, you don't need to download it again.
-Calling use_fars() looks in the working directory for the prepared FARS files,
+Calling `use_fars()` looks in the working directory for the prepared FARS files,
 stacks them, and brings them into the current environment.
 
 ```{r}
 myFARS <- use_fars()
 ```
 
-Here we make an adjustment to the standard variable definitions: label all 
-people driving motorcycles as Motorcyclists rather than drivers of motorcycles. 
-This makes it easier to refer to motorcyclists later. Note that the myFARS 
-object is a list, with the flat dataframe containing the required variables: 
-body_typ (vehicle body type) and per_typ (person type).
+Here we make an adjustment to the standard variable definitions to label all
+people driving motorcycles as *motorcyclists* rather than *drivers* of
+*motorcycles*. This makes it easier to refer to motorcyclists later. Note that
+the `myFARS` object is a list, with the `flat` tibble containing the required
+variables: `body_typ` (vehicle body type) and `per_typ` (person type).
 
 ```{r}
 myFARS$flat$per_typ <- 
@@ -61,9 +64,9 @@ myFARS$flat$per_typ <-
          myFARS$flat$per_typ)
 ```
 
-The counts() function makes it easy to generate specific types of counts. Here
-we create a function to run two counts, differentiated by urbanicity, and then 
-stack the counts for easy graphing.
+The `counts()` function makes it easy to generate specific types of counts. Here
+we create a function to run two counts, differentiated by urbanicity, and then
+stack the results for easy graphing.
 
 ```{r}
 compare_counts <- function(myFARS, what, involved=NULL){
@@ -79,12 +82,11 @@ compare_counts <- function(myFARS, what, involved=NULL){
 }
 ```
 
-
 ## Basic Counts
 
 The number of crashes is a reasonable starting point. Below we use our
-compare_counts() function and ggplot() to plot the annual count of crashes
-in rural and urban areas, from 2015 to 2020.
+`compare_counts()`function and `ggplot()` to plot the annual count of crashes
+and fatalities in rural and urban areas, from 2015 to 2020.
 
 ```{r}
 compare_counts(myFARS, "crashes") %>%
@@ -106,15 +108,54 @@ ggplot(aes(x=date, y=n, label=scales::comma(n))) +
   labs(x=NULL, y=NULL, title = "Fatalities", fill=NULL)
 ```
 
-## The filterOnly Option
+## The `involved` Argument
 
-The counts() function has a filterOnly option, which returns a pre-aggregated 
-data frame fitting the other specifications (what, where, etc.). This can be 
-useful when generating custom counts. For example, acc_type (Crash Type) is
-a vehicle-level variable. To count the number of crashes by acc_type, we need 
-to prevent over-counting (as there will be one value for acc_type for each
-vehicle involved in each crash). Below we take the value associated with 
-veh_no 1 (vehicle number 1). This is reasonable, but may not be appropriate 
+`counts()` makes it easy to hone in on specific crash types by using the
+`involved` argument. It can be any of: distracted driver, drowsy driver, police
+pursuit, motorcycle, pedalcyclist, bicyclist, pedestrian, pedbike, young driver,
+older driver, speeding, alcohol, drugs, hit and run, roadway departure,
+rollover, or large trucks. Specifying `involved` will filter the counts to those
+matching the criterion. For example `involved="distracted driver"` will return
+counts associated with crashes involving a distracted driver. Multiple values
+can be supplied; if so, the resulting counts will satisfy *all* criteria. That
+is, they are combined with the *and* operator (as opposed to *or*).
+
+Below we loop through all options available in `rfars` and generate simple
+plots.
+
+```{r}
+crashfactors <- c("distracted driver", "drowsy driver", 
+                  "police pursuit", "motorcycle", "pedalcyclist", 
+                  "bicyclist", "pedestrian", "pedbike", 
+                  "young driver", "older driver", "speeding", 
+                  "alcohol", "drugs", "hit and run", 
+                  "roadway departure", "rollover", "large trucks"
+                  )
+
+for(crashfactor in crashfactors){
+  
+  p <- 
+    compare_counts(myFARS, "fatalities", involved = crashfactor) %>%
+    ggplot(aes(x=year, y=n, label=scales::comma(n))) +
+      geom_col(position="dodge") +
+      facet_wrap(.~where) +
+      geom_label(position = position_dodge(.9), vjust=1) +
+      labs(title = paste0("Fatalities: ", crashfactor))
+
+  print(p)
+  
+}
+```
+
+## The `filterOnly` Option
+
+The `counts()` function has a `filterOnly` option, which returns pre-summarized
+data fitting the other specifications (what, where, etc.). This can be useful
+when generating custom counts. For example, `acc_type` (Crash Type) is a
+vehicle-level variable. To count the number of crashes by `acc_type`, we need to
+prevent over-counting (as there will be one value for `acc_type` for each
+vehicle involved in each crash). Below we take the value associated with
+`veh_no` 1 (vehicle number 1). This is reasonable, but may not be appropriate
 for all analysis situations.
 
 ```{r}
@@ -155,50 +196,15 @@ bind_rows(
     theme(plot.title.position = "plot")
 ```
 
+## The `flat` Tibble
 
-## The flat Data Frame
+It is sometimes easiest to access the data directly, rather than with the
+`counts()` function. The object created by `use_fars()` is a list with five
+elements, all tibbles: `flat`, `multi_acc`, `multi_veh`, `multi_per`, and
+`events`. The `flat` data frame contains over 200 variables, and can often
+provide what's needed.
 
-It may be easiest to access the data directly, rather than via the counts()
-function. The object created by use_fars() is a list with up to four elements:
-flat, multi_acc, multi_veh, and multi_per. The flat data frame contains over
-200 variables, and can often provide what's needed. Below we aggregate crash
-counts by road curvature by urbanicity. 
-
-```{r}
-# myFARS$flat %$% table(valign, year)
-# myFARS$flat %$% table(vprofile, year)
-# myFARS$flat %$% table(vprofile, valign)
-
-myFARS$flat %>%
-  mutate(valign = ifelse(grepl("Curve", valign), "Curve", valign)) %>%
-  filter(veh_no == 1, #to avoid over-counting
-         rur_urb %in% c("Rural", "Urban"),
-         valign %in% c("Straight", "Curve")) %>%
-  select(id, valign, rur_urb) %>% unique() %>%
-  group_by(valign, rur_urb) %>%
-  summarize(n = n()) %>%
-  
-  ggplot(aes(fill=rur_urb, y=n, x=valign, label=scales::comma(n, accuracy = 1))) + 
-    geom_col(position = "dodge") + 
-    geom_label(vjust=1, position = position_dodge(.9))
-```
-
-
-```{r}
-myFARS$flat %>%
-  mutate(vprofile = ifelse(vprofile %in% c("Uphill", "Downhill"), "Up/downhill", vprofile)) %>%
-  filter(veh_no == 1, #to avoid over-counting
-         rur_urb %in% c("Rural", "Urban"),
-         !(vprofile %in% c("Unknown", "Reported as Unknown", "Not Reported"))
-         ) %>%
-  select(id, vprofile, rur_urb) %>% unique() %>%
-  group_by(vprofile, rur_urb) %>%
-  summarize(n = n()) %>%
-  
-  ggplot(aes(fill=rur_urb, x=n, y=vprofile, label=scales::comma(n, accuracy = 1))) + 
-    geom_col(position = "dodge") + 
-    geom_label(hjust=1, position = position_dodge(.9))
-```
+Below are several examples:
 
 ```{r}
 myFARS$flat %>%
@@ -219,12 +225,10 @@ ggplot(aes(x=valign, y=vprofile, fill=n, label=scales::comma(n))) +
   geom_tile() +
   facet_wrap(.~rur_urb) +
   viridis::scale_fill_viridis() +
-  geom_label()
+  geom_label() +
+  labs(title = "Roadway Profile and Alignment")
 
 ```
-
-
-### by Person Type
 
 ```{r}
 myFARS$flat %>%
@@ -236,11 +240,10 @@ myFARS$flat %>%
   mutate(per_typ = stringr::str_wrap(per_typ, 15)) %>%
   
   ggplot(aes(x=per_typ, y=n, fill=rur_urb, label = scales::comma(n))) +
-    geom_col(vjust=1, position = "dodge") +
-    geom_label(position = position_dodge(.9))
+    geom_col(position = "dodge") +
+    geom_label(vjust=1, position = position_dodge(.9)) +
+    labs(title = "Fatalities by Person Type and Urbanicity")
 ```
-
-### by Sex
 
 ```{r}
 myFARS$flat %>%
@@ -253,11 +256,9 @@ myFARS$flat %>%
   
   ggplot(aes(x=sex, y=n, fill=rur_urb, label = scales::comma(n))) +
     geom_col(position = "dodge") +
-    geom_label(vjust=1, position = position_dodge(.9))
+    geom_label(vjust=1, position = position_dodge(.9)) +
+    labs(title = "Fatalities by Sex and Urbanicity")
 ```
-
-
-### by Ethnicity
 
 ```{r}
 myFARS$flat %>%
@@ -270,12 +271,9 @@ myFARS$flat %>%
   
   ggplot(aes(x=hispanic, y=n, fill=rur_urb, label = scales::comma(n))) +
     geom_col(position = "dodge") +
-    geom_label(vjust=1, position = position_dodge(.9))
+    geom_label(vjust=1, position = position_dodge(.9)) +
+    labs(title = "Fatalities by Ethnicity and Urbanicity")
 ```
-
-### by Vehicle Type
-
-(Excludes pedbikes)
 
 ```{r}
 myFARS$flat %>%
@@ -289,11 +287,9 @@ myFARS$flat %>%
 
   ggplot(aes(y=body_typ, x=n, fill=rur_urb, label=scales::comma(n, accuracy = 1))) + 
     geom_col(position = "dodge") + 
-    geom_label(hjust=1, position = position_dodge(.9))
+    geom_label(hjust=1, position = position_dodge(.9)) +
+    labs(title = "Fatalities by Vehicle Type and Urbanicity")
 ```
-
-
-### Motorcyclists and Helmet Use
 
 ```{r}
 #myFARS$flat %$% table(helm_use, year)
@@ -323,8 +319,6 @@ myFARS$flat %>%
     labs(title = "Motorcyclists and Helmet Use")
 ```
 
-### by Victim Age
-
 ```{r}
 myFARS$flat %>%
   filter(grepl("(K)", inj_sev), 
@@ -333,11 +327,9 @@ myFARS$flat %>%
   group_by(rur_urb, age_n) %>% summarize(n=n()) %>%
   
   ggplot(aes(x=age_n, y=n, color = rur_urb)) +
-    geom_line()
+    geom_line() +
+    labs(title = "Fatalities by Age and Urbanicity")
 ```
-
-
-### by Age and Time
 
 ```{r}
 myFARS$flat %>%
@@ -351,11 +343,15 @@ myFARS$flat %>%
   ggplot(aes(x=hour, y=age_n, fill=n)) +
     geom_tile() +
     facet_wrap(.~rur_urb) +
-    viridis::scale_fill_viridis()
+    viridis::scale_fill_viridis() +
+    labs(title = "Fatalities by Age, Time of Day, and Urbanicity")
 ```
 
+## The `multi_per` Tibble
 
-## The multi_per Data Frame
+If the `flat` tibble does not have the required information, it may be in one of
+the `multi_` tibbles. Below, we access the `multi_per` tibble to visualize
+fatalities by race.
 
 ```{r}
 myFARS$multi_per %>% 
@@ -374,42 +370,3 @@ myFARS$multi_per %>%
     geom_col(position = "dodge") +
     geom_label(vjust=1, position = position_dodge(.9))
 ```
-
-
-## The involved Option
-
-counts() makes it easy to hone in on specific crash types by using the involved
-argument. It can be any of distracted driver, drowsy driver, police pursuit, 
-motorcycle, pedalcyclist, bicyclist, pedestrian, pedbike, young driver, 
-older driver, speeding, alcohol, drugs, hit and run, roadway departure, 
-rollover, or large trucks.
-
-Below we use our compare_counts() function to specify 
-
-```{r}
-crashfactors <- c("distracted driver", "drowsy driver", "police pursuit", 
-                  "motorcycle", "pedalcyclist", "bicyclist", "pedestrian", 
-                  "pedbike", "young driver", "older driver", "speeding", 
-                  "alcohol", "drugs", "hit and run", "roadway departure", "rollover", 
-                  "large trucks"
-                  )
-
-for(crashfactor in crashfactors){
-  
-  p <- 
-    compare_counts(myFARS, "fatalities", involved = crashfactor) %>%
-    ggplot(aes(x=year, y=n, label=scales::comma(n))) +
-      geom_col(position="dodge") +
-      facet_wrap(.~where) +
-      geom_label(position = position_dodge(.9), vjust=1) +
-      labs(title = paste0("Fatalities: ", crashfactor))
-
-  print(p)
-  
-}
-```
-
-
-
-
-

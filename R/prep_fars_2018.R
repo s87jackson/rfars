@@ -293,8 +293,7 @@ prep_fars_2018 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
       fars.maneuver %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
       fars.violatn %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
       fars.vision %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
-      fars.damage %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3)),
-      fars.vsoe %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3))
+      fars.damage %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3))
       ) %>%
     as.data.frame() %>%
     mutate(year = y) %>%
@@ -313,6 +312,12 @@ prep_fars_2018 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
     mutate(year = y) %>%
     filter(.data$state %in% unique(geo_filtered$state_name_full))
 
+  soe <-
+    fars.vsoe %>%
+    as.data.frame() %>%
+    mutate(year = y) %>%
+    filter(.data$state %in% unique(geo_filtered$state_name_full))
+
 
 # return ----
 
@@ -320,5 +325,6 @@ prep_fars_2018 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
   write_csv(multi_acc, paste0(prepared_dir, "/", y, "_multi_acc.csv"))
   write_csv(multi_veh, paste0(prepared_dir, "/", y, "_multi_veh.csv"))
   write_csv(multi_per, paste0(prepared_dir, "/", y, "_multi_per.csv"))
+  write_csv(soe, paste0(prepared_dir, "/", y, "_events.csv"))
 
 }
