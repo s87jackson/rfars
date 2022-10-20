@@ -6,13 +6,18 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of rfars is to simplify the process of analyzing FARS data. The
-[Fatality and Injury Reporting System Tool](https://cdan.dot.gov/query)
-allows users to generate queries, and can produce simple tables and
-graphs. This suffices for simple analysis, but often leaves researchers
-wanting more. Digging any deeper, however, involves a time-consuming
-process of downloading annual ZIP files and attempting to stitch them
-together - after first combing through the immense [data
+The goal of `rfars` is to simplify the process of analyzing FARS data.
+FARS stands for [Fatality Analysis Reporting
+System](https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars),
+the census of fatal crashes in the United States maintained by the
+[National Highway Traffic Safety
+Administration](https://www.nhtsa.gov/). The [Fatality and Injury
+Reporting System Tool](https://cdan.dot.gov/query) allows users to
+generate queries, and can produce simple tables and graphs. This
+suffices for simple analysis, but often leaves researchers wanting more.
+Digging any deeper, however, involves a time-consuming process of
+downloading annual ZIP files and attempting to stitch them together -
+after first combing through the immense [data
 dictionary](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254)
 to determine the required variables and table names. `rfars` allows
 users to download FARS data back to 2016 with just two lines of code.
