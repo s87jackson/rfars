@@ -1,6 +1,5 @@
 inst/doc
 .Rproj.user
-docs
 /doc/
 /Meta/
 ^R/prep_fars_2011\.R$

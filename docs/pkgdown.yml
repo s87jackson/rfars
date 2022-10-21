@@ -1,0 +1,8 @@
+pandoc: 2.14.0.3
+pkgdown: 2.0.6
+pkgdown_sha: ~
+articles:
+  Crash_Sequences: Crash_Sequences.html
+  Rural_roads: Rural_roads.html
+last_built: 2022-10-21T19:36Z
+
