@@ -4,6 +4,9 @@
 # rfars
 
 <!-- badges: start -->
+
+[![Travis build
+status](https://travis-ci.com/s87jackson/rfars.svg?branch=master)](https://travis-ci.com/s87jackson/rfars)
 <!-- badges: end -->
 
 The goal of `rfars` is to simplify the process of analyzing FARS data.

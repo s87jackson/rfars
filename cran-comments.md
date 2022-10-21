@@ -5,6 +5,10 @@ This is a resubmission. In this version I have:
 * Removed the words that were triggering the misspelling note.
 
 * Rephrased the Description to not begin with 'this package'
+
+* Removed some unnecessary content from Readme.
+
+* Removed a function and dependency that is no longer required.
   
 ## R CMD check results
 
@@ -15,7 +19,3 @@ This is a resubmission. In this version I have:
     R CMD check succeeded
     
 * R CMD check was run on development version of R
-
-* This is a new release.
-
-* Note that this package does abide by CRAN's policy of not making external changes without explicit user permission. The functions that are capable of doing so ask for user permission with the proceed=TRUE option. If this is not changed from its default (FALSE), the user will be prompted to proceed with (1) downloading and unzipping data files from a government website, and (2) storing the cleaned up CSVs on the hard drive.
