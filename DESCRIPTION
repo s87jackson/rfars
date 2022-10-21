@@ -1,31 +1,28 @@
 Package: rfars
 Type: Package
-Title: Download and Analyze FARS Data
+Title: Download and Analyze Fatal Crash Data
 Version: 0.1.0
 Authors@R: person("Steve", "Jackson", 
     email="s87jackson@gmail.com",
     role = c("aut", "cre"))
-Description: This package downloads raw data from the National 
-    Highway Traffic Safety Administration's (NHTSA's) Fatality 
-    Analysis Reporting System (FARS) File Transfer Protocol (FTP) 
-    site, and prepares it for use by researchers.
+Description: Download raw data from the Fatality Analysis Reporting System 
+    and prepare it for research.
 License: CC0
 Encoding: UTF-8
 LazyData: true
 Imports:
-    dplyr,
-    downloader,
-    lubridate,
     data.table,
-    stringr,
+    downloader,
+    dplyr,
     janitor,
-    readr,
-    tidyselect,
-    tidyr,
-    timetk,
+    lubridate,
     magrittr,
+    readr,
     rlang,
-    haven
+    stringr,
+    tidyr,
+    tidyselect,
+    timetk
 RoxygenNote: 7.2.1
 Depends: 
     R (>= 2.10)

@@ -1,3 +1,11 @@
+## Resubmission
+
+This is a resubmission. In this version I have:
+
+* Removed the words that were triggering the misspelling note.
+
+* Rephrased the Description to not begin with 'this package'
+  
 ## R CMD check results
 
     Duration: 9m 48.9s

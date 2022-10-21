@@ -3,6 +3,7 @@ output: github_document
 editor_options: 
   markdown: 
     wrap: 80
+always_allow_html: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -228,26 +229,6 @@ counts(
   myFARS, 
   what = "crashes", 
   involved = "drugs", 
-  filterOnly = TRUE
-  ) %>%
-  filter(!is.na(lat), !is.na(lon)) %>%
-leaflet() %>%
-  addTiles() %>%
-  addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 1) %>%
-  addCircleMarkers(
-    radius = 1,
-    color = "red",
-    stroke = FALSE,
-    fillOpacity = 0.7, group = "Crash Locations") 
-```
-
-Older driver crashes:
-
-```{r}
-counts(
-  myFARS, 
-  what = "crashes", 
-  involved = "older driver", 
   filterOnly = TRUE
   ) %>%
   filter(!is.na(lat), !is.na(lon)) %>%
