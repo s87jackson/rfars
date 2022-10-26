@@ -43,8 +43,8 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/Crash_Sequences.html">Crash_Sequences</a>
-    <a class="dropdown-item" href="articles/Rural_roads.html">Rural_roads</a>
+    <a class="dropdown-item" href="articles/Crash_Sequences.html">Crash Sequences</a>
+    <a class="dropdown-item" href="articles/Rural_roads.html">Rural Roads</a>
   </div>
 </li>
 <li class="nav-item">
@@ -83,66 +83,28 @@
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"s87jackson/rfars"</span><span class="op">)</span></span></code></pre></div>
 <p>Then load the required packages:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/s87jackson/rfars" class="external-link">rfars</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     filter, lag</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/leaflet/" class="external-link">leaflet</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bhaskarvk/leaflet.extras" class="external-link">leaflet.extras</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="getting-and-using-fars-data">Getting and Using FARS Data<a class="anchor" aria-label="anchor" href="#getting-and-using-fars-data"></a>
 </h2>
 <p>Use the <code><a href="reference/get_fars.html">get_fars()</a></code> function to download the ZIP files from NHTSA and save the prepared files to your hard drive. This only has to be run once and defaults to saving everything in the current working directory. Below we import all available data for the state of Virginia. Note that <code><a href="reference/get_fars.html">get_fars()</a></code> requires your permission to download the ZIP files and store prepared CSVs locally, unless you set <code>proceed=TRUE</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_fars.html">get_fars</a></span><span class="op">(</span>states<span class="op">=</span><span class="st">"VA"</span>, proceed<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Raw data files have been saved to C:/Users/s87ja/Dropbox/Work/toXcel/FARS/rfars/FARS data/raw/</span></span>
 <span><span class="co">#&gt; Preparing the 2015 files...................</span></span>
 <span><span class="co">#&gt; Preparing the 2016 files...................</span></span>
-<span><span class="co">#&gt; Warning: One or more parsing issues, call `problems()` on your data frame for details,</span></span>
-<span><span class="co">#&gt; e.g.:</span></span>
-<span><span class="co">#&gt;   dat &lt;- vroom(...)</span></span>
-<span><span class="co">#&gt;   problems(dat)</span></span>
 <span><span class="co">#&gt; Preparing the 2017 files...................</span></span>
-<span><span class="co">#&gt; Warning: One or more parsing issues, call `problems()` on your data frame for details,</span></span>
-<span><span class="co">#&gt; e.g.:</span></span>
-<span><span class="co">#&gt;   dat &lt;- vroom(...)</span></span>
-<span><span class="co">#&gt;   problems(dat)</span></span>
 <span><span class="co">#&gt; Preparing the 2018 files...................</span></span>
-<span><span class="co">#&gt; Warning: One or more parsing issues, call `problems()` on your data frame for details,</span></span>
-<span><span class="co">#&gt; e.g.:</span></span>
-<span><span class="co">#&gt;   dat &lt;- vroom(...)</span></span>
-<span><span class="co">#&gt;   problems(dat)</span></span>
-<span><span class="co">#&gt; One or more parsing issues, call `problems()` on your data frame for details,</span></span>
-<span><span class="co">#&gt; e.g.:</span></span>
-<span><span class="co">#&gt;   dat &lt;- vroom(...)</span></span>
-<span><span class="co">#&gt;   problems(dat)</span></span>
 <span><span class="co">#&gt; Preparing the 2019 files...................</span></span>
-<span><span class="co">#&gt; Warning: One or more parsing issues, call `problems()` on your data frame for details,</span></span>
-<span><span class="co">#&gt; e.g.:</span></span>
-<span><span class="co">#&gt;   dat &lt;- vroom(...)</span></span>
-<span><span class="co">#&gt;   problems(dat)</span></span>
 <span><span class="co">#&gt; Preparing the 2020 files...................</span></span>
-<span><span class="co">#&gt; Warning: One or more parsing issues, call `problems()` on your data frame for details,</span></span>
-<span><span class="co">#&gt; e.g.:</span></span>
-<span><span class="co">#&gt;   dat &lt;- vroom(...)</span></span>
-<span><span class="co">#&gt;   problems(dat)</span></span>
 <span><span class="co">#&gt; Prepared data files have been saved to C:/Users/s87ja/Dropbox/Work/toXcel/FARS/rfars/FARS data/prepared/</span></span></code></pre></div>
 <p>The <code><a href="reference/use_fars.html">use_fars()</a></code> function looks in a specified directory (the working directory by default) for certain CSV files and compiles them into a list with five tibbles: <code>flat</code>, <code>multi_acc</code>, <code>multi_veh</code>, <code>multi_per</code>, and <code>events</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/use_fars.html">use_fars</a></span><span class="op">(</span><span class="op">)</span> </span></code></pre></div>
 <p>The <code>flat</code> tibble contains all variables for which there is just one value per person, vehicle, or crash (e.g., age, travel speed, lighting). Each row corresponds to a person involved in a crash. As there may be multiple people and/or vehicles involved in one crash, some variable-values are repeated within a crash or vehicle. Each crash is uniquely identified with <code>id</code>, which is a combination of <code>year</code> and <code>st_case</code>. Note that <code>st_case</code> is not unique across years, for example, <code>st_case</code> 510001 will appear in each year. The <code>id</code> variable attempts to avoid this issue.</p>
 <p>The <code>multi_</code> tibbles contain those variables for which there may be a varying number of values for any entity (e.g., driver impairments, vehicle events, weather conditions at time of crash). Each tibble has the requisite data elements corresponding to the entity: <code>multi_acc</code> includes <code>st_case</code> and <code>year</code>, <code>multi_veh</code> adds <code>veh_no</code> (vehicle number), and <code>multi_per</code> adds <code>per_no</code> (person number).</p>
 <p>The <code>events</code> tibble provides a sequence of numbered events for each vehicle in each crash.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">myFARS</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 5</span></span>
 <span><span class="co">#&gt;  $ flat     : tibble [10,150 × 196] (S3: tbl_df/tbl/data.frame)</span></span>
@@ -277,98 +239,118 @@
 <span><span class="co">#&gt;   ..$ year     : num [1:16162] 2015 2015 2015 2015 2015 ...</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "list" "FARS"</span></span></code></pre></div>
 <p>You can review the list of variables to help guide your analysis with:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/View.html" class="external-link">View</a></span><span class="op">(</span><span class="va">fars_varnames</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="counts">Counts<a class="anchor" aria-label="anchor" href="#counts"></a>
 </h2>
-<p>A first step in many transportation safety analyses involves counting the number of relevant crashes, fatalities, or people involved. <code><a href="reference/counts.html">counts()</a></code> lets users specify <em>what</em> to count, <em>where</em> to count them (rural/urban and/or in specified states), <em>who</em> to include, which <em>years</em> to include and an aggregation <em>interval</em> (annually or monthly), and factors <em>involved</em> in the crash. It returns a simple tibble that can be easily piped into <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot()</a></code> to quickly visualize counts.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>A first step in many transportation safety analyses involves counting the number of relevant crashes, fatalities, or people involved. <code><a href="reference/counts.html">counts()</a></code> lets users specify <em>what</em> to count, <em>where</em> to count them (rural/urban and/or in specified states), <em>who</em> to include, which <em>years</em> to include and an aggregation <em>interval</em> (annually or monthly), and factors <em>involved</em> in the crash. It returns a simple tibble that can be easily piped into <code>ggplot()</code> to quickly visualize counts.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/counts.html">counts</a></span><span class="op">(</span></span>
 <span>  <span class="va">myFARS</span>,</span>
 <span>  what <span class="op">=</span> <span class="st">"crashes"</span>,</span>
 <span>  interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Fatal Crashes in Virginia"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_label</span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Fatal Crashes in Virginia"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/counts.html">counts</a></span><span class="op">(</span></span>
 <span>  <span class="va">myFARS</span>,</span>
 <span>  what <span class="op">=</span> <span class="st">"fatalities"</span>,</span>
 <span>  interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Fatalities in Virginia"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_label</span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Fatalities in Virginia"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/counts.html">counts</a></span><span class="op">(</span><span class="va">myFARS</span>,</span>
 <span>       what <span class="op">=</span> <span class="st">"fatalities"</span>,</span>
 <span>       where <span class="op">=</span> <span class="st">"rural"</span>,</span>
 <span>       interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span><span class="op">)</span></span>
 <span>       <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Rural Fatalities in Virginia"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_label</span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Rural Fatalities in Virginia"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/counts.html">counts</a></span><span class="op">(</span><span class="va">myFARS</span>,</span>
 <span>       what <span class="op">=</span> <span class="st">"fatalities"</span>,</span>
 <span>       where <span class="op">=</span> <span class="st">"rural"</span>,</span>
 <span>       interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span><span class="op">)</span>,</span>
 <span>       involved <span class="op">=</span> <span class="st">"speeding"</span></span>
 <span>       <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Speeding-Related Fatalities\nin Rural Virginia"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_label</span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Speeding-Related Fatalities\nin Rural Virginia"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
 <p>We can combine two <code><a href="reference/counts.html">counts()</a></code> results to make a comparison. Here we compare the number of speeding-related fatalities in rural and urban Virginia:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">bind_rows</span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="reference/counts.html">counts</a></span><span class="op">(</span><span class="va">myFARS</span>,</span>
 <span>       what <span class="op">=</span> <span class="st">"fatalities"</span>,</span>
 <span>       where <span class="op">=</span> <span class="st">"rural"</span>,</span>
 <span>       interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span><span class="op">)</span>,</span>
 <span>       involved <span class="op">=</span> <span class="st">"speeding"</span></span>
 <span>       <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"Rural"</span><span class="op">)</span>,</span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>where <span class="op">=</span> <span class="st">"Rural"</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="reference/counts.html">counts</a></span><span class="op">(</span><span class="va">myFARS</span>,</span>
 <span>       what <span class="op">=</span> <span class="st">"fatalities"</span>,</span>
 <span>       where <span class="op">=</span> <span class="st">"urban"</span>,</span>
 <span>       interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span><span class="op">)</span>,</span>
 <span>       involved <span class="op">=</span> <span class="st">"speeding"</span></span>
 <span>       <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"Urban"</span><span class="op">)</span></span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>where <span class="op">=</span> <span class="st">"Urban"</span><span class="op">)</span></span>
 <span>    <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="va">.</span><span class="op">~</span><span class="va">where</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Speeding-Related Fatalities in Virginia"</span>, fill<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-10-1.png" width="100%"></p>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_label</span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">facet_wrap</span><span class="op">(</span><span class="va">.</span><span class="op">~</span><span class="va">where</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Speeding-Related Fatalities in Virginia"</span>, fill<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="mapping">Mapping<a class="anchor" aria-label="anchor" href="#mapping"></a>
 </h2>
 <p>We can take advantage of having access to the full data with maps. Here we map pedestrian and bicyclist fatalities in Virginia:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/counts.html">counts</a></span><span class="op">(</span></span>
 <span>  <span class="va">myFARS</span>, </span>
 <span>  what <span class="op">=</span> <span class="st">"crashes"</span>, </span>
 <span>  involved <span class="op">=</span> <span class="st">"pedbike"</span>, </span>
 <span>  filterOnly <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/leaflet.html" class="external-link">leaflet</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html" class="external-link">addTiles</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://bhaskarvk.github.io/leaflet.extras/reference/heatmap.html" class="external-link">addHeatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Heatmap"</span>, radius<span class="op">=</span><span class="fl">10</span>, blur<span class="op">=</span><span class="fl">20</span>, minOpacity <span class="op">=</span> <span class="fl">.01</span>, max <span class="op">=</span> <span class="fl">.2</span>, cellSize <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html" class="external-link">addCircleMarkers</a></span><span class="op">(</span></span>
+<span><span class="fu">leaflet</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">addTiles</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">addHeatmap</span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Heatmap"</span>, radius<span class="op">=</span><span class="fl">10</span>, blur<span class="op">=</span><span class="fl">20</span>, minOpacity <span class="op">=</span> <span class="fl">.01</span>, max <span class="op">=</span> <span class="fl">.2</span>, cellSize <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">addCircleMarkers</span><span class="op">(</span></span>
+<span>    radius <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"red"</span>,</span>
+<span>    stroke <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    fillOpacity <span class="op">=</span> <span class="fl">0.7</span>, group <span class="op">=</span> <span class="st">"Crash Locations"</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; Assuming "lon" and "lat" are longitude and latitude, respectively</span></span>
+<span><span class="co">#&gt; Assuming "lon" and "lat" are longitude and latitude, respectively</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-10-1.png" width="100%"></p>
+<p>Drug-related crashes:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/counts.html">counts</a></span><span class="op">(</span></span>
+<span>  <span class="va">myFARS</span>, </span>
+<span>  what <span class="op">=</span> <span class="st">"crashes"</span>, </span>
+<span>  involved <span class="op">=</span> <span class="st">"drugs"</span>, </span>
+<span>  filterOnly <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lat</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lon</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="fu">leaflet</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">addTiles</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">addHeatmap</span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Heatmap"</span>, radius<span class="op">=</span><span class="fl">10</span>, blur<span class="op">=</span><span class="fl">20</span>, minOpacity <span class="op">=</span> <span class="fl">.01</span>, max <span class="op">=</span> <span class="fl">.2</span>, cellSize <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">addCircleMarkers</span><span class="op">(</span></span>
 <span>    radius <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"red"</span>,</span>
 <span>    stroke <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -376,39 +358,19 @@
 <span><span class="co">#&gt; Assuming "lon" and "lat" are longitude and latitude, respectively</span></span>
 <span><span class="co">#&gt; Assuming "lon" and "lat" are longitude and latitude, respectively</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-11-1.png" width="100%"></p>
-<p>Drug-related crashes:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/counts.html">counts</a></span><span class="op">(</span></span>
-<span>  <span class="va">myFARS</span>, </span>
-<span>  what <span class="op">=</span> <span class="st">"crashes"</span>, </span>
-<span>  involved <span class="op">=</span> <span class="st">"drugs"</span>, </span>
-<span>  filterOnly <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span>  <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lat</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lon</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/leaflet.html" class="external-link">leaflet</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html" class="external-link">addTiles</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://bhaskarvk.github.io/leaflet.extras/reference/heatmap.html" class="external-link">addHeatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Heatmap"</span>, radius<span class="op">=</span><span class="fl">10</span>, blur<span class="op">=</span><span class="fl">20</span>, minOpacity <span class="op">=</span> <span class="fl">.01</span>, max <span class="op">=</span> <span class="fl">.2</span>, cellSize <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html" class="external-link">addCircleMarkers</a></span><span class="op">(</span></span>
-<span>    radius <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>    color <span class="op">=</span> <span class="st">"red"</span>,</span>
-<span>    stroke <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    fillOpacity <span class="op">=</span> <span class="fl">0.7</span>, group <span class="op">=</span> <span class="st">"Crash Locations"</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; Assuming "lon" and "lat" are longitude and latitude, respectively</span></span>
-<span><span class="co">#&gt; Assuming "lon" and "lat" are longitude and latitude, respectively</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-12-1.png" width="100%"></p>
 <p>Young drivers:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/counts.html">counts</a></span><span class="op">(</span></span>
 <span>  <span class="va">myFARS</span>, </span>
 <span>  what <span class="op">=</span> <span class="st">"crashes"</span>, </span>
 <span>  involved <span class="op">=</span> <span class="st">"young driver"</span>, </span>
 <span>  filterOnly <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lat</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lon</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/leaflet.html" class="external-link">leaflet</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html" class="external-link">addTiles</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://bhaskarvk.github.io/leaflet.extras/reference/heatmap.html" class="external-link">addHeatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Heatmap"</span>, radius<span class="op">=</span><span class="fl">10</span>, blur<span class="op">=</span><span class="fl">20</span>, minOpacity <span class="op">=</span> <span class="fl">.01</span>, max <span class="op">=</span> <span class="fl">.2</span>, cellSize <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html" class="external-link">addCircleMarkers</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lat</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lon</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="fu">leaflet</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">addTiles</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">addHeatmap</span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Heatmap"</span>, radius<span class="op">=</span><span class="fl">10</span>, blur<span class="op">=</span><span class="fl">20</span>, minOpacity <span class="op">=</span> <span class="fl">.01</span>, max <span class="op">=</span> <span class="fl">.2</span>, cellSize <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">addCircleMarkers</span><span class="op">(</span></span>
 <span>    radius <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"red"</span>,</span>
 <span>    stroke <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -417,19 +379,19 @@
 <span><span class="co">#&gt; Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</span></span>
 <span><span class="co">#&gt; Assuming "lon" and "lat" are longitude and latitude, respectively</span></span>
 <span><span class="co">#&gt; Assuming "lon" and "lat" are longitude and latitude, respectively</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-13-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-12-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="modeling">Modeling<a class="anchor" aria-label="anchor" href="#modeling"></a>
 </h2>
 <p>Having access to the full dataset also allows us to develop statistical models. Here we fit a simple model of injury severity as a function of age and restraint use. It tells us that the average severity score among motor vehicle drivers and occupants wearing seatbelts (both the lap and shoulder belts) is 1.7 (close to, but less than “Suspected Minor Injury (B)”). Partial seatbelt use increases the predicted score to 2.1 (slightly above “Suspected Minor Injury (B)”). Not wearing any seatbelt, however increases the predicted score to 3.2 (slightly above “Suspected Serious Injury (A)”).</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># table(myFARS$flat$inj_sev)</span></span>
 <span><span class="co"># table(myFARS$flat$rest_use, useNA = "ifany")</span></span>
 <span><span class="co"># table(myFARS$flat$per_typ, useNA = "ifany")</span></span>
 <span></span>
 <span><span class="va">myFARS</span><span class="op">$</span><span class="va">flat</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">rest_use</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Lap Belt Only Used"</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">rest_use</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Lap Belt Only Used"</span>,</span>
 <span>                         <span class="st">"Shoulder Belt Only Used"</span>,</span>
 <span>                         <span class="st">"None Used / Not Applicable"</span>,</span>
 <span>                         <span class="st">"None Used/Not Applicable"</span>,</span>
@@ -437,8 +399,8 @@
 <span>         <span class="va">per_typ</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Driver of a Motor Vehicle In-Transport"</span>,</span>
 <span>                        <span class="st">"Passenger of a Motor Vehicle In-Transport"</span><span class="op">)</span></span>
 <span>         <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    rest_use <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    rest_use <span class="op">=</span> <span class="fu">case_when</span><span class="op">(</span></span>
 <span>      <span class="va">rest_use</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Lap Belt Only Used"</span>, <span class="st">"Shoulder Belt Only Used"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"Partial"</span>,</span>
 <span>      <span class="va">rest_use</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"None Used / Not Applicable"</span>, <span class="st">"None Used/Not Applicable"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"None"</span>,</span>
 <span>      <span class="va">rest_use</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Shoulder and Lap Belt Used"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"Full"</span>,</span>
@@ -446,7 +408,7 @@
 <span>      <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/stats/relevel.html" class="external-link">relevel</a></span><span class="op">(</span>ref <span class="op">=</span> <span class="st">"Full"</span><span class="op">)</span>,</span>
-<span>    kabco <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>    kabco <span class="op">=</span> <span class="fu">case_when</span><span class="op">(</span></span>
 <span>      <span class="va">inj_sev</span> <span class="op">==</span> <span class="st">"Fatal Injury (K)"</span> <span class="op">~</span> <span class="fl">4</span>,</span>
 <span>      <span class="va">inj_sev</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Suspected Serious Injury (A)"</span>, </span>
 <span>                     <span class="st">"Suspected Serious Injury(A)"</span><span class="op">)</span> <span class="op">~</span> <span class="fl">3</span>,</span>

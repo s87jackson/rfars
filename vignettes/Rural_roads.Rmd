@@ -2,7 +2,7 @@
 title: "Rural Roads"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Rural_roads}
+  %\VignetteIndexEntry{Rural Roads}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 

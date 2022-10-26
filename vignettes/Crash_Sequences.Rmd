@@ -2,7 +2,7 @@
 title: "Crash Sequences"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Crash_Sequences}
+  %\VignetteIndexEntry{Crash Sequences}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
