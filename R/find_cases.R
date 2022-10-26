@@ -1,4 +1,4 @@
-#' (Internal) Find various cases
+#' (Internal) Find crashes involving distracted drivers
 #'
 #' These internal functions take the FARS object created by use_fars and look
 #'     for various cases, such as distracted or drowsy drivers.
@@ -6,7 +6,6 @@
 #' @param FARS The FARS data object to be searched.
 #'
 #' @importFrom rlang .data
-
 
 distracted_driver <- function(FARS){
 
@@ -29,6 +28,15 @@ distracted_driver <- function(FARS){
 }
 
 
+#' (Internal) Find crashes involving drowsy drivers
+#'
+#' These internal functions take the FARS object created by use_fars and look
+#'     for various cases, such as distracted or drowsy drivers.
+#'
+#' @param FARS The FARS data object to be searched.
+#'
+#' @importFrom rlang .data
+
 drowsy_driver <- function(FARS){
 
   if(!("FARS" %in% class(FARS))) stop("Input object is not of class 'FARS'")
@@ -42,7 +50,15 @@ drowsy_driver <- function(FARS){
 
 }
 
-
+#' (Internal) Find crashes involving police pursuits
+#'
+#' These internal functions take the FARS object created by use_fars and look
+#'     for various cases, such as distracted or drowsy drivers.
+#'
+#' @param FARS The FARS data object to be searched.
+#'
+#' @importFrom rlang .data
+#'
 police_pursuit <- function(FARS){
 
   if(!("FARS" %in% class(FARS))) stop("Input object is not of class 'FARS'")
@@ -56,6 +72,15 @@ police_pursuit <- function(FARS){
 
 }
 
+
+#' (Internal) Find crashes involving motorcycles
+#'
+#' These internal functions take the FARS object created by use_fars and look
+#'     for various cases, such as distracted or drowsy drivers.
+#'
+#' @param FARS The FARS data object to be searched.
+#'
+#' @importFrom rlang .data
 
 motorcycle <- function(FARS){
 
@@ -75,6 +100,15 @@ motorcycle <- function(FARS){
 
 }
 
+
+#' (Internal) Find crashes involving pedalcyclists
+#'
+#' These internal functions take the FARS object created by use_fars and look
+#'     for various cases, such as distracted or drowsy drivers.
+#'
+#' @param FARS The FARS data object to be searched.
+#'
+#' @importFrom rlang .data
 
 pedalcyclist <- function(FARS){
 
@@ -99,6 +133,15 @@ pedalcyclist <- function(FARS){
 }
 
 
+#' (Internal) Find crashes involving pedestrians
+#'
+#' These internal functions take the FARS object created by use_fars and look
+#'     for various cases, such as distracted or drowsy drivers.
+#'
+#' @param FARS The FARS data object to be searched.
+#'
+#' @importFrom rlang .data
+
 pedestrian <- function(FARS){
 
   if("FARS" %in% class(FARS)){
@@ -117,6 +160,15 @@ pedestrian <- function(FARS){
 
 }
 
+
+#' (Internal) Find crashes involving bicyclists
+#'
+#' These internal functions take the FARS object created by use_fars and look
+#'     for various cases, such as distracted or drowsy drivers.
+#'
+#' @param FARS The FARS data object to be searched.
+#'
+#' @importFrom rlang .data
 
 bicyclist <- function(FARS){
 
@@ -137,6 +189,15 @@ bicyclist <- function(FARS){
 }
 
 
+#' (Internal) Find crashes involving pedstrians or bicyclists
+#'
+#' These internal functions take the FARS object created by use_fars and look
+#'     for various cases, such as distracted or drowsy drivers.
+#'
+#' @param FARS The FARS data object to be searched.
+#'
+#' @importFrom rlang .data
+
 pedbike <- function(FARS){
 
   if("FARS" %in% class(FARS)){
@@ -155,6 +216,15 @@ pedbike <- function(FARS){
 
 }
 
+
+#' (Internal) Find crashes involving young drivers
+#'
+#' These internal functions take the FARS object created by use_fars and look
+#'     for various cases, such as distracted or drowsy drivers.
+#'
+#' @param FARS The FARS data object to be searched.
+#'
+#' @importFrom rlang .data
 
 young_driver <- function(FARS){
 
@@ -181,6 +251,15 @@ young_driver <- function(FARS){
 }
 
 
+#' (Internal) Find crashes involving older drivers
+#'
+#' These internal functions take the FARS object created by use_fars and look
+#'     for various cases, such as distracted or drowsy drivers.
+#'
+#' @param FARS The FARS data object to be searched.
+#'
+#' @importFrom rlang .data
+
 older_driver <- function(FARS){
 
   message("Note: Older drivers are defined as those aged 65+.")
@@ -206,6 +285,15 @@ older_driver <- function(FARS){
 }
 
 
+#' (Internal) Find crashes involving speeding
+#'
+#' These internal functions take the FARS object created by use_fars and look
+#'     for various cases, such as distracted or drowsy drivers.
+#'
+#' @param FARS The FARS data object to be searched.
+#'
+#' @importFrom rlang .data
+
 speeding <- function(FARS){
 
   if("FARS" %in% class(FARS)){
@@ -225,6 +313,15 @@ speeding <- function(FARS){
 }
 
 
+#' (Internal) Find crashes involving alcohol
+#'
+#' These internal functions take the FARS object created by use_fars and look
+#'     for various cases, such as distracted or drowsy drivers.
+#'
+#' @param FARS The FARS data object to be searched.
+#'
+#' @importFrom rlang .data
+
 alcohol <- function(FARS){
 
   if("FARS" %in% class(FARS)){
@@ -243,6 +340,15 @@ alcohol <- function(FARS){
 
 }
 
+
+#' (Internal) Find crashes involving drugs
+#'
+#' These internal functions take the FARS object created by use_fars and look
+#'     for various cases, such as distracted or drowsy drivers.
+#'
+#' @param FARS The FARS data object to be searched.
+#'
+#' @importFrom rlang .data
 
 drugs <- function(FARS){
 
@@ -264,6 +370,15 @@ drugs <- function(FARS){
 
 }
 
+
+#' (Internal) Find crashes involving large trucks
+#'
+#' These internal functions take the FARS object created by use_fars and look
+#'     for various cases, such as distracted or drowsy drivers.
+#'
+#' @param FARS The FARS data object to be searched.
+#'
+#' @importFrom rlang .data
 
 large_trucks <- function(FARS){
 

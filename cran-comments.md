@@ -2,6 +2,8 @@
 
 This is a resubmission. In this version I have:
 
+* Fixed the redirect URL that was causing the invalid URL note
+
 * Downsized the vignettes to reduce the check time.
 
 * Removed the words that were triggering the misspelling note.

@@ -22,6 +22,12 @@
     <loc>https://s87jackson.github.io/rfars/news/index.html</loc>
   </url>
   <url>
+    <loc>https://s87jackson.github.io/rfars/reference/alcohol.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/bicyclist.html</loc>
+  </url>
+  <url>
     <loc>https://s87jackson.github.io/rfars/reference/counts.html</loc>
   </url>
   <url>
@@ -29,6 +35,12 @@
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/download_fars.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/drowsy_driver.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/drugs.html</loc>
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/fars_data_changes.html</loc>
@@ -49,7 +61,28 @@
     <loc>https://s87jackson.github.io/rfars/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://s87jackson.github.io/rfars/reference/large_trucks.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/motorcycle.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/older_driver.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/pedalcyclist.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/pedbike.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/pedestrian.html</loc>
+  </url>
+  <url>
     <loc>https://s87jackson.github.io/rfars/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/police_pursuit.html</loc>
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/prep_fars.html</loc>
@@ -73,6 +106,9 @@
     <loc>https://s87jackson.github.io/rfars/reference/read_basic_csv.html</loc>
   </url>
   <url>
+    <loc>https://s87jackson.github.io/rfars/reference/speeding.html</loc>
+  </url>
+  <url>
     <loc>https://s87jackson.github.io/rfars/reference/usenames.html</loc>
   </url>
   <url>
@@ -83,5 +119,8 @@
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/validate_years.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/young_driver.html</loc>
   </url>
 </urlset>
