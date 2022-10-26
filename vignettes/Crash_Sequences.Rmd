@@ -1,5 +1,5 @@
 ---
-title: "Crash_Sequences"
+title: "Crash Sequences"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Crash_Sequences}
@@ -17,14 +17,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(rfars)
-library(dplyr)
-library(ggplot2)
-library(magrittr)
-library(tidyr)
-```
-
 This vignette explores the **Vsoe** (Vehicle Sequence of Events) data to
 visualize crash sequence patterns.
 
@@ -37,15 +29,25 @@ element that records the sequential event number for each vehicle," and the
 data file (it is a simplified **Vevent** data file)" (p. 16). `rfars` therefore
 omits **Cevent** and **Vevent**.
 
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+library(rfars)
+library(dplyr)
+library(ggplot2)
+library(magrittr)
+library(tidyr)
+```
+
+
 ## Data
 
 First we download the data. Calling `get_fars(proceed=TRUE)` will download data
 from 2015 to 2020 for all states, and store a 'FARS data' folder in your working
 directory, with subfolders for raw and prepared files. When `proceed` is set to
-`FALSE`, (the default) R will ask your permission before downloading files.
+`FALSE`, (the default) R will ask your permission before downloading files. For 
+simplicity, we will import one year of data for one state.
 
-```{r}
-get_fars(proceed=TRUE)
+```{r, warning=FALSE}
+get_fars(years = 2020, states = "VA", proceed=TRUE)
 ```
 
 Once you have the data on your hard drive, you don't need to download it again.
@@ -92,7 +94,7 @@ to B, B to C, and C to D. The graph below shows a subset of the more common
 transitions in the crash sequences. It is interpreted as follows: the event on
 the y-axis was followed by the event on the x-axis in the percentage of
 sequences shown at the intersection of the two events. For example, vehicles
-went from 're-entering roadway' to 'cross centerline' in 40% of sequences. Note
+went from 're-entering roadway' to 'cross centerline' in 36% of sequences. Note
 that we have added a state labelled 'Pre-Crash' to help account for sequences
 with just one event.
 
@@ -105,7 +107,7 @@ myFARS$events %>%
   group_by(event_from, event_to) %>% summarize(n=n()) %>%
   group_by(event_from) %>% mutate(n_from = sum(n)) %>%
   mutate(n_pct = n/n_from) %>%
-  filter(n_pct>.1, n>500) %>%
+  filter(n_pct>.1, n>5) %>%
   mutate(event_from = stringr::str_wrap(event_from, 40),
          event_to = stringr::str_wrap(event_to, 40)) %>%
 
@@ -116,4 +118,8 @@ myFARS$events %>%
       axis.text.x.bottom = element_text(angle=270, hjust = 0, vjust=.5),
       legend.position = "none"
       )
+```
+
+```{r, include=FALSE}
+unlink(paste0(getwd(),"/FARS data"), recursive = TRUE)
 ```

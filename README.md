@@ -43,22 +43,6 @@ devtools::install_github("s87jackson/rfars")
 
 Then load the required packages:
 
-``` r
-library(rfars)
-library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
-library(ggplot2)
-library(leaflet)
-library(leaflet.extras)
-```
-
 ## Getting and Using FARS Data
 
 Use the `get_fars()` function to download the ZIP files from NHTSA and
@@ -73,34 +57,10 @@ get_fars(states="VA", proceed=TRUE)
 #> Raw data files have been saved to C:/Users/s87ja/Dropbox/Work/toXcel/FARS/rfars/FARS data/raw/
 #> Preparing the 2015 files...................
 #> Preparing the 2016 files...................
-#> Warning: One or more parsing issues, call `problems()` on your data frame for details,
-#> e.g.:
-#>   dat <- vroom(...)
-#>   problems(dat)
 #> Preparing the 2017 files...................
-#> Warning: One or more parsing issues, call `problems()` on your data frame for details,
-#> e.g.:
-#>   dat <- vroom(...)
-#>   problems(dat)
 #> Preparing the 2018 files...................
-#> Warning: One or more parsing issues, call `problems()` on your data frame for details,
-#> e.g.:
-#>   dat <- vroom(...)
-#>   problems(dat)
-#> One or more parsing issues, call `problems()` on your data frame for details,
-#> e.g.:
-#>   dat <- vroom(...)
-#>   problems(dat)
 #> Preparing the 2019 files...................
-#> Warning: One or more parsing issues, call `problems()` on your data frame for details,
-#> e.g.:
-#>   dat <- vroom(...)
-#>   problems(dat)
 #> Preparing the 2020 files...................
-#> Warning: One or more parsing issues, call `problems()` on your data frame for details,
-#> e.g.:
-#>   dat <- vroom(...)
-#>   problems(dat)
 #> Prepared data files have been saved to C:/Users/s87ja/Dropbox/Work/toXcel/FARS/rfars/FARS data/prepared/
 ```
 
@@ -297,7 +257,7 @@ counts(
     labs(x=NULL, y=NULL, title = "Fatal Crashes in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 ``` r
 counts(
@@ -311,7 +271,7 @@ counts(
     labs(x=NULL, y=NULL, title = "Fatalities in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
 ``` r
 counts(myFARS,
@@ -325,7 +285,7 @@ counts(myFARS,
     labs(x=NULL, y=NULL, title = "Rural Fatalities in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
 
 ``` r
 counts(myFARS,
@@ -340,7 +300,7 @@ counts(myFARS,
     labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities\nin Rural Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
 We can combine two `counts()` results to make a comparison. Here we
 compare the number of speeding-related fatalities in rural and urban
@@ -370,7 +330,7 @@ bind_rows(
     labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Virginia", fill=NULL)
 ```
 
-<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
 ## Mapping
 
@@ -396,7 +356,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
 
 Drug-related crashes:
 
@@ -420,7 +380,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
 
 Young drivers:
 
@@ -446,7 +406,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
 
 ## Modeling
 

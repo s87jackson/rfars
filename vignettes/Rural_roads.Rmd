@@ -1,5 +1,5 @@
 ---
-title: "Rural_roads"
+title: "Rural Roads"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Rural_roads}
@@ -23,7 +23,7 @@ First we download the data, then make a convenient adjustment to the given
 coding scheme. Rural and urban crashes and fatalities are then compared on many
 different dimensions.
 
-```{r setup}
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
 library(rfars)
 library(dplyr)
 library(ggplot2)
@@ -35,10 +35,11 @@ library(magrittr)
 Calling `get_fars(proceed=TRUE)` will download data from 2015 to 2020 for all
 states, and store a 'FARS data' folder in your working directory, with
 subfolders for raw and prepared files. When `proceed` is set to `FALSE`, (the
-default) R will ask your permission before downloading files.
+default) R will ask your permission before downloading files. For 
+simplicity, we will import two years of data for one state.
 
-```{r}
-get_fars(proceed=TRUE)
+```{r, warning=FALSE}
+get_fars(years = 2019:2020, states = "VA", proceed=TRUE)
 ```
 
 Once you have the data on your hard drive, you don't need to download it again.
@@ -222,7 +223,7 @@ myFARS$flat %>%
   summarize(n = n()) %>%
   
 ggplot(aes(x=valign, y=vprofile, fill=n, label=scales::comma(n))) +
-  geom_tile() +
+  #geom_tile() +
   facet_wrap(.~rur_urb) +
   viridis::scale_fill_viridis() +
   geom_label() +
@@ -236,7 +237,7 @@ myFARS$flat %>%
   filter(grepl("(K)", inj_sev)) %>%
   group_by(rur_urb, per_typ) %>%
   summarise(n=n()) %>%
-  filter(n>900) %>%
+  filter(n>2) %>%
   mutate(per_typ = stringr::str_wrap(per_typ, 15)) %>%
   
   ggplot(aes(x=per_typ, y=n, fill=rur_urb, label = scales::comma(n))) +
@@ -251,7 +252,7 @@ myFARS$flat %>%
   filter(grepl("(K)", inj_sev)) %>%
   group_by(rur_urb, sex) %>%
   summarise(n=n()) %>%
-  filter(n>900) %>%
+  filter(n>90) %>%
   mutate(sex = stringr::str_wrap(sex, 15)) %>%
   
   ggplot(aes(x=sex, y=n, fill=rur_urb, label = scales::comma(n))) +
@@ -266,7 +267,7 @@ myFARS$flat %>%
   filter(grepl("(K)", inj_sev)) %>%
   group_by(rur_urb, hispanic) %>%
   summarise(n=n()) %>%
-  filter(n>900) %>%
+  filter(n>10) %>%
   mutate(hispanic = stringr::str_wrap(hispanic, 15)) %>%
   
   ggplot(aes(x=hispanic, y=n, fill=rur_urb, label = scales::comma(n))) +
@@ -282,41 +283,13 @@ myFARS$flat %>%
   filter(!(per_typ %in% c("Bicyclist", "Pedestrian"))) %>%
   group_by(rur_urb, body_typ) %>%
   summarise(n=n()) %>%
-  filter(n>3000) %>%
+  filter(n>30) %>%
   mutate(body_typ = stringr::str_wrap(body_typ, 80)) %>%
 
   ggplot(aes(y=body_typ, x=n, fill=rur_urb, label=scales::comma(n, accuracy = 1))) + 
     geom_col(position = "dodge") + 
     geom_label(hjust=1, position = position_dodge(.9)) +
     labs(title = "Fatalities by Vehicle Type and Urbanicity")
-```
-
-```{r}
-#myFARS$flat %$% table(helm_use, year)
-#myFARS$flat %$% table(rest_use, year)
-
-myFARS$flat %>%
-  filter(grepl("(K)", inj_sev), 
-         per_typ == "Motorcyclist",
-         rur_urb %in% c("Rural", "Urban")) %>%
-  mutate(motorcyclist_helmet = case_when(
-    rest_use %in% c("No Helmet") ~ "No Helmet",
-    rest_use %in% c("DOT-Compliant Motorcycle Helmet",
-                    "Helmet, Other than DOT-Compliant Motorcycle Helmet",
-                    "Helmet, Unknown if DOT Compliant") ~ "Helmet Worn",
-    helm_use %in% c("No Helmet") ~ "No Helmet",
-    helm_use %in% c("DOT-Compliant Motorcycle Helmet",
-                    "Helmet, Other than DOT-Compliant Motorcycle Helmet",
-                    "Helmet, Unknown if DOT Compliant") ~ "Helmet Worn",
-    TRUE ~ "Other")
-    ) %>%
-  group_by(rur_urb, motorcyclist_helmet) %>%
-  summarize(n = n()) %>%
-  
-  ggplot(aes(fill=motorcyclist_helmet, y=n, x=rur_urb, label=scales::comma(n, accuracy = 1))) + 
-    geom_col(position = "dodge") + 
-    geom_label(vjust=1, position = position_dodge(.9)) +
-    labs(title = "Motorcyclists and Helmet Use")
 ```
 
 ```{r}
@@ -363,10 +336,15 @@ myFARS$multi_per %>%
   filter(grepl("(K)", inj_sev)) %>%
   group_by(rur_urb, race) %>%
   summarise(n=n()) %>%
-  filter(n>900) %>%
+  filter(n>9) %>%
   mutate(race = stringr::str_wrap(race, 15)) %>%
   
   ggplot(aes(x=race, y=n, fill=rur_urb, label = scales::comma(n))) +
     geom_col(position = "dodge") +
     geom_label(vjust=1, position = position_dodge(.9))
 ```
+
+```{r, include=FALSE}
+unlink(paste0(getwd(),"/FARS data"), recursive = TRUE)
+```
+

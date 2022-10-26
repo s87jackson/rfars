@@ -56,7 +56,7 @@ devtools::install_github("s87jackson/rfars")
 
 Then load the required packages:
 
-```{r}
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
 library(rfars)
 library(dplyr)
 library(ggplot2)
@@ -73,7 +73,7 @@ available data for the state of Virginia. Note that `get_fars()` requires your
 permission to download the ZIP files and store prepared CSVs locally, unless you
 set `proceed=TRUE`.
 
-```{r}
+```{r, warning=FALSE}
 get_fars(states="VA", proceed=TRUE)
 ```
 
@@ -309,4 +309,8 @@ myFARS$flat %>%
     age_n = gsub("\\D+","", age) %>% as.numeric()) %>%
   lm(kabco ~ age_n + rest_use, data = .) %>%
   summary()
+```
+
+```{r, include=FALSE}
+unlink(paste0(getwd(),"/FARS data"), recursive = TRUE)
 ```
