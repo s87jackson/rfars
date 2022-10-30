@@ -4,27 +4,36 @@
 #'     into the current environment.
 #'
 #' @param prepared_dir Directory where prepared files are currently saved.
-#' @param years (Optional) Years to use.
+#' @param years (Optional) Years to keep.
+#' @param states (Optional) States to keep.
 #'
-#' @return Returns either a single data frame (if \code{multi=NULL}) or a list
-#'     containing the combined flat file data frame and specified \code{multi}
-#'     files.
+#' @return Returns an object of class 'FARS' which is a list of five tibbles:
+#'     flat, multi_acc, multi_veh, multi_per, and events
 #'
-#' @seealso \code{download_fars()} \code{prep_fars()} \code{get_fars()}
 #' @examples
 #' \dontrun{
 #' myData <- use_fars()
 #' }
 
-#' @export
-use_fars <- function(prepared_dir="FARS data", years = NULL){
+use_fars <- function(prepared_dir="FARS data", years = NULL, states = NULL){
 
   if(is.null(years)){
       years <-
         list.files(paste0(prepared_dir, "/prepared")) %>%
         stringr::word(1, sep="_") %>%
         unique()
+  }
+
+
+  # Optional state filter ----
+    if(!is.null(states)){
+      geo_filtered <-
+        rfars::geo_relations %>%
+        filter(.data$fips_state %in% states | .data$state_name_abbr %in% states | .data$state_name_full %in% states)
+      } else{
+        geo_filtered <- rfars::geo_relations
       }
+
 
 
   flat <-
@@ -43,25 +52,8 @@ use_fars <- function(prepared_dir="FARS data", years = NULL){
         mutate_at(c("lat", "lon"), as.numeric)
         }) %>%
       bind_rows() %>%
-      readr::type_convert()
-
-      ## 2015 changes how county is coded...
-      # as.data.frame() %>%
-      # mutate(fips_county = gsub("[^[:digit:], ]", "", as.character(.data$county)) %>%
-      #          stringr::str_pad(3, "left", "0")
-      #        ) %>%
-      # left_join(
-      #   select(rfars::geo_relations, fips_county, county_name_abbr) %>% unique(),
-      #   by = "fips_county"
-      #   ) %>%
-      # mutate(county = paste0(
-      #   stringr::str_to_upper(.data$county_name_abbr),
-      #   " (", as.character(county), ")")
-      #   ) %>%
-      # select(-fips_county, -county_name_abbr) %>%
-      # mutate(city = as.character(.data$city))
-
-
+      readr::type_convert() %>%
+      filter(.data$state %in% unique(geo_filtered$state_name_full))
 
     }) #suppressMessages
 
@@ -75,7 +67,8 @@ use_fars <- function(prepared_dir="FARS data", years = NULL){
     pull(.data$path) %>%
     lapply(readr::read_csv, show_col_types = FALSE) %>%
     bind_rows() %>%
-    as.data.frame()
+    as.data.frame() %>%
+    filter(.data$state %in% unique(geo_filtered$state_name_full))
 
   multi_veh <-
     data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "multi_veh.csv", recursive = TRUE)) %>%
@@ -84,7 +77,8 @@ use_fars <- function(prepared_dir="FARS data", years = NULL){
     pull(.data$path) %>%
     lapply(readr::read_csv, show_col_types = FALSE) %>%
     bind_rows() %>%
-    as.data.frame()
+    as.data.frame() %>%
+    filter(.data$state %in% unique(geo_filtered$state_name_full))
 
   multi_per <-
     data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "multi_per.csv", recursive = TRUE)) %>%
@@ -93,7 +87,8 @@ use_fars <- function(prepared_dir="FARS data", years = NULL){
     pull(.data$path) %>%
     lapply(readr::read_csv, show_col_types = FALSE) %>%
     bind_rows() %>%
-    as.data.frame()
+    as.data.frame() %>%
+    filter(.data$state %in% unique(geo_filtered$state_name_full))
 
   events <-
     data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "_events.csv", recursive = TRUE)) %>%
@@ -102,7 +97,8 @@ use_fars <- function(prepared_dir="FARS data", years = NULL){
     pull(.data$path) %>%
     lapply(readr::read_csv, show_col_types = FALSE) %>%
     bind_rows() %>%
-    as.data.frame()
+    as.data.frame() %>%
+    filter(.data$state %in% unique(geo_filtered$state_name_full))
 
 
   out <- list(

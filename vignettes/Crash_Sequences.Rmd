@@ -38,28 +38,14 @@ library(tidyr)
 ```
 
 
-## Data
-
-First we download the data. Calling `get_fars(proceed=TRUE)` will download data
-from 2015 to 2020 for all states, and store a 'FARS data' folder in your working
-directory, with subfolders for raw and prepared files. When `proceed` is set to
-`FALSE`, (the default) R will ask your permission before downloading files. For 
-simplicity, we will import one year of data for one state.
+Below we get one year of data for one state, Virginia.
 
 ```{r, warning=FALSE}
-get_fars(years = 2020, states = "VA", proceed=TRUE)
-```
-
-Once you have the data on your hard drive, you don't need to download it again.
-Calling `use_fars()` looks in the working directory for the prepared FARS files,
-stacks them, and brings them into the current environment.
-
-```{r}
-myFARS <- use_fars()
+myFARS <- get_fars(years = 2020, states = "VA")
 ```
 
 The **Vsoe** data is stored in the `events` tibble of the object returned by
-`use_fars()`. Here we see the top 10 individual events:
+`get_fars()`. Here we see the top 10 individual events:
 
 ```{r}
 myFARS$events %>%
@@ -118,8 +104,4 @@ myFARS$events %>%
       axis.text.x.bottom = element_text(angle=270, hjust = 0, vjust=.5),
       legend.position = "none"
       )
-```
-
-```{r, include=FALSE}
-unlink(paste0(getwd(),"/FARS data"), recursive = TRUE)
 ```

@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# rfars <img src="man/figures/logo.png" align="right" alt="" width="120" />
+# rfars <img src="man/figures/logo.svg" align="right" alt="" width="120" />
 
 <!-- badges: start -->
 
@@ -39,7 +39,7 @@ attempting to stitch them together - after first combing through the immense
 [data
 dictionary](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254)
 to determine the required variables and table names. `rfars` allows users to
-download FARS data back to 2016 with just two lines of code. The result is a
+download FARS data back to 2015 with just one line of code. The result is a
 full, rich dataset ready for mapping, modeling, and other downstream analysis.
 Helper functions are also provided to produce common counts and comparisons.
 
@@ -68,33 +68,30 @@ library(leaflet.extras)
 
 ## Getting and Using FARS Data
 
-Use the `get_fars()` function to download the ZIP files from NHTSA and save the
-prepared files to your hard drive. This only has to be run once and defaults to
-saving everything in the current working directory. Below we import all
-available data for the state of Virginia. Note that `get_fars()` requires your
-permission to download the ZIP files and store prepared CSVs locally, unless you
-set `proceed=TRUE`.
+Use the `get_fars()` function to bring FARS data into the current environment. 
+This is done by (a) downloading the data to a temporary directory, (b) downloading
+to a permanent directory, or (c) importing from a permanent directory. After 
+data is downloaded to a permanent directory, the function will look there rather
+than downloading the data again. If a year of data is requested but not found,
+R will ask your permission to download the missing data. 
+
+Here we get three years of data for Virginia:
 
 ```{r, warning=FALSE}
-get_fars(states="VA", proceed=TRUE)
+myFARS <- get_fars(years = 2018:2020, states = "VA")
 ```
 
-The `use_fars()` function looks in a specified directory (the working directory
-by default) for certain CSV files and compiles them into a list with five
-tibbles: `flat`, `multi_acc`, `multi_veh`, `multi_per`, and `events`.
-
-```{r}
-myFARS <- use_fars() 
-```
+This returns a 'FARS' object: a list with five tibbles: `flat`, `multi_acc`, 
+`multi_veh`, `multi_per`, and `events`.
 
 The `flat` tibble contains all variables for which there is just one value per
-person, vehicle, or crash (e.g., age, travel speed, lighting). Each row
-corresponds to a person involved in a crash. As there may be multiple people
-and/or vehicles involved in one crash, some variable-values are repeated within
-a crash or vehicle. Each crash is uniquely identified with `id`, which is a
-combination of `year` and `st_case`. Note that `st_case` is not unique across
-years, for example, `st_case` 510001 will appear in each year. The `id` variable
-attempts to avoid this issue.
+crash ("accident"), vehicle, or person (e.g., weather conditions, travel speed, 
+age). Each row corresponds to a person involved in a crash. As there may be 
+multiple people and/or vehicles involved in one crash, some variable-values are 
+repeated within a crash or vehicle. Each crash is uniquely identified with `id`,
+which is a combination of `year` and `st_case`. Note that `st_case` is not 
+unique across years, for example, `st_case` 510001 will appear in each year. 
+The `id` variable attempts to avoid this issue.
 
 The `multi_` tibbles contain those variables for which there may be a varying
 number of values for any entity (e.g., driver impairments, vehicle events,
@@ -107,7 +104,7 @@ The `events` tibble provides a sequence of numbered events for each vehicle in
 each crash.
 
 ```{r}
-str(myFARS)
+glimpse(myFARS)
 ```
 
 You can review the list of variables to help guide your analysis with:
@@ -172,7 +169,7 @@ counts(myFARS,
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
     geom_col() + 
     geom_label(vjust=1.2) +
-    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities\nin Rural Virginia")
+    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Rural Virginia")
 ```
 
 We can combine two `counts()` results to make a comparison. Here we compare the
@@ -268,14 +265,16 @@ leaflet() %>%
 
 Having access to the full dataset also allows us to develop statistical models.
 Here we fit a simple model of injury severity as a function of age and restraint
-use. It tells us that the average severity score among motor vehicle drivers and
-occupants wearing seatbelts (both the lap and shoulder belts) is 1.7 (close to,
-but less than "Suspected Minor Injury (B)"). Partial seatbelt use increases the
-predicted score to 2.1 (slightly above "Suspected Minor Injury (B)"). Not
-wearing any seatbelt, however increases the predicted score to 3.2 (slightly
-above "Suspected Serious Injury (A)").
+use. 
 
-```{r}
+The output tells us that the average severity score among motor vehicle drivers and
+occupants wearing seatbelts (both the lap and shoulder belts) is 1.7 (close to,
+but less than "Suspected Minor Injury (B)") and increases slightly with age. 
+Partial seatbelt use increases the predicted score to 2.2 (slightly above 
+"Suspected Minor Injury (B)"). Not wearing any seatbelt, however, increases the 
+predicted score to 3.2 (slightly above "Suspected Serious Injury (A)").
+
+```{r, results='asis'}
 # table(myFARS$flat$inj_sev)
 # table(myFARS$flat$rest_use, useNA = "ifany")
 # table(myFARS$flat$per_typ, useNA = "ifany")
@@ -310,7 +309,7 @@ myFARS$flat %>%
       ),
     age_n = gsub("\\D+","", age) %>% as.numeric()) %>%
   lm(kabco ~ age_n + rest_use, data = .) %>%
-  summary()
+  stargazer::stargazer(type = "html")
 ```
 
 ```{r, include=FALSE}

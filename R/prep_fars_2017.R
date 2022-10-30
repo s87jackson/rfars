@@ -6,16 +6,18 @@
 #'     to be passed from \code{prep_fars}
 #' @param prepared_dir the location where prepared files will be saved,
 #'     to be passed from \code{prep_fars}
-#' @param geo_filtered dataframe of filtered geo-identifiers, to be passed
-#'     from \code{prep_fars}
 #'
-#' @return Produces four files for each year: yyyy_flat.csv, yyyy_multi_acc.csv,
-#'     yyyy_multi_veh.csv, and yyyy_multi_per.csv
+#' @return Produces five files: yyyy_flat.csv, yyyy_multi_acc.csv,
+#'     yyyy_multi_veh.csv, yyyy_multi_per.csv, and yyyy_events.csv
 #'
 #' @importFrom rlang .data
 
 
-prep_fars_2017 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
+prep_fars_2017 <- function(y, wd, rawfiles, prepared_dir){
+
+# Fix wd, prepared_dir
+  if(substr(wd, nchar(wd), nchar(wd)) != "/") wd <- paste0(wd, "/")
+  if(substr(prepared_dir, nchar(prepared_dir), nchar(prepared_dir)) != "/") prepared_dir <- paste0(prepared_dir, "/")
 
 # core files ----
 
@@ -270,7 +272,7 @@ prep_fars_2017 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
     as.data.frame() %>%
 
   # State filter
-    filter(.data$state %in% unique(c(geo_filtered$state_name_full, geo_filtered$fips_state))) %>%
+    #filter(.data$state %in% unique(c(geo_filtered$state_name_full, geo_filtered$fips_state))) %>%
 
   # Dates
     # mutate(
@@ -300,8 +302,7 @@ prep_fars_2017 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
       fars.crashrf %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:2))
       ) %>%
     as.data.frame() %>%
-    mutate(year = y) %>%
-    filter(.data$state %in% unique(geo_filtered$state_name_full))
+    mutate(year = y)
 
   multi_veh <-
     bind_rows(
@@ -316,8 +317,7 @@ prep_fars_2017 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
       fars.damage %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:3))
       ) %>%
     as.data.frame() %>%
-    mutate(year = y) %>%
-    filter(.data$state %in% unique(geo_filtered$state_name_full))
+    mutate(year = y)
 
   multi_per <-
     bind_rows(
@@ -329,14 +329,12 @@ prep_fars_2017 <- function(y, wd, rawfiles, prepared_dir, geo_filtered){
       fars.nmprior %>% mutate_all(as.character) %>% pivot_longer(cols = -c(1:4))
       ) %>%
     as.data.frame() %>%
-    mutate(year = y) %>%
-    filter(.data$state %in% unique(geo_filtered$state_name_full))
+    mutate(year = y)
 
   soe <-
     fars.vsoe %>%
     as.data.frame() %>%
-    mutate(year = y) %>%
-    filter(.data$state %in% unique(geo_filtered$state_name_full))
+    mutate(year = y)
 
 
 # return ----

@@ -3,17 +3,14 @@
 #' Download annual files directly from NHTSA and unzip them
 #'     into a newly created ~/FARS data/raw directory.
 #'
-#' @param years Years to be downloaded, in yyyy (character or numeric formats),
-#'     currently limited to 2016-2020
-#' @param save_dir Directory to store files
-#' @param proceed Logical, should the downloading proceed without the user's
-#'     permission (set to FALSE by default).
+#' @param years Years to be downloaded, in yyyy (character or numeric formats)
+#' @param dest_raw Directory to store raw CSV files
+#' @param dest_prepd Directory to store prepared CSV file
 #'
-#' @return Returns the location of the raw data data (\code{save_dir}/FARS data/raw),
-#'     intended to be piped into \code{prep_fars}
-#' @details Raw files are downloaded from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/}{NHTSA}
-#'     and stored in \code{save_dir}/FARS data/raw/
-#' @seealso \code{prep_fars}
+#' @return Nothing, called for side effects.
+#'
+#' @details Raw files are downloaded from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/}{NHTSA}.
+#'
 #' @examples
 #' \dontrun{
 #' download_fars(c("2019", "2020"))
@@ -21,41 +18,59 @@
 #' }
 
 
-#' @export
-download_fars <- function(years, save_dir=getwd(), proceed=FALSE){
+download_fars <- function(years,
+                          dest_raw,
+                          dest_prepd){
 
-  # Check years
-    validate_years(years)
+  for(y in years){
+
+    dest_zip   <- tempfile() # creates and stores the name for where the zip file will be downloaded to
+
+    dest_raw_y <- paste0(dest_raw, "/", y)
+
+    my_url <- paste0(
+      "https://static.nhtsa.gov/nhtsa/downloads/FARS/", y,
+      "/National/FARS", y,
+      "NationalCSV.zip")
+
+    try_my_url <- try(
+      expr = downloader::download(my_url, destfile=dest_zip, mode="wb"),
+      silent = TRUE)
+
+    if(inherits(try_my_url, "try-error")){
+
+      message(paste0("Invalid value for year: ", y))
+      next
+
+    } else{
+
+      utils::unzip(dest_zip, exdir = dest_raw_y, overwrite = TRUE)
+      unlink(dest_zip)
 
 
-  # Ask permission to download files to the user's computer
-    if(!proceed){
-      x <- readline("We will now download several files from https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/ \nProceed? (Y/N) \n")
-      if(!(x %in% c("y", "Y"))) return(message("Download cancelled.\n"))
-      }
+      # Get list of raw data files
+        rawfiles <-
+          data.frame(filename = list.files(dest_raw_y)) %>%
+          mutate(
+            type = stringr::word(.data$filename, start = -1, end = -1, sep = stringr::fixed(".")),
+            cleaned  = .data$filename %>%
+              stringr::str_to_lower() %>%
+              stringr::str_remove(".csv") %>%
+              stringr::str_remove(".sas7bdat")
+            ) %>%
+          filter(stringr::str_to_upper(.data$type) == "CSV")
 
-
-  # Download and unzip raw data files
-    for(y in 1:length(years)){
-
-      zipfiledest = paste0(save_dir, "/FARS data ", years[y], ".zip")
-
-      thisURL <- "https://static.nhtsa.gov/nhtsa/downloads/FARS/myYear/National/FARSmyYearNationalCSV.zip"
-
-      gsub(x=thisURL, pattern = "myYear", replacement = as.character(years[y])) %>%
-        downloader::download(dest=zipfiledest, mode="wb")
-
-      utils::unzip(zipfiledest, exdir = paste0(save_dir, "/FARS data/raw/", years[y], "/"), overwrite = TRUE)
-
-      unlink(zipfiledest)
+      # Year-specific import-then-export-CSV functions
+        if(y==2020)          prep_fars_2020(y = y, wd = dest_raw_y, rawfiles = rawfiles, prepared_dir = dest_prepd)
+        if(y==2019)          prep_fars_2019(y, dest_raw_y, rawfiles, dest_prepd)
+        if(y==2018)          prep_fars_2018(y, dest_raw_y, rawfiles, dest_prepd)
+        if(y %in% 2016:2017) prep_fars_2017(y, dest_raw_y, rawfiles, dest_prepd)
+        if(y %in% 2014:2015) prep_fars_2015(y, dest_raw_y, rawfiles, dest_prepd)
 
     }
 
-  # Tell user what happened
-    message(paste0("Raw data files have been saved to ", save_dir, "/FARS data/raw/\n"))
+    }
 
-  # Return the path to use as input for prep_fars
-    return(invisible(paste0(save_dir, "/FARS data/raw/")))
 
 
 }

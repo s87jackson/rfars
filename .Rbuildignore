@@ -16,3 +16,4 @@
 ^CRAN-SUBMISSION$
 ^\.travis\.yml$
 ^sticker\.R$
+^sticker\.pptx$

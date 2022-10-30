@@ -16,9 +16,9 @@ counts(
 )
 }
 \arguments{
-\item{FARS}{The input FARS data with flat and multi components.}
+\item{FARS}{The input FARS object.}
 
-\item{what}{What to count: crashes, fatalities, people involved.}
+\item{what}{What to count: crashes, fatalities, or people involved.}
 
 \item{years}{The years over which to count.}
 
@@ -36,21 +36,23 @@ bicyclist, pedestrian, pedbike, young driver, older driver, speeding,
 alcohol, drugs, hit and run, roadway departure, rollover, or large
 trucks.}
 
-\item{filterOnly}{Logical, whether to only filter or reduce to counts.}
+\item{filterOnly}{Logical, whether to only filter data or reduce to counts.}
+}
+\value{
+Either a filtered tibble (filterOnly=TRUE) or a tibble of counts
+    (filterOnly=FALSE). If filterOnly=TRUE, the tibble that is returned is
+    the 'flat' tibble from the input FARS object, filtered according to other
+    parameters.
 }
 \description{
 Generate a variety of counts from FARS data
 }
-\details{
-...
-}
 \examples{
 \dontrun{
-get_fars(years = 2016:2020, states="Virginia") \%>\%
-  use_fars()
+get_fars(years = 2018:2020, states="Virginia") \%>\%
   counts(
     what = "fatalities",
-    years = 2015:2020,
+    years = 2018:2020,
     who = c("bicyclists", "pedestrians"),
     where = "urban"
     ) \%>\%

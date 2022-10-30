@@ -1,7 +1,7 @@
 #' Generate a variety of counts from FARS data
 #'
-#' @param FARS The input FARS data with flat and multi components.
-#' @param what What to count: crashes, fatalities, people involved.
+#' @param FARS The input FARS object.
+#' @param what What to count: crashes, fatalities, or people involved.
 #' @param years The years over which to count.
 #' @param interval The interval in which to count: months or years.
 #' @param where Where to count: can specify rural/urban and/or state (e.g.,
@@ -13,9 +13,12 @@
 #'     bicyclist, pedestrian, pedbike, young driver, older driver, speeding,
 #'     alcohol, drugs, hit and run, roadway departure, rollover, or large
 #'     trucks.
-#' @param filterOnly Logical, whether to only filter or reduce to counts.
+#' @param filterOnly Logical, whether to only filter data or reduce to counts.
 #'
-#' @details ...
+#' @return Either a filtered tibble (filterOnly=TRUE) or a tibble of counts
+#'     (filterOnly=FALSE). If filterOnly=TRUE, the tibble that is returned is
+#'     the 'flat' tibble from the input FARS object, filtered according to other
+#'     parameters.
 #'
 #' @importFrom timetk pad_by_time
 #' @import lubridate
@@ -23,11 +26,10 @@
 #'
 #' @examples
 #' \dontrun{
-#' get_fars(years = 2016:2020, states="Virginia") %>%
-#'   use_fars()
+#' get_fars(years = 2018:2020, states="Virginia") %>%
 #'   counts(
 #'     what = "fatalities",
-#'     years = 2015:2020,
+#'     years = 2018:2020,
 #'     who = c("bicyclists", "pedestrians"),
 #'     where = "urban"
 #'     ) %>%

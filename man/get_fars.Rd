@@ -4,35 +4,64 @@
 \alias{get_fars}
 \title{Get FARS data}
 \usage{
-get_fars(years = 2015:2020, states = NULL, save_dir = getwd(), proceed = FALSE)
+get_fars(years = 2015:2020, states = NULL, dir = NULL, proceed = FALSE)
 }
 \arguments{
 \item{years}{Years to be downloaded, in yyyy (character or numeric formats),
-currently limited to 2016-2020}
+currently limited to 2015-2020 (the default).}
 
-\item{states}{(Optional) States to keep. Leave as NULL to keep all states.
-Can be specified as full state name (e.g. "Virginia"), abbreviation ("VA"),
-or FIPS code (51).}
+\item{states}{(Optional) States to keep. Leave as NULL (the default) to keep
+all states. Can be specified as full state name (e.g. "Virginia"),
+abbreviation ("VA"), or FIPS code (51).}
 
-\item{save_dir}{Directory to store files}
+\item{dir}{Directory in which to search for or save a 'FARS data' folder. If
+NULL (the default), files are downloaded and unzipped to temporary
+directories and prepared in memory.}
 
-\item{proceed}{Logical, should the downloading proceed without the user's
-permission (set to FALSE by default).}
+\item{proceed}{Logical, whether or not to proceed with downloading files without
+asking for user permission (defaults to FALSE, thus asking permission)}
+}
+\value{
+A FARS data object (a list with five tibbles: flat, multi_acc,
+    multi_veh, multi_per, events)
 }
 \description{
-This function is a wrapper for \code{download_fars} and \code{prep_fars}.
-    It downloads raw files from NHTSA and produces analysis-ready data files.
+Bring FARS data into the current environment, whether by downloading it anew
+    or by using pre-existing files.
 }
 \details{
-Prepared data files are stored in \code{save_dir}/FARS data/prepared/
+This function downloads raw data from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/}{NHTSA}.
+   If no directory (dir) is specified, raw CSV files are downloaded into the
+   tempdir(), where they are also prepared, combined, and then brought into
+   the current environment. If you specify a directory (dir), the function will
+   look there for a 'FARS data' folder. If not found, it will be created and
+   populated with raw and prepared CSV files. If the directory is found, the
+   function makes sure all requested years are present and asks permission
+   to download any missing years.
+
+   The object returned is a list with class 'FARS'. It has five tibbles:
+   flat, multi_acc, multi_veh, multi_per, events.
+
+   Flat files are wide-formatted and presented at the person level.
+   All \emph{crashes} involve at least one motor \emph{vehicle}, each of
+   which may contain one or multiple \emph{people}. These are the three
+   entities of crash data. The flat files therefore repeat some data elements
+   across multiple rows. Please conduct your analysis with your entity in mind. \cr \cr
+   Some data elements can include multiple values for any data level
+   (e.g., multiple weather conditions corresponding to the crash, or multiple
+   crash factors related to vehicle or person). All of these elements have been
+   collected in the yyyy_multi_[acc/veh/per].csv files in long format.
+   These files contain crash, vehicle, and person identifiers, and two
+   variables labelled \code{name} and \code{value}. These correspond to
+   variable names from the raw data files and the corresponding values,
+   respectively. \cr \cr
+   The flat files contain one row per person (which may result in multiple
+   rows for associated vehicles and crashes), but the multi files can
+   contain a variable number of rows for any crash entity. \cr \cr
+   Consult the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254}{Analytical User’s Manual}
+   for more information.
 }
 \examples{
-\dontrun{
-get_fars(c("2019", "2020"))
-get_fars(2016:2020, "Virginia")
-get_fars(2020, "NC")
-}
-}
-\seealso{
-\code{download_fars} \code{prep_fars}
+myFARS <- get_fars(years = 2019:2020, states = "Virginia")
+
 }

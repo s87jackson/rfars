@@ -7,12 +7,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="rfars">
 <title>Crash Sequences • rfars</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Crash Sequences">
 <meta property="og:description" content="rfars">
+<meta property="og:image" content="https://s87jackson.github.io/rfars/logo.svg">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -26,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">rfars</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,7 +79,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>Crash Sequences</h1>
+      <img src="../logo.svg" class="logo" alt=""><h1>Crash Sequences</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/s87jackson/rfars/blob/HEAD/vignettes/Crash_Sequences.Rmd" class="external-link"><code>vignettes/Crash_Sequences.Rmd</code></a></small>
@@ -83,20 +90,11 @@
     
 <p>This vignette explores the <strong>Vsoe</strong> (Vehicle Sequence of Events) data to visualize crash sequence patterns.</p>
 <p><strong>Vsoe</strong> is one of three event-based data files, the others being <strong>Cevent</strong> and <strong>Vevent</strong>. According to the <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254" class="external-link">data dictionary</a>, <strong>Vevent</strong> “has the same data elements as the <strong>Cevent</strong> data file” plus “a data element that records the sequential event number for each vehicle,” and the <strong>Vsoe</strong> file “has a subset of the data elements contained in the <strong>Vevent</strong> data file (it is a simplified <strong>Vevent</strong> data file)” (p. 16). <code>rfars</code> therefore omits <strong>Cevent</strong> and <strong>Vevent</strong>.</p>
-<div class="section level2">
-<h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
-</h2>
-<p>First we download the data. Calling <code>get_fars(proceed=TRUE)</code> will download data from 2015 to 2020 for all states, and store a ‘FARS data’ folder in your working directory, with subfolders for raw and prepared files. When <code>proceed</code> is set to <code>FALSE</code>, (the default) R will ask your permission before downloading files. For simplicity, we will import one year of data for one state.</p>
+<p>Below we get one year of data for one state, Virginia.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_fars.html">get_fars</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2020</span>, states <span class="op">=</span> <span class="st">"VA"</span>, proceed<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Raw data files have been saved to C:/Users/s87ja/Dropbox/Work/toXcel/FARS/rfars/vignettes/FARS data/raw/</span></span>
-<span><span class="co">#&gt; Preparing the 2020 files...................</span></span>
-<span><span class="co">#&gt; Prepared data files have been saved to C:/Users/s87ja/Dropbox/Work/toXcel/FARS/rfars/vignettes/FARS data/prepared/</span></span></code></pre></div>
-<p>Once you have the data on your hard drive, you don’t need to download it again. Calling <code><a href="../reference/use_fars.html">use_fars()</a></code> looks in the working directory for the prepared FARS files, stacks them, and brings them into the current environment.</p>
+<code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_fars.html">get_fars</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2020</span>, states <span class="op">=</span> <span class="st">"VA"</span><span class="op">)</span></span></code></pre></div>
+<p>The <strong>Vsoe</strong> data is stored in the <code>events</code> tibble of the object returned by <code><a href="../reference/get_fars.html">get_fars()</a></code>. Here we see the top 10 individual events:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/use_fars.html">use_fars</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>The <strong>Vsoe</strong> data is stored in the <code>events</code> tibble of the object returned by <code><a href="../reference/use_fars.html">use_fars()</a></code>. Here we see the top 10 individual events:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myFARS</span><span class="op">$</span><span class="va">events</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">soe</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">summarize</span><span class="op">(</span>n<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -105,9 +103,9 @@
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">n</span>, y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">soe</span>, <span class="va">n</span><span class="op">)</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">geom_label</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Crash_Sequences_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="Crash_Sequences_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>We can also see the top 10 most common sequences:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myFARS</span><span class="op">$</span><span class="va">events</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">aoi</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="st">"veventnum"</span>, values_from <span class="op">=</span> <span class="st">"soe"</span>, values_fill <span class="op">=</span> <span class="st">"x"</span>,</span>
@@ -132,7 +130,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Motor Vehicle In-Transport Ran Off Roadway - Left         9</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Motor Vehicle In-Transport Ran Off Roadway - Right        9</span></span></code></pre></div>
 <p>Below we consider all state transitions - the transition from one event to the next in the sequence. For example, the sequence A-B-C-D has three transitions: A to B, B to C, and C to D. The graph below shows a subset of the more common transitions in the crash sequences. It is interpreted as follows: the event on the y-axis was followed by the event on the x-axis in the percentage of sequences shown at the intersection of the two events. For example, vehicles went from ‘re-entering roadway’ to ‘cross centerline’ in 36% of sequences. Note that we have added a state labelled ‘Pre-Crash’ to help account for sequences with just one event.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myFARS</span><span class="op">$</span><span class="va">events</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">year</span>, <span class="va">state</span>, <span class="va">st_case</span>, <span class="va">veh_no</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>event_to <span class="op">=</span> <span class="va">soe</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -155,8 +153,7 @@
 <span><span class="co">#&gt; Adding missing grouping variables: `year`, `state`, `st_case`, `veh_no`</span></span>
 <span><span class="co">#&gt; `summarise()` has grouped output by 'event_from'. You can override using the</span></span>
 <span><span class="co">#&gt; `.groups` argument.</span></span></code></pre></div>
-<p><img src="Crash_Sequences_files/figure-html/unnamed-chunk-6-1.png" width="960"></p>
-</div>
+<p><img src="Crash_Sequences_files/figure-html/unnamed-chunk-5-1.png" width="960"></p>
   </main>
 </div>
 

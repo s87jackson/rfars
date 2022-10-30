@@ -9,6 +9,6 @@ validate_years <- function(years){
   ymin <- min(as.numeric(years), na.rm = TRUE)
 
   if(ymin < 2015) stop("Data not available prior to 2015.")
-  if(ymax > 2020) stop("Data not available beyond 2020.")
+  #if(ymax > 2020) stop("Data not available beyond 2020.")
 
 }

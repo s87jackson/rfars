@@ -4,17 +4,18 @@
 \alias{use_fars}
 \title{Use FARS data files}
 \usage{
-use_fars(prepared_dir = "FARS data", years = NULL)
+use_fars(prepared_dir = "FARS data", years = NULL, states = NULL)
 }
 \arguments{
 \item{prepared_dir}{Directory where prepared files are currently saved.}
 
-\item{years}{(Optional) Years to use.}
+\item{years}{(Optional) Years to keep.}
+
+\item{states}{(Optional) States to keep.}
 }
 \value{
-Returns either a single data frame (if \code{multi=NULL}) or a list
-    containing the combined flat file data frame and specified \code{multi}
-    files.
+Returns an object of class 'FARS' which is a list of five tibbles:
+    flat, multi_acc, multi_veh, multi_per, and events
 }
 \description{
 Combine multiple years of prepared FARS data stored in CSV files and bring
@@ -24,7 +25,4 @@ Combine multiple years of prepared FARS data stored in CSV files and bring
 \dontrun{
 myData <- use_fars()
 }
-}
-\seealso{
-\code{download_fars()} \code{prep_fars()} \code{get_fars()}
 }

@@ -4,35 +4,28 @@
 \alias{download_fars}
 \title{Download FARS data files}
 \usage{
-download_fars(years, save_dir = getwd(), proceed = FALSE)
+download_fars(years, dest_raw, dest_prepd)
 }
 \arguments{
-\item{years}{Years to be downloaded, in yyyy (character or numeric formats),
-currently limited to 2016-2020}
+\item{years}{Years to be downloaded, in yyyy (character or numeric formats)}
 
-\item{save_dir}{Directory to store files}
+\item{dest_raw}{Directory to store raw CSV files}
 
-\item{proceed}{Logical, should the downloading proceed without the user's
-permission (set to FALSE by default).}
+\item{dest_prepd}{Directory to store prepared CSV file}
 }
 \value{
-Returns the location of the raw data data (\code{save_dir}/FARS data/raw),
-    intended to be piped into \code{prep_fars}
+Nothing, called for side effects.
 }
 \description{
 Download annual files directly from NHTSA and unzip them
     into a newly created ~/FARS data/raw directory.
 }
 \details{
-Raw files are downloaded from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/}{NHTSA}
-    and stored in \code{save_dir}/FARS data/raw/
+Raw files are downloaded from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/}{NHTSA}.
 }
 \examples{
 \dontrun{
 download_fars(c("2019", "2020"))
 download_fars(2011:2020, proceed=TRUE)
 }
-}
-\seealso{
-\code{prep_fars}
 }

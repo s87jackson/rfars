@@ -32,22 +32,10 @@ library(magrittr)
 
 ## Data
 
-Calling `get_fars(proceed=TRUE)` will download data from 2015 to 2020 for all
-states, and store a 'FARS data' folder in your working directory, with
-subfolders for raw and prepared files. When `proceed` is set to `FALSE`, (the
-default) R will ask your permission before downloading files. For 
-simplicity, we will import two years of data for one state.
+Below we get three years of data for one state, Virginia.
 
 ```{r, warning=FALSE}
-get_fars(years = 2019:2020, states = "VA", proceed=TRUE)
-```
-
-Once you have the data on your hard drive, you don't need to download it again.
-Calling `use_fars()` looks in the working directory for the prepared FARS files,
-stacks them, and brings them into the current environment.
-
-```{r}
-myFARS <- use_fars()
+myFARS <- get_fars(years = 2018:2020, states = "VA")
 ```
 
 Here we make an adjustment to the standard variable definitions to label all
@@ -124,7 +112,7 @@ is, they are combined with the *and* operator (as opposed to *or*).
 Below we loop through all options available in `rfars` and generate simple
 plots.
 
-```{r}
+```{r, warning=FALSE}
 crashfactors <- c("distracted driver", "drowsy driver", 
                   "police pursuit", "motorcycle", "pedalcyclist", 
                   "bicyclist", "pedestrian", "pedbike", 
@@ -298,9 +286,10 @@ myFARS$flat %>%
          rur_urb %in% c("Rural", "Urban")) %>%
   mutate(age_n = gsub("\\D+","", age) %>% as.numeric()) %>%
   group_by(rur_urb, age_n) %>% summarize(n=n()) %>%
+  filter(age_n <=90) %>%
   
   ggplot(aes(x=age_n, y=n, color = rur_urb)) +
-    geom_line() +
+    geom_line(size=1.2, alpha=.8) +
     labs(title = "Fatalities by Age and Urbanicity")
 ```
 
@@ -343,8 +332,3 @@ myFARS$multi_per %>%
     geom_col(position = "dodge") +
     geom_label(vjust=1, position = position_dodge(.9))
 ```
-
-```{r, include=FALSE}
-unlink(paste0(getwd(),"/FARS data"), recursive = TRUE)
-```
-
