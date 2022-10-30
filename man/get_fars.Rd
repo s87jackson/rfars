@@ -62,6 +62,6 @@ This function downloads raw data from \href{https://www.nhtsa.gov/file-downloads
    for more information.
 }
 \examples{
-myFARS <- get_fars(years = 2019:2020, states = "Virginia")
-
+myFARS <- get_fars(years = 2019:2020, states = "51")
+myFARS <- get_fars(years = 2020, states = "NC")
 }

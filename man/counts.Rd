@@ -2,7 +2,7 @@
 % Please edit documentation in R/counts.R
 \name{counts}
 \alias{counts}
-\title{Generate a variety of counts from FARS data}
+\title{Generate counts}
 \usage{
 counts(
   FARS,
@@ -45,17 +45,22 @@ Either a filtered tibble (filterOnly=TRUE) or a tibble of counts
     parameters.
 }
 \description{
-Generate a variety of counts from FARS data
+Use FARS data to generate commonly requested counts.
 }
 \examples{
-\dontrun{
-get_fars(years = 2018:2020, states="Virginia") \%>\%
-  counts(
-    what = "fatalities",
-    years = 2018:2020,
-    who = c("bicyclists", "pedestrians"),
-    where = "urban"
-    ) \%>\%
-  ggplot(aes(x=date, y=n, label=scales::comma(n))) + geom_col() + geom_label()
-  }
+
+get_fars(years = 2020, states="Virginia") \%>\%
+   counts(
+     where = "rural"
+     )
+
+get_fars(years = 2020, states="FL") \%>\%
+   counts(
+     involved = "older driver"
+     )
+
+get_fars(years = 2020, states = "21") \%>\%
+   counts(
+     involved = c("young driver", "alcohol")
+     )
 }

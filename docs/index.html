@@ -384,14 +384,14 @@
 <div class="section level2">
 <h2 id="modeling">Modeling<a class="anchor" aria-label="anchor" href="#modeling"></a>
 </h2>
-<p>Having access to the full dataset also allows us to develop statistical models. Here we fit a simple model of injury severity as a function of age and restraint use.</p>
-<p>The output tells us that the average severity score among motor vehicle drivers and occupants wearing seatbelts (both the lap and shoulder belts) is 1.7 (close to, but less than “Suspected Minor Injury (B)”) and increases slightly with age. Partial seatbelt use increases the predicted score to 2.2 (slightly above “Suspected Minor Injury (B)”). Not wearing any seatbelt, however, increases the predicted score to 3.2 (slightly above “Suspected Serious Injury (A)”).</p>
+<p>Having access to the full dataset also allows us to develop statistical models. Here we fit a simple model of injury severity as a function of age and restraint use. The results indicate that injury severity increases with age, and when seat belts are not used properly.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># table(myFARS$flat$inj_sev)</span></span>
 <span><span class="co"># table(myFARS$flat$rest_use, useNA = "ifany")</span></span>
 <span><span class="co"># table(myFARS$flat$per_typ, useNA = "ifany")</span></span>
 <span></span>
-<span><span class="va">myFARS</span><span class="op">$</span><span class="va">flat</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">model_data</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">myFARS</span><span class="op">$</span><span class="va">flat</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">rest_use</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Lap Belt Only Used"</span>,</span>
 <span>                         <span class="st">"Shoulder Belt Only Used"</span>,</span>
 <span>                         <span class="st">"None Used / Not Applicable"</span>,</span>
@@ -419,9 +419,11 @@
 <span>      <span class="va">inj_sev</span> <span class="op">==</span> <span class="st">"No Apparent Injury (O)"</span> <span class="op">~</span> <span class="fl">0</span>,</span>
 <span>      <span class="cn">TRUE</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span></span>
 <span>      <span class="op">)</span>,</span>
-<span>    age_n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"\\D+"</span>,<span class="st">""</span>, <span class="va">age</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">kabco</span> <span class="op">~</span> <span class="va">age_n</span> <span class="op">+</span> <span class="va">rest_use</span>, data <span class="op">=</span> <span class="va">.</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
+<span>    age_n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"\\D+"</span>,<span class="st">""</span>, <span class="va">age</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">my_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">kabco</span> <span class="op">~</span> <span class="va">age_n</span> <span class="op">+</span> <span class="va">rest_use</span>, data <span class="op">=</span> <span class="va">model_data</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">my_model</span>, type <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
 <table style="text-align:center" class="table">
 <tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr>
 <tr>
@@ -519,6 +521,25 @@
 <sup><em></em></sup>p&lt;0.1; <sup><strong></strong></sup>p&lt;0.05; <sup></sup>p&lt;0.01</td>
 </tr>
 </table>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">new_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span></span>
+<span>  age_n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">60</span><span class="op">)</span>,</span>
+<span>  rest_use <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Full"</span>, <span class="st">"Partial"</span>, <span class="st">"None"</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Full"</span>, <span class="st">"Partial"</span>, <span class="st">"None"</span><span class="op">)</span>, ordered <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="va">new_data</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>pred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">my_model</span>, newdata <span class="op">=</span> <span class="va">new_data</span><span class="op">)</span>,</span>
+<span>         age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">age_n</span>, <span class="st">" yrs"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">rest_use</span>, y<span class="op">=</span><span class="va">pred</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">facet_wrap</span><span class="op">(</span><span class="va">.</span><span class="op">~</span><span class="va">age</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">scale_y_continuous</span><span class="op">(</span></span>
+<span>      limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">4</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"O"</span>, <span class="st">"C"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"K"</span><span class="op">)</span>, expand <span class="op">=</span> <span class="fu">expansion</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>          panel.grid.major.y <span class="op">=</span> <span class="fu">element_line</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>          axis.ticks <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>, y<span class="op">=</span><span class="st">""</span>, title <span class="op">=</span> <span class="st">"Predicted Injury Severity by Age and Restraint Use"</span>,</span>
+<span>         caption <span class="op">=</span> <span class="st">"Full = correctly used seatbelt, partial = partially correctly used, none = no seatbelt."</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-13-1.png" width="100%"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

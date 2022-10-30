@@ -1,4 +1,8 @@
-#' Generate a variety of counts from FARS data
+#' Generate counts
+#'
+#' Use FARS data to generate commonly requested counts.
+#'
+#' @export
 #'
 #' @param FARS The input FARS object.
 #' @param what What to count: crashes, fatalities, or people involved.
@@ -25,21 +29,23 @@
 #' @importFrom rlang .data
 #'
 #' @examples
-#' \dontrun{
-#' get_fars(years = 2018:2020, states="Virginia") %>%
-#'   counts(
-#'     what = "fatalities",
-#'     years = 2018:2020,
-#'     who = c("bicyclists", "pedestrians"),
-#'     where = "urban"
-#'     ) %>%
-#'   ggplot(aes(x=date, y=n, label=scales::comma(n))) + geom_col() + geom_label()
-#'   }
+#'
+#' get_fars(years = 2020, states="Virginia") %>%
+#'    counts(
+#'      where = "rural"
+#'      )
+#'
+#' get_fars(years = 2020, states="FL") %>%
+#'    counts(
+#'      involved = "older driver"
+#'      )
+#'
+#' get_fars(years = 2020, states = "21") %>%
+#'    counts(
+#'      involved = c("young driver", "alcohol")
+#'      )
 
 
-
-
-#' @export
 counts <- function(FARS,
                    what="crashes",
                    years=NULL, interval="year",

@@ -265,21 +265,16 @@ leaflet() %>%
 
 Having access to the full dataset also allows us to develop statistical models.
 Here we fit a simple model of injury severity as a function of age and restraint
-use. 
-
-The output tells us that the average severity score among motor vehicle drivers and
-occupants wearing seatbelts (both the lap and shoulder belts) is 1.7 (close to,
-but less than "Suspected Minor Injury (B)") and increases slightly with age. 
-Partial seatbelt use increases the predicted score to 2.2 (slightly above 
-"Suspected Minor Injury (B)"). Not wearing any seatbelt, however, increases the 
-predicted score to 3.2 (slightly above "Suspected Serious Injury (A)").
+use. The results indicate that injury severity increases with age, and when 
+seat belts are not used properly. 
 
 ```{r, results='asis'}
 # table(myFARS$flat$inj_sev)
 # table(myFARS$flat$rest_use, useNA = "ifany")
 # table(myFARS$flat$per_typ, useNA = "ifany")
 
-myFARS$flat %>%
+model_data <-
+  myFARS$flat %>%
   filter(rest_use %in% c("Lap Belt Only Used",
                          "Shoulder Belt Only Used",
                          "None Used / Not Applicable",
@@ -307,9 +302,32 @@ myFARS$flat %>%
       inj_sev == "No Apparent Injury (O)" ~ 0,
       TRUE ~ as.numeric(NA)
       ),
-    age_n = gsub("\\D+","", age) %>% as.numeric()) %>%
-  lm(kabco ~ age_n + rest_use, data = .) %>%
-  stargazer::stargazer(type = "html")
+    age_n = gsub("\\D+","", age) %>% as.numeric()) 
+
+my_model <- lm(kabco ~ age_n + rest_use, data = model_data) 
+
+stargazer::stargazer(my_model, type = "html")
+```
+
+
+```{r}
+new_data <- expand.grid(
+  age_n = c(20, 60),
+  rest_use = factor(c("Full", "Partial", "None"), levels = c("Full", "Partial", "None"), ordered = TRUE) )
+
+new_data %>%
+  mutate(pred = predict(my_model, newdata = new_data),
+         age = paste0(age_n, " yrs")) %>%
+  ggplot(aes(x=rest_use, y=pred)) +
+    geom_col() +
+    facet_wrap(.~age) +
+    scale_y_continuous(
+      limits = c(0,4), breaks = 0:4, labels = c("O", "C", "B", "A", "K"), expand = expansion()) +
+    theme(panel.grid = element_blank(),
+          panel.grid.major.y = element_line(c("black")),
+          axis.ticks = element_blank()) +
+    labs(x="", y="", title = "Predicted Injury Severity by Age and Restraint Use",
+         caption = "Full = correctly used seatbelt, partial = partially correctly used, none = no seatbelt.")
 ```
 
 ```{r, include=FALSE}
