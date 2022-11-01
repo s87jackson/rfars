@@ -111,29 +111,30 @@ asking for user permission (defaults to FALSE, thus asking permission)</p></dd>
    All <em>crashes</em> involve at least one motor <em>vehicle</em>, each of
    which may contain one or multiple <em>people</em>. These are the three
    entities of crash data. The flat files therefore repeat some data elements
-   across multiple rows. Please conduct your analysis with your entity in mind. <br><br>
-   Some data elements can include multiple values for any data level
+   across multiple rows. Please conduct your analysis with your entity in mind.</p>
+<p>Some data elements can include multiple values for any data level
    (e.g., multiple weather conditions corresponding to the crash, or multiple
-   crash factors related to vehicle or person). All of these elements have been
+   crash factors related to vehicle or person). These elements have been
    collected in the yyyy_multi_[acc/veh/per].csv files in long format.
    These files contain crash, vehicle, and person identifiers, and two
    variables labelled <code>name</code> and <code>value</code>. These correspond to
    variable names from the raw data files and the corresponding values,
-   respectively. <br><br>
-   The flat files contain one row per person (which may result in multiple
-   rows for associated vehicles and crashes), but the multi files can
-   contain a variable number of rows for any crash entity. <br><br>
-   Consult the <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254" class="external-link">Analytical User’s Manual</a>
+   respectively.</p>
+<p>The events tibble provides a sequence of events for all vehicles involved
+   in the crash. See Crash Sequences vignette for an example.</p>
+<p>Consult the <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254" class="external-link">Analytical User’s Manual</a>
    for more information.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu">get_fars</span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2019</span><span class="op">:</span><span class="fl">2020</span>, states <span class="op">=</span> <span class="st">"51"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu">get_fars</span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2019</span><span class="op">:</span><span class="fl">2020</span>, states <span class="op">=</span> <span class="st">"51"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>One or more parsing issues, see `problems()` for details</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>One or more parsing issues, see `problems()` for details</span>
 <span class="r-in"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu">get_fars</span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2020</span>, states <span class="op">=</span> <span class="st">"NC"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>One or more parsing issues, see `problems()` for details</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

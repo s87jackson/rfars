@@ -2,7 +2,7 @@
 % Please edit documentation in R/use_fars.R
 \name{use_fars}
 \alias{use_fars}
-\title{Use FARS data files}
+\title{(Internal) Use FARS data files}
 \usage{
 use_fars(prepared_dir = "FARS data", years = NULL, states = NULL)
 }
@@ -20,9 +20,4 @@ Returns an object of class 'FARS' which is a list of five tibbles:
 \description{
 Combine multiple years of prepared FARS data stored in CSV files and bring
     into the current environment.
-}
-\examples{
-\dontrun{
-myData <- use_fars()
-}
 }

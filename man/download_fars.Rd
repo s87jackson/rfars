@@ -2,7 +2,7 @@
 % Please edit documentation in R/download_fars.R
 \name{download_fars}
 \alias{download_fars}
-\title{Download FARS data files}
+\title{(Internal) Download FARS data files}
 \usage{
 download_fars(years, dest_raw, dest_prepd)
 }
@@ -17,15 +17,8 @@ download_fars(years, dest_raw, dest_prepd)
 Nothing, called for side effects.
 }
 \description{
-Download annual files directly from NHTSA and unzip them
-    into a newly created ~/FARS data/raw directory.
+Download files from NHTSA, unzip, and prepare them.
 }
 \details{
 Raw files are downloaded from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/}{NHTSA}.
-}
-\examples{
-\dontrun{
-download_fars(c("2019", "2020"))
-download_fars(2011:2020, proceed=TRUE)
-}
 }

@@ -2,6 +2,12 @@
 
 This is a resubmission. In this version I have:
 
+* Removed examples for unexported functions.
+
+In previous resubmissions I:
+
+* Put functions which download data in \donttest{}
+
 * Streamlined some processes
 
 * Added \value to .Rd files
@@ -9,8 +15,6 @@ This is a resubmission. In this version I have:
 * Added small executable examples to illustrate the use of exported functions and enable automatic testing.
 
 * Avoided the issue of saving data to the hard drive by saving it to tempdir.
-
-In previous resubmissions I:
 
 * Fixed the redirect URL that was causing the invalid URL note
 
@@ -26,7 +30,7 @@ In previous resubmissions I:
   
 ## Latest R CMD check results
 
-    Duration: Duration: 5m 32.9s
+    Duration: 6m 17.6s
 
     0 errors | 0 warnings | 0 notes
     

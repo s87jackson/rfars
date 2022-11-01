@@ -1,7 +1,6 @@
-#' Download FARS data files
+#' (Internal) Download FARS data files
 #'
-#' Download annual files directly from NHTSA and unzip them
-#'     into a newly created ~/FARS data/raw directory.
+#' Download files from NHTSA, unzip, and prepare them.
 #'
 #' @param years Years to be downloaded, in yyyy (character or numeric formats)
 #' @param dest_raw Directory to store raw CSV files
@@ -10,12 +9,6 @@
 #' @return Nothing, called for side effects.
 #'
 #' @details Raw files are downloaded from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/}{NHTSA}.
-#'
-#' @examples
-#' \dontrun{
-#' download_fars(c("2019", "2020"))
-#' download_fars(2011:2020, proceed=TRUE)
-#' }
 
 
 download_fars <- function(years,
