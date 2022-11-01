@@ -46,22 +46,26 @@ This function downloads raw data from \href{https://www.nhtsa.gov/file-downloads
    All \emph{crashes} involve at least one motor \emph{vehicle}, each of
    which may contain one or multiple \emph{people}. These are the three
    entities of crash data. The flat files therefore repeat some data elements
-   across multiple rows. Please conduct your analysis with your entity in mind. \cr \cr
+   across multiple rows. Please conduct your analysis with your entity in mind.
+
    Some data elements can include multiple values for any data level
    (e.g., multiple weather conditions corresponding to the crash, or multiple
-   crash factors related to vehicle or person). All of these elements have been
+   crash factors related to vehicle or person). These elements have been
    collected in the yyyy_multi_[acc/veh/per].csv files in long format.
    These files contain crash, vehicle, and person identifiers, and two
    variables labelled \code{name} and \code{value}. These correspond to
    variable names from the raw data files and the corresponding values,
-   respectively. \cr \cr
-   The flat files contain one row per person (which may result in multiple
-   rows for associated vehicles and crashes), but the multi files can
-   contain a variable number of rows for any crash entity. \cr \cr
+   respectively.
+
+   The events tibble provides a sequence of events for all vehicles involved
+   in the crash. See Crash Sequences vignette for an example.
+
    Consult the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254}{Analytical User’s Manual}
    for more information.
 }
 \examples{
+\donttest{
 myFARS <- get_fars(years = 2019:2020, states = "51")
 myFARS <- get_fars(years = 2020, states = "NC")
+}
 }

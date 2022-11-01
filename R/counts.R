@@ -29,7 +29,7 @@
 #' @importFrom rlang .data
 #'
 #' @examples
-#'
+#' \donttest{
 #' get_fars(years = 2020, states="Virginia") %>%
 #'    counts(
 #'      where = "rural"
@@ -44,6 +44,7 @@
 #'    counts(
 #'      involved = c("young driver", "alcohol")
 #'      )
+#' }
 
 
 counts <- function(FARS,

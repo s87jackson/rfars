@@ -1,4 +1,4 @@
-#' Use FARS data files
+#' (Internal) Use FARS data files
 #'
 #' Combine multiple years of prepared FARS data stored in CSV files and bring
 #'     into the current environment.
@@ -9,11 +9,6 @@
 #'
 #' @return Returns an object of class 'FARS' which is a list of five tibbles:
 #'     flat, multi_acc, multi_veh, multi_per, and events
-#'
-#' @examples
-#' \dontrun{
-#' myData <- use_fars()
-#' }
 
 use_fars <- function(prepared_dir="FARS data", years = NULL, states = NULL){
 

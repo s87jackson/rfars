@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_basic_csv.R
 \name{read_basic_csv}
 \alias{read_basic_csv}
-\title{Internal function that takes care of basic CSV reading}
+\title{(Internal) Takes care of basic CSV reading}
 \usage{
 read_basic_csv(x, wd, rawfiles)
 }
@@ -14,5 +14,5 @@ read_basic_csv(x, wd, rawfiles)
 \item{rawfiles}{The data frame connecting raw filenames to cleaned ones.}
 }
 \description{
-Internal function that takes care of basic CSV reading
+(Internal) Takes care of basic CSV reading
 }

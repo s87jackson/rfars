@@ -48,7 +48,7 @@ Either a filtered tibble (filterOnly=TRUE) or a tibble of counts
 Use FARS data to generate commonly requested counts.
 }
 \examples{
-
+\donttest{
 get_fars(years = 2020, states="Virginia") \%>\%
    counts(
      where = "rural"
@@ -63,4 +63,5 @@ get_fars(years = 2020, states = "21") \%>\%
    counts(
      involved = c("young driver", "alcohol")
      )
+}
 }

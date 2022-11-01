@@ -1,4 +1,4 @@
-#' (INTERNAL) Use decoded variables instead of encoded ones
+#' (Internal) Use decoded variables instead of encoded ones
 #'
 #' The raw data files include two versions of many data elements: an encoded one
 #'     (using numbers to indicate characteristics such as injury severity,

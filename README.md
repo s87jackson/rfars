@@ -7,6 +7,8 @@
 
 [![Travis build
 status](https://travis-ci.com/s87jackson/rfars.svg?branch=master)](https://app.travis-ci.com/github/s87jackson/rfars)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/rfars)](https://cran.r-project.org/web/packages/rfars/index.html)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/rfars)](https://cran.r-project.org/package=rfars)
 
 <!-- badges: end -->
 
@@ -40,6 +42,12 @@ You can install the latest version of `rfars` from
 ``` r
 # install.packages("devtools")
 devtools::install_github("s87jackson/rfars")
+```
+
+or the CRAN stable release with:
+
+``` r
+install.packages("rfars")
 ```
 
 Then load the required packages:
@@ -236,18 +244,28 @@ and factors *involved* in the crash. It returns a simple tibble that can
 be easily piped into `ggplot()` to quickly visualize counts.
 
 ``` r
-counts(
+my_counts <- counts(
   myFARS,
   what = "crashes",
   interval = c("year")
-  ) %>%
+  ) 
+
+head(my_counts)
+#> # A tibble: 3 × 3
+#>    year     n date      
+#>   <dbl> <int> <date>    
+#> 1  2018   778 2018-01-01
+#> 2  2019   774 2019-01-01
+#> 3  2020   796 2020-01-01
+
+my_counts %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
     geom_col() + 
     geom_label(vjust=1.2) +
     labs(x=NULL, y=NULL, title = "Fatal Crashes in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
 counts(
@@ -261,7 +279,7 @@ counts(
     labs(x=NULL, y=NULL, title = "Fatalities in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
 counts(myFARS,
@@ -275,7 +293,7 @@ counts(myFARS,
     labs(x=NULL, y=NULL, title = "Rural Fatalities in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
 counts(myFARS,
@@ -290,7 +308,7 @@ counts(myFARS,
     labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Rural Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="80%" style="display: block; margin: auto;" />
 
 We can combine two `counts()` results to make a comparison. Here we
 compare the number of speeding-related fatalities in rural and urban
@@ -320,7 +338,7 @@ bind_rows(
     labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Virginia", fill=NULL)
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="80%" style="display: block; margin: auto;" />
 
 ## Mapping
 
@@ -333,7 +351,7 @@ counts(
   what = "crashes", 
   involved = "pedbike", 
   filterOnly = TRUE
-  ) %>%
+  ) %>% 
 leaflet() %>%
   addTiles() %>%
   addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 1) %>%
@@ -346,7 +364,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="80%" style="display: block; margin: auto;" />
 
 Drug-related crashes:
 
@@ -370,7 +388,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="80%" style="display: block; margin: auto;" />
 
 Young drivers:
 
@@ -396,7 +414,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="80%" style="display: block; margin: auto;" />
 
 ## Modeling
 
@@ -637,4 +655,4 @@ new_data %>%
          caption = "Full = correctly used seatbelt, partial = partially correctly used, none = no seatbelt.")
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="80%" style="display: block; margin: auto;" />

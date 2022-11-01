@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%", 
+  out.width = "80%", fig.align = "center",
   dpi = 500
 )
 ```
@@ -23,6 +23,8 @@ knitr::opts_chunk$set(
 
 [![Travis build
 status](https://travis-ci.com/s87jackson/rfars.svg?branch=master)](https://app.travis-ci.com/github/s87jackson/rfars)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/rfars)](https://cran.r-project.org/web/packages/rfars/index.html)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/rfars)](https://cran.r-project.org/package=rfars)
 
 <!-- badges: end -->
 
@@ -54,6 +56,12 @@ with:
 ``` r
 # install.packages("devtools")
 devtools::install_github("s87jackson/rfars")
+```
+
+or the CRAN stable release with:
+
+```r
+install.packages("rfars")
 ```
 
 Then load the required packages:
@@ -124,11 +132,15 @@ returns a simple tibble that can be easily piped into `ggplot()` to quickly
 visualize counts.
 
 ```{r, fig.height=2.2}
-counts(
+my_counts <- counts(
   myFARS,
   what = "crashes",
   interval = c("year")
-  ) %>%
+  ) 
+
+head(my_counts)
+
+my_counts %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
     geom_col() + 
     geom_label(vjust=1.2) +
@@ -210,7 +222,7 @@ counts(
   what = "crashes", 
   involved = "pedbike", 
   filterOnly = TRUE
-  ) %>%
+  ) %>% 
 leaflet() %>%
   addTiles() %>%
   addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 1) %>%
