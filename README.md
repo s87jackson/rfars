@@ -50,7 +50,15 @@ or the CRAN stable release with:
 install.packages("rfars")
 ```
 
-Then load the required packages:
+Then load rfars and some helpful packages:
+
+``` r
+library(rfars)
+library(dplyr)
+library(ggplot2)
+library(leaflet)
+library(leaflet.extras)
+```
 
 ## Getting and Using FARS Data
 
@@ -265,7 +273,7 @@ my_counts %>%
     labs(x=NULL, y=NULL, title = "Fatal Crashes in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
 counts(
@@ -279,7 +287,7 @@ counts(
     labs(x=NULL, y=NULL, title = "Fatalities in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
 counts(myFARS,
@@ -293,7 +301,7 @@ counts(myFARS,
     labs(x=NULL, y=NULL, title = "Rural Fatalities in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
 counts(myFARS,
@@ -308,7 +316,7 @@ counts(myFARS,
     labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Rural Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="80%" style="display: block; margin: auto;" />
 
 We can combine two `counts()` results to make a comparison. Here we
 compare the number of speeding-related fatalities in rural and urban
@@ -338,7 +346,7 @@ bind_rows(
     labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Virginia", fill=NULL)
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="80%" style="display: block; margin: auto;" />
 
 ## Mapping
 
@@ -364,7 +372,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="80%" style="display: block; margin: auto;" />
 
 Drug-related crashes:
 
@@ -388,7 +396,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-10-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="80%" style="display: block; margin: auto;" />
 
 Young drivers:
 
@@ -414,7 +422,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="80%" style="display: block; margin: auto;" />
 
 ## Modeling
 
@@ -655,4 +663,4 @@ new_data %>%
          caption = "Full = correctly used seatbelt, partial = partially correctly used, none = no seatbelt.")
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-14-1.png" width="80%" style="display: block; margin: auto;" />

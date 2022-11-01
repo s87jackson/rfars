@@ -64,9 +64,9 @@ or the CRAN stable release with:
 install.packages("rfars")
 ```
 
-Then load the required packages:
+Then load rfars and some helpful packages:
 
-```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
 library(rfars)
 library(dplyr)
 library(ggplot2)
