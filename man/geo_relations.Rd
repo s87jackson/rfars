@@ -14,6 +14,8 @@ A data frame with 3,142 rows and 6 variables:
   \item{state_name_full}{fully spelled and case-sensitive state name}
   \item{county_name_abbr}{abbreviated county name (usually minus the word 'County')}
   \item{county_name_full}{fully spelled and case-sensitive county name}
+  \item{region}{fully spelled out and case-sensitive NHTSA region and constituent states}
+  \item{region_abbr}{abbreviated NHTSA region (ne, mw, s, w)}
 }
 }
 \source{
