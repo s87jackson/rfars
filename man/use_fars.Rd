@@ -4,20 +4,19 @@
 \alias{use_fars}
 \title{(Internal) Use FARS data files}
 \usage{
-use_fars(prepared_dir = "FARS data", years = NULL, states = NULL)
+use_fars(dir, prepared_dir, cache)
 }
 \arguments{
-\item{prepared_dir}{Directory where prepared files are currently saved.}
+\item{dir}{Inherits from get_fars().}
 
-\item{years}{(Optional) Years to keep.}
+\item{prepared_dir}{Inherits from get_fars().}
 
-\item{states}{(Optional) States to keep.}
+\item{cache}{Inherits from get_fars().}
 }
 \value{
-Returns an object of class 'FARS' which is a list of five tibbles:
-    flat, multi_acc, multi_veh, multi_per, and events
+Returns an object of class 'FARS' which is a list of six tibbles:
+    flat, multi_acc, multi_veh, multi_per, events, and codebook.
 }
 \description{
-Combine multiple years of prepared FARS data stored in CSV files and bring
-    into the current environment.
+Compile multiple years of prepared FARS data.
 }
