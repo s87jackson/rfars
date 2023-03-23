@@ -2,7 +2,6 @@ inst/doc
 .Rproj.user
 /doc/
 /Meta/
-^R/prep_fars_2011\.R$
-^R/prep_fars_2013\.R$
 ^sticker\.R$
 ^sticker\.pptx$
+^old$

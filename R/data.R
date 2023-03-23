@@ -11,48 +11,143 @@
 #'   \item{state_name_full}{fully spelled and case-sensitive state name}
 #'   \item{county_name_abbr}{abbreviated county name (usually minus the word 'County')}
 #'   \item{county_name_full}{fully spelled and case-sensitive county name}
+#'   \item{region}{fully spelled out and case-sensitive NHTSA region and constituent states}
+#'   \item{region_abbr}{abbreviated NHTSA region (ne, mw, s, w)}
 #' }
 #' @source \url{https://www.census.gov/geographies/reference-files/2015/demo/popest/2015-fips.html}
 "geo_relations"
 
 
-#' FARS Variable Names
+
+#' FARS Data Sample (Virginia, 2019-2020)
 #'
-#' A dataset that translates machine-readable variable names to friendly names
+#' A toy dataset taken from the 'flat' element of a FARS data object (created by rfars::get_fars(years=2019:2020, states="VA")).
+#'    Less commonly used variables have been omitted to minimize memory requirements.
 #'
-#' @format A data frame with 468 rows and 4 columns
-#' @details See \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254}{2020 Analytical User’s Manual} for more information.
+#' @format A dataframe with 3,496 rows and 30 variables.
 #'
+#' @details See the fars_codebook for more information about each variable.
+#'
+#' @seealso [rfars::get_fars()], "fars_codebook"
+"fars_1920_va_flat"
+
+
+
+#' FARS Codebook
+#'
+#' A table describing each FARS variable name, value, and corresponding value label.
+#'
+#' @format A data frame with 132,454 rows and 8 variables:
 #' \describe{
-#'   \item{table}{the cleaned name of the data file}
-#'   \item{original}{the original variable name}
-#'   \item{friendly}{human-readable (friendly) version of the variable name}
-#'   \item{original_clean}{the cleaned name of the variable}
-#'  }
-#' @source \url{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254}
-"fars_varnames"
+#'    \item{source}{The source of the data (either FARS or GES/CRSS)}
+#'    \item{year}{Year of the data element definition.}
+#'    \item{file}{The data file that contains the given variable.}
+#'    \item{name_ncsa}{The original name of the data element.}
+#'    \item{name_rfars}{The modified data element name used in rfars}
+#'    \item{label}{The label of the data element itself (not its constituent values).}
+#'    \item{value}{The original value of the data element.}
+#'    \item{value_label}{The de-coded value label.}
+#'    }
+#'
+#' @details This codebook serves as a useful reference for researchers using FARS data.
+#'    The 'source' variable is intended to help combine with the gescrss_codebook.
+#'    Data elements are relatively stable but are occasionally discontinued, created anew,
+#'    or modified. The 'year' variable helps indicate the availability of data elements,
+#'    and differentiates between different definitions over time. Users should always
+#'    check for discontinuities when tabulating cases.
+#'
+#'    The 'file' variable indicates the file in which the given data element originally appeared. Here, files refers to
+#'    the SAS files downloaded from NHTSA. Most data elements stayed in their original
+#'    file. Those that did not were moved to the multi_ files. For example, 'weather'
+#'    originates from the 'accident' file, but appears in the multi_acc data object
+#'    created by rfars.
+#'
+#'    The 'name_ncsa' variable describes the data element's name as assigned
+#'    by NCSA (the organization within NHTSA that manages the database). To maximize
+#'    compatibility between years and ease of use for programming, 'name_rfars'
+#'    provides a cleaned naming convention (via janitor::clean_names()). Both
+#'    names are provided here to help users find the corresponding entry in
+#'    the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254}{Analytical User’s Manual}
+#'    but only the latter are used in the data produced by get_fars().
+#'
+#'    Each data element has a 'label', a more human-readable version of the
+#'    element names. For example, the label for 'road_fnc' is 'Roadway Function Class'.
+#'    These are not definitions but may provide enough information to help users
+#'    conduct their analysis. Consult the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254}{Analytical User’s Manual}
+#'    for definitions and further details.
+#'
+#'    Each data element has multiple 'value'-'value_label' pairs: 'value' represents
+#'    the original, non-human-readable value (usually a number), and 'value_label'
+#'    represents the corresponding text value. For example, for 'road_fnc', 1 (the 'value')
+#'    corresponds to 'Rural-Principal Arterial-Interstate' (the 'value_label'), 2 corresponds to
+#'    'Rural-Principal Arterial-Other', etc.
+#'
+#' @seealso "gescrss_codebook"
+"fars_codebook"
 
 
-#' Changes in FARS Data Elements by Data File and Year
+
+#' GESCRSS Data Sample (Midwest, 2019-2020)
 #'
-#' A dataset describing major changes to the FARS data system over time.
+#' A toy dataset taken from the 'flat' element of a GESCRSS data object (created by rfars::get_gescrss(years=2019:2020, regions="mw")).
+#'    Less commonly used variables have been omitted to minimize memory requirements.
 #'
-#' @format A data frame with 46 rows and 480 columns.
-#' @details See Appendix F of the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254}{2020 Analytical User’s Manual} for more information.
-#' @source \url{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254}
-"fars_data_changes"
+#' @format A dataframe with 44,956 rows and 29 variables.
+#'
+#' @details See the gescrss_codebook for more information about each variable.
+#'
+#' @seealso [rfars::get_gescrss()], "gescrss_codebook"
+"gescrss_1920_mw_flat"
 
 
-#' FARS data structure
+#' GESCRSS Codebook
 #'
-#' A dataset describing the structure and level of each raw FARS data file.
+#' A table describing each GESCRSS variable name, value, and corresponding value label.
 #'
-#' @format A data frame with 27 rows and 4 columns.
+#' @format A data frame with 85,907 rows and 8 variables:
 #' \describe{
-#'   \item{tablename}{the cleaned name of the data file}
-#'   \item{structure}{either one or multiple, indicating the number of rows per entity}
-#'   \item{level}{the entity level (crash, vehicle, or person) or the data file}
-#'   \item{year_created}{the first year that the data file was in use}
-#' }
-#' @source Page 19 of the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254}{2020 Analytical User’s Manual}
-"fars_data_structure"
+#'    \item{source}{The source of the data (either FARS or GESCRSS)}
+#'    \item{year}{Year of the data element definition.}
+#'    \item{file}{The data file that contains the given variable.}
+#'    \item{name_ncsa}{The original name of the data element.}
+#'    \item{name_rfars}{The modified data element name used in rfars}
+#'    \item{label}{The label of the data element itself (not its constituent values).}
+#'    \item{value}{The original value of the data element.}
+#'    \item{value_label}{The de-coded value label.}
+#'    }
+#'
+#' @details This codebook serves as a useful reference for researchers using GES/CRSS data.
+#'    The 'source' variable is intended to help combine with the fars_codebook.
+#'    Data elements are relatively stable but are occasionally discontinued, created anew,
+#'    or modified. The 'year' variable helps indicate the availability of data elements,
+#'    and differentiates between different definitions over time. Users should always
+#'    check for discontinuities when tabulating cases.
+#'
+#'    The 'file' variable indicates the file in which the given data element originally appeared. Here, files refers to
+#'    the SAS files downloaded from NHTSA. Most data elements stayed in their original
+#'    file. Those that did not were moved to the multi_ files. For example, 'weather'
+#'    originates from the 'accident' file, but appears in the multi_acc data object
+#'    created by rfars.
+#'
+#'    The 'name_ncsa' variable describes the data element's name as assigned
+#'    by NCSA (the organization within NHTSA that manages the database). To maximize
+#'    compatibility between years and ease of use for programming, 'name_rfars'
+#'    provides a cleaned naming convention (via janitor::clean_names()). Both
+#'    names are provided here to help users find the corresponding entry in
+#'    the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813236}{CRSS User Manual}
+#'    but only the latter are used in the data produced by get_gescrss().
+#'
+#'    Each data element has a 'label', a more human-readable version of the
+#'    element names. For example, the label for 'harm_ev' is 'First Harmful Event'.
+#'    These are not definitions but may provide enough information to help users
+#'    conduct their analysis. Consult the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813236}{CRSS User Manual}
+#'    for definitions and further details.
+#'
+#'    Each data element has multiple 'value'-'value_label' pairs: 'value' represents
+#'    the original, non-human-readable value (usually a number), and 'value_label'
+#'    represents the corresponding text value. For example, for 'harm_ev', 1 (the 'value')
+#'    corresponds to 'Rollover/Overturn' (the 'value_label'), 2 corresponds to
+#'    'Fire/Explosion', etc.
+#'
+#' @seealso "fars_codebook"
+"gescrss_codebook"

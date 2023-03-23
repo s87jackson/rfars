@@ -1,109 +1,62 @@
 #' (Internal) Use FARS data files
 #'
-#' Combine multiple years of prepared FARS data stored in CSV files and bring
-#'     into the current environment.
+#' Compile multiple years of prepared FARS data.
 #'
-#' @param prepared_dir Directory where prepared files are currently saved.
-#' @param years (Optional) Years to keep.
-#' @param states (Optional) States to keep.
+#' @param dir Inherits from get_fars().
+#' @param prepared_dir Inherits from get_fars().
+#' @param cache Inherits from get_fars().
 #'
-#' @return Returns an object of class 'FARS' which is a list of five tibbles:
-#'     flat, multi_acc, multi_veh, multi_per, and events
+#' @return Returns an object of class 'FARS' which is a list of six tibbles:
+#'     flat, multi_acc, multi_veh, multi_per, events, and codebook.
 
-use_fars <- function(prepared_dir="FARS data", years = NULL, states = NULL){
-
-  if(is.null(years)){
-      years <-
-        list.files(paste0(prepared_dir, "/prepared")) %>%
-        stringr::word(1, sep="_") %>%
-        unique()
-  }
-
-
-  # Optional state filter ----
-    if(!is.null(states)){
-      geo_filtered <-
-        rfars::geo_relations %>%
-        filter(.data$fips_state %in% states | .data$state_name_abbr %in% states | .data$state_name_full %in% states)
-      } else{
-        geo_filtered <- rfars::geo_relations
-      }
-
+use_fars <- function(dir, prepared_dir, cache){
 
 
   flat <-
 
     suppressWarnings({ #this is just for the small number of coercion errors with mutate_at(lat, lon, as.numeric)
 
-    suppressMessages({
+      suppressMessages({
 
-      data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "_flat.csv", recursive = TRUE)) %>%
-      mutate(year = stringr::word(.data$path, -1, sep = "/") %>% substr(1,4)) %>%
-      filter(.data$year %in% years) %>%
-      pull(.data$path) %>%
-      lapply(function(x){
-        readr::read_csv(x, show_col_types = FALSE,
-                        col_types = readr::cols(.default = readr::col_character())) %>%
-        mutate_at(c("lat", "lon"), as.numeric)
-        }) %>%
-      bind_rows() %>%
-      readr::type_convert() %>%
-      filter(.data$state %in% unique(geo_filtered$state_name_full))
+        data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "_flat.rds", recursive = TRUE)) %>%
+        mutate(year = stringr::word(.data$path, -1, sep = "/") %>% substr(1,4)) %>%
+        pull(.data$path) %>%
+        lapply(function(x){
+          readRDS(x) %>%
+          mutate_all(as.character)
+          }) %>%
+        bind_rows() %>%
+        readr::type_convert() %>%
+        distinct()
 
-    }) #suppressMessages
+      })
 
-    }) #suppressWarnings
+    })
 
 
-  multi_acc <-
-    data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "multi_acc.csv", recursive = TRUE)) %>%
-    mutate(year = stringr::word(.data$path, -1, sep = "/") %>% substr(1,4)) %>%
-    filter(.data$year %in% years) %>%
-    pull(.data$path) %>%
-    lapply(readr::read_csv, show_col_types = FALSE) %>%
-    bind_rows() %>%
-    as.data.frame() %>%
-    filter(.data$state %in% unique(geo_filtered$state_name_full))
+  multi_acc <- import_multi("multi_acc.rds", where = prepared_dir) #%>% distinct()
+  multi_veh <- import_multi("multi_veh.rds", where = prepared_dir) #%>% distinct()
+  multi_per <- import_multi("multi_per.rds", where = prepared_dir) #%>% distinct()
+  events    <- import_multi("_events.rds",   where = prepared_dir) #%>% distinct()
 
-  multi_veh <-
-    data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "multi_veh.csv", recursive = TRUE)) %>%
-    mutate(year = stringr::word(.data$path, -1, sep = "/") %>% substr(1,4)) %>%
-    filter(.data$year %in% years) %>%
-    pull(.data$path) %>%
-    lapply(readr::read_csv, show_col_types = FALSE) %>%
-    bind_rows() %>%
-    as.data.frame() %>%
-    filter(.data$state %in% unique(geo_filtered$state_name_full))
-
-  multi_per <-
-    data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "multi_per.csv", recursive = TRUE)) %>%
-    mutate(year = stringr::word(.data$path, -1, sep = "/") %>% substr(1,4)) %>%
-    filter(.data$year %in% years) %>%
-    pull(.data$path) %>%
-    lapply(readr::read_csv, show_col_types = FALSE) %>%
-    bind_rows() %>%
-    as.data.frame() %>%
-    filter(.data$state %in% unique(geo_filtered$state_name_full))
-
-  events <-
-    data.frame(path = list.files(prepared_dir, full.names = TRUE, pattern = "_events.csv", recursive = TRUE)) %>%
-    mutate(year = stringr::word(.data$path, -1, sep = "/") %>% substr(1,4)) %>%
-    filter(.data$year %in% years) %>%
-    pull(.data$path) %>%
-    lapply(readr::read_csv, show_col_types = FALSE) %>%
-    bind_rows() %>%
-    as.data.frame() %>%
-    filter(.data$state %in% unique(geo_filtered$state_name_full))
-
+  codebook <- readRDS(file = paste0(prepared_dir, "/codebook.rds")) #%>% distinct()
 
   out <- list(
-    "flat" = flat,
+    "flat"      = flat,
     "multi_acc" = multi_acc,
     "multi_veh" = multi_veh,
     "multi_per" = multi_per,
-    "events"    = events)
+    "events"    = events,
+    "codebook"  = codebook
+    )
 
   class(out) <- c(class(out), "FARS")
+
+  if(!is.null(cache)){
+    saveRDS(out,
+            gsub("//", "/", paste0(dir, "/", cache))
+            )
+    }
 
   return(out)
 

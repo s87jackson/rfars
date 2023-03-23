@@ -41,6 +41,19 @@ geo_relations <-
         select(fips_state = STATEFP10,
                fips_county = COUNTYFP10,
                fips_tract = TRACTCE10)
+    ) %>%
+  mutate(
+    region = case_when(
+      state_name_abbr %in% c("PA", "NJ", "NY", "NH", "VT", "RI", "MA", "ME", "CT") ~ "Northeast (PA, NJ, NY, NH, VT, RI, MA, ME, CT)",
+      state_name_abbr %in% c("OH", "IN", "IL", "MI", "WI", "MN", "ND", "SD", "NE", "IA", "MO", "KS") ~ "Midwest (OH, IN, IL, MI, WI, MN, ND, SD, NE, IA, MO, KS)",
+      state_name_abbr %in% c("MD", "DE", "DC", "WV", "VA", "KY", "TN", "NC", "SC", "GA", "FL", "AL", "MS", "LA", "AR", "OK", "TX") ~ "South (MD, DE, DC, WV, VA, KY, TN, NC, SC, GA, FL, AL, MS, LA, AR, OK, TX)",
+      state_name_abbr %in% c("MT", "ID", "WA", "OR", "CA", "NV", "NM", "AZ", "UT", "CO", "WY", "AK", "HI") ~ "West (MT, ID, WA, OR, CA, NV, NM, AZ, UT, CO, WY, AK, HI)"),
+    region_abbr = case_when(
+      region == "Northeast (PA, NJ, NY, NH, VT, RI, MA, ME, CT)" ~ "ne",
+      region == "Midwest (OH, IN, IL, MI, WI, MN, ND, SD, NE, IA, MO, KS)" ~ "mw",
+      region == "South (MD, DE, DC, WV, VA, KY, TN, NC, SC, GA, FL, AL, MS, LA, AR, OK, TX)" ~ "s",
+      region == "West (MT, ID, WA, OR, CA, NV, NM, AZ, UT, CO, WY, AK, HI)" ~ "w")
+
     )
 
 usethis::use_data(geo_relations, overwrite = TRUE)

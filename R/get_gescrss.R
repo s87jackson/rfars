@@ -1,16 +1,14 @@
-#' Get FARS data
+#' Get GES/CRSS data
 #'
-#' Bring FARS data into the current environment, whether by downloading it anew
+#' Bring GES/CRSS data into the current environment, whether by downloading it anew
 #'     or by using pre-existing files.
 #'
 #' @export
 #'
 #' @param years Years to be downloaded, in yyyy (character or numeric formats),
-#'     currently limited to 2011-2020 (the default).
-#' @param states States to keep. Leave as NULL (the default) to keep
-#'     all states. Can be specified as full state name (e.g. "Virginia"),
-#'     abbreviation ("VA"), or FIPS code (51).
-#' @param dir Directory in which to search for or save a 'FARS data' folder. If
+#'     currently limited to 2011-2020.
+#' @param regions (Optional) Regions to keep: mw=midwest, ne=northeast, s=south, w=west.
+#' @param dir Directory in which to search for or save a 'GESCRSS data' folder. If
 #'     NULL (the default), files are downloaded and unzipped to temporary
 #'     directories and prepared in memory.
 #' @param proceed Logical, whether or not to proceed with downloading files without
@@ -19,19 +17,20 @@
 #'    exists in 'dir' it will be returned; if not, an RDS file of this name will be
 #'    saved in 'dir' for quick use in subsequent calls.
 #'
-#' @return A FARS data object (list of six tibbles: flat, multi_acc,
-#'     multi_veh, multi_per, events, and codebook), described below.
+#' @return A GESCRSS data object (a list with six tibbles: flat, multi_acc,
+#'     multi_veh, multi_per, events, and codebook).
 #'
-#' @details This function downloads raw data from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/}{NHTSA}.
-#'    If no directory (dir) is specified, SAS files are downloaded into a
+#' @details
+#'    This function downloads raw data from the GES and CRSS crash databases.
+#'    If no directory (dir) is specified, raw CSV files are downloaded into a
 #'    tempdir(), where they are also prepared, combined, and then brought into
 #'    the current environment. If you specify a directory (dir), the function will
-#'    look there for a 'FARS data' folder. If not found, it will be created and
+#'    look there for a 'GESCRSS data' folder. If not found, it will be created and
 #'    populated with raw and prepared SAS and RDS files. If the directory is found, the
 #'    function makes sure all requested years are present and asks permission
 #'    to download any missing years.
 #'
-#'    The object returned is a list with class 'FARS'. It contains six tibbles:
+#'    The object returned is a list with class 'GESCRSS'. It contains six tibbles:
 #'    flat, multi_acc, multi_veh, multi_per, events, and codebook.
 #'
 #'    Flat files are wide-formatted and presented at the person level.
@@ -52,23 +51,31 @@
 #'    The events tibble provides a sequence of events for all vehicles involved
 #'    in the crash. See Crash Sequences vignette for an example.
 #'
-#'    Finally, the codebook tibble serves as a searchable codebook for all files of any given year.
+#'    The codebook tibble serves as a searchable codebook for all files of any given year.
 #'
-#'    Consult the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254}{Analytical User’s Manual}
+#'    Consult the GES
+#'    and \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813236}{CRSS} User Manuals
 #'    for more information.
+#'
+#'    Regions are as follows:
+#'       mw = Midwest   = OH, IN, IL, MI, WI, MN, ND, SD, NE, IA, MO, KS
+#'       ne = Northeast = PA, NJ, NY, NH, VT, RI, MA, ME, CT
+#'       s  = South     = MD, DE, DC, WV, VA, KY, TN, NC, SC, GA, FL, AL, MS, LA, AR, OK, TX
+#'       w  = West      = MT, ID, WA, OR, CA, NV, NM, AZ, UT, CO, WY, AK, HI
+#'
 #'
 #' @examples
 #' \donttest{
-#' myFARS <- get_fars(years = 2019:2020, states = "51")
-#' myFARS <- get_fars(years = 2020, states = "NC")
+#' myGESCRSS <- get_gescrss(years = 2019:2020, regions = "s")
+#' myGESCRSS <- get_gescrss(years = 2020)
 #' }
 
-get_fars <- function(years   = 2011:2020,
-                     states  = NULL,
-                     dir     = NULL,
-                     proceed = FALSE,
-                     cache   = NULL
-                     ){
+get_gescrss <- function(years     = 2011:2020,
+                        regions   = c("mw", "ne", "s", "w"),
+                        dir       = NULL,
+                        proceed   = FALSE,
+                        cache     = NULL
+                        ){
 
 
   # Check for cached RDS file in dir
@@ -86,12 +93,12 @@ get_fars <- function(years   = 2011:2020,
   # Check years ----
     ymax <- max(as.numeric(years), na.rm = TRUE)
     ymin <- min(as.numeric(years), na.rm = TRUE)
-    if(ymin < 2011) stop("Data not yet available prior to 2011.")
-    if(ymax > 2020) stop("Data not yet available beyond 2020.")
+    if(ymin < 2011) stop("Data not available prior to 2011.")
+    if(ymax > 2020) stop("Data not available beyond 2020.")
 
 
-  # Check states ----
-    validate_states(states)
+  # Check regions
+    if(any(!regions %in% c("mw", "ne", "s", "w"))) stop("Specify regions as: mw (midwest), ne (northeast), s (south), w (west).")
 
 
   # Download data without saving or checking hard drive ----
@@ -101,7 +108,7 @@ get_fars <- function(years   = 2011:2020,
       dest_files <-
         tempdir() %>%
         stringr::str_replace_all(stringr::fixed("\\"), "/") %>%
-        stringr::str_c("/FARS data")
+        stringr::str_c("/GESCRSS data")
 
       dest_raw   <- paste0(dest_files, "/raw")
       dest_prepd <- paste0(dest_files, "/prepd")
@@ -110,41 +117,43 @@ get_fars <- function(years   = 2011:2020,
       dir.create(dest_raw,   showWarnings = FALSE)
       dir.create(dest_prepd, showWarnings = FALSE)
 
-      download_fars(years = years, dest_raw = dest_raw, dest_prepd = dest_prepd, states=states)
+      download_gescrss(years = years, dest_raw = dest_raw, dest_prepd = dest_prepd, regions = regions)
 
-      return(use_fars(dir = dir, prepared_dir = dest_prepd, cache = cache))
+      return(use_gescrss(dir = dir, prepared_dir = dest_prepd, cache = cache))
 
     }
 
 
   # Look for pre-existing data ----
 
-    if(!is.null(dir)){
+    if(!is.null(dir)){ #...in this folder
+
+      # dir = getwd()
 
       my_dir <-
         data.frame(path=list.dirs(dir)) %>%
         mutate(folder = stringr::word(.data$path, start = -1, end = -1, sep = "/")) %>%
-        filter(.data$folder == "FARS data")
+        filter(.data$folder == "GESCRSS data")
 
-      dest_files <- paste0(dir, "/FARS data")
-      dest_raw   <- paste0(dir, "/FARS data/raw")
-      dest_prepd <- paste0(dir, "/FARS data/prepd")
+      dest_files <- paste0(dir, "/GESCRSS data")
+      dest_raw   <- paste0(dir, "/GESCRSS data/raw")
+      dest_prepd <- paste0(dir, "/GESCRSS data/prepd")
 
 
       if(nrow(my_dir)==0){ ## No data found ----
 
         if(!proceed){
-          x <- readline("We will now download several files from https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/ \nProceed? (Y/N) \n")
-          if(!(x %in% c("y", "Y"))) stop(message("Download cancelled.\n"))
+          x <- readline("We will now download several files from https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/  \nProceed? (Y/N) \n")
+          if(!(x %in% c("y", "Y"))) return(message("Download cancelled.\n"))
         }
 
         dir.create(dest_files, showWarnings = FALSE)
         dir.create(dest_raw,   showWarnings = FALSE)
         dir.create(dest_prepd, showWarnings = FALSE)
 
-        download_fars(years = years, dest_raw = dest_raw, dest_prepd = dest_prepd, states = states)
+        download_gescrss(years = years, dest_raw = dest_raw, dest_prepd = dest_prepd, regions = regions)
 
-      return(use_fars(dir = dir, prepared_dir = dest_prepd, cache = cache))
+        return(use_gescrss(dir = dir, prepared_dir = dest_prepd, cache = cache))
 
       }
 
@@ -155,7 +164,7 @@ get_fars <- function(years   = 2011:2020,
        check_dir <- paste0(my_dir$path, "/prepd")
 
        # Check years
-         files_found <- list.files(check_dir, pattern = "_flat.rds")
+         files_found <- list.files(check_dir, pattern = "_flat.csv")
          years_found <- stringr::word(files_found, sep = "_")
          years_needed  <- setdiff(years, years_found)
 
@@ -169,26 +178,27 @@ get_fars <- function(years   = 2011:2020,
                 "\nEnter '1' to download them or any other key to skip") %>%
               readline()
             if(x == "1"){
-              download_fars(years = years_needed, dest_raw = dest_raw, dest_prepd = dest_prepd, states=states)
+              download_gescrss(years = years, dest_raw = dest_raw, dest_prepd = dest_prepd, regions = regions)
             } else{
               stop("Download cancelled.\n")
             }
            } else{
              message(paste0("Downloading years ", paste(years_needed, collapse = ", ")))
-             download_fars(years = years_needed, dest_raw = dest_raw, dest_prepd = dest_prepd, states=states)
+             download_gescrss(years = years_needed, dest_raw = dest_raw, dest_prepd = dest_prepd, regions = regions)
            }
          }
 
-      return(use_fars(dir = dir, prepared_dir = dest_prepd, cache = cache))
+         return(use_gescrss(dir = dir, prepared_dir = dest_prepd, cache = cache))
 
 
     }
 
 
     if(nrow(my_dir)>1){ #Ambiguous
-      stop("Multiple 'FARS data' folders found. Please re-specify the 'dir' parameter.")
+      stop("Multiple 'GESCRSS data' folders found. Please specify using the 'dir' parameter.")
     }
 
     }
+
 
 }
