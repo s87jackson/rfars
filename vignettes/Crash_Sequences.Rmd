@@ -41,14 +41,16 @@ library(tidyr)
 Below we get one year of data for one state, Virginia.
 
 ```{r, warning=FALSE}
-myFARS <- get_fars(years = 2020, states = "VA")
+mydata <- rfars::get_gescrss(years=2019:2020, regions = "s")
+
+my_events <- mydata$events
 ```
 
 The **Vsoe** data is stored in the `events` tibble of the object returned by
-`get_fars()`. Here we see the top 10 individual events:
+`get_gescrss()`. Here we see the top 10 individual events:
 
 ```{r}
-myFARS$events %>%
+my_events %>%
   group_by(soe) %>% summarize(n=n()) %>%
   arrange(desc(n)) %>%
   slice(1:10) %>%
@@ -61,7 +63,7 @@ myFARS$events %>%
 We can also see the top 10 most common sequences:
 
 ```{r}
-myFARS$events %>%
+my_events %>%
   select(-aoi) %>%
   pivot_wider(names_from = "veventnum", values_from = "soe", values_fill = "x",
               names_prefix = "event") %>%
@@ -85,8 +87,8 @@ that we have added a state labelled 'Pre-Crash' to help account for sequences
 with just one event.
 
 ```{r, fig.height=7, fig.width=10}
-myFARS$events %>%
-  group_by(year, state, st_case, veh_no) %>%
+my_events %>%
+  group_by(year, casenum, veh_no) %>%
   dplyr::rename(event_to = soe) %>%
   mutate(event_from = data.table::shift(event_to, fill = "Pre-Crash")) %>%
   select(event_from, event_to) %>%
