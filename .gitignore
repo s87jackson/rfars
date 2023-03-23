@@ -5,6 +5,7 @@ inst/doc
 ^sticker\.R$
 ^sticker\.pptx$
 ^old$
+<<<<<<< HEAD
 FARS data
 GESCRSS data
 .RData
@@ -13,3 +14,5 @@ GESCRSS data
 myFARS.rds
 myGESCRSS.rds
 old
+=======
+>>>>>>> 9d53c2c4adb645e269f60cc5be2df4a50ab66200
