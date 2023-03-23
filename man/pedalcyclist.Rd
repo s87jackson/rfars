@@ -4,10 +4,10 @@
 \alias{pedalcyclist}
 \title{(Internal) Find crashes involving pedalcyclists}
 \usage{
-pedalcyclist(FARS)
+pedalcyclist(df)
 }
 \arguments{
-\item{FARS}{The FARS data object to be searched.}
+\item{df}{The FARS or GESCRSS data object to be searched.}
 }
 \description{
 These internal functions take the FARS object created by use_fars and look
