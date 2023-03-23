@@ -4,16 +4,22 @@
 ^README\.Rmd$
 [.]xlsx$
 ^FARS data$
+^GESCRSS data$
 ^test environment$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
 ^doc$
 ^Meta$
-^R/prep_fars_2011\.R$
-^R/prep_fars_2013\.R$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
 ^\.travis\.yml$
 ^sticker\.R$
 ^sticker\.pptx$
+^myFARS.rds$
+^myGESCRSS.rds$
+^\.RDataTmp$
+/old/
+/vignettes/in_development/
+^old$
+^vignettes/in_development$

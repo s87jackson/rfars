@@ -5,38 +5,37 @@
 \title{Generate counts}
 \usage{
 counts(
-  FARS,
-  what = "crashes",
-  years = NULL,
-  interval = "year",
-  where = NULL,
-  who = NULL,
+  df,
+  what = c("crashes", "fatalities", "injuries", "people")[1],
+  interval = c("year", "month")[1],
+  where = list(states = "all", region = c("all", "ne", "mw", "s", "w")[1], urb = c("all",
+    "rural", "urban")[1]),
+  who = c("all", "drivers", "passengers", "bicyclists", "pedestrians")[1],
   involved = NULL,
   filterOnly = FALSE
 )
 }
 \arguments{
-\item{FARS}{The input FARS object.}
+\item{df}{The input data object (must be of class 'FARS' or 'GESCRSS' as is produced by get_fars() and get_gescrss()).}
 
-\item{what}{What to count: crashes, fatalities, or people involved.}
+\item{what}{What to count: crashes (the default), fatalities, injuries, or people involved.}
 
-\item{years}{The years over which to count.}
+\item{interval}{The interval in which to count: months or years (the default).}
 
-\item{interval}{The interval in which to count: months or years.}
+\item{where}{Where to count. Must be a list with any of the elements:
+states (can be 'all', full or abbreviated state names, or FIPS codes),
+region ('all', 'ne', 'mw', 's', or 'w'; short for northeast, midwest, south, and west),
+urb ('all', 'rural', or 'urban'). Any un-specified elements are set to 'all' by default.}
 
-\item{where}{Where to count: can specify rural/urban and/or state (e.g.,
-where = "rural Virginia", where = "rural", where = "North Carolina")}
+\item{who}{The type of person to count: 'all' (default) 'drivers', 'passengers', 'pedestrians', or 'bicyclists'.}
 
-\item{who}{The type of person to count: driver, passenger, pedestrian,
-bicyclist, or motorcyclist.}
+\item{involved}{Factors involved with the crash. Can be any of: 'distracted
+driver', 'drowsy driver', 'police pursuit', 'motorcycle', 'pedalcyclist',
+'bicyclist', 'pedestrian', 'pedbike', 'young driver', 'older driver', 'speeding',
+'alcohol', 'drugs', 'hit and run', 'roadway departure', 'rollover', or 'large
+trucks'. NULL by default.}
 
-\item{involved}{Factors involved with the crash. Can be any of: distracted
-driver, drowsy driver, police pursuit, motorcycle, pedalcyclist,
-bicyclist, pedestrian, pedbike, young driver, older driver, speeding,
-alcohol, drugs, hit and run, roadway departure, rollover, or large
-trucks.}
-
-\item{filterOnly}{Logical, whether to only filter data or reduce to counts.}
+\item{filterOnly}{Logical, whether to only filter data or reduce to counts (FALSE by default).}
 }
 \value{
 Either a filtered tibble (filterOnly=TRUE) or a tibble of counts
@@ -45,23 +44,16 @@ Either a filtered tibble (filterOnly=TRUE) or a tibble of counts
     parameters.
 }
 \description{
-Use FARS data to generate commonly requested counts.
+Use FARS or GES/CRSS data to generate commonly requested counts.
 }
 \examples{
 \donttest{
-get_fars(years = 2020, states="Virginia") \%>\%
-   counts(
-     where = "rural"
-     )
 
-get_fars(years = 2020, states="FL") \%>\%
-   counts(
-     involved = "older driver"
-     )
+get_fars(years = 2020) \%>\%
+   counts(where = list(states="Virginia", urb="rural"))
 
-get_fars(years = 2020, states = "21") \%>\%
-   counts(
-     involved = c("young driver", "alcohol")
-     )
+get_fars(years = 2020) \%>\%
+   counts(where=list(states="FL"), involved = "older driver")
+
 }
 }

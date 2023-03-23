@@ -4,10 +4,10 @@
 \alias{distracted_driver}
 \title{(Internal) Find crashes involving distracted drivers}
 \usage{
-distracted_driver(FARS)
+distracted_driver(df)
 }
 \arguments{
-\item{FARS}{The FARS data object to be searched.}
+\item{df}{The FARS or GESCRSS data object to be searched.}
 }
 \description{
 These internal functions take the FARS object created by use_fars and look

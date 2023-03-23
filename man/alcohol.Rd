@@ -4,10 +4,10 @@
 \alias{alcohol}
 \title{(Internal) Find crashes involving alcohol}
 \usage{
-alcohol(FARS)
+alcohol(df)
 }
 \arguments{
-\item{FARS}{The FARS data object to be searched.}
+\item{df}{The FARS or GESCRSS data object to be searched.}
 }
 \description{
 These internal functions take the FARS object created by use_fars and look
