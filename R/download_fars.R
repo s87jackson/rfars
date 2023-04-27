@@ -43,6 +43,21 @@ download_fars <- function(years,
       utils::unzip(dest_zip, exdir = dest_raw_y, overwrite = TRUE)
       unlink(dest_zip)
 
+    # 2020 file structure change
+      if(y==2020){
+
+        from2020 <- paste0(dest_raw_y, "/FARS2020NationalSAS") %>% list.files(full.names = T, recursive = T)
+
+        to2020 <- gsub(x = from2020, pattern = "/FARS2020NationalSAS", replacement = "")
+
+        dir.create(paste0(dest_raw_y, "/format-32"))
+        dir.create(paste0(dest_raw_y, "/format-64"))
+
+        file.copy(from2020, to2020)
+
+        unlink(paste0(dest_raw_y, "/FARS2020NationalSAS"), recursive = T)
+
+      }
 
     # Get list of raw data files
       rawfiles <-

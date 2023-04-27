@@ -14,10 +14,22 @@ use_imp <- function(df, original, imputed, show=FALSE){
 
   if(show) df %>% group_by({{original}}, {{imputed}}) %>% filter({{original}} != {{imputed}}) %>% summarize(n=n()) %>% print()
 
-  df %>%
-    mutate({{original}} := ifelse({{original}} != {{imputed}}, {{imputed}}, {{original}})) %>%
-    select(-{{imputed}}) %>%
-    return()
+  a <- df[[original]]
+  b <- df[[imputed]]
+
+  c <- ifelse(a != b, b, a)
+
+  out <- df
+  out[[original]] <- c
+  out <- select(out, -all_of(imputed))
+
+  return(out)
+
+  #
+  # df %>%
+  #   mutate({{original}} := ifelse({{original}} != {{imputed}}, {{imputed}}, {{original}})) %>%
+  #   select(-{{imputed}}) %>%
+  #   return()
 
 }
 
