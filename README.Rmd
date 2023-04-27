@@ -20,40 +20,37 @@ knitr::opts_chunk$set(
 # rfars <img src="man/figures/logo.svg" align="right" alt="" width="120" />
 
 <!-- badges: start -->
-
-[![Travis build
-status](https://travis-ci.com/s87jackson/rfars.svg?branch=master)](https://app.travis-ci.com/github/s87jackson/rfars)
-[![](https://cranlogs.r-pkg.org/badges/grand-total/rfars)](https://cran.r-project.org/web/packages/rfars/index.html)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/rfars)](https://cran.r-project.org/package=rfars)
-
+[![R CMD Check](https://github.com/s87jackson/rfars/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/s87jackson/rfars/actions/workflows/R-CMD-check.yaml)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/rfars)](https://cran.r-project.org/web/packages/rfars/index.html)
 <!-- badges: end -->
 
-The goal of `rfars` is to simplify the process of analyzing FARS data. FARS
-stands for [Fatality Analysis Reporting
-System](https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars),
-the census of fatal crashes in the United States maintained by the [National
-Highway Traffic Safety Administration](https://www.nhtsa.gov/). The [Fatality
-and Injury Reporting System Tool](https://cdan.dot.gov/query) allows users to
-generate queries, and can produce simple tables and graphs. This suffices for
+The goal of `rfars` is to facilitate transportation safety analysis by
+simplifying the process of extracting data from official crash databases. 
+The [National Highway Traffic Safety Administration](https://www.nhtsa.gov/) collects and 
+publishes a census of fatal crashes in the 
+[Fatality Analysis Reporting System](https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars) 
+and a sample of fatal and non-fatal crashes in the
+[Crash Report Sampling System](https://www.nhtsa.gov/crash-data-systems/crash-report-sampling-system) 
+(an evolution of the [General Estimates System](https://www.nhtsa.gov/national-automotive-sampling-system/nass-general-estimates-system)).
+The [Fatality and Injury Reporting System Tool](https://cdan.dot.gov/query) allows users to 
+query these databases, and can produce simple tables and graphs. This suffices for
 simple analysis, but often leaves researchers wanting more. Digging any deeper,
 however, involves a time-consuming process of downloading annual ZIP files and
-attempting to stitch them together - after first combing through the immense
-[data
-dictionary](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254)
-to determine the required variables and table names. `rfars` allows users to
-download FARS data back to 2015 with just one line of code. The result is a
-full, rich dataset ready for mapping, modeling, and other downstream analysis.
-Helper functions are also provided to produce common counts and comparisons.
+attempting to stitch them together - after first combing through immense data dictionaries 
+to determine the required variables and table names. 
 
-A companion package `rfarsplus` (currently in development) will provide exposure
-data and facilitate the calculation of various rates.
+`rfars` allows users to download FARS and GES/CRSS data back to 2011 with just 
+one line of code. The result is a full, rich dataset ready for mapping, modeling, 
+and other downstream analysis. Helper functions are also provided to produce 
+common counts and comparisons.
 
 ## Installation
 
 You can install the latest version of `rfars` from [GitHub](https://github.com/)
 with:
 
-``` r
+```r
 # install.packages("devtools")
 devtools::install_github("s87jackson/rfars")
 ```
@@ -76,7 +73,8 @@ library(leaflet.extras)
 
 ## Getting and Using FARS Data
 
-Use the `get_fars()` function to bring FARS data into the current environment. 
+Use the `get_fars()` function to bring FARS data into the current environment and optionally
+save an RDS file for future use (faster than downloading anew). 
 This is done by (a) downloading the data to a temporary directory, (b) downloading
 to a permanent directory, or (c) importing from a permanent directory. After 
 data is downloaded to a permanent directory, the function will look there rather
@@ -85,12 +83,12 @@ R will ask your permission to download the missing data.
 
 Here we get three years of data for Virginia:
 
-```{r, warning=FALSE}
-myFARS <- get_fars(years = 2018:2020, states = "VA")
+```{r}
+myFARS <- get_fars(years = 2019:2020, states = "VA")
 ```
 
-This returns a 'FARS' object: a list with five tibbles: `flat`, `multi_acc`, 
-`multi_veh`, `multi_per`, and `events`.
+This returns a 'FARS' object: a list with six tibbles: `flat`, `multi_acc`, 
+`multi_veh`, `multi_per`, `events`, and `codebook`.
 
 The `flat` tibble contains all variables for which there is just one value per
 crash ("accident"), vehicle, or person (e.g., weather conditions, travel speed, 
@@ -101,32 +99,64 @@ which is a combination of `year` and `st_case`. Note that `st_case` is not
 unique across years, for example, `st_case` 510001 will appear in each year. 
 The `id` variable attempts to avoid this issue.
 
+Please review the [FARS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813417) for more information.
+
+```{r}
+glimpse(myFARS$flat)
+```
+
 The `multi_` tibbles contain those variables for which there may be a varying
 number of values for any entity (e.g., driver impairments, vehicle events,
 weather conditions at time of crash). Each tibble has the requisite data
 elements corresponding to the entity: `multi_acc` includes `st_case` and `year`,
 `multi_veh` adds `veh_no` (vehicle number), and `multi_per` adds `per_no`
-(person number).
+(person number). 
+
+The top three name-value pairs of each tibble are shown below.
+
+```{r}
+myFARS$multi_acc %>% group_by(name, value) %>% summarize(n=n()) %>% 
+  arrange(name, desc(n)) %>% mutate(rank=row_number()) %>%
+  filter(rank<=3) %>%
+  select(-rank)
+
+myFARS$multi_veh %>% group_by(name, value) %>% summarize(n=n()) %>% 
+  arrange(name, desc(n)) %>% mutate(rank=row_number()) %>%
+  filter(rank<=3) %>%
+  select(-rank)
+
+myFARS$multi_per %>% group_by(name, value) %>% summarize(n=n()) %>% 
+  arrange(name, desc(n)) %>% mutate(rank=row_number()) %>%
+  filter(rank<=3) %>%
+  select(-rank)
+```
+
 
 The `events` tibble provides a sequence of numbered events for each vehicle in
 each crash.
 
 ```{r}
-glimpse(myFARS)
+head(myFARS$events, 10)
 ```
 
-You can review the list of variables to help guide your analysis with:
 
-``` r
-View(fars_varnames)
+The `codebook` tibble provides a searchable codebook for the data, useful if you
+know what concept you're looking for but not the variable that describes it.
+
+```{r}
+# View(myFARS$codebook)
+
+myFARS$codebook %>%
+  filter(name_rfars == "lgt_cond") %>% distinct() %>% head(10)
 ```
 
-## Counts
+
+### Counts
 
 A first step in many transportation safety analyses involves counting the number
 of relevant crashes, fatalities, or people involved. `counts()` lets users
 specify *what* to count, *where* to count them (rural/urban and/or in specified
-states), *who* to include, which *years* to include and an aggregation
+states or regions), *who* to include, which *years* and an aggregation
 *interval* (annually or monthly), and factors *involved* in the crash. It
 returns a simple tibble that can be easily piped into `ggplot()` to quickly
 visualize counts.
@@ -162,7 +192,7 @@ counts(
 ```{r, fig.height=2.2}
 counts(myFARS,
        what = "fatalities",
-       where = "rural",
+       where = list(urb="rural"),
        interval = c("year")
        ) %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
@@ -174,7 +204,7 @@ counts(myFARS,
 ```{r, fig.height=2.2}
 counts(myFARS,
        what = "fatalities",
-       where = "rural",
+       where = list(urb="rural"),
        interval = c("year"),
        involved = "speeding"
        ) %>%
@@ -188,30 +218,20 @@ We can combine two `counts()` results to make a comparison. Here we compare the
 number of speeding-related fatalities in rural and urban Virginia:
 
 ```{r, fig.height=2.4}
-bind_rows(
-  counts(myFARS,
-       what = "fatalities",
-       where = "rural",
-       interval = c("year"),
-       involved = "speeding"
-       ) %>%
-    mutate(where = "Rural"),
-  counts(myFARS,
-       what = "fatalities",
-       where = "urban",
-       interval = c("year"),
-       involved = "speeding"
-       ) %>%
-    mutate(where = "Urban")
-    ) %>%
+compare_counts(
+  df = myFARS,
+  what = "fatalities",
+  where = list(urb="rural"),
+  where2 = list(urb="urban")
+  ) %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
     geom_col() + 
     geom_label(vjust=1.2) +
-    facet_wrap(.~where) +
+    facet_wrap(.~urb) +
     labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Virginia", fill=NULL)
 ```
 
-## Mapping
+### Mapping
 
 We can take advantage of having access to the full data with maps. Here we map
 pedestrian and bicyclist fatalities in Virginia:
@@ -273,7 +293,7 @@ leaflet() %>%
     fillOpacity = 0.7, group = "Crash Locations") 
 ```
 
-## Modeling
+### Modeling
 
 Having access to the full dataset also allows us to develop statistical models.
 Here we fit a simple model of injury severity as a function of age and restraint
@@ -287,6 +307,245 @@ seat belts are not used properly.
 
 model_data <-
   myFARS$flat %>%
+  filter(rest_use %in% c("Lap Belt Only Used",
+                         "Shoulder Belt Only Used",
+                         "None Used / Not Applicable",
+                         "None Used/Not Applicable",
+                         "Shoulder and Lap Belt Used"),
+         per_typ %in% c("Driver of a Motor Vehicle In-Transport",
+                        "Passenger of a Motor Vehicle In-Transport")
+         ) %>%
+  mutate(
+    rest_use = case_when(
+      rest_use %in% c("Lap Belt Only Used", "Shoulder Belt Only Used") ~ "Partial",
+      rest_use %in% c("None Used / Not Applicable", "None Used/Not Applicable") ~ "None",
+      rest_use %in% c("Shoulder and Lap Belt Used") ~ "Full",
+      TRUE ~ "Unknown"
+      ) %>%
+      as.factor() %>%
+      relevel(ref = "Full"),
+    kabco = case_when(
+      inj_sev == "Fatal Injury (K)" ~ 4,
+      inj_sev %in% c("Suspected Serious Injury (A)", 
+                     "Suspected Serious Injury(A)") ~ 3,
+      inj_sev %in% c("Suspected Minor Injury (B)", 
+                     "Suspected Minor Injury(B)") ~ 2,
+      inj_sev == "Possible Injury (C)" ~ 1,
+      inj_sev == "No Apparent Injury (O)" ~ 0,
+      TRUE ~ as.numeric(NA)
+      ),
+    age_n = gsub("\\D+","", age) %>% as.numeric()) 
+
+my_model <- lm(kabco ~ age_n + rest_use, data = model_data) 
+
+stargazer::stargazer(my_model, type = "html")
+```
+
+
+```{r}
+new_data <- expand.grid(
+  age_n = c(20, 60),
+  rest_use = factor(c("Full", "Partial", "None"), levels = c("Full", "Partial", "None"), ordered = TRUE) )
+
+new_data %>%
+  mutate(pred = predict(my_model, newdata = new_data),
+         age = paste0(age_n, " yrs")) %>%
+  ggplot(aes(x=rest_use, y=pred)) +
+    geom_col() +
+    facet_wrap(.~age) +
+    scale_y_continuous(
+      limits = c(0,4), breaks = 0:4, labels = c("O", "C", "B", "A", "K"), expand = expansion()) +
+    theme(panel.grid = element_blank(),
+          panel.grid.major.y = element_line(c("black")),
+          axis.ticks = element_blank()) +
+    labs(x="", y="", title = "Predicted Injury Severity by Age and Restraint Use",
+         caption = "Full = correctly used seatbelt, partial = partially correctly used, none = no seatbelt.")
+```
+
+```{r, include=FALSE}
+#unlink(paste0(getwd(),"/FARS data"), recursive = TRUE)
+```
+
+
+## Getting and Using GES/CRSS Data
+
+Use the `get_grscrss()` function to bring GES/CRSS data into the current environment and optionally
+save an RDS file for future use (faster than downloading anew). 
+This is done by (a) downloading the data to a temporary directory, (b) downloading
+to a permanent directory, or (c) importing from a permanent directory. After 
+data is downloaded to a permanent directory, the function will look there rather
+than downloading the data again. If a year of data is requested but not found,
+R will ask your permission to download the missing data. 
+
+Here we get three years of data for the southern region:
+
+```{r}
+myGESCRSS <- get_gescrss(years = 2019:2020, regions = "s")
+```
+
+This returns a 'GESCRSS' object: a list with six tibbles: `flat`, `multi_acc`, 
+`multi_veh`, `multi_per`, `events`, and `codebook`.
+
+The `flat` tibble contains all variables for which there is just one value per
+crash ("accident"), vehicle, or person (e.g., weather conditions, travel speed, 
+age). Each row corresponds to a person involved in a crash. As there may be 
+multiple people and/or vehicles involved in one crash, some variable-values are 
+repeated within a crash or vehicle. Each crash is uniquely identified with `id`,
+which is a combination of `year` and `casenum`. 
+
+Please review the [CRSS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813436) for more information.
+
+```{r}
+glimpse(myGESCRSS$flat)
+```
+
+The `multi_` tibbles contain those variables for which there may be a varying
+number of values for any entity (e.g., driver impairments, vehicle events,
+weather conditions at time of crash). Each tibble has the requisite data
+elements corresponding to the entity: `multi_acc` includes `st_case` and `year`,
+`multi_veh` adds `veh_no` (vehicle number), and `multi_per` adds `per_no`
+(person number). 
+
+The top three name-value pairs of each tibble are shown below.
+
+```{r}
+myGESCRSS$multi_acc %>% group_by(name, value) %>% summarize(n=n()) %>% 
+  arrange(name, desc(n)) %>% mutate(rank=row_number()) %>%
+  filter(rank<=3) %>%
+  select(-rank)
+
+myGESCRSS$multi_veh %>% group_by(name, value) %>% summarize(n=n()) %>% 
+  arrange(name, desc(n)) %>% mutate(rank=row_number()) %>%
+  filter(rank<=3) %>%
+  select(-rank)
+
+myGESCRSS$multi_per %>% group_by(name, value) %>% summarize(n=n()) %>% 
+  arrange(name, desc(n)) %>% mutate(rank=row_number()) %>%
+  filter(rank<=3) %>%
+  select(-rank)
+```
+
+
+The `events` tibble provides a sequence of numbered events for each vehicle in
+each crash.
+
+```{r}
+head(myGESCRSS$events, 10)
+```
+
+
+The `codebook` tibble provides a searchable codebook for the data, useful if you
+know what concept you're looking for but not the variable that describes it.
+
+```{r}
+# View(myGESCRSS$codebook)
+
+myGESCRSS$codebook %>%
+  filter(name_rfars == "lgt_cond") %>% distinct() %>% head(10)
+```
+
+
+### Counts
+
+A first step in many transportation safety analyses involves counting the number
+of relevant crashes, fatalities, or people involved. `counts()` lets users
+specify *what* to count, *where* to count them (rural/urban and/or in specified
+states or regions), *who* to include, which *years* and an aggregation
+*interval* (annually or monthly), and factors *involved* in the crash. It
+returns a simple tibble that can be easily piped into `ggplot()` to quickly
+visualize counts.
+
+```{r, fig.height=2.2}
+my_counts <- counts(
+  myGESCRSS,
+  what = "crashes",
+  interval = c("year")
+  ) 
+
+head(my_counts)
+
+my_counts %>%
+  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    labs(x=NULL, y=NULL, title = "Crashes in the South")
+```
+
+```{r, fig.height=2.2}
+counts(
+  myGESCRSS,
+  what = "injuries",
+  interval = c("year")
+  ) %>%
+  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    labs(x=NULL, y=NULL, title = "Injuries in the South")
+```
+
+```{r, fig.height=2.2}
+counts(myGESCRSS,
+       what = "fatalities",
+       where = list(urb="rural"),
+       interval = c("year")
+       ) %>%
+  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    labs(x=NULL, y=NULL, title = "Rural Fatalities in the South")
+```
+
+```{r, fig.height=2.2}
+counts(myGESCRSS,
+       what = "fatalities",
+       where = list(urb="rural"),
+       interval = c("year"),
+       involved = "speeding"
+       ) %>%
+  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in the Rural South")
+```
+
+We can combine two `counts()` results to make a comparison. Here we compare the
+number of speeding-related fatalities in rural and urban Virginia:
+
+```{r, fig.height=2.4}
+compare_counts(
+  df = myGESCRSS,
+  what = "fatalities",
+  where = list(urb="rural"),
+  where2 = list(urb="urban")
+  ) %>%
+  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    facet_wrap(.~urb) +
+    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in the South", fill=NULL)
+```
+
+### Mapping
+
+GES/CRSS is not very friendly to mapping. It does not provide lat/lon 
+coordinates or States. Regions are composed of several States and require extra
+steps to generate mappable data.
+
+
+### Modeling
+
+Having access to the full dataset also allows us to develop statistical models.
+Here we fit a simple model of injury severity as a function of age and restraint
+use. The results indicate that injury severity increases with age, and when 
+seat belts are not used properly. 
+
+```{r, results='asis'}
+# table(myFARS$flat$inj_sev)
+# table(myFARS$flat$rest_use, useNA = "ifany")
+# table(myFARS$flat$per_typ, useNA = "ifany")
+
+model_data <-
+  myGESCRSS$flat %>%
   filter(rest_use %in% c("Lap Belt Only Used",
                          "Shoulder Belt Only Used",
                          "None Used / Not Applicable",

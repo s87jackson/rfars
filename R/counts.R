@@ -24,6 +24,8 @@
 #'     the 'flat' tibble from the input FARS object, filtered according to other
 #'     parameters.
 #'
+#'     If `df` is a GESCRSS object, the counts returned are the sum of the appropriate weights.
+#'
 #' @importFrom timetk pad_by_time
 #' @import lubridate
 #' @importFrom rlang .data
@@ -173,14 +175,38 @@ counts <- function(df,
   # Count ----
 
     if(filterOnly){
+
       return(flat)
+
     } else{
 
-      if(what == "crashes") flat <- flat %>% summarize(n=n_distinct(.data$id))
+      if("GESCRSS" %in% class(df)){
 
-      if(what %in% c("fatalities", "people")) {
-        flat <- flat %>% summarize(n=n_distinct(.data$id, .data$veh_no, .data$per_no))
+        if(what == "crashes"){
+          flat <- flat %>% select(all_of(c("id", interval, "region", "weight"))) %>% distinct() %>% group_by_at(c(interval, "region")) %>% summarize(n=sum(.data$weight, na.rm = T))
         }
+
+
+        if(what %in% c("fatalities", "people", "injuries")) {
+          flat <- flat %>% select(all_of(c("id", "veh_no", "per_no", interval, "region", "weight"))) %>% distinct() %>% group_by_at(c(interval, "region")) %>% summarize(n=sum(.data$weight, na.rm = T))
+        }
+
+
+      }
+
+      if("FARS" %in% class(df)){
+
+        if(what == "crashes") flat <- flat %>% summarize(n=n_distinct(.data$id))
+
+        if(what %in% c("fatalities", "people", "injuries")) {
+          flat <- flat %>% summarize(n=n_distinct(.data$id, .data$veh_no, .data$per_no))
+          }
+
+      }
+
+
+
+
 
 
     # Pad
