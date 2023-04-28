@@ -84,7 +84,7 @@ R will ask your permission to download the missing data.
 Here we get three years of data for Virginia:
 
 ```{r}
-myFARS <- get_fars(years = 2019:2020, states = "VA")
+myFARS <- get_fars(years = 2019:2021, states = "VA")
 ```
 
 This returns a 'FARS' object: a list with six tibbles: `flat`, `multi_acc`, 
@@ -156,8 +156,8 @@ myFARS$codebook %>%
 A first step in many transportation safety analyses involves counting the number
 of relevant crashes, fatalities, or people involved. `counts()` lets users
 specify *what* to count, *where* to count them (rural/urban and/or in specified
-states or regions), *who* to include, which *years* and an aggregation
-*interval* (annually or monthly), and factors *involved* in the crash. It
+states or regions), *who* to include, the *interval* over which to count 
+(annually or monthly), and factors *involved* in the crashes. It
 returns a simple tibble that can be easily piped into `ggplot()` to quickly
 visualize counts.
 
@@ -220,6 +220,7 @@ number of speeding-related fatalities in rural and urban Virginia:
 ```{r, fig.height=2.4}
 compare_counts(
   df = myFARS,
+  involved = "speeding",
   what = "fatalities",
   where = list(urb="rural"),
   where2 = list(urb="urban")
@@ -263,6 +264,7 @@ counts(
   filterOnly = TRUE
   ) %>%
   filter(!is.na(lat), !is.na(lon)) %>%
+  filter(lat < 90, lon < 900) %>%
 leaflet() %>%
   addTiles() %>%
   addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 1) %>%
@@ -283,6 +285,7 @@ counts(
   filterOnly = TRUE
   ) %>%
   filter(!is.na(lat), !is.na(lon)) %>%
+  filter(lat < 90, lon < 900) %>%
 leaflet() %>%
   addTiles() %>%
   addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 1) %>%
@@ -377,10 +380,11 @@ data is downloaded to a permanent directory, the function will look there rather
 than downloading the data again. If a year of data is requested but not found,
 R will ask your permission to download the missing data. 
 
-Here we get three years of data for the southern region:
+Here we get three years of data. We do not specify a region so that we can 
+confirm the results with official data.
 
 ```{r}
-myGESCRSS <- get_gescrss(years = 2019:2020, regions = "s")
+myGESCRSS <- get_gescrss(years = 2019:2021)
 ```
 
 This returns a 'GESCRSS' object: a list with six tibbles: `flat`, `multi_acc`, 
@@ -468,12 +472,14 @@ my_counts %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
     geom_col() + 
     geom_label(vjust=1.2) +
-    labs(x=NULL, y=NULL, title = "Crashes in the South")
+    labs(x=NULL, y=NULL, title = "Total Estimated Crashes")
 ```
+
 
 ```{r, fig.height=2.2}
 counts(
   myGESCRSS,
+  where = list(region="s"),
   what = "injuries",
   interval = c("year")
   ) %>%
@@ -483,46 +489,20 @@ counts(
     labs(x=NULL, y=NULL, title = "Injuries in the South")
 ```
 
-```{r, fig.height=2.2}
-counts(myGESCRSS,
-       what = "fatalities",
-       where = list(urb="rural"),
-       interval = c("year")
-       ) %>%
-  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
-    geom_col() + 
-    geom_label(vjust=1.2) +
-    labs(x=NULL, y=NULL, title = "Rural Fatalities in the South")
-```
 
-```{r, fig.height=2.2}
-counts(myGESCRSS,
-       what = "fatalities",
-       where = list(urb="rural"),
-       interval = c("year"),
-       involved = "speeding"
-       ) %>%
-  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
-    geom_col() + 
-    geom_label(vjust=1.2) +
-    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in the Rural South")
-```
-
-We can combine two `counts()` results to make a comparison. Here we compare the
-number of speeding-related fatalities in rural and urban Virginia:
 
 ```{r, fig.height=2.4}
 compare_counts(
   df = myGESCRSS,
-  what = "fatalities",
-  where = list(urb="rural"),
-  where2 = list(urb="urban")
+  what = "injuries",
+  where = list(region="s"),
+  where2 = list(region="ne")
   ) %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
     geom_col() + 
     geom_label(vjust=1.2) +
-    facet_wrap(.~urb) +
-    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in the South", fill=NULL)
+    facet_wrap(.~region) +
+    labs(x=NULL, y=NULL, title = "Injuries in the South and Northeast", fill=NULL)
 ```
 
 ### Mapping
@@ -573,9 +553,11 @@ model_data <-
       inj_sev == "No Apparent Injury (O)" ~ 0,
       TRUE ~ as.numeric(NA)
       ),
-    age_n = gsub("\\D+","", age) %>% as.numeric()) 
+    age_n = gsub("\\D+","", age) %>% as.numeric(),
+    speed_n = gsub("\\D+","", trav_sp) %>% as.numeric()
+    ) 
 
-my_model <- lm(kabco ~ age_n + rest_use, data = model_data) 
+my_model <- lm(kabco ~ age_n + rest_use + speed_n, data = model_data) 
 
 stargazer::stargazer(my_model, type = "html")
 ```
@@ -584,20 +566,22 @@ stargazer::stargazer(my_model, type = "html")
 ```{r}
 new_data <- expand.grid(
   age_n = c(20, 60),
+  speed_n = seq(10, 60, 10),
   rest_use = factor(c("Full", "Partial", "None"), levels = c("Full", "Partial", "None"), ordered = TRUE) )
 
 new_data %>%
   mutate(pred = predict(my_model, newdata = new_data),
          age = paste0(age_n, " yrs")) %>%
-  ggplot(aes(x=rest_use, y=pred)) +
-    geom_col() +
-    facet_wrap(.~age) +
+  ggplot(aes(x=speed_n, y=pred, fill=age)) +
+    geom_col(position = position_dodge()) +
+    facet_wrap(.~rest_use) +
     scale_y_continuous(
       limits = c(0,4), breaks = 0:4, labels = c("O", "C", "B", "A", "K"), expand = expansion()) +
     theme(panel.grid = element_blank(),
           panel.grid.major.y = element_line(c("black")),
           axis.ticks = element_blank()) +
-    labs(x="", y="", title = "Predicted Injury Severity by Age and Restraint Use",
+    labs(x="Travel Speed (mph)", y="", title = "Predicted Injury Severity by Age, Restraint Use, and Travel Speed",
+         fill="Age",
          caption = "Full = correctly used seatbelt, partial = partially correctly used, none = no seatbelt.")
 ```
 

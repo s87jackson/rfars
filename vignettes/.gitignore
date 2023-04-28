@@ -4,3 +4,12 @@
 *.CSV
 ^facb 2010
 ^facb 2020
+/vignettes/in_development/
+^old$
+^vignettes/in_development$
+^vignettes/in_development
+^.*vignettes/in_development
+old$
+vignettes/in_development$
+vignettes/in_development
+^\.github

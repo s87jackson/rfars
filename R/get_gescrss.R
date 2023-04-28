@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @param years Years to be downloaded, in yyyy (character or numeric formats),
-#'     currently limited to 2011-2020.
+#'     currently limited to 2011-2021.
 #' @param regions (Optional) Regions to keep: mw=midwest, ne=northeast, s=south, w=west.
 #' @param dir Directory in which to search for or save a 'GESCRSS data' folder. If
 #'     NULL (the default), files are downloaded and unzipped to temporary
@@ -53,9 +53,7 @@
 #'
 #'    The codebook tibble serves as a searchable codebook for all files of any given year.
 #'
-#'    Consult the GES
-#'    and \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813236}{CRSS} User Manuals
-#'    for more information.
+#'    Please review the [CRSS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813436) for more information.
 #'
 #'    Regions are as follows:
 #'       mw = Midwest   = OH, IN, IL, MI, WI, MN, ND, SD, NE, IA, MO, KS
@@ -66,11 +64,11 @@
 #'
 #' @examples
 #' \donttest{
-#' myGESCRSS <- get_gescrss(years = 2019:2020, regions = "s")
-#' myGESCRSS <- get_gescrss(years = 2020)
+#' myGESCRSS <- get_gescrss(years = 2019:2021, regions = "s")
+#' myGESCRSS <- get_gescrss(years = 2021)
 #' }
 
-get_gescrss <- function(years     = 2011:2020,
+get_gescrss <- function(years     = 2011:2021,
                         regions   = c("mw", "ne", "s", "w"),
                         dir       = NULL,
                         proceed   = FALSE,
@@ -94,7 +92,7 @@ get_gescrss <- function(years     = 2011:2020,
     ymax <- max(as.numeric(years), na.rm = TRUE)
     ymin <- min(as.numeric(years), na.rm = TRUE)
     if(ymin < 2011) stop("Data not available prior to 2011.")
-    if(ymax > 2020) stop("Data not available beyond 2020.")
+    if(ymax > 2021) stop("Data not available beyond 2021.")
 
 
   # Check regions

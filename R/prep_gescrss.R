@@ -28,7 +28,7 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
   gescrss.nmcrash <- gescrss.nmimpair <- gescrss.nmprior <- gescrss.nmdistract <-
     gescrss.drugs <- gescrss.personrf <- gescrss.crashrf <- NULL
 
-  if(y %in% 2016:2020)          my_catfile <- paste0(wd, "format-64/formats.sas7bcat")
+  if(y %in% 2016:2021)          my_catfile <- paste0(wd, "format-64/formats.sas7bcat")
   if(y %in% c(2011, 2014:2015)) my_catfile <- paste0(wd, "formats.sas7bcat")
   if(y %in% 2012:2013)          my_catfile <- paste0(wd, "formats-64/formats.sas7bcat") #note the extra s
 
@@ -66,7 +66,6 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
     read_basic_sas(x = "vehicle", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
     select(-starts_with("vin"), -ends_with("vin")) %>%
     rm_cols.g(a=gescrss.accident, b=NULL) %>%
-    use_imp("body_typ", "bdytyp_im") %>%
     use_imp("impact1", "impact1_im") %>%
     use_imp("mod_year", "mdlyr_im") %>%
     use_imp("max_vsev", "mxvsev_im") %>%
@@ -76,6 +75,8 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
     use_imp("m_harm", "vevent_im")
 
   if(y %in% 2011:2019) gescrss.vehicle <- use_imp(gescrss.vehicle, "hit_run", "hitrun_im")
+
+  if(y %in% 2011:2020) gescrss.vehicle <- use_imp(gescrss.vehicle, "body_typ", "bdytyp_im")
 
 
   ## person ----
@@ -96,7 +97,7 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
 
   ## weather ----
 
-  if(y %in% 2020){
+  if(y %in% 2020:2021){
     gescrss.weather <- read_basic_sas(x = "weather", wd = wd, rawfiles = rawfiles, catfile = my_catfile)
   } else{
     gescrss.weather <- select(gescrss.accident, "casenum", "weather1", "weather2")
@@ -107,7 +108,7 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
 
   ## crashrf ----
 
-  if(y %in% 2020)gescrss.crashrf <- read_basic_sas(x = "crashrf", wd = wd, rawfiles = rawfiles, catfile = my_catfile)
+  if(y %in% 2020:2021) gescrss.crashrf <- read_basic_sas(x = "crashrf", wd = wd, rawfiles = rawfiles, catfile = my_catfile)
 
   if(y %in% 2012:2019) gescrss.crashrf <- select(gescrss.accident, "casenum", "cf1", "cf2", "cf3")
 
@@ -157,7 +158,7 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
 
   ## pbtype ----
 
-  if(y %in% 2014:2020){
+  if(y %in% 2014:2021){
     gescrss.pbtype <-
       read_basic_sas(x = "pbtype", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
       select(-any_of(c("pbage", "pbsex"))) %>%

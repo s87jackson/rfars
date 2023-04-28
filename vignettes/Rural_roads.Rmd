@@ -32,10 +32,10 @@ library(magrittr)
 
 ## Data
 
-Below we get three years of data for one state, Virginia.
+Below we get two years of data for one state, Virginia.
 
 ```{r, warning=FALSE}
-myFARS <- get_fars(years = 2019:2020, states = "VA")
+myFARS <- get_fars(years = 2019:2021, states = "VA")
 ```
 
 Here we make an adjustment to the standard variable definitions to label all

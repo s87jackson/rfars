@@ -6,6 +6,7 @@
 ^FARS data$
 ^GESCRSS data$
 ^test environment$
+^in_development$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
@@ -18,8 +19,16 @@
 ^sticker\.pptx$
 ^myFARS.rds$
 ^myGESCRSS.rds$
+^myFARS\.rds$
+^myGESCRSS\.rds$
 ^\.RDataTmp$
 /old/
 /vignettes/in_development/
 ^old$
 ^vignettes/in_development$
+^vignettes/in_development
+^.*vignettes/in_development
+old$
+vignettes/in_development$
+vignettes/in_development
+^\.github

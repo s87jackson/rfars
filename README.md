@@ -76,7 +76,7 @@ found, R will ask your permission to download the missing data.
 Here we get three years of data for Virginia:
 
 ``` r
-myFARS <- get_fars(years = 2019:2020, states = "VA")
+myFARS <- get_fars(years = 2019:2021, states = "VA")
 ```
 
 This returns a ‘FARS’ object: a list with six tibbles: `flat`,
@@ -98,8 +98,8 @@ for more information.
 
 ``` r
 glimpse(myFARS$flat)
-#> Rows: 3,496
-#> Columns: 198
+#> Rows: 5,465
+#> Columns: 199
 #> $ year          <dbl> 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 20…
 #> $ state         <chr> "Virginia", "Virginia", "Virginia", "Virginia", "Virgini…
 #> $ st_case       <dbl> 510001, 510001, 510002, 510002, 510003, 510003, 510004, …
@@ -298,6 +298,7 @@ glimpse(myFARS$flat)
 #> $ vpicbodyclass <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
 #> $ vpicmake      <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
 #> $ vpicmodel     <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ underoverride <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
 ```
 
 The `multi_` tibbles contain those variables for which there may be a
@@ -329,7 +330,7 @@ myFARS$multi_acc %>% group_by(name, value) %>% summarize(n=n()) %>%
 #>  7 cf3     Reported as Unknown                                               248
 #>  8 cf3     Indication of a Stalled/Disabled Vehicle                            4
 #>  9 cf3     Motor Vehicle struck by falling cargo,or something that came l…     4
-#> 10 crashrf Motor Vehicle struck by falling cargo,or something that came l…   751
+#> 10 crashrf Motor Vehicle struck by falling cargo,or something that came l…  1675
 #> # … with 11 more rows
 
 myFARS$multi_veh %>% group_by(name, value) %>% summarize(n=n()) %>% 
@@ -342,9 +343,9 @@ myFARS$multi_veh %>% group_by(name, value) %>% summarize(n=n()) %>%
 #> # Groups:   name [22]
 #>    name   value                                                                n
 #>    <chr>  <chr>                                                            <int>
-#>  1 damage 12 Clock Value                                                   39192
-#>  2 damage 11 Clock Value                                                   22043
-#>  3 damage 1 Clock Value                                                    20714
+#>  1 damage 12 Clock Value                                                   83188
+#>  2 damage 11 Clock Value                                                   45840
+#>  3 damage 1 Clock Value                                                    43183
 #>  4 dr_sf1 Failure to Yield Right-of-Way                                     3331
 #>  5 dr_sf1 Careless Driving                                                  2996
 #>  6 dr_sf1 Improper Lane Usage                                               2938
@@ -362,18 +363,18 @@ myFARS$multi_per %>% group_by(name, value) %>% summarize(n=n()) %>%
 #> `.groups` argument.
 #> # A tibble: 46 × 3
 #> # Groups:   name [16]
-#>    name     value                                          n
-#>    <chr>    <chr>                                      <int>
-#>  1 drugres  Test Not Given                             97349
-#>  2 drugres  Tested, No Drugs Found/Negative            27434
-#>  3 drugres  Other Drug                                  8989
-#>  4 drugspec Test Not Given                             97349
-#>  5 drugspec Whole Blood                                75919
-#>  6 drugspec Urine                                       6877
-#>  7 mnmdstrd Not Distracted                              1896
-#>  8 mnmdstrd Reported as Unknown if Distracted            496
-#>  9 mnmdstrd Inattention (Inattentive), Details Unknown    82
-#> 10 mpr_act  Crossing Roadway                            4461
+#>    name     value                                           n
+#>    <chr>    <chr>                                       <int>
+#>  1 drugres  Test Not Given                             150302
+#>  2 drugres  Tested, No Drugs Found/Negative             40884
+#>  3 drugres  Other Drug                                  13496
+#>  4 drugspec Test Not Given                             150304
+#>  5 drugspec Whole Blood                                114007
+#>  6 drugspec Reported as Unknown if Tested               11641
+#>  7 mnmdstrd Not Distracted                               1896
+#>  8 mnmdstrd Reported as Unknown if Distracted             496
+#>  9 mnmdstrd Inattention (Inattentive), Details Unknown     82
+#> 10 mpr_act  Crossing Roadway                             4461
 #> # … with 36 more rows
 ```
 
@@ -456,9 +457,9 @@ A first step in many transportation safety analyses involves counting
 the number of relevant crashes, fatalities, or people involved.
 `counts()` lets users specify *what* to count, *where* to count them
 (rural/urban and/or in specified states or regions), *who* to include,
-which *years* and an aggregation *interval* (annually or monthly), and
-factors *involved* in the crash. It returns a simple tibble that can be
-easily piped into `ggplot()` to quickly visualize counts.
+the *interval* over which to count (annually or monthly), and factors
+*involved* in the crashes. It returns a simple tibble that can be easily
+piped into `ggplot()` to quickly visualize counts.
 
 ``` r
 my_counts <- counts(
@@ -468,11 +469,13 @@ my_counts <- counts(
   ) 
 
 head(my_counts)
-#> # A tibble: 2 × 8
-#>    year     n date       what    states region urb   who  
-#>   <dbl> <int> <date>     <chr>   <chr>  <chr>  <chr> <chr>
-#> 1  2019   774 2019-01-01 crashes all    all    all   all  
-#> 2  2020   796 2020-01-01 crashes all    all    all   all
+#> # A tibble: 3 × 8
+#> # Groups:   year [3]
+#>    year date           n what    states region urb   who  
+#>   <dbl> <date>     <int> <chr>   <chr>  <chr>  <chr> <chr>
+#> 1  2019 2019-01-01   774 crashes all    all    all   all  
+#> 2  2020 2020-01-01   796 crashes all    all    all   all  
+#> 3  2021 2021-01-01   906 crashes all    all    all   all
 
 my_counts %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
@@ -533,6 +536,7 @@ Virginia:
 ``` r
 compare_counts(
   df = myFARS,
+  involved = "speeding",
   what = "fatalities",
   where = list(urb="rural"),
   where2 = list(urb="urban")
@@ -582,6 +586,7 @@ counts(
   filterOnly = TRUE
   ) %>%
   filter(!is.na(lat), !is.na(lon)) %>%
+  filter(lat < 90, lon < 900) %>%
 leaflet() %>%
   addTiles() %>%
   addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 1) %>%
@@ -606,6 +611,7 @@ counts(
   filterOnly = TRUE
   ) %>%
   filter(!is.na(lat), !is.na(lon)) %>%
+  filter(lat < 90, lon < 900) %>%
 leaflet() %>%
   addTiles() %>%
   addHeatmap(group = "Heatmap", radius=10, blur=20, minOpacity = .01, max = .2, cellSize = 1) %>%
@@ -702,7 +708,7 @@ kabco
 age_n
 </td>
 <td>
-0.008<sup>\*\*\*</sup>
+0.009<sup>\*\*\*</sup>
 </td>
 </tr>
 <tr>
@@ -723,14 +729,14 @@ age_n
 rest_useNone
 </td>
 <td>
-1.477<sup>\*\*\*</sup>
+1.442<sup>\*\*\*</sup>
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
 </td>
 <td>
-(0.050)
+(0.040)
 </td>
 </tr>
 <tr>
@@ -744,14 +750,14 @@ rest_useNone
 rest_usePartial
 </td>
 <td>
-0.352
+0.453<sup>\*\*</sup>
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
 </td>
 <td>
-(0.278)
+(0.211)
 </td>
 </tr>
 <tr>
@@ -765,14 +771,14 @@ rest_usePartial
 Constant
 </td>
 <td>
-1.740<sup>\*\*\*</sup>
+1.759<sup>\*\*\*</sup>
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
 </td>
 <td>
-(0.064)
+(0.051)
 </td>
 </tr>
 <tr>
@@ -790,7 +796,7 @@ Constant
 Observations
 </td>
 <td>
-2,952
+4,583
 </td>
 </tr>
 <tr>
@@ -798,7 +804,7 @@ Observations
 R<sup>2</sup>
 </td>
 <td>
-0.233
+0.222
 </td>
 </tr>
 <tr>
@@ -806,7 +812,7 @@ R<sup>2</sup>
 Adjusted R<sup>2</sup>
 </td>
 <td>
-0.232
+0.222
 </td>
 </tr>
 <tr>
@@ -814,7 +820,7 @@ Adjusted R<sup>2</sup>
 Residual Std. Error
 </td>
 <td>
-1.321 (df = 2948)
+1.324 (df = 4579)
 </td>
 </tr>
 <tr>
@@ -822,7 +828,7 @@ Residual Std. Error
 F Statistic
 </td>
 <td>
-298.579<sup>\*\*\*</sup> (df = 3; 2948)
+436.515<sup>\*\*\*</sup> (df = 3; 4579)
 </td>
 </tr>
 <tr>
@@ -872,10 +878,17 @@ permanent directory, the function will look there rather than
 downloading the data again. If a year of data is requested but not
 found, R will ask your permission to download the missing data.
 
-Here we get three years of data for the southern region:
+Here we get three years of data. We do not specify a region so that we
+can confirm the results with official data.
 
 ``` r
-myGESCRSS <- get_gescrss(years = 2019:2020, regions = "s")
+myGESCRSS <- get_gescrss(years = 2019:2021)
+#> Warning in dir.create(paste0(dest_raw_y, "/format-32")):
+#> 'C:\Users\s87ja\AppData\Local\Temp\Rtmpi8rnsE\GESCRSS data\raw\2020\format-32'
+#> already exists
+#> Warning in dir.create(paste0(dest_raw_y, "/format-64")):
+#> 'C:\Users\s87ja\AppData\Local\Temp\Rtmpi8rnsE\GESCRSS data\raw\2020\format-64'
+#> already exists
 #> 
 #> ── Column specification ────────────────────────────────────────────────────────
 #> cols(
@@ -920,8 +933,8 @@ for more information.
 
 ``` r
 glimpse(myGESCRSS$flat)
-#> Rows: 143,130
-#> Columns: 143
+#> Rows: 401,162
+#> Columns: 144
 #> $ year           <dbl> 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2…
 #> $ region         <chr> "South (MD, DE, DC, WV, VA, KY, TN, NC, SC, GA, FL, AL,…
 #> $ psu            <dbl> 75, 63, 63, 63, 63, 63, 63, 65, 65, 12, 12, 12, 12, 75,…
@@ -1065,6 +1078,7 @@ glimpse(myGESCRSS$flat)
 #> $ vpicbodyclass  <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
 #> $ vpicmake       <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
 #> $ vpicmodel      <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+#> $ underoverride  <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
 ```
 
 The `multi_` tibbles contain those variables for which there may be a
@@ -1096,7 +1110,7 @@ myGESCRSS$multi_acc %>% group_by(name, value) %>% summarize(n=n()) %>%
 #>  7 cf3     Reported as Unknown                                                 7
 #>  8 cf3     Backup Due to Prior Crash                                           1
 #>  9 cf3     Indication of a Stalled/Disabled Vehicle                            1
-#> 10 crashrf Motor Vehicle struck by falling cargo,or something that came l…   683
+#> 10 crashrf Motor Vehicle struck by falling cargo,or something that came l…  1290
 #> # … with 34 more rows
 
 myGESCRSS$multi_veh %>% group_by(name, value) %>% summarize(n=n()) %>% 
@@ -1109,9 +1123,9 @@ myGESCRSS$multi_veh %>% group_by(name, value) %>% summarize(n=n()) %>%
 #> # Groups:   name [21]
 #>    name   value                                                                n
 #>    <chr>  <chr>                                                            <int>
-#>  1 damage 12 Clock Value                                                   48789
-#>  2 damage 6 Clock Value                                                    20763
-#>  3 damage 11 Clock Value                                                   19925
+#>  1 damage 12 Clock Value                                                   98421
+#>  2 damage 6 Clock Value                                                    42402
+#>  3 damage 11 Clock Value                                                   39565
 #>  4 dr_sf1 Careless Driving                                                  7341
 #>  5 dr_sf1 Looked But Did Not See                                            1313
 #>  6 dr_sf1 Reported as Unknown                                               1072
@@ -1140,7 +1154,7 @@ myGESCRSS$multi_per %>% group_by(name, value) %>% summarize(n=n()) %>%
 #>  7 mtm_crsh None Noted                                                      2621
 #>  8 mtm_crsh Failure to Yield Right-Of-Way                                   1145
 #>  9 mtm_crsh Improper Crossing of Roadway or Intersection (Jaywalking)        383
-#> 10 nmaction Crossing Roadway                                                3364
+#> 10 nmaction Crossing Roadway                                                6886
 #> # … with 19 more rows
 ```
 
@@ -1224,17 +1238,19 @@ my_counts <- counts(
   ) 
 
 head(my_counts)
-#> # A tibble: 2 × 8
-#>    year region        n date       what    states urb   who  
-#>   <dbl> <chr>     <dbl> <date>     <chr>   <chr>  <chr> <chr>
-#> 1  2019 all    3462841. 2019-01-01 crashes all    all   all  
-#> 2  2020 all    2733303. 2020-01-01 crashes all    all   all
+#> # A tibble: 3 × 8
+#> # Groups:   year [3]
+#>    year date              n what    states region urb   who  
+#>   <dbl> <date>        <dbl> <chr>   <chr>  <chr>  <chr> <chr>
+#> 1  2019 2019-01-01 6755841. crashes all    all    all   all  
+#> 2  2020 2020-01-01 5250837. crashes all    all    all   all  
+#> 3  2021 2021-01-01 6102936. crashes all    all    all   all
 
 my_counts %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
     geom_col() + 
     geom_label(vjust=1.2) +
-    labs(x=NULL, y=NULL, title = "Crashes in the South")
+    labs(x=NULL, y=NULL, title = "Total Estimated Crashes")
 ```
 
 <img src="man/figures/README-unnamed-chunk-24-1.png" width="80%" style="display: block; margin: auto;" />
@@ -1242,6 +1258,7 @@ my_counts %>%
 ``` r
 counts(
   myGESCRSS,
+  where = list(region="s"),
   what = "injuries",
   interval = c("year")
   ) %>%
@@ -1254,53 +1271,20 @@ counts(
 <img src="man/figures/README-unnamed-chunk-25-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
-counts(myGESCRSS,
-       what = "fatalities",
-       where = list(urb="rural"),
-       interval = c("year")
-       ) %>%
-  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
-    geom_col() + 
-    geom_label(vjust=1.2) +
-    labs(x=NULL, y=NULL, title = "Rural Fatalities in the South")
-```
-
-<img src="man/figures/README-unnamed-chunk-26-1.png" width="80%" style="display: block; margin: auto;" />
-
-``` r
-counts(myGESCRSS,
-       what = "fatalities",
-       where = list(urb="rural"),
-       interval = c("year"),
-       involved = "speeding"
-       ) %>%
-  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
-    geom_col() + 
-    geom_label(vjust=1.2) +
-    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in the Rural South")
-```
-
-<img src="man/figures/README-unnamed-chunk-27-1.png" width="80%" style="display: block; margin: auto;" />
-
-We can combine two `counts()` results to make a comparison. Here we
-compare the number of speeding-related fatalities in rural and urban
-Virginia:
-
-``` r
 compare_counts(
   df = myGESCRSS,
-  what = "fatalities",
-  where = list(urb="rural"),
-  where2 = list(urb="urban")
+  what = "injuries",
+  where = list(region="s"),
+  where2 = list(region="ne")
   ) %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
     geom_col() + 
     geom_label(vjust=1.2) +
-    facet_wrap(.~urb) +
-    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in the South", fill=NULL)
+    facet_wrap(.~region) +
+    labs(x=NULL, y=NULL, title = "Injuries in the South and Northeast", fill=NULL)
 ```
 
-<img src="man/figures/README-unnamed-chunk-28-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-26-1.png" width="80%" style="display: block; margin: auto;" />
 
 ### Mapping
 
@@ -1349,9 +1333,11 @@ model_data <-
       inj_sev == "No Apparent Injury (O)" ~ 0,
       TRUE ~ as.numeric(NA)
       ),
-    age_n = gsub("\\D+","", age) %>% as.numeric()) 
+    age_n = gsub("\\D+","", age) %>% as.numeric(),
+    speed_n = gsub("\\D+","", trav_sp) %>% as.numeric()
+    ) 
 
-my_model <- lm(kabco ~ age_n + rest_use, data = model_data) 
+my_model <- lm(kabco ~ age_n + rest_use + speed_n, data = model_data) 
 
 stargazer::stargazer(my_model, type = "html")
 ```
@@ -1390,7 +1376,7 @@ kabco
 age_n
 </td>
 <td>
-0.002<sup>\*\*\*</sup>
+0.003<sup>\*\*\*</sup>
 </td>
 </tr>
 <tr>
@@ -1411,14 +1397,14 @@ age_n
 rest_useNone
 </td>
 <td>
-1.461<sup>\*\*\*</sup>
+1.320<sup>\*\*\*</sup>
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
 </td>
 <td>
-(0.010)
+(0.009)
 </td>
 </tr>
 <tr>
@@ -1432,14 +1418,35 @@ rest_useNone
 rest_usePartial
 </td>
 <td>
-0.066<sup>\*\*\*</sup>
+0.075<sup>\*\*\*</sup>
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
 </td>
 <td>
-(0.021)
+(0.022)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+speed_n
+</td>
+<td>
+0.010<sup>\*\*\*</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.0001)
 </td>
 </tr>
 <tr>
@@ -1453,14 +1460,14 @@ rest_usePartial
 Constant
 </td>
 <td>
-0.342<sup>\*\*\*</sup>
+0.030<sup>\*\*\*</sup>
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
 </td>
 <td>
-(0.006)
+(0.007)
 </td>
 </tr>
 <tr>
@@ -1478,7 +1485,7 @@ Constant
 Observations
 </td>
 <td>
-122,193
+122,164
 </td>
 </tr>
 <tr>
@@ -1486,7 +1493,7 @@ Observations
 R<sup>2</sup>
 </td>
 <td>
-0.151
+0.199
 </td>
 </tr>
 <tr>
@@ -1494,7 +1501,7 @@ R<sup>2</sup>
 Adjusted R<sup>2</sup>
 </td>
 <td>
-0.151
+0.199
 </td>
 </tr>
 <tr>
@@ -1502,7 +1509,7 @@ Adjusted R<sup>2</sup>
 Residual Std. Error
 </td>
 <td>
-0.831 (df = 122189)
+0.846 (df = 122159)
 </td>
 </tr>
 <tr>
@@ -1510,7 +1517,7 @@ Residual Std. Error
 F Statistic
 </td>
 <td>
-7,239.577<sup>\*\*\*</sup> (df = 3; 122189)
+7,592.222<sup>\*\*\*</sup> (df = 4; 122159)
 </td>
 </tr>
 <tr>
@@ -1530,21 +1537,23 @@ F Statistic
 ``` r
 new_data <- expand.grid(
   age_n = c(20, 60),
+  speed_n = seq(10, 60, 10),
   rest_use = factor(c("Full", "Partial", "None"), levels = c("Full", "Partial", "None"), ordered = TRUE) )
 
 new_data %>%
   mutate(pred = predict(my_model, newdata = new_data),
          age = paste0(age_n, " yrs")) %>%
-  ggplot(aes(x=rest_use, y=pred)) +
-    geom_col() +
-    facet_wrap(.~age) +
+  ggplot(aes(x=speed_n, y=pred, fill=age)) +
+    geom_col(position = position_dodge()) +
+    facet_wrap(.~rest_use) +
     scale_y_continuous(
       limits = c(0,4), breaks = 0:4, labels = c("O", "C", "B", "A", "K"), expand = expansion()) +
     theme(panel.grid = element_blank(),
           panel.grid.major.y = element_line(c("black")),
           axis.ticks = element_blank()) +
-    labs(x="", y="", title = "Predicted Injury Severity by Age and Restraint Use",
+    labs(x="Travel Speed (mph)", y="", title = "Predicted Injury Severity by Age, Restraint Use, and Travel Speed",
+         fill="Age",
          caption = "Full = correctly used seatbelt, partial = partially correctly used, none = no seatbelt.")
 ```
 
-<img src="man/figures/README-unnamed-chunk-30-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-28-1.png" width="80%" style="display: block; margin: auto;" />

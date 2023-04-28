@@ -9,7 +9,7 @@
 #'
 #' @return Nothing directly to the current environment. Various CSV files are stored either in a temporary directory or dir as specified by the user.
 #'
-#' @details Raw files are downloaded from \href{https://static.nhtsa.gov/nhtsa/downloads/GES/}{GES} (2011-2015) and \href{https://static.nhtsa.gov/nhtsa/downloads/CRSS/}{CRSS} (2016-2020).
+#' @details Raw files are downloaded from \href{https://static.nhtsa.gov/nhtsa/downloads/GES/}{GES} (2011-2015) and \href{https://static.nhtsa.gov/nhtsa/downloads/CRSS/}{CRSS} (2016-2021).
 
 
 download_gescrss <- function(years,
@@ -24,7 +24,7 @@ download_gescrss <- function(years,
     dest_raw_y <- paste0(dest_raw, "/", y)
 
     my_url <- dplyr::case_when(
-      y %in% 2016:2020 ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/CRSS/", y, "/CRSS", y, "SAS.zip"),
+      y %in% 2016:2021 ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/CRSS/", y, "/CRSS", y, "SAS.zip"),
       y == 2015        ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/GES/GES", y-2000, "/GES", y, "sas.zip"),
       y == 2014        ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/GES/GES", y-2000, "/GES", y, "SAS.zip"),
       y %in% 2011:2013 ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/GES/GES", y-2000, "/GES", y-2000, "_PCSAS.zip"),
@@ -41,6 +41,22 @@ download_gescrss <- function(years,
 
       utils::unzip(dest_zip, exdir = dest_raw_y, overwrite = TRUE)
       unlink(dest_zip)
+
+      # 2020+ file structure change
+        if(y %in% 2020:2021){
+
+          from <- paste0(dest_raw_y, "/CRSS", y, "SAS") %>% list.files(full.names = T, recursive = T)
+
+          to <- gsub(x = from, pattern = paste0("/CRSS", y, "SAS"), replacement = "")
+
+          dir.create(paste0(dest_raw_y, "/format-32"))
+          dir.create(paste0(dest_raw_y, "/format-64"))
+
+          file.copy(from, to)
+
+          unlink(paste0(dest_raw_y, "/CRSS", y, "SAS"), recursive = T)
+
+        }
 
       # Get list of raw data files
         rawfiles <-

@@ -5,7 +5,7 @@
 \title{Get FARS data}
 \usage{
 get_fars(
-  years = 2011:2020,
+  years = 2011:2021,
   states = NULL,
   dir = NULL,
   proceed = FALSE,
@@ -14,7 +14,7 @@ get_fars(
 }
 \arguments{
 \item{years}{Years to be downloaded, in yyyy (character or numeric formats),
-currently limited to 2011-2020 (the default).}
+currently limited to 2011-2021 (the default).}
 
 \item{states}{States to keep. Leave as NULL (the default) to keep
 all states. Can be specified as full state name (e.g. "Virginia"),
@@ -72,12 +72,11 @@ This function downloads raw data from \href{https://www.nhtsa.gov/file-downloads
 
    Finally, the codebook tibble serves as a searchable codebook for all files of any given year.
 
-   Consult the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254}{Analytical User’s Manual}
-   for more information.
+   Please review the [FARS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813417) for more information.
 }
 \examples{
 \donttest{
-myFARS <- get_fars(years = 2019:2020, states = "51")
-myFARS <- get_fars(years = 2020, states = "NC")
+myFARS <- get_fars(years = 2019:2021, states = "51")
+myFARS <- get_fars(years = 2021, states = "NC")
 }
 }

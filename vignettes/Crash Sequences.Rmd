@@ -17,17 +17,16 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette explores the **Vsoe** (Vehicle Sequence of Events) data to
+This vignette explores the **vsoe** (Vehicle Sequence of Events) data to
 visualize crash sequence patterns.
 
-**Vsoe** is one of three event-based data files, the others being **Cevent** and
-**Vevent**. According to the [data
-dictionary](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254),
-**Vevent** "has the same data elements as the **Cevent** data file" plus "a data
+**vsoe** is one of three event-based data files, the others being **cevent** and
+**vevent**. According to the [CRSS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813436),
+**vevent** "has the same data elements as the **cevent** data file" plus "a data
 element that records the sequential event number for each vehicle," and the
-**Vsoe** file "has a subset of the data elements contained in the **Vevent**
-data file (it is a simplified **Vevent** data file)" (p. 16). `rfars` therefore
-omits **Cevent** and **Vevent**.
+**vsoe** file "has a subset of the data elements contained in the **Vevent**
+data file (it is a simplified **vevent** data file)" (p. 16). `rfars` therefore
+omits **cevent** and **vevent**.
 
 ```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
 library(rfars)

@@ -28,7 +28,7 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
   fars.nmcrash <- fars.nmimpair <- fars.nmprior <- fars.nmdistract <-
     fars.drugs <- fars.race <- fars.personrf <- NULL
 
-  if(y %in% 2016:2020)          my_catfile <- paste0(wd, "format-64/formats.sas7bcat")
+  if(y %in% 2016:2021)          my_catfile <- paste0(wd, "format-64/formats.sas7bcat")
   if(y %in% c(2011, 2014:2015)) my_catfile <- paste0(wd, "formats.sas7bcat")
   if(y %in% 2012:2013)          my_catfile <- FALSE
 
@@ -45,7 +45,7 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   ## accident ----
 
-  if(y %in% 2015:2020){
+  if(y %in% 2015:2021){
     fars.accident <-
       read_basic_sas(x = "accident", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
       dplyr::distinct()
@@ -81,7 +81,7 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   ## weather ----
 
-  if(y==2020){
+  if(y %in% 2020:2021){
     fars.weather <- read_basic_sas(x = "weather", wd = wd, rawfiles = rawfiles, catfile = my_catfile)
   } else{
     fars.weather  <- select(fars.accident, "state", "st_case", "weather1", "weather2")
@@ -92,7 +92,7 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   ## crashrf ----
 
-  if(y==2020){
+  if(y %in% 2020:2021){
     fars.crashrf <- read_basic_sas(x = "crashrf", wd = wd, rawfiles = rawfiles, catfile = my_catfile)
   } else{
     fars.crashrf  <- select(fars.accident, "state", "st_case", "cf1", "cf2", "cf3")
@@ -142,7 +142,7 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   ## pbtype ----
 
-  if(y %in% 2014:2020){
+  if(y %in% 2014:2021){
     fars.pbtype <-
       read_basic_sas(x = "pbtype", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
       select(-any_of(c("pbptype", "pbage", "pbsex"))) %>%
@@ -152,7 +152,7 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   ## safetyeq ----
 
-  if(y %in% 2011:2020){
+  if(y %in% 2011:2021){
     fars.safetyeq <-
       read_basic_sas(x = "safetyeq", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
       rm_cols.f(a=fars.accident, b=fars.vehicle)

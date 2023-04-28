@@ -26,7 +26,6 @@
 #'
 #'     If `df` is a GESCRSS object, the counts returned are the sum of the appropriate weights.
 #'
-#' @importFrom timetk pad_by_time
 #' @import lubridate
 #' @importFrom rlang .data
 #'
@@ -78,6 +77,15 @@ counts <- function(df,
                                                                           ))
 
   # Interval ----
+
+    if("month" %in% interval){
+      flat$date = lubridate::make_date(flat$year, match(flat$month, month.name))
+    } else{
+      flat$date = lubridate::make_date(flat$year, 1, 1)
+      }
+
+    interval <- c(interval, "date")
+
     flat <- flat %>% group_by(across(all_of(interval)), .add=FALSE)
 
 
@@ -183,12 +191,14 @@ counts <- function(df,
       if("GESCRSS" %in% class(df)){
 
         if(what == "crashes"){
-          flat <- flat %>% select(all_of(c("id", interval, "region", "weight"))) %>% distinct() %>% group_by_at(c(interval, "region")) %>% summarize(n=sum(.data$weight, na.rm = T))
+          #flat <- flat %>% select(all_of(c("id", interval, "region", "weight"))) %>% distinct() %>% group_by_at(c(interval, "region")) %>% summarize(n=sum(.data$weight, na.rm = T))
+          flat <- flat %>% select(all_of(c("id", interval, "weight"))) %>% distinct() %>% group_by_at(c(interval)) %>% summarize(n=sum(.data$weight, na.rm = T))
         }
 
 
         if(what %in% c("fatalities", "people", "injuries")) {
-          flat <- flat %>% select(all_of(c("id", "veh_no", "per_no", interval, "region", "weight"))) %>% distinct() %>% group_by_at(c(interval, "region")) %>% summarize(n=sum(.data$weight, na.rm = T))
+          #flat <- flat %>% select(all_of(c("id", "veh_no", "per_no", interval, "region", "weight"))) %>% distinct() %>% group_by_at(c(interval, "region")) %>% summarize(n=sum(.data$weight, na.rm = T))
+          flat <- flat %>% select(all_of(c("id", "veh_no", "per_no", interval, "weight"))) %>% distinct() %>% group_by_at(c(interval)) %>% summarize(n=sum(.data$weight, na.rm = T))
         }
 
 
@@ -204,50 +214,50 @@ counts <- function(df,
 
       }
 
-
-
+    }
 
 
 
     # Pad
-      if("year" %in% interval & "month" %in% interval){
-
-        flat <-
-          flat %>%
-          ungroup() %>%
-          mutate(date = lubridate::make_date(.data$year, match(.data$month, month.name))) %>%
-          timetk::pad_by_time(.date_var = .data$date, .by = "month", .pad_value = 0) %>%
-          mutate(month = lubridate::month(.data$date, label = TRUE, abbr = FALSE),
-                 year  = lubridate::year(.data$date))
-
-      }
-
-      if(length(interval)==1){
-
-        if(interval == "year"){
-
-          flat <-
-            flat %>%
-            ungroup() %>%
-            mutate(date = lubridate::make_date(.data$year, month = 1, day = 1)) %>%
-            timetk::pad_by_time(.date_var = .data$date, .by = "year", .pad_value = 0) %>%
-            mutate(year  = lubridate::year(.data$date))
-
-        }
-
-
-        if(interval == "month"){
-
-          flat <-
-            data.frame(month = month.name) %>%
-            left_join(ungroup(flat)) %>%
-            mutate(n = ifelse(is.na(.data$n), 0, .data$n))
-
-        }
-
-      }
-
-    }
+    #
+    #   if("year" %in% interval & "month" %in% interval){
+    #
+    #     flat <-
+    #       flat %>%
+    #       ungroup() %>%
+    #       mutate(date = lubridate::make_date(.data$year, match(.data$month, month.name))) %>%
+    #       timetk::pad_by_time(.date_var = .data$date, .by = "month", .pad_value = 0) %>%
+    #       mutate(month = lubridate::month(.data$date, label = TRUE, abbr = FALSE),
+    #              year  = lubridate::year(.data$date))
+    #
+    #   }
+    #
+    #   if(length(interval)==1){
+    #
+    #     if(interval == "year"){
+    #
+    #       flat <-
+    #         flat %>%
+    #         ungroup() %>%
+    #         mutate(date = lubridate::make_date(.data$year, month = 1, day = 1)) %>%
+    #         timetk::pad_by_time(.date_var = .data$date, .by = "year", .pad_value = 0) %>%
+    #         mutate(year  = lubridate::year(.data$date))
+    #
+    #     }
+    #
+    #
+    #     if(interval == "month"){
+    #
+    #       flat <-
+    #         data.frame(month = month.name) %>%
+    #         left_join(ungroup(flat)) %>%
+    #         mutate(n = ifelse(is.na(.data$n), 0, .data$n))
+    #
+    #     }
+    #
+    #   }
+    #
+    # }
 
 
   # return ----

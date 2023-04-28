@@ -42,6 +42,8 @@ Either a filtered tibble (filterOnly=TRUE) or a tibble of counts
     (filterOnly=FALSE). If filterOnly=TRUE, the tibble that is returned is
     the 'flat' tibble from the input FARS object, filtered according to other
     parameters.
+
+    If `df` is a GESCRSS object, the counts returned are the sum of the appropriate weights.
 }
 \description{
 Use FARS or GES/CRSS data to generate commonly requested counts.

@@ -5,7 +5,7 @@
 \title{Get GES/CRSS data}
 \usage{
 get_gescrss(
-  years = 2011:2020,
+  years = 2011:2021,
   regions = c("mw", "ne", "s", "w"),
   dir = NULL,
   proceed = FALSE,
@@ -14,7 +14,7 @@ get_gescrss(
 }
 \arguments{
 \item{years}{Years to be downloaded, in yyyy (character or numeric formats),
-currently limited to 2011-2020.}
+currently limited to 2011-2021.}
 
 \item{regions}{(Optional) Regions to keep: mw=midwest, ne=northeast, s=south, w=west.}
 
@@ -70,9 +70,7 @@ This function downloads raw data from the GES and CRSS crash databases.
 
    The codebook tibble serves as a searchable codebook for all files of any given year.
 
-   Consult the GES
-   and \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813236}{CRSS} User Manuals
-   for more information.
+   Please review the [CRSS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813436) for more information.
 
    Regions are as follows:
       mw = Midwest   = OH, IN, IL, MI, WI, MN, ND, SD, NE, IA, MO, KS
@@ -82,7 +80,7 @@ This function downloads raw data from the GES and CRSS crash databases.
 }
 \examples{
 \donttest{
-myGESCRSS <- get_gescrss(years = 2019:2020, regions = "s")
-myGESCRSS <- get_gescrss(years = 2020)
+myGESCRSS <- get_gescrss(years = 2019:2021, regions = "s")
+myGESCRSS <- get_gescrss(years = 2021)
 }
 }

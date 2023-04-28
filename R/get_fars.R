@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @param years Years to be downloaded, in yyyy (character or numeric formats),
-#'     currently limited to 2011-2020 (the default).
+#'     currently limited to 2011-2021 (the default).
 #' @param states States to keep. Leave as NULL (the default) to keep
 #'     all states. Can be specified as full state name (e.g. "Virginia"),
 #'     abbreviation ("VA"), or FIPS code (51).
@@ -54,16 +54,16 @@
 #'
 #'    Finally, the codebook tibble serves as a searchable codebook for all files of any given year.
 #'
-#'    Consult the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813254}{Analytical User’s Manual}
-#'    for more information.
+#'    Please review the [FARS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813417) for more information.
+#'
 #'
 #' @examples
 #' \donttest{
-#' myFARS <- get_fars(years = 2019:2020, states = "51")
-#' myFARS <- get_fars(years = 2020, states = "NC")
+#' myFARS <- get_fars(years = 2019:2021, states = "51")
+#' myFARS <- get_fars(years = 2021, states = "NC")
 #' }
 
-get_fars <- function(years   = 2011:2020,
+get_fars <- function(years   = 2011:2021,
                      states  = NULL,
                      dir     = NULL,
                      proceed = FALSE,
@@ -87,7 +87,7 @@ get_fars <- function(years   = 2011:2020,
     ymax <- max(as.numeric(years), na.rm = TRUE)
     ymin <- min(as.numeric(years), na.rm = TRUE)
     if(ymin < 2011) stop("Data not yet available prior to 2011.")
-    if(ymax > 2020) stop("Data not yet available beyond 2020.")
+    if(ymax > 2021) stop("Data not yet available beyond 2021.")
 
 
   # Check states ----

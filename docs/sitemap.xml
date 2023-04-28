@@ -4,10 +4,16 @@
     <loc>https://s87jackson.github.io/rfars/404.html</loc>
   </url>
   <url>
+    <loc>https://s87jackson.github.io/rfars/articles/Crash Sequences.html</loc>
+  </url>
+  <url>
     <loc>https://s87jackson.github.io/rfars/articles/Crash_Sequences.html</loc>
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/articles/in_development/Child_restraint_use.html</loc>
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/articles/Rural_roads.html</loc>
@@ -25,7 +31,13 @@
     <loc>https://s87jackson.github.io/rfars/reference/alcohol.html</loc>
   </url>
   <url>
+    <loc>https://s87jackson.github.io/rfars/reference/appendRDS.html</loc>
+  </url>
+  <url>
     <loc>https://s87jackson.github.io/rfars/reference/bicyclist.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/compare_counts.html</loc>
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/counts.html</loc>
@@ -37,10 +49,22 @@
     <loc>https://s87jackson.github.io/rfars/reference/download_fars.html</loc>
   </url>
   <url>
+    <loc>https://s87jackson.github.io/rfars/reference/download_gescrss.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/driver_age.html</loc>
+  </url>
+  <url>
     <loc>https://s87jackson.github.io/rfars/reference/drowsy_driver.html</loc>
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/drugs.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/fars_1920_va_flat.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/fars_codebook.html</loc>
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/fars_data_changes.html</loc>
@@ -55,13 +79,34 @@
     <loc>https://s87jackson.github.io/rfars/reference/geo_relations.html</loc>
   </url>
   <url>
+    <loc>https://s87jackson.github.io/rfars/reference/gescrss_1920_mw_flat.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/gescrss_codebook.html</loc>
+  </url>
+  <url>
     <loc>https://s87jackson.github.io/rfars/reference/get_fars.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/get_gescrss.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/hit_and_run.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/import_multi.html</loc>
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/index.html</loc>
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/large_trucks.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/make_all_numeric.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/make_id.html</loc>
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/motorcycle.html</loc>
@@ -103,7 +148,28 @@
     <loc>https://s87jackson.github.io/rfars/reference/prep_fars_2020.html</loc>
   </url>
   <url>
+    <loc>https://s87jackson.github.io/rfars/reference/prep_gescrss.html</loc>
+  </url>
+  <url>
     <loc>https://s87jackson.github.io/rfars/reference/read_basic_csv.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/read_basic_sas.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/read_basic_sas_nocat.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/rm_cols.f.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/rm_cols.g.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/road_depart.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/rollover.html</loc>
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/speeding.html</loc>
@@ -113,6 +179,12 @@
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/use_fars.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/use_gescrss.html</loc>
+  </url>
+  <url>
+    <loc>https://s87jackson.github.io/rfars/reference/use_imp.html</loc>
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/validate_states.html</loc>

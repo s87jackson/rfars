@@ -1,6 +1,6 @@
 # rfars 0.3.0
 
-* Expanded FARS coverage to 2011-2020
+* Expanded FARS coverage to 2011-2021
 * Added get_gescrss() to get GES/CRSS data
 * Modified the get_ functions to produce a codebook.csv file
 * Included a codebook.rds file for quick reference
