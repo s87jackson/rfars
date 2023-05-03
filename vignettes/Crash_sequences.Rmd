@@ -37,10 +37,10 @@ library(tidyr)
 ```
 
 
-Below we get one year of data for one state, Virginia.
+First we get one year of data, and filter to the southern region for simplicity. 
 
 ```{r, warning=FALSE}
-mydata <- rfars::get_gescrss(years=2019:2020, regions = "s")
+mydata <- rfars::get_gescrss(years=2021, regions = "s")
 
 my_events <- mydata$events
 ```
@@ -52,11 +52,7 @@ The **Vsoe** data is stored in the `events` tibble of the object returned by
 my_events %>%
   group_by(soe) %>% summarize(n=n()) %>%
   arrange(desc(n)) %>%
-  slice(1:10) %>%
-  
-  ggplot(aes(x=n, y=reorder(soe, n), label=scales::comma(n))) +
-    geom_col() +
-    geom_label()
+  slice(1:10) 
 ```
 
 We can also see the top 10 most common sequences:
@@ -72,18 +68,18 @@ my_events %>%
   arrange(desc(n)) %>%
   slice(1:10) %>%
   select(event1, event2, n)
-  
 ```
 
 Below we consider all state transitions - the transition from one event to the
 next in the sequence. For example, the sequence A-B-C-D has three transitions: A
 to B, B to C, and C to D. The graph below shows a subset of the more common
-transitions in the crash sequences. It is interpreted as follows: the event on
-the y-axis was followed by the event on the x-axis in the percentage of
-sequences shown at the intersection of the two events. For example, vehicles
-went from 're-entering roadway' to 'cross centerline' in 36% of sequences. Note
-that we have added a state labelled 'Pre-Crash' to help account for sequences
-with just one event.
+transitions in the crash sequences. It is interpreted as follows: the event listed 
+on the x-axis (top) was followed by the event listed on the y-axis. The percentage
+shown at the graphical intersection represents the percentage of transitions from one
+event (x) to another event (y). For example, 'Fence'
+was followed by 'Tree (Standing Only)' in 21% of sequences. Note that we have added a 
+state labelled 'Pre-Crash' to help account for sequences with just one event. Another 
+notable takeaway is the large number of events that precede 'Rollover/Overturn.
 
 ```{r, fig.height=7, fig.width=10}
 my_events %>%
@@ -94,15 +90,22 @@ my_events %>%
   group_by(event_from, event_to) %>% summarize(n=n()) %>%
   group_by(event_from) %>% mutate(n_from = sum(n)) %>%
   mutate(n_pct = n/n_from) %>%
-  filter(n_pct>.1, n>5) %>%
-  mutate(event_from = stringr::str_wrap(event_from, 40),
-         event_to = stringr::str_wrap(event_to, 40)) %>%
+  filter(n_pct>.2, n>5) %>%
+  mutate(
+    event_from = ifelse(nchar(event_from)>30, paste0(stringr::str_sub(event_from, 1, 30), "..."), event_from),
+    #event_to   = paste0(stringr::str_sub(event_to, 1, 30), "..."),
+    event_to = stringr::str_wrap(event_to, 40)
+    ) %>%
+  filter(event_from != event_to) %>%
 
-  ggplot(aes(y=event_from, x=event_to, fill=n_pct, label=scales::percent(n_pct, accuracy = 1))) +
+  ggplot(aes(x=event_from, y=event_to, fill=n_pct, label=scales::percent(n_pct, accuracy = 1))) +
     viridis::scale_fill_viridis() +
     geom_label() +
+    scale_x_discrete(position = "top") +
     theme(
-      axis.text.x.bottom = element_text(angle=270, hjust = 0, vjust=.5),
-      legend.position = "none"
+      axis.text.x.top = element_text(angle=45, hjust=0),
+      axis.ticks = element_blank(),
+      #axis.text.x.bottom = element_text(angle=270, hjust = 0, vjust=.5),
+      #legend.position = "none"
       )
 ```

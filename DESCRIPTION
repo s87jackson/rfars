@@ -6,7 +6,7 @@ Authors@R: person("Steve", "Jackson",
     email="steve.jackson@toxcel.com",
     role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-3337-7846"))
-Description: Download raw data from the Fatality Analysis Reporting System (<https://cdan.dot.gov/query>) and prepare it for research.
+Description: Download raw data from the Fatality Analysis Reporting System and prepare it for research.
 License: CC0
 Encoding: UTF-8
 LazyData: true
