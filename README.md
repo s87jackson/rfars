@@ -8,7 +8,7 @@
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/rfars)](https://cran.r-project.org/package=rfars)
 [![R CMD
 Check](https://github.com/s87jackson/rfars/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/s87jackson/rfars/actions/workflows/R-CMD-check.yaml)
-[![](https://cranlogs.r-pkg.org/badges/grand-total/rfars)](https://cran.r-project.org/web/packages/rfars/index.html)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/rfars)](https://CRAN.R-project.org/package=rfars)
 <!-- badges: end -->
 
 The goal of `rfars` is to facilitate transportation safety analysis by
@@ -884,10 +884,10 @@ can confirm the results with official data.
 ``` r
 myGESCRSS <- get_gescrss(years = 2019:2021)
 #> Warning in dir.create(paste0(dest_raw_y, "/format-32")):
-#> 'C:\Users\s87ja\AppData\Local\Temp\Rtmpi8rnsE\GESCRSS data\raw\2020\format-32'
+#> 'C:\Users\s87ja\AppData\Local\Temp\Rtmpkj60Mx\GESCRSS data\raw\2020\format-32'
 #> already exists
 #> Warning in dir.create(paste0(dest_raw_y, "/format-64")):
-#> 'C:\Users\s87ja\AppData\Local\Temp\Rtmpi8rnsE\GESCRSS data\raw\2020\format-64'
+#> 'C:\Users\s87ja\AppData\Local\Temp\Rtmpkj60Mx\GESCRSS data\raw\2020\format-64'
 #> already exists
 #> 
 #> ── Column specification ────────────────────────────────────────────────────────

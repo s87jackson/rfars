@@ -19,20 +19,6 @@
 
 
 
-#' FARS Data Sample (Virginia, 2019-2020)
-#'
-#' A toy dataset taken from the 'flat' element of a FARS data object (created by rfars::get_fars(years=2019:2020, states="VA")).
-#'    Less commonly used variables have been omitted to minimize memory requirements.
-#'
-#' @format A dataframe with 3,496 rows and 30 variables.
-#'
-#' @details See the fars_codebook for more information about each variable.
-#'
-#' @seealso [rfars::get_fars()], "fars_codebook"
-"fars_1920_va_flat"
-
-
-
 #' FARS Codebook
 #'
 #' A table describing each FARS variable name, value, and corresponding value label.
@@ -85,19 +71,6 @@
 #' @seealso "gescrss_codebook"
 "fars_codebook"
 
-
-
-#' GESCRSS Data Sample (Midwest, 2019-2020)
-#'
-#' A toy dataset taken from the 'flat' element of a GESCRSS data object (created by rfars::get_gescrss(years=2019:2020, regions="mw")).
-#'    Less commonly used variables have been omitted to minimize memory requirements.
-#'
-#' @format A dataframe with 44,956 rows and 29 variables.
-#'
-#' @details See the gescrss_codebook for more information about each variable.
-#'
-#' @seealso [rfars::get_gescrss()], "gescrss_codebook"
-"gescrss_1920_mw_flat"
 
 
 #' GESCRSS Codebook

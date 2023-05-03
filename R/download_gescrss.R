@@ -9,7 +9,7 @@
 #'
 #' @return Nothing directly to the current environment. Various CSV files are stored either in a temporary directory or dir as specified by the user.
 #'
-#' @details Raw files are downloaded from \href{https://static.nhtsa.gov/nhtsa/downloads/GES/}{GES} (2011-2015) and \href{https://static.nhtsa.gov/nhtsa/downloads/CRSS/}{CRSS} (2016-2021).
+#' @details Raw files are downloaded directly from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/}{NHTSA}.
 
 
 download_gescrss <- function(years,
