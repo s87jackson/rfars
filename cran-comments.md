@@ -1,39 +1,20 @@
-## Resubmission
+## Test environments
 
-This is a resubmission. In this version I have:
+* local windows install (x86_64-w64-mingw32/x64 (64-bit)), R 4.2.1
 
-* Removed examples for unexported functions.
+* Ubuntu 22.04.2, Microsoft Windows Server 2022 10.0.20348, macOS 12.6.5 (via GitHub's R CMD Check workflow)
 
-In previous resubmissions I:
+## Reverse dependency
 
-* Put functions which download data in \donttest{}
-
-* Streamlined some processes
-
-* Added \value to .Rd files
-
-* Added small executable examples to illustrate the use of exported functions and enable automatic testing.
-
-* Avoided the issue of saving data to the hard drive by saving it to tempdir.
-
-* Fixed the redirect URL that was causing the invalid URL note
-
-* Downsized the vignettes to reduce the check time.
-
-* Removed the words that were triggering the misspelling note.
-
-* Rephrased the Description to not begin with 'this package'
-
-* Removed some unnecessary content from Readme.
-
-* Removed a function and dependency that is no longer required.
+* version 0.2.0 of this package was archived because it required archived package 'timetk'. That dependency has been removed
+  
   
 ## Latest R CMD check results
 
-    Duration: 6m 17.6s
+    Duration: 32m 34s
 
-    0 errors | 0 warnings | 0 notes
-    
+    0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+
     R CMD check succeeded
     
 * R CMD check was run on development version of R

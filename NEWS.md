@@ -9,7 +9,6 @@
 * Added a compare_counts() function
 * SAS files are pulled from NHTSA, rather than the CSVs
 * Consolidated all prep_fars_yyyy functions into prep_fars()
-* Included several sample datasets
 
 
 # rfars 0.2.0
