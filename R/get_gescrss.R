@@ -53,7 +53,7 @@
 #'
 #'    The codebook tibble serves as a searchable codebook for all files of any given year.
 #'
-#'    Please review the [CRSS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813436) for more information.
+#'    Please review the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813436}{CRSS Analytical User's Manual}
 #'
 #'    Regions are as follows:
 #'       mw = Midwest   = OH, IN, IL, MI, WI, MN, ND, SD, NE, IA, MO, KS

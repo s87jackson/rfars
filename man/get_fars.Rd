@@ -72,7 +72,7 @@ This function downloads raw data from \href{https://www.nhtsa.gov/file-downloads
 
    Finally, the codebook tibble serves as a searchable codebook for all files of any given year.
 
-   Please review the [FARS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813417) for more information.
+   Please review the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813417}{FARS Analytical User's Manual}
 }
 \examples{
 \donttest{

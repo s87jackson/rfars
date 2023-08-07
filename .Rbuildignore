@@ -32,3 +32,4 @@ old$
 vignettes/in_development$
 vignettes/in_development
 ^\.github
+^update_process\.txt$
