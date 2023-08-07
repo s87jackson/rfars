@@ -4,6 +4,7 @@ inst/doc
 /Meta/
 ^sticker\.R$
 ^sticker\.pptx$
+^update_process\.txt$
 ^old$
 <<<<<<< HEAD
 FARS data

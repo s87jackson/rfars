@@ -79,7 +79,7 @@ shown at the graphical intersection represents the percentage of transitions fro
 event (x) to another event (y). For example, 'Fence'
 was followed by 'Tree (Standing Only)' in 21% of sequences. Note that we have added a 
 state labelled 'Pre-Crash' to help account for sequences with just one event. Another 
-notable takeaway is the large number of events that precede 'Rollover/Overturn.
+notable takeaway is the large number of events that precede Rollover/Overturn.
 
 ```{r, fig.height=7, fig.width=10}
 my_events %>%
