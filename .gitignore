@@ -6,14 +6,17 @@ inst/doc
 ^sticker\.pptx$
 ^update_process\.txt$
 ^old$
-<<<<<<< HEAD
+in_development
+in_development/
 FARS data
 GESCRSS data
+FARS data/
+GESCRSS data/
 .RData
 .RDataTmp
 .Rhistory
 myFARS.rds
 myGESCRSS.rds
 old
-=======
->>>>>>> 9d53c2c4adb645e269f60cc5be2df4a50ab66200
+[.]xlsx$
+[.]png$

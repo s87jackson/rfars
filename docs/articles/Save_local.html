@@ -115,20 +115,20 @@ two ways:</p>
 <code class="sourceCode R"><span><span class="va">saved_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"mydata.rds"</span><span class="op">)</span></span></code></pre></div>
 <p>This can save a considerable amount of time:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">benchmark</span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu">rbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rbenchmark/man/benchmark.html" class="external-link">benchmark</a></span><span class="op">(</span></span>
 <span>  <span class="st">"download new"</span> <span class="op">=</span> <span class="fu">rfars</span><span class="fu">::</span><span class="fu"><a href="../reference/get_fars.html">get_fars</a></span><span class="op">(</span>years<span class="op">=</span><span class="fl">2021</span>, states <span class="op">=</span> <span class="st">"VA"</span>, proceed <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>,</span>
 <span>  <span class="st">"use saved"</span>    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"mydata.rds"</span><span class="op">)</span>,</span>
 <span>  replications <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"test"</span>, <span class="st">"replications"</span>, <span class="st">"elapsed"</span>, <span class="st">"relative"</span>, <span class="st">"user.self"</span>, <span class="st">"sys.self"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in dir.create(paste0(dest_raw_y, "/format-32")):</span></span>
-<span><span class="co">#&gt; 'C:\Users\s87ja\AppData\Local\Temp\Rtmp69qBxJ\FARS data\raw\2021\format-32'</span></span>
+<span><span class="co">#&gt; 'C:\Users\s87ja\AppData\Local\Temp\RtmpmcZyCA\FARS data\raw\2021\format-32'</span></span>
 <span><span class="co">#&gt; already exists</span></span>
 <span><span class="co">#&gt; Warning in dir.create(paste0(dest_raw_y, "/format-64")):</span></span>
-<span><span class="co">#&gt; 'C:\Users\s87ja\AppData\Local\Temp\Rtmp69qBxJ\FARS data\raw\2021\format-64'</span></span>
+<span><span class="co">#&gt; 'C:\Users\s87ja\AppData\Local\Temp\RtmpmcZyCA\FARS data\raw\2021\format-64'</span></span>
 <span><span class="co">#&gt; already exists</span></span>
 <span><span class="co">#&gt;           test replications elapsed relative user.self sys.self</span></span>
-<span><span class="co">#&gt; 1 download new            1  120.33    668.5     73.50     2.64</span></span>
-<span><span class="co">#&gt; 2    use saved            1    0.18      1.0      0.15     0.01</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 download new            1  123.44  561.091     65.71     2.28</span></span>
+<span><span class="co">#&gt; 2    use saved            1    0.22    1.000      0.15     0.00</span></span></code></pre></div>
 <p>Below we export each piece of the FARS data object to a separate tab
 on an Excel spreadsheet:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
