@@ -308,105 +308,32 @@ the requisite data elements corresponding to the entity: `multi_acc`
 includes `st_case` and `year`, `multi_veh` adds `veh_no` (vehicle
 number), and `multi_per` adds `per_no` (person number).
 
-The top three name-value pairs of each tibble are shown below.
+The top name-value pairs of each tibble are shown below.
 
 ``` r
-myFARS$multi_acc %>% group_by(name, value) %>% summarize(n=n()) %>% 
-  arrange(name, desc(n)) %>% mutate(rank=row_number()) %>%
-  filter(rank<=3) %>%
-  select(-rank)
-#> `summarise()` has grouped output by 'name'. You can override using the
-#> `.groups` argument.
-#> # A tibble: 15 × 3
-#> # Groups:   name [5]
-#>    name     value                                                              n
-#>    <chr>    <chr>                                                          <int>
-#>  1 cf1      Police Pursuit Involved                                           17
-#>  2 cf1      Recent/Previous Crash scene Nearby                                 7
-#>  3 cf1      Indication of a Stalled/Disabled Vehicle                           6
-#>  4 cf2      Motor Vehicle struck by falling cargo,or something that came …     1
-#>  5 cf2      Non-occupant struck by falling cargo, or something that came …     1
-#>  6 cf2      Recent/Previous Crash scene Nearby                                 1
-#>  7 crashrf  Police Pursuit Involved                                           39
-#>  8 crashrf  Motor Vehicle struck by falling cargo,or something that came …    38
-#>  9 crashrf  Indication of a Stalled/Disabled Vehicle                          15
-#> 10 weather  Rain                                                             182
-#> 11 weather  Fog, Smog, Smoke                                                  18
-#> 12 weather  Clear                                                             13
-#> 13 weather1 Rain                                                              78
-#> 14 weather1 Fog, Smog, Smoke                                                  10
-#> 15 weather1 Snow                                                               5
-
-myFARS$multi_veh %>% group_by(name, value) %>% summarize(n=n()) %>% 
-  arrange(name, desc(n)) %>% mutate(rank=row_number()) %>%
-  filter(rank<=3) %>%
-  select(-rank)
-#> `summarise()` has grouped output by 'name'. You can override using the
-#> `.groups` argument.
-#> # A tibble: 57 × 3
-#> # Groups:   name [21]
-#>    name   value                                                                n
-#>    <chr>  <chr>                                                            <int>
-#>  1 damage 12 Clock Value                                                    1971
-#>  2 damage 11 Clock Value                                                    1705
-#>  3 damage 1 Clock Value                                                     1597
-#>  4 dr_sf1 Failure to Yield Right-of-Way                                       79
-#>  5 dr_sf1 Overcorrecting                                                      46
-#>  6 dr_sf1 Improper Lane Usage                                                 38
-#>  7 dr_sf2 Failure to Obey Actual Traffic Sign,Traffic Control Devices or …     7
-#>  8 dr_sf2 Overcorrecting                                                       4
-#>  9 dr_sf2 Careless Driving                                                     3
-#> 10 dr_sf3 Reported as Unknown                                                  1
-#> # ℹ 47 more rows
-
-myFARS$multi_per %>% group_by(name, value) %>% summarize(n=n()) %>% 
-  arrange(name, desc(n)) %>% mutate(rank=row_number()) %>%
-  filter(rank<=3) %>%
-  select(-rank)
-#> `summarise()` has grouped output by 'name'. You can override using the
-#> `.groups` argument.
-#> # A tibble: 42 × 3
-#> # Groups:   name [14]
-#>    name     value                                                              n
-#>    <chr>    <chr>                                                          <int>
-#>  1 drugres  Test Not Given                                                  3167
-#>  2 drugres  Tested, No Drugs Found/Negative                                 1146
-#>  3 drugres  Tetrahydrocannabinols (THC)                                      407
-#>  4 drugspec Test Not Given                                                  3167
-#>  5 drugspec Whole Blood                                                     2749
-#>  6 drugspec Vitreous                                                         426
-#>  7 mnmdstrd Not Distracted                                                    23
-#>  8 mnmdstrd Adjusting or listening to Portable Audio Device (Other than o…     1
-#>  9 mnmdstrd Distracted by Animal, Other Object, Event, or Activity             1
-#> 10 mpr_act  Crossing Roadway                                                  84
-#> # ℹ 32 more rows
-
 bind_rows(
   
-  myFARS$multi_acc %>% filter(!is.na(value)) %>% group_by(name, value) %>% summarize(n=n(), .groups = "drop") %>% arrange(desc(n)) %>% slice(1:5) %>% mutate(table = "multi_acc"),
-  myFARS$multi_veh %>% filter(!is.na(value)) %>% group_by(name, value) %>% summarize(n=n(), .groups = "drop") %>% arrange(desc(n)) %>% slice(1:5) %>% mutate(table = "multi_veh"),
-  myFARS$multi_per %>% filter(!is.na(value)) %>% group_by(name, value) %>% summarize(n=n(), .groups = "drop") %>% arrange(desc(n)) %>% slice(1:5) %>% mutate(table = "multi_per"),
+  myFARS$multi_acc %>% filter(!is.na(value)) %>% group_by(name, value) %>% summarize(n=n(), .groups = "drop") %>% arrange(desc(n)) %>% slice(1:10) %>% mutate(table = "multi_acc"),
+  myFARS$multi_veh %>% filter(!is.na(value)) %>% group_by(name, value) %>% summarize(n=n(), .groups = "drop") %>% arrange(desc(n)) %>% slice(1:10) %>% mutate(table = "multi_veh"),
+  myFARS$multi_per %>% filter(!is.na(value)) %>% group_by(name, value) %>% summarize(n=n(), .groups = "drop") %>% arrange(desc(n)) %>% slice(1:10) %>% mutate(table = "multi_per"),
   
 ) %>%
+  
   select(table, name, value, n)
-#> # A tibble: 15 × 4
-#>    table     name       value                                                  n
-#>    <chr>     <chr>      <chr>                                              <int>
-#>  1 multi_acc weather    Rain                                                 182
-#>  2 multi_acc weather1   Rain                                                  78
-#>  3 multi_acc crashrf    Police Pursuit Involved                               39
-#>  4 multi_acc crashrf    Motor Vehicle struck by falling cargo,or somethin…    38
-#>  5 multi_acc weather    Fog, Smog, Smoke                                      18
-#>  6 multi_veh vehiclecc  None Noted                                          2439
-#>  7 multi_veh vision     No Obstruction Noted                                2323
-#>  8 multi_veh drimpair   None/Apparently Normal                              2252
-#>  9 multi_veh damage     12 Clock Value                                      1971
-#> 10 multi_veh drdistract Not Distracted                                      1909
-#> 11 multi_per multrace   No                                                  3704
-#> 12 multi_per drugres    Test Not Given                                      3167
-#> 13 multi_per drugspec   Test Not Given                                      3167
-#> 14 multi_per race       Not a Fatality (not Applicable)                     2811
-#> 15 multi_per drugspec   Whole Blood                                         2749
+#> # A tibble: 30 × 4
+#>    table     name     value                                                    n
+#>    <chr>     <chr>    <chr>                                                <int>
+#>  1 multi_acc weather  Rain                                                   182
+#>  2 multi_acc weather1 Rain                                                    78
+#>  3 multi_acc crashrf  Police Pursuit Involved                                 39
+#>  4 multi_acc crashrf  Motor Vehicle struck by falling cargo,or something …    38
+#>  5 multi_acc weather  Fog, Smog, Smoke                                        18
+#>  6 multi_acc cf1      Police Pursuit Involved                                 17
+#>  7 multi_acc crashrf  Indication of a Stalled/Disabled Vehicle                15
+#>  8 multi_acc crashrf  Recent/Previous Crash scene Nearby                      15
+#>  9 multi_acc weather  Clear                                                   13
+#> 10 multi_acc weather1 Fog, Smog, Smoke                                        10
+#> # ℹ 20 more rows
 ```
 
 The `events` tibble provides a sequence of numbered events for each
@@ -504,7 +431,7 @@ my_counts %>%
     labs(x=NULL, y=NULL, title = "Fatal Crashes in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
 counts(
@@ -518,7 +445,7 @@ counts(
     labs(x=NULL, y=NULL, title = "Fatalities in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-10-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
 counts(myFARS,
@@ -532,7 +459,7 @@ counts(myFARS,
     labs(x=NULL, y=NULL, title = "Rural Fatalities in Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
 counts(myFARS,
@@ -547,7 +474,7 @@ counts(myFARS,
     labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Rural Virginia")
 ```
 
-<img src="man/figures/README-unnamed-chunk-12-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="80%" style="display: block; margin: auto;" />
 
 We can combine two `counts()` results to make a comparison. Here we
 compare the number of speeding-related fatalities in rural and urban
@@ -568,7 +495,7 @@ compare_counts(
     labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Virginia", fill=NULL)
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="80%" style="display: block; margin: auto;" />
 
 ### Mapping
 
@@ -594,7 +521,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="80%" style="display: block; margin: auto;" />
 
 Drug-related crashes:
 
@@ -619,7 +546,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-15-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-14-1.png" width="80%" style="display: block; margin: auto;" />
 
 Young drivers:
 
@@ -644,7 +571,7 @@ leaflet() %>%
 #> Assuming "lon" and "lat" are longitude and latitude, respectively
 ```
 
-<img src="man/figures/README-unnamed-chunk-16-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="80%" style="display: block; margin: auto;" />
 
 ### Modeling
 
@@ -885,7 +812,7 @@ new_data %>%
          caption = "Full = correctly used seatbelt, partial = partially correctly used, none = no seatbelt.")
 ```
 
-<img src="man/figures/README-unnamed-chunk-18-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-17-1.png" width="80%" style="display: block; margin: auto;" />
 
 ## Getting and Using GES/CRSS Data
 
@@ -904,10 +831,10 @@ can confirm the results with official data.
 ``` r
 myGESCRSS <- get_gescrss(years = 2019:2021)
 #> Warning in dir.create(paste0(dest_raw_y, "/format-32")):
-#> 'C:\Users\s87ja\AppData\Local\Temp\Rtmp02wJwM\GESCRSS data\raw\2020\format-32'
+#> 'C:\Users\s87ja\AppData\Local\Temp\RtmpEnDbQ6\GESCRSS data\raw\2020\format-32'
 #> already exists
 #> Warning in dir.create(paste0(dest_raw_y, "/format-64")):
-#> 'C:\Users\s87ja\AppData\Local\Temp\Rtmp02wJwM\GESCRSS data\raw\2020\format-64'
+#> 'C:\Users\s87ja\AppData\Local\Temp\RtmpEnDbQ6\GESCRSS data\raw\2020\format-64'
 #> already exists
 #> 
 #> ── Column specification ────────────────────────────────────────────────────────
@@ -1273,7 +1200,7 @@ my_counts %>%
     labs(x=NULL, y=NULL, title = "Total Estimated Crashes")
 ```
 
-<img src="man/figures/README-unnamed-chunk-25-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-24-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
 counts(
@@ -1288,7 +1215,7 @@ counts(
     labs(x=NULL, y=NULL, title = "Injuries in the South")
 ```
 
-<img src="man/figures/README-unnamed-chunk-26-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-25-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
 compare_counts(
@@ -1304,7 +1231,7 @@ compare_counts(
     labs(x=NULL, y=NULL, title = "Injuries in the South and Northeast", fill=NULL)
 ```
 
-<img src="man/figures/README-unnamed-chunk-27-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-26-1.png" width="80%" style="display: block; margin: auto;" />
 
 ### Mapping
 
@@ -1576,4 +1503,4 @@ new_data %>%
          caption = "Full = correctly used seatbelt, partial = partially correctly used, none = no seatbelt.")
 ```
 
-<img src="man/figures/README-unnamed-chunk-29-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-28-1.png" width="80%" style="display: block; margin: auto;" />

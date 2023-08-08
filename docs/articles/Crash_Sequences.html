@@ -50,6 +50,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Crash_sequences.html">Crash Sequences</a>
     <a class="dropdown-item" href="../articles/Rural_roads.html">Rural Roads</a>
+    <a class="dropdown-item" href="../articles/Save_local.html">Saving a local dataset</a>
   </div>
 </li>
 <li class="nav-item">
@@ -142,16 +143,16 @@ the top 10 individual events:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 2</span></span></span>
 <span><span class="co">#&gt;    soe                            n</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Motor Vehicle In-Transport <span style="text-decoration: underline;">82</span>664</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Ran Off Roadway - Right     <span style="text-decoration: underline;">8</span>191</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Parked Motor Vehicle        <span style="text-decoration: underline;">5</span>914</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Ran Off Roadway - Left      <span style="text-decoration: underline;">5</span>529</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Rollover/Overturn           <span style="text-decoration: underline;">3</span>460</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Pedestrian                  <span style="text-decoration: underline;">2</span>917</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Cross Centerline            <span style="text-decoration: underline;">2</span>638</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Tree (Standing Only)        <span style="text-decoration: underline;">2</span>076</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Live Animal                 <span style="text-decoration: underline;">1</span>869</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Pedalcyclist                <span style="text-decoration: underline;">1</span>822</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Motor Vehicle In-Transport <span style="text-decoration: underline;">47</span>028</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Ran Off Roadway - Right     <span style="text-decoration: underline;">4</span>014</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Ran Off Roadway - Left      <span style="text-decoration: underline;">2</span>977</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Parked Motor Vehicle        <span style="text-decoration: underline;">2</span>044</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Rollover/Overturn           <span style="text-decoration: underline;">1</span>791</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Cross Centerline            <span style="text-decoration: underline;">1</span>475</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Tree (Standing Only)        <span style="text-decoration: underline;">1</span>206</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Pedestrian                  <span style="text-decoration: underline;">1</span>202</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Ditch                        932</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Utility Pole/Light Support   770</span></span></code></pre></div>
 <p>We can also see the top 10 most common sequences:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_events</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -165,18 +166,18 @@ the top 10 individual events:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">event1</span>, <span class="va">event2</span>, <span class="va">n</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 3</span></span></span>
-<span><span class="co">#&gt;    event1                     event2                         n</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Motor Vehicle In-Transport x                          <span style="text-decoration: underline;">67</span>806</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Motor Vehicle In-Transport Motor Vehicle In-Transport  <span style="text-decoration: underline;">4</span>106</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Parked Motor Vehicle       x                           <span style="text-decoration: underline;">2</span>996</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Pedestrian                 x                           <span style="text-decoration: underline;">2</span>291</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Live Animal                x                           <span style="text-decoration: underline;">1</span>772</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Pedalcyclist               x                           <span style="text-decoration: underline;">1</span>703</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Ran Off Roadway - Right    Parked Motor Vehicle         848</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Cross Centerline           Motor Vehicle In-Transport   752</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Ran Off Roadway - Right    Utility Pole/Light Support   418</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Rollover/Overturn          x                            404</span></span></code></pre></div>
+<span><span class="co">#&gt;    event1                                                           event2     n</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Motor Vehicle In-Transport                                       x      <span style="text-decoration: underline;">38</span>851</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Motor Vehicle In-Transport                                       Motor…  <span style="text-decoration: underline;">2</span>248</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Parked Motor Vehicle                                             x       <span style="text-decoration: underline;">1</span>027</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Pedestrian                                                       x        913</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Pedalcyclist                                                     x        592</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Live Animal                                                      x        543</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Cross Centerline                                                 Motor…   392</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Ran Off Roadway - Right                                          Parke…   269</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Motor Vehicle In-Transport                                       Rollo…   221</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Motor Vehicle In-Transport Strikes or is Struck by Cargo, Perso… x        187</span></span></code></pre></div>
 <p>Below we consider all state transitions - the transition from one
 event to the next in the sequence. For example, the sequence A-B-C-D has
 three transitions: A to B, B to C, and C to D. The graph below shows a

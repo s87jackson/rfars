@@ -1,12 +1,12 @@
 Package: rfars
 Type: Package
-Title: Download and Analyze Fatal Crash Data
+Title: Download and Analyze Crash Data
 Version: 0.3.0
 Authors@R: person("Steve", "Jackson", 
     email="steve.jackson@toxcel.com",
     role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-3337-7846"))
-Description: Download raw data from the Fatality Analysis Reporting System and prepare it for research.
+Description: Download crash data from the National Highway Traffic Safety Administration and prepare it for research.
 License: CC0
 Encoding: UTF-8
 LazyData: true
@@ -37,7 +37,9 @@ Suggests:
     ggplot2,
     scales,
     stargazer,
-    viridis
+    viridis,
+    rbenchmark,
+    openxlsx
 VignetteBuilder: knitr
 URL: https://github.com/s87jackson/rfars
 BugReports: https://github.com/s87jackson/rfars/issues

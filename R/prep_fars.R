@@ -244,7 +244,9 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
       ) %>%
     as.data.frame() %>%
     filter(!(.data$value %in% c("None", "Unknown", "Not Reported", "No Additional Atmospheric Conditions"))) %>%
-    mutate(year = y)
+    mutate(year = y) %>%
+    mutate_at(c("st_case", "year"), as.numeric) %>%
+    inner_join(select(flat, "st_case", "year") %>% distinct(), by = c("st_case", "year"))
 
 
   ## Vehicle-level ----
@@ -268,7 +270,9 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
   multi_veh <-
     as.data.frame(multi_veh) %>%
     filter(!(.data$value %in% c("None", "Unknown", "Not Reported"))) %>%
-    mutate(year = y)
+    mutate(year = y) %>%
+    mutate_at(c("st_case", "year"), as.numeric) %>%
+    inner_join(select(flat, "st_case", "year") %>% distinct(), by = c("st_case", "year"))
 
 
   ## Person-level ----
@@ -292,14 +296,18 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
   multi_per <-
     as.data.frame(multi_per) %>%
     filter(!(.data$value %in% c("None", "Unknown", "Not Reported"))) %>%
-    mutate(year = y)
+    mutate(year = y) %>%
+    mutate_at(c("st_case", "year"), as.numeric) %>%
+    inner_join(select(flat, "st_case", "year") %>% distinct(), by = c("st_case", "year"))
 
 
   ## Events ----
 
   soe <-
     as.data.frame(fars.vsoe) %>%
-    mutate(year = y)
+    mutate(year = y) %>%
+    mutate_at(c("st_case", "year"), as.numeric) %>%
+    inner_join(select(flat, "st_case", "year") %>% distinct(), by = c("st_case", "year"))
 
 
 # return ----

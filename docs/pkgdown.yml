@@ -4,11 +4,8 @@ pkgdown_sha: ~
 articles:
   Crash_sequences: Crash_sequences.html
   Rural_roads: Rural_roads.html
-<<<<<<< HEAD
-last_built: 2023-08-08T01:10Z
-=======
-last_built: 2023-08-07T22:17Z
->>>>>>> a2d1be402faeb4330f2473d2714e271a18d058cc
+  Save_local: Save_local.html
+last_built: 2023-08-08T03:36Z
 urls:
   reference: https://s87jackson.github.io/rfars/reference
   article: https://s87jackson.github.io/rfars/articles

@@ -112,39 +112,17 @@ elements corresponding to the entity: `multi_acc` includes `st_case` and `year`,
 `multi_veh` adds `veh_no` (vehicle number), and `multi_per` adds `per_no`
 (person number). 
 
-The top three name-value pairs of each tibble are shown below.
-
-```{r, echo=F}
-#In version 0.3.0 the multi and event tibbles are not filtered by state
-myFARS$multi_acc <- filter(myFARS$multi_acc, state=="Virginia")
-myFARS$multi_veh <- filter(myFARS$multi_veh, state=="Virginia")
-myFARS$multi_per <- filter(myFARS$multi_per, state=="Virginia")
-myFARS$events <- filter(myFARS$events, state=="Virginia")
-```
+The top name-value pairs of each tibble are shown below.
 
 ```{r}
-myFARS$multi_acc %>% group_by(name, value) %>% summarize(n=n()) %>% 
-  arrange(name, desc(n)) %>% mutate(rank=row_number()) %>%
-  filter(rank<=3) %>%
-  select(-rank)
-
-myFARS$multi_veh %>% group_by(name, value) %>% summarize(n=n()) %>% 
-  arrange(name, desc(n)) %>% mutate(rank=row_number()) %>%
-  filter(rank<=3) %>%
-  select(-rank)
-
-myFARS$multi_per %>% group_by(name, value) %>% summarize(n=n()) %>% 
-  arrange(name, desc(n)) %>% mutate(rank=row_number()) %>%
-  filter(rank<=3) %>%
-  select(-rank)
-
 bind_rows(
   
-  myFARS$multi_acc %>% filter(!is.na(value)) %>% group_by(name, value) %>% summarize(n=n(), .groups = "drop") %>% arrange(desc(n)) %>% slice(1:5) %>% mutate(table = "multi_acc"),
-  myFARS$multi_veh %>% filter(!is.na(value)) %>% group_by(name, value) %>% summarize(n=n(), .groups = "drop") %>% arrange(desc(n)) %>% slice(1:5) %>% mutate(table = "multi_veh"),
-  myFARS$multi_per %>% filter(!is.na(value)) %>% group_by(name, value) %>% summarize(n=n(), .groups = "drop") %>% arrange(desc(n)) %>% slice(1:5) %>% mutate(table = "multi_per"),
+  myFARS$multi_acc %>% filter(!is.na(value)) %>% group_by(name, value) %>% summarize(n=n(), .groups = "drop") %>% arrange(desc(n)) %>% slice(1:10) %>% mutate(table = "multi_acc"),
+  myFARS$multi_veh %>% filter(!is.na(value)) %>% group_by(name, value) %>% summarize(n=n(), .groups = "drop") %>% arrange(desc(n)) %>% slice(1:10) %>% mutate(table = "multi_veh"),
+  myFARS$multi_per %>% filter(!is.na(value)) %>% group_by(name, value) %>% summarize(n=n(), .groups = "drop") %>% arrange(desc(n)) %>% slice(1:10) %>% mutate(table = "multi_per"),
   
 ) %>%
+  
   select(table, name, value, n)
 ```
 

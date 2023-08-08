@@ -1,0 +1,17 @@
+make changes
+
+pause DropBox
+
+delete the FARS and GESCRSS data folders
+
+Build >> More >> Document
+
+Install >> Clean and install
+
+Check
+
+pkgdown::build_site()
+
+pkgdown::build_site_github_pages()
+
+Git commit all of the changed files
