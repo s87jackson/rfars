@@ -5,7 +5,11 @@ articles:
   Crash_sequence_of_events: Crash_sequence_of_events.html
   Rural_roads: Rural_roads.html
   Save_local: Save_local.html
+<<<<<<< HEAD
 last_built: 2023-08-08T21:18Z
+=======
+last_built: 2023-08-08T20:15Z
+>>>>>>> aeabadf75a6c43010a374860b35a52c499ee72a8
 urls:
   reference: https://s87jackson.github.io/rfars/reference
   article: https://s87jackson.github.io/rfars/articles
