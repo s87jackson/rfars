@@ -248,7 +248,9 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
   multi_acc <-
     as.data.frame(multi_acc) %>%
     filter(!(.data$value %in% c("None", "Unknown", "Not Reported", "No Additional Atmospheric Conditions"))) %>%
-    mutate(year = y)
+    mutate(year = y) %>%
+    mutate_at(c("casenum", "year"), as.numeric) %>%
+    inner_join(select(flat, "casenum", "year") %>% distinct(), by = c("casenum", "year"))
 
 
   ## Vehicle-level ----
@@ -271,7 +273,9 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
   multi_veh <-
     as.data.frame(multi_veh) %>%
     filter(!(.data$value %in% c("None", "Unknown", "Not Reported", "No Additional Atmospheric Conditions"))) %>%
-    mutate(year = y)
+    mutate(year = y) %>%
+    mutate_at(c("casenum", "year"), as.numeric) %>%
+    inner_join(select(flat, "casenum", "year") %>% distinct(), by = c("casenum", "year"))
 
 
   ## Person-level ----
@@ -291,12 +295,17 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
   multi_per <-
     as.data.frame(multi_per) %>%
     filter(!(.data$value %in% c("None", "Unknown", "Not Reported", "No Additional Atmospheric Conditions"))) %>%
-    mutate(year = y)
+    mutate(year = y) %>%
+    mutate_at(c("casenum", "year"), as.numeric) %>%
+    inner_join(select(flat, "casenum", "year") %>% distinct(), by = c("casenum", "year"))
 
 
   ## Events ----
 
-  soe <- as.data.frame(gescrss.vsoe) %>% mutate(year = y)
+  soe <- as.data.frame(gescrss.vsoe) %>%
+    mutate(year = y) %>%
+    mutate_at(c("casenum", "year"), as.numeric) %>%
+    inner_join(select(flat, "casenum", "year") %>% distinct(), by = c("casenum", "year"))
 
 
 # return ----

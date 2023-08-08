@@ -1,0 +1,82 @@
+---
+title: "Saving a local dataset"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Saving a local dataset}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+It can take a few minutes to run get_fars() qnd get_gescrss(), so you may want
+to save a dataset on your hard drive for faster use later. If you are an R user,
+the get_fars() and get_gescrss() functions provide options to save .RDS files to
+a specified location. Other users may prefer spreadsheets (.XLSX). This
+vignettes demonstrates how to save data in both formats.
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+library(rfars)
+library(dplyr)
+library(magrittr)
+library(tidyr)
+library(readr)
+library(rbenchmark)
+library(openxlsx)
+```
+
+Here we download and save one year of FARS data from Virginia. The `dir` option
+tells *rfars* where to look for the filename given in the `cache` option. If
+`dir` is left blank, the RDS file will be saved to a temporary directory. If
+`cache` is not specified, data tables are produced, but not saved as an RDS
+file. If the `cache` file does not exist in `dir`, it will be created. If it
+does exist, `get_fars()` will pull in this file, regardless of the other
+options.
+
+```{r, warning=FALSE}
+mydata <- rfars::get_fars(years=2021, states = "VA", dir = getwd(), proceed = T, cache = "mydata.rds")
+```
+
+Now that it's saved, we can pull in into the current environment in two ways:
+
+```{r}
+saved_data <- rfars::get_fars(years=2021, states = "VA", dir = getwd(), proceed = T, cache = "mydata.rds")
+```
+
+or:
+
+```{r}
+saved_data <- readRDS("mydata.rds")
+```
+
+This can save a considerable amount of time:
+
+```{r}
+rbenchmark::benchmark(
+  "download new" = rfars::get_fars(years=2021, states = "VA", proceed = T),
+  "use saved"    = readRDS("mydata.rds"),
+  replications = 1,
+  columns = c("test", "replications", "elapsed", "relative", "user.self", "sys.self"))
+```
+
+
+Below we export each piece of the FARS data object to a separate tab on an Excel spreadsheet:
+
+```{r}
+openxlsx::write.xlsx(list('flat' = mydata$flat, 
+                          'multi_acc' = mydata$multi_acc, 
+                          'multi_veh' = mydata$multi_veh, 
+                          'multi_per' = mydata$multi_per, 
+                          'events' = mydata$events, 
+                          'codebook' = mydata$codebook), 
+                     file = 'mydata.xlsx') 
+```
+

@@ -1,4 +1,3 @@
-*.html
 *.R
 *.csv
 *.CSV
@@ -12,4 +11,3 @@
 old$
 vignettes/in_development$
 vignettes/in_development
-^\.github
