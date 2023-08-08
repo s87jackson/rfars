@@ -2,10 +2,10 @@ pandoc: 3.0.1
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
-  Crash_sequences: Crash_sequences.html
+  Crash_sequence_of_events: Crash_sequence_of_events.html
   Rural_roads: Rural_roads.html
   Save_local: Save_local.html
-last_built: 2023-08-08T03:36Z
+last_built: 2023-08-08T21:18Z
 urls:
   reference: https://s87jackson.github.io/rfars/reference
   article: https://s87jackson.github.io/rfars/articles

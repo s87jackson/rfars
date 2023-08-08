@@ -59,12 +59,12 @@ saved_data <- readRDS("mydata.rds")
 
 This can save a considerable amount of time:
 
-```{r}
+```{r, warning=F, results='asis'}
 rbenchmark::benchmark(
-  "download new" = rfars::get_fars(years=2021, states = "VA", proceed = T),
-  "use saved"    = readRDS("mydata.rds"),
+  "download new"  = rfars::get_fars(years=2021, states = "VA", proceed = T),
+  "use saved RDS" = readRDS("mydata.rds"),
   replications = 1,
-  columns = c("test", "replications", "elapsed", "relative", "user.self", "sys.self"))
+  columns = c("test", "elapsed", "relative"))
 ```
 
 

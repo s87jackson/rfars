@@ -48,7 +48,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Crash_sequences.html">Crash Sequences</a>
+    <a class="dropdown-item" href="../articles/Crash_sequence_of_events.html">Crash Sequence of Events</a>
     <a class="dropdown-item" href="../articles/Rural_roads.html">Rural Roads</a>
     <a class="dropdown-item" href="../articles/Save_local.html">Saving a local dataset</a>
   </div>
@@ -115,23 +115,16 @@ two ways:</p>
 <code class="sourceCode R"><span><span class="va">saved_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"mydata.rds"</span><span class="op">)</span></span></code></pre></div>
 <p>This can save a considerable amount of time:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">benchmark</span><span class="op">(</span></span>
-<span>  <span class="st">"download new"</span> <span class="op">=</span> <span class="fu">rfars</span><span class="fu">::</span><span class="fu"><a href="../reference/get_fars.html">get_fars</a></span><span class="op">(</span>years<span class="op">=</span><span class="fl">2021</span>, states <span class="op">=</span> <span class="st">"VA"</span>, proceed <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>,</span>
-<span>  <span class="st">"use saved"</span>    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"mydata.rds"</span><span class="op">)</span>,</span>
+<code class="sourceCode R"><span><span class="fu">rbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rbenchmark/man/benchmark.html" class="external-link">benchmark</a></span><span class="op">(</span></span>
+<span>  <span class="st">"download new"</span>  <span class="op">=</span> <span class="fu">rfars</span><span class="fu">::</span><span class="fu"><a href="../reference/get_fars.html">get_fars</a></span><span class="op">(</span>years<span class="op">=</span><span class="fl">2021</span>, states <span class="op">=</span> <span class="st">"VA"</span>, proceed <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>,</span>
+<span>  <span class="st">"use saved RDS"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"mydata.rds"</span><span class="op">)</span>,</span>
 <span>  replications <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"test"</span>, <span class="st">"replications"</span>, <span class="st">"elapsed"</span>, <span class="st">"relative"</span>, <span class="st">"user.self"</span>, <span class="st">"sys.self"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in dir.create(paste0(dest_raw_y, "/format-32")):</span></span>
-<span><span class="co">#&gt; 'C:\Users\s87ja\AppData\Local\Temp\Rtmp69qBxJ\FARS data\raw\2021\format-32'</span></span>
-<span><span class="co">#&gt; already exists</span></span>
-<span><span class="co">#&gt; Warning in dir.create(paste0(dest_raw_y, "/format-64")):</span></span>
-<span><span class="co">#&gt; 'C:\Users\s87ja\AppData\Local\Temp\Rtmp69qBxJ\FARS data\raw\2021\format-64'</span></span>
-<span><span class="co">#&gt; already exists</span></span>
-<span><span class="co">#&gt;           test replications elapsed relative user.self sys.self</span></span>
-<span><span class="co">#&gt; 1 download new            1  120.33    668.5     73.50     2.64</span></span>
-<span><span class="co">#&gt; 2    use saved            1    0.18      1.0      0.15     0.01</span></span></code></pre></div>
+<span>  columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"test"</span>, <span class="st">"elapsed"</span>, <span class="st">"relative"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>       test elapsed relative</code></pre>
+<p>1 download new 121.31 606.55 2 use saved RDS 0.20 1.00</p>
 <p>Below we export each piece of the FARS data object to a separate tab
 on an Excel spreadsheet:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/write.xlsx.html" class="external-link">write.xlsx</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'flat'</span> <span class="op">=</span> <span class="va">mydata</span><span class="op">$</span><span class="va">flat</span>, </span>
 <span>                          <span class="st">'multi_acc'</span> <span class="op">=</span> <span class="va">mydata</span><span class="op">$</span><span class="va">multi_acc</span>, </span>
 <span>                          <span class="st">'multi_veh'</span> <span class="op">=</span> <span class="va">mydata</span><span class="op">$</span><span class="va">multi_veh</span>, </span>

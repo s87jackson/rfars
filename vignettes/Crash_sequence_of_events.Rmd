@@ -1,8 +1,8 @@
 ---
-title: "Crash Sequences"
+title: "Crash Sequence of Events"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Crash Sequences}
+  %\VignetteIndexEntry{Crash Sequence of Events}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
