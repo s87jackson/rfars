@@ -80,3 +80,10 @@ openxlsx::write.xlsx(list('flat' = mydata$flat,
                      file = 'mydata.xlsx') 
 ```
 
+
+```{r, include=F, echo=F}
+file.remove(paste0(getwd(), "/mydata.rds"))
+file.remove(paste0(getwd(), "/mydata.xlsx"))
+file.remove(paste0(getwd(), "/FARS data"))
+```
+

@@ -1,0 +1,256 @@
+---
+title: "Driver and Passenger Seatbelt Use"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Driver and Passenger Seatbelt Use}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Do vehicle passengers take cues from the driver regarding seat belt (SB) use?
+Here we investigate the effect of driver SB use on passenger SB use while
+accounting for other relevant factors.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(rfars)
+library(tidyverse)
+library(dplyr)
+library(magrittr)
+library(lubridate)
+library(ggplot2)
+library(lme4)
+```
+
+First we download three years of GESCRSS data. We use GESCRSS because it
+includes more than just fatal crashes. The three years (2011, 2019, 2020) were
+chosen to compare 2011 to 2019 (as SB has generally increased over time), and 
+2019 to 2020 (to explore the effects of COVID).
+
+Note that SB use may be biased because it is sometimes self-reported.
+Using only data from fatalities may improve the reliability of the seat belt use
+data element.
+
+```{r, warning=FALSE}
+mydata <- rfars::get_gescrss(years = c(2011, 2019, 2020), proceed = T)
+```
+
+```{r, include=F, echo=F}
+table(mydata$flat$per_typ)
+
+mydata$flat %>% group_by(rest_use) %>% summarize(n=n()) %>% arrange(desc(n))
+
+glimpse(slice(mydata$flat, sample(1:nrow(mydata$flat), 5)))
+```
+
+Now we prepare the data by filtering and creating more analysis-friendly
+versions of certain variables. Restraint use is simplified to use/no, and seating
+position is reduced to row (front, second, third, other). The year variable
+is converted to a factor so that we can use 2019 as the reference level to take
+care of both comparisons (2011 to 2019, 2019 to 2020) in one model. Finally, 
+we filter out the drivers because we're focused on SB use among passengers. (We can,
+however, still determine the driver's restraint status via the driver_restrained
+variable.) We also reduce the age variable to above/below 18.
+
+```{r, warning=F}
+temp <-
+  # Pull from the 'flat' tibble
+    mydata$flat %>%
+    ungroup() %>%
+  # Filter to vehicle occupants
+    filter(
+      as.numeric(numoccs)>1,
+      per_typ %in% c("Driver of a Motor Vehicle In-Transport",
+                     "Occupant of a Motor Vehicle Not In- Transport",
+                     "Passenger of a Motor Vehicle In-Transport"),
+      man_coll != "Not a Collision with Motor Vehicle In-Transport",
+      rest_mis != "Not a Motor Vehicle Occupant") %>%
+  
+  # General data manipulations
+    select(
+      casenum, year, region,                                   # General
+      veh_no, urbanicity, numoccs,                             # Vehicle
+      per_no, per_typ, age, rest_mis, rest_use, seat_pos, sex, # Person
+      weight
+      ) %>%
+    
+    mutate(
+      
+      region_abbr = word(region),
+      
+      rest_use_yesno = case_when(
+        rest_use %in% c("Booster Seat", "Lap Belt Only Used", "Restraint Used - Type Unknown", "Shoulder Belt Only Used", "Shoulder and Lap Belt Used") ~ 1,
+        str_detect(rest_use, "Child") ~ 1,
+        str_detect(rest_use, "None Used") ~ 0,
+        TRUE ~ as.numeric(NA)
+        ),
+      
+      driver = 1*(per_typ == "Driver of a Motor Vehicle In-Transport"),
+      
+      driver_restrained = driver*rest_use_yesno,
+      
+      numoccs = as.numeric(numoccs),
+     
+      age_n = word(age),
+      age_n = ifelse(age_n == "Less", 0, age_n) %>% as.numeric(),
+      
+      minor = ifelse(age_n<18, 1, 0),
+      
+      year = factor(year) %>% relevel(ref="2019"),
+      
+      seatrow = case_when(
+        str_detect(seat_pos, "Front") ~ "Front",
+        str_detect(seat_pos, "Second") ~ "Second",
+        str_detect(seat_pos, "Third") ~ "Third",
+        TRUE ~ "Other"
+      ) %>% factor(levels = c("Front", "Second", "Third", "Other")) %>% relevel("Front")
+      
+      ) %>%
+  
+  # Mark driver and passenger SB use
+    group_by(casenum, veh_no) %>%
+    mutate(driver_restrained = max(driver_restrained, na.rm = T)) %>%
+    ungroup() %>%
+  
+  # Final filter
+    filter(
+      driver==0, 
+      numoccs <=8,
+      driver_restrained %in% 0:1, 
+      rest_use_yesno %in% 0:1) 
+
+glimpse(temp)
+```
+
+Descriptive statistics:
+
+```{r, fig.width=8}
+temp %>% 
+  select(casenum, year, veh_no, region_abbr, driver_restrained, weight) %>% distinct() %>% 
+  mutate(year = factor(year, levels = c(2011, 2019, 2020), ordered = T)) %>%
+  group_by(region_abbr, year) %>% 
+  summarize(
+    n = n(),    
+    pct = mean(driver_restrained, na.rm = T),
+    n_weighted = sum(weight),
+    pct_weighted = weighted.mean(driver_restrained, weight),
+    se_weighted = sqrt(pct_weighted*(1-pct_weighted)/n_weighted)
+    ) %>%
+  ggplot(aes(x=year, y=pct_weighted, group=region_abbr)) + 
+    facet_wrap(.~region_abbr, nrow=1) +
+    geom_point() +
+    geom_line() +
+    geom_errorbar(aes(ymin = pct_weighted - se_weighted, ymax = pct_weighted + se_weighted)) +
+    scale_y_continuous(labels = scales::percent) +
+    labs(title = "Percent of vehicles involved in crashes where the driver was using a seat belt",
+         subtitle = "(2011, 2019, 2020)",
+         x=NULL, y=NULL) +
+    theme(axis.ticks = element_blank())
+
+temp %>% 
+  mutate(driver_restrained = ifelse(driver_restrained==1, "Restrained", "Not") %>% factor() %>% relevel("Restrained")) %>%
+  group_by(driver_restrained) %>% 
+  summarize(
+    n=sum(weight),
+    pct=weighted.mean(rest_use_yesno, weight, na.rm = T), 
+    se = sqrt(pct*(1-pct)/n)
+    ) %>%
+  ggplot(aes(x=driver_restrained, y=pct)) + 
+    geom_col() +
+    geom_errorbar(aes(ymin = pct - se, ymax = pct + se), width = .2) +
+    scale_y_continuous(labels = scales::percent) +
+    labs(title = "Percent of passengers wearing seat belts by driver restraint use.",
+         subtitle = "(2011, 2019, 2020)",
+         x=NULL, y=NULL) +
+    theme(axis.ticks = element_blank())
+```
+
+```{r, eval=F, include=F}
+# These do not account for weights
+temp %$% table(driver_restrained, rest_use_yesno, ) %>% addmargins()
+
+chisq.test(temp$driver_restrained, temp$rest_use_yesno, )
+```
+
+```{r, eval=F, include=F}
+table(temp$rest_use_yesno)
+table(temp$driver_restrained)
+table(temp$minor)
+table(temp$numoccs)
+table(temp$seatrow)
+table(temp$sex)
+table(temp$year)
+table(temp$urbanicity, useNA = "ifany")
+
+temp %$% table(region_abbr, rest_use_yesno, useNA = "ifany")
+temp %$% table(region_abbr, driver_restrained, useNA = "ifany")
+temp %$% table(region_abbr, minor, useNA = "ifany")
+temp %$% table(region_abbr, numoccs, useNA = "ifany")
+temp %$% table(region_abbr, seatrow, useNA = "ifany")
+temp %$% table(region_abbr, sex, useNA = "ifany")
+temp %$% table(region_abbr, year, useNA = "ifany")
+temp %$% table(region_abbr, urbanicity, useNA = "ifany")
+```
+
+
+The model will predict passenger restraint use as a function of driver restraint use,
+age (above or below 18), sex, seat row, total vehicle occupants, and year (2011, 2019, 2020).
+
+```{r, warning=F}
+sb_influence_model <- function(df){
+  glm(data=df, 
+      family = "binomial", 
+      #formula = rest_use_yesno ~ driver_restrained + age_n + minor + minor:age_n + numoccs + seatrow + sex + year,
+      formula = rest_use_yesno ~ driver_restrained + minor + numoccs + seatrow + sex + year,
+      weights = weight) 
+}
+
+models <-
+  temp %>%
+  group_by(region, region_abbr) %>%
+  nest() %>%
+  mutate(model = map(data, sb_influence_model))
+```
+
+The list of states in each region:
+
+```{r, warning=F}
+models %>% ungroup() %>% select(region)
+```
+
+Regression results for each region are shown below. These are exponentiated coefficients,
+so they represent the multiplicative effect on the odds. For example, minor passengers are
+5.8 times more likely to wear a SB than adults (in the Northeast).
+
+```{r, results='asis'}
+stargazer::stargazer(
+  models$model,
+  column.labels = models$region_abbr, model.numbers = F,
+<<<<<<< HEAD
+  type="html",
+=======
+  type="text",
+>>>>>>> f28255eba3938d188f9cd21df04d7540837b86b0
+  apply.coef = exp,
+  dep.var.caption = ""
+)
+```
+
+Results indicate that the driver's SB usage has a tremendous effect on use among
+passengers. The effect is strongest in the south. Minors are also more likely to 
+wear SBs than adults. The number of occupants had a slight positive effect in the 
+Northeast, and a slight negative effect in other regions. Passengers in second and 
+third rows were less likely to wear SBs, as were male passengers. 
+
+SB use increased from 2011 to 2020 in the Northeast and South regions, but
+decreased in the Midwest and West regions. Across all regions, SB use was lower in 
+2020 relative to 2019. 

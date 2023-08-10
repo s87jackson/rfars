@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Driver and Passenger Seatbelt Use</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Driver and Passenger Seatbelt Use</h1>
+
+
+
+<p>Do vehicle passengers take cues from the driver regarding seat belt
+(SB) use? Here we investigate the effect of driver SB use on passenger
+SB use while accounting for other relevant factors.</p>
+<p>First we download three years of GESCRSS data. We use GESCRSS because
+it includes more than just fatal crashes. The three years (2011, 2019,
+2020) were chosen to compare 2011 to 2019 (as SB has generally increased
+over time), and 2019 to 2020 (to explore the effects of COVID).</p>
+<p>Note that SB use may be biased because it is sometimes self-reported.
+Using only data from fatalities may improve the reliability of the seat
+belt use data element.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> rfars<span class="sc">::</span><span class="fu">get_gescrss</span>(<span class="at">years =</span> <span class="fu">c</span>(<span class="dv">2011</span>, <span class="dv">2019</span>, <span class="dv">2020</span>), <span class="at">proceed =</span> T)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt; cols(</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt;   .default = col_character(),</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt;   year = col_double(),</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt;   psu = col_double(),</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt;   psustrat = col_double(),</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt;   casenum = col_double(),</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt;   weight = col_double(),</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt;   id = col_double(),</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt;   veh_no = col_double(),</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt;   per_no = col_double(),</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt;   minute = col_double(),</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt;   mod_year = col_logical(),</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt;   model = col_double(),</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt;   peds = col_double(),</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#&gt;   permvit = col_double(),</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt;   pernotmvit = col_double(),</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt;   pvh_invl = col_double(),</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#&gt;   str_veh = col_double(),</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt;   ve_forms = col_double(),</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt;   ve_total = col_double(),</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt;   psu_var = col_double()</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#&gt; )</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">#&gt; ℹ Use `spec()` for the full column specifications.</span></span></code></pre></div>
+<p>Now we prepare the data by filtering and creating more
+analysis-friendly versions of certain variables. Restraint use is
+simplified to use/no, and seating position is reduced to row (front,
+second, third, other). The year variable is converted to a factor so
+that we can use 2019 as the reference level to take care of both
+comparisons (2011 to 2019, 2019 to 2020) in one model. Finally, we
+filter out the drivers because we’re focused on SB use among passengers.
+(We can, however, still determine the driver’s restraint status via the
+driver_restrained variable.) We also reduce the age variable to
+above/below 18.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>temp <span class="ot">&lt;-</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="co"># Pull from the &#39;flat&#39; tibble</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>    mydata<span class="sc">$</span>flat <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="co"># Filter to vehicle occupants</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>    <span class="fu">filter</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>      <span class="fu">as.numeric</span>(numoccs)<span class="sc">&gt;</span><span class="dv">1</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>      per_typ <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Driver of a Motor Vehicle In-Transport&quot;</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>                     <span class="st">&quot;Occupant of a Motor Vehicle Not In- Transport&quot;</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>                     <span class="st">&quot;Passenger of a Motor Vehicle In-Transport&quot;</span>),</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>      man_coll <span class="sc">!=</span> <span class="st">&quot;Not a Collision with Motor Vehicle In-Transport&quot;</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>      rest_mis <span class="sc">!=</span> <span class="st">&quot;Not a Motor Vehicle Occupant&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>  </span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>  <span class="co"># General data manipulations</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>    <span class="fu">select</span>(</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>      casenum, year, region,                                   <span class="co"># General</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>      veh_no, urbanicity, numoccs,                             <span class="co"># Vehicle</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>      per_no, per_typ, age, rest_mis, rest_use, seat_pos, sex, <span class="co"># Person</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>      weight</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>    </span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>      </span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>      <span class="at">region_abbr =</span> <span class="fu">word</span>(region),</span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>      </span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a>      <span class="at">rest_use_yesno =</span> <span class="fu">case_when</span>(</span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a>        rest_use <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Booster Seat&quot;</span>, <span class="st">&quot;Lap Belt Only Used&quot;</span>, <span class="st">&quot;Restraint Used - Type Unknown&quot;</span>, <span class="st">&quot;Shoulder Belt Only Used&quot;</span>, <span class="st">&quot;Shoulder and Lap Belt Used&quot;</span>) <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a>        <span class="fu">str_detect</span>(rest_use, <span class="st">&quot;Child&quot;</span>) <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a>        <span class="fu">str_detect</span>(rest_use, <span class="st">&quot;None Used&quot;</span>) <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a>        <span class="cn">TRUE</span> <span class="sc">~</span> <span class="fu">as.numeric</span>(<span class="cn">NA</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a>        ),</span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a>      </span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a>      <span class="at">driver =</span> <span class="dv">1</span><span class="sc">*</span>(per_typ <span class="sc">==</span> <span class="st">&quot;Driver of a Motor Vehicle In-Transport&quot;</span>),</span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a>      </span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a>      <span class="at">driver_restrained =</span> driver<span class="sc">*</span>rest_use_yesno,</span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a>      </span>
+<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a>      <span class="at">numoccs =</span> <span class="fu">as.numeric</span>(numoccs),</span>
+<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a>     </span>
+<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a>      <span class="at">age_n =</span> <span class="fu">word</span>(age),</span>
+<span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a>      <span class="at">age_n =</span> <span class="fu">ifelse</span>(age_n <span class="sc">==</span> <span class="st">&quot;Less&quot;</span>, <span class="dv">0</span>, age_n) <span class="sc">%&gt;%</span> <span class="fu">as.numeric</span>(),</span>
+<span id="cb2-41"><a href="#cb2-41" tabindex="-1"></a>      </span>
+<span id="cb2-42"><a href="#cb2-42" tabindex="-1"></a>      <span class="at">minor =</span> <span class="fu">ifelse</span>(age_n<span class="sc">&lt;</span><span class="dv">18</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb2-43"><a href="#cb2-43" tabindex="-1"></a>      </span>
+<span id="cb2-44"><a href="#cb2-44" tabindex="-1"></a>      <span class="at">year =</span> <span class="fu">factor</span>(year) <span class="sc">%&gt;%</span> <span class="fu">relevel</span>(<span class="at">ref=</span><span class="st">&quot;2019&quot;</span>),</span>
+<span id="cb2-45"><a href="#cb2-45" tabindex="-1"></a>      </span>
+<span id="cb2-46"><a href="#cb2-46" tabindex="-1"></a>      <span class="at">seatrow =</span> <span class="fu">case_when</span>(</span>
+<span id="cb2-47"><a href="#cb2-47" tabindex="-1"></a>        <span class="fu">str_detect</span>(seat_pos, <span class="st">&quot;Front&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Front&quot;</span>,</span>
+<span id="cb2-48"><a href="#cb2-48" tabindex="-1"></a>        <span class="fu">str_detect</span>(seat_pos, <span class="st">&quot;Second&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Second&quot;</span>,</span>
+<span id="cb2-49"><a href="#cb2-49" tabindex="-1"></a>        <span class="fu">str_detect</span>(seat_pos, <span class="st">&quot;Third&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Third&quot;</span>,</span>
+<span id="cb2-50"><a href="#cb2-50" tabindex="-1"></a>        <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;Other&quot;</span></span>
+<span id="cb2-51"><a href="#cb2-51" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> <span class="fu">factor</span>(<span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Front&quot;</span>, <span class="st">&quot;Second&quot;</span>, <span class="st">&quot;Third&quot;</span>, <span class="st">&quot;Other&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">relevel</span>(<span class="st">&quot;Front&quot;</span>)</span>
+<span id="cb2-52"><a href="#cb2-52" tabindex="-1"></a>      </span>
+<span id="cb2-53"><a href="#cb2-53" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-54"><a href="#cb2-54" tabindex="-1"></a>  </span>
+<span id="cb2-55"><a href="#cb2-55" tabindex="-1"></a>  <span class="co"># Mark driver and passenger SB use</span></span>
+<span id="cb2-56"><a href="#cb2-56" tabindex="-1"></a>    <span class="fu">group_by</span>(casenum, veh_no) <span class="sc">%&gt;%</span></span>
+<span id="cb2-57"><a href="#cb2-57" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">driver_restrained =</span> <span class="fu">max</span>(driver_restrained, <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-58"><a href="#cb2-58" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-59"><a href="#cb2-59" tabindex="-1"></a>  </span>
+<span id="cb2-60"><a href="#cb2-60" tabindex="-1"></a>  <span class="co"># Final filter</span></span>
+<span id="cb2-61"><a href="#cb2-61" tabindex="-1"></a>    <span class="fu">filter</span>(</span>
+<span id="cb2-62"><a href="#cb2-62" tabindex="-1"></a>      driver<span class="sc">==</span><span class="dv">0</span>, </span>
+<span id="cb2-63"><a href="#cb2-63" tabindex="-1"></a>      numoccs <span class="sc">&lt;=</span><span class="dv">8</span>,</span>
+<span id="cb2-64"><a href="#cb2-64" tabindex="-1"></a>      driver_restrained <span class="sc">%in%</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, </span>
+<span id="cb2-65"><a href="#cb2-65" tabindex="-1"></a>      rest_use_yesno <span class="sc">%in%</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>) </span>
+<span id="cb2-66"><a href="#cb2-66" tabindex="-1"></a></span>
+<span id="cb2-67"><a href="#cb2-67" tabindex="-1"></a><span class="fu">glimpse</span>(temp)</span>
+<span id="cb2-68"><a href="#cb2-68" tabindex="-1"></a><span class="co">#&gt; Rows: 102,287</span></span>
+<span id="cb2-69"><a href="#cb2-69" tabindex="-1"></a><span class="co">#&gt; Columns: 21</span></span>
+<span id="cb2-70"><a href="#cb2-70" tabindex="-1"></a><span class="co">#&gt; $ casenum           &lt;dbl&gt; 201110429252, 201110429270, 201110429354, 2011104293…</span></span>
+<span id="cb2-71"><a href="#cb2-71" tabindex="-1"></a><span class="co">#&gt; $ year              &lt;fct&gt; 2011, 2011, 2011, 2011, 2011, 2011, 2011, 2011, 2011…</span></span>
+<span id="cb2-72"><a href="#cb2-72" tabindex="-1"></a><span class="co">#&gt; $ region            &lt;chr&gt; &quot;Northeast (PA, NJ, NY, NH, VT, RI, MA, ME, CT)&quot;, &quot;N…</span></span>
+<span id="cb2-73"><a href="#cb2-73" tabindex="-1"></a><span class="co">#&gt; $ veh_no            &lt;dbl&gt; 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 2, 1…</span></span>
+<span id="cb2-74"><a href="#cb2-74" tabindex="-1"></a><span class="co">#&gt; $ urbanicity        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
+<span id="cb2-75"><a href="#cb2-75" tabindex="-1"></a><span class="co">#&gt; $ numoccs           &lt;dbl&gt; 2, 2, 3, 3, 2, 4, 4, 4, 3, 3, 3, 3, 2, 3, 3, 2, 2, 3…</span></span>
+<span id="cb2-76"><a href="#cb2-76" tabindex="-1"></a><span class="co">#&gt; $ per_no            &lt;dbl&gt; 2, 2, 2, 3, 2, 2, 3, 4, 2, 3, 2, 3, 2, 2, 3, 2, 2, 2…</span></span>
+<span id="cb2-77"><a href="#cb2-77" tabindex="-1"></a><span class="co">#&gt; $ per_typ           &lt;chr&gt; &quot;Passenger of a Motor Vehicle In-Transport&quot;, &quot;Passen…</span></span>
+<span id="cb2-78"><a href="#cb2-78" tabindex="-1"></a><span class="co">#&gt; $ age               &lt;chr&gt; &quot;38 Years&quot;, &quot;19 Years&quot;, &quot;23 Years&quot;, &quot;14 Years&quot;, &quot;24 …</span></span>
+<span id="cb2-79"><a href="#cb2-79" tabindex="-1"></a><span class="co">#&gt; $ rest_mis          &lt;chr&gt; &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;…</span></span>
+<span id="cb2-80"><a href="#cb2-80" tabindex="-1"></a><span class="co">#&gt; $ rest_use          &lt;chr&gt; &quot;Shoulder and Lap Belt Used&quot;, &quot;Shoulder and Lap Belt…</span></span>
+<span id="cb2-81"><a href="#cb2-81" tabindex="-1"></a><span class="co">#&gt; $ seat_pos          &lt;chr&gt; &quot;Front Seat, Right Side&quot;, &quot;Front Seat, Right Side&quot;, …</span></span>
+<span id="cb2-82"><a href="#cb2-82" tabindex="-1"></a><span class="co">#&gt; $ sex               &lt;chr&gt; &quot;Male&quot;, &quot;Female&quot;, &quot;Male&quot;, &quot;Male&quot;, &quot;Male&quot;, &quot;Female&quot;, …</span></span>
+<span id="cb2-83"><a href="#cb2-83" tabindex="-1"></a><span class="co">#&gt; $ weight            &lt;dbl&gt; 54.29200, 108.58400, 98.56061, 98.56061, 217.16800, …</span></span>
+<span id="cb2-84"><a href="#cb2-84" tabindex="-1"></a><span class="co">#&gt; $ region_abbr       &lt;chr&gt; &quot;Northeast&quot;, &quot;Northeast&quot;, &quot;Northeast&quot;, &quot;Northeast&quot;, …</span></span>
+<span id="cb2-85"><a href="#cb2-85" tabindex="-1"></a><span class="co">#&gt; $ rest_use_yesno    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></span>
+<span id="cb2-86"><a href="#cb2-86" tabindex="-1"></a><span class="co">#&gt; $ driver            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></span>
+<span id="cb2-87"><a href="#cb2-87" tabindex="-1"></a><span class="co">#&gt; $ driver_restrained &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></span>
+<span id="cb2-88"><a href="#cb2-88" tabindex="-1"></a><span class="co">#&gt; $ age_n             &lt;dbl&gt; 38, 19, 23, 14, 24, 29, 65, 0, 14, 17, 67, 12, 17, 2…</span></span>
+<span id="cb2-89"><a href="#cb2-89" tabindex="-1"></a><span class="co">#&gt; $ minor             &lt;dbl&gt; 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0…</span></span>
+<span id="cb2-90"><a href="#cb2-90" tabindex="-1"></a><span class="co">#&gt; $ seatrow           &lt;fct&gt; Front, Front, Front, Second, Front, Front, Second, S…</span></span></code></pre></div>
+<p>Descriptive statistics:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>temp <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">select</span>(casenum, year, veh_no, region_abbr, driver_restrained, weight) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">factor</span>(year, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">2011</span>, <span class="dv">2019</span>, <span class="dv">2020</span>), <span class="at">ordered =</span> T)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">group_by</span>(region_abbr, year) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),    </span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>    <span class="at">pct =</span> <span class="fu">mean</span>(driver_restrained, <span class="at">na.rm =</span> T),</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>    <span class="at">n_weighted =</span> <span class="fu">sum</span>(weight),</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>    <span class="at">pct_weighted =</span> <span class="fu">weighted.mean</span>(driver_restrained, weight),</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>    <span class="at">se_weighted =</span> <span class="fu">sqrt</span>(pct_weighted<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>pct_weighted)<span class="sc">/</span>n_weighted)</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>pct_weighted, <span class="at">group=</span>region_abbr)) <span class="sc">+</span> </span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(.<span class="sc">~</span>region_abbr, <span class="at">nrow=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>    <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> pct_weighted <span class="sc">-</span> se_weighted, <span class="at">ymax =</span> pct_weighted <span class="sc">+</span> se_weighted)) <span class="sc">+</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Percent of vehicles involved in crashes where the driver was using a seat belt&quot;</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>         <span class="at">subtitle =</span> <span class="st">&quot;(2011, 2019, 2020)&quot;</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>         <span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.ticks =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; `summarise()` has grouped output by &#39;region_abbr&#39;. You can override using the</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt; `.groups` argument.</span></span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>temp <span class="sc">%&gt;%</span> </span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">driver_restrained =</span> <span class="fu">ifelse</span>(driver_restrained<span class="sc">==</span><span class="dv">1</span>, <span class="st">&quot;Restrained&quot;</span>, <span class="st">&quot;Not&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">factor</span>() <span class="sc">%&gt;%</span> <span class="fu">relevel</span>(<span class="st">&quot;Restrained&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">group_by</span>(driver_restrained) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>    <span class="at">n=</span><span class="fu">sum</span>(weight),</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>    <span class="at">pct=</span><span class="fu">weighted.mean</span>(rest_use_yesno, weight, <span class="at">na.rm =</span> T), </span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>    <span class="at">se =</span> <span class="fu">sqrt</span>(pct<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>pct)<span class="sc">/</span>n)</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>driver_restrained, <span class="at">y=</span>pct)) <span class="sc">+</span> </span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>    <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>    <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> pct <span class="sc">-</span> se, <span class="at">ymax =</span> pct <span class="sc">+</span> se), <span class="at">width =</span> .<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Percent of passengers wearing seat belts by driver restraint use.&quot;</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>         <span class="at">subtitle =</span> <span class="st">&quot;(2011, 2019, 2020)&quot;</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>         <span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.ticks =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>The model will predict passenger restraint use as a function of
+driver restraint use, age (above or below 18), sex, seat row, total
+vehicle occupants, and year (2011, 2019, 2020).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>sb_influence_model <span class="ot">&lt;-</span> <span class="cf">function</span>(df){</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">glm</span>(<span class="at">data=</span>df, </span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>      <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, </span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>      <span class="co">#formula = rest_use_yesno ~ driver_restrained + age_n + minor + minor:age_n + numoccs + seatrow + sex + year,</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>      <span class="at">formula =</span> rest_use_yesno <span class="sc">~</span> driver_restrained <span class="sc">+</span> minor <span class="sc">+</span> numoccs <span class="sc">+</span> seatrow <span class="sc">+</span> sex <span class="sc">+</span> year,</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>      <span class="at">weights =</span> weight) </span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>}</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>models <span class="ot">&lt;-</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  temp <span class="sc">%&gt;%</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="fu">group_by</span>(region, region_abbr) <span class="sc">%&gt;%</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="fu">map</span>(data, sb_influence_model))</span></code></pre></div>
+<p>The list of states in each region:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>models <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> <span class="fu">select</span>(region)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 1</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt;   region                                                                    </span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                                                                     </span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; 1 Northeast (PA, NJ, NY, NH, VT, RI, MA, ME, CT)                            </span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; 2 Midwest (OH, IN, IL, MI, WI, MN, ND, SD, NE, IA, MO, KS)                  </span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 3 South (MD, DE, DC, WV, VA, KY, TN, NC, SC, GA, FL, AL, MS, LA, AR, OK, TX)</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 4 West (MT, ID, WA, OR, CA, NV, NM, AZ, UT, CO, WY, AK, HI)</span></span></code></pre></div>
+<p>Regression results for each region are shown below. These are
+exponentiated coefficients, so they represent the multiplicative effect
+on the odds. For example, minor passengers are 5.8 times more likely to
+wear a SB than adults (in the Northeast).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>stargazer<span class="sc">::</span><span class="fu">stargazer</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  models<span class="sc">$</span>model,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">column.labels =</span> models<span class="sc">$</span>region_abbr, <span class="at">model.numbers =</span> F,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="at">type=</span><span class="st">&quot;text&quot;</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="at">apply.coef =</span> exp,</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="at">dep.var.caption =</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>)</span></code></pre></div>
+<p>======================================================================
+rest_use_yesno<br />
+Northeast Midwest South West<br />
+———————————————————————- driver_restrained 29.424*** 32.302*** 56.268***
+46.689***<br />
+(0.015) (0.012) (0.006) (0.012)</p>
+<p>minor 5.784*** 3.291*** 2.840*** 1.735***<br />
+(0.015) (0.013) (0.007) (0.013)</p>
+<p>numoccs 1.006*** 0.950*** 0.926*** 0.893***<br />
+(0.006) (0.005) (0.002) (0.005)</p>
+<p>seatrowSecond 0.219*** 0.394*** 0.505*** 0.819***<br />
+(0.014) (0.013) (0.007) (0.013)</p>
+<p>seatrowThird 0.322*** 0.235*** 1.168*** 0.583***<br />
+(0.060) (0.031) (0.031) (0.034)</p>
+<p>seatrowOther 0.053* 0.009 0.008 0.012<br />
+(0.031) (0.030) (0.013) (0.027)</p>
+<p>sexMale 0.757*** 0.878*** 0.733*** 0.783***<br />
+(0.012) (0.011) (0.006) (0.011)</p>
+<p>year2011 0.919*** 1.229*** 0.870*** 1.254***<br />
+(0.014) (0.014) (0.009) (0.014)</p>
+<p>year2020 0.670*** 0.821*** 0.786*** 0.771***<br />
+(0.015) (0.012) (0.008) (0.013)</p>
+<p>year2021 0.817***<br />
+(0.007)</p>
+<p>Constant 2.579*** 1.962*** 2.269*** 1.984***<br />
+(0.022) (0.019) (0.010) (0.018)</p>
+<hr />
+<p>Observations 10,791 13,256 63,032 15,208<br />
+Log Likelihood -130,256.400 -153,237.500 -538,095.700 -148,199.800
+Akaike Inf. Crit. 260,532.800 306,494.900 1,076,213.000 296,419.500
+======================================================================
+Note: <em>p&lt;0.1; <strong>p&lt;0.05; </strong></em>p&lt;0.01</p>
+<p>Results indicate that the driver’s SB usage has a tremendous effect
+on use among passengers. The effect is strongest in the south. Minors
+are also more likely to wear SBs than adults. The number of occupants
+had a slight positive effect in the Northeast, and a slight negative
+effect in other regions. Passengers in second and third rows were less
+likely to wear SBs, as were male passengers.</p>
+<p>SB use increased from 2011 to 2020 in the Northeast and South
+regions, but decreased in the Midwest and West regions. Across all
+regions, SB use was lower in 2020 relative to 2019.</p>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -49,6 +49,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Crash_sequence_of_events.html">Crash Sequence of Events</a>
+    <a class="dropdown-item" href="../articles/Driver_passenger_SB_use.html">Driver and Passenger Seatbelt Use</a>
     <a class="dropdown-item" href="../articles/Rural_roads.html">Rural Roads</a>
     <a class="dropdown-item" href="../articles/Save_local.html">Saving a local dataset</a>
   </div>
@@ -106,7 +107,8 @@ simplicity.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu">rfars</span><span class="fu">::</span><span class="fu"><a href="../reference/get_gescrss.html">get_gescrss</a></span><span class="op">(</span>years<span class="op">=</span><span class="fl">2021</span>, regions <span class="op">=</span> <span class="st">"s"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span>b<span class="co">#&gt; cols(</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; cols(</span></span>
 <span><span class="co">#&gt;   .default = col_character(),</span></span>
 <span><span class="co">#&gt;   year = <span style="color: #00BB00;">col_double()</span>,</span></span>
 <span><span class="co">#&gt;   psu = <span style="color: #00BB00;">col_double()</span>,</span></span>
@@ -128,7 +130,7 @@ simplicity.</p>
 <span><span class="co">#&gt;   ve_forms = <span style="color: #00BB00;">col_double()</span>,</span></span>
 <span><span class="co">#&gt;   ve_total = <span style="color: #00BB00;">col_double()</span></span></span>
 <span><span class="co">#&gt; )</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `spec()` for the full column specifications.</span>s.</span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `spec()` for the full column specifications.</span></span>
 <span></span>
 <span><span class="va">my_events</span> <span class="op">&lt;-</span> <span class="va">mydata</span><span class="op">$</span><span class="va">events</span></span></code></pre></div>
 <p>The <strong>Vsoe</strong> data is stored in the <code>events</code>
@@ -139,7 +141,7 @@ the top 10 individual events:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">soe</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 2</span></span>m</span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 2</span></span></span>
 <span><span class="co">#&gt;    soe                            n</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Motor Vehicle In-Transport <span style="text-decoration: underline;">47</span>028</span></span>
@@ -164,19 +166,19 @@ the top 10 individual events:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">event1</span>, <span class="va">event2</span>, <span class="va">n</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 3</span></span>m</span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 3</span></span></span>
 <span><span class="co">#&gt;    event1                                                           event2     n</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Motor Vehicle In-Transport                                       x      <span style="text-decoration: underline;">38</span>851</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Motor Vehicle In-Transport                                       Motor…  <span style="text-decoration: underline;">2</span>248</span>48</span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Motor Vehicle In-Transport                                       Motor…  <span style="text-decoration: underline;">2</span>248</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Parked Motor Vehicle                                             x       <span style="text-decoration: underline;">1</span>027</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Pedestrian                                                       x        913</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Pedalcyclist                                                     x        592</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Live Animal                                                      x        543</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Cross Centerline                                                 Motor…   392</span>92</span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Ran Off Roadway - Right                                          Parke…   269</span>69</span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Motor Vehicle In-Transport                                       Rollo…   221</span>21</span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Motor Vehicle In-Transport Strikes or is Struck by Cargo, Perso… x        187</span>87</span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Cross Centerline                                                 Motor…   392</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Ran Off Roadway - Right                                          Parke…   269</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Motor Vehicle In-Transport                                       Rollo…   221</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Motor Vehicle In-Transport Strikes or is Struck by Cargo, Perso… x        187</span></span></code></pre></div>
 <p>Below we consider all state transitions - the transition from one
 event to the next in the sequence. For example, the sequence A-B-C-D has
 three transitions: A to B, B to C, and C to D. The graph below shows a

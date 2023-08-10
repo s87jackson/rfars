@@ -363,28 +363,21 @@ two ways:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>saved_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;mydata.rds&quot;</span>)</span></code></pre></div>
 <p>This can save a considerable amount of time:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>rbenchmark<span class="sc">::</span><span class="fu">benchmark</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="st">&quot;download new&quot;</span> <span class="ot">=</span> rfars<span class="sc">::</span><span class="fu">get_fars</span>(<span class="at">years=</span><span class="dv">2021</span>, <span class="at">states =</span> <span class="st">&quot;VA&quot;</span>, <span class="at">proceed =</span> T),</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="st">&quot;use saved&quot;</span>    <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="st">&quot;mydata.rds&quot;</span>),</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="st">&quot;download new&quot;</span>  <span class="ot">=</span> rfars<span class="sc">::</span><span class="fu">get_fars</span>(<span class="at">years=</span><span class="dv">2021</span>, <span class="at">states =</span> <span class="st">&quot;VA&quot;</span>, <span class="at">proceed =</span> T),</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="st">&quot;use saved RDS&quot;</span> <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="st">&quot;mydata.rds&quot;</span>),</span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="at">replications =</span> <span class="dv">1</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">&quot;test&quot;</span>, <span class="st">&quot;replications&quot;</span>, <span class="st">&quot;elapsed&quot;</span>, <span class="st">&quot;relative&quot;</span>, <span class="st">&quot;user.self&quot;</span>, <span class="st">&quot;sys.self&quot;</span>))</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; Warning in dir.create(paste0(dest_raw_y, &quot;/format-32&quot;)):</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; &#39;C:\Users\s87ja\AppData\Local\Temp\RtmpyG22Tn\FARS data\raw\2021\format-32&#39;</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; already exists</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; Warning in dir.create(paste0(dest_raw_y, &quot;/format-64&quot;)):</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; &#39;C:\Users\s87ja\AppData\Local\Temp\RtmpyG22Tn\FARS data\raw\2021\format-64&#39;</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; already exists</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;           test replications elapsed relative user.self sys.self</span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; 1 download new            1  147.01  668.227     78.00      4.2</span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; 2    use saved            1    0.22    1.000      0.15      0.0</span></span></code></pre></div>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">&quot;test&quot;</span>, <span class="st">&quot;elapsed&quot;</span>, <span class="st">&quot;relative&quot;</span>))</span></code></pre></div>
+<pre><code>       test elapsed relative</code></pre>
+<p>1 download new 189.90 527.5 2 use saved RDS 0.36 1.0</p>
 <p>Below we export each piece of the FARS data object to a separate tab
 on an Excel spreadsheet:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>openxlsx<span class="sc">::</span><span class="fu">write.xlsx</span>(<span class="fu">list</span>(<span class="st">&#39;flat&#39;</span> <span class="ot">=</span> mydata<span class="sc">$</span>flat, </span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>                          <span class="st">&#39;multi_acc&#39;</span> <span class="ot">=</span> mydata<span class="sc">$</span>multi_acc, </span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                          <span class="st">&#39;multi_veh&#39;</span> <span class="ot">=</span> mydata<span class="sc">$</span>multi_veh, </span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>                          <span class="st">&#39;multi_per&#39;</span> <span class="ot">=</span> mydata<span class="sc">$</span>multi_per, </span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>                          <span class="st">&#39;events&#39;</span> <span class="ot">=</span> mydata<span class="sc">$</span>events, </span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>                          <span class="st">&#39;codebook&#39;</span> <span class="ot">=</span> mydata<span class="sc">$</span>codebook), </span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>                     <span class="at">file =</span> <span class="st">&#39;mydata.xlsx&#39;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>openxlsx<span class="sc">::</span><span class="fu">write.xlsx</span>(<span class="fu">list</span>(<span class="st">&#39;flat&#39;</span> <span class="ot">=</span> mydata<span class="sc">$</span>flat, </span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>                          <span class="st">&#39;multi_acc&#39;</span> <span class="ot">=</span> mydata<span class="sc">$</span>multi_acc, </span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>                          <span class="st">&#39;multi_veh&#39;</span> <span class="ot">=</span> mydata<span class="sc">$</span>multi_veh, </span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>                          <span class="st">&#39;multi_per&#39;</span> <span class="ot">=</span> mydata<span class="sc">$</span>multi_per, </span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>                          <span class="st">&#39;events&#39;</span> <span class="ot">=</span> mydata<span class="sc">$</span>events, </span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>                          <span class="st">&#39;codebook&#39;</span> <span class="ot">=</span> mydata<span class="sc">$</span>codebook), </span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>                     <span class="at">file =</span> <span class="st">&#39;mydata.xlsx&#39;</span>) </span></code></pre></div>
 
 
 

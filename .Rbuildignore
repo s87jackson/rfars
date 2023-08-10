@@ -1,6 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$
+data-raw/
 ^README\.Rmd$
 [.]xlsx$
 ^FARS data$
