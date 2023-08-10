@@ -236,7 +236,11 @@ stargazer::stargazer(
   models$model,
   column.labels = models$region_abbr, model.numbers = F,
 <<<<<<< HEAD
+<<<<<<< HEAD
   type="html",
+=======
+  type="text",
+>>>>>>> f28255eba3938d188f9cd21df04d7540837b86b0
 =======
   type="text",
 >>>>>>> f28255eba3938d188f9cd21df04d7540837b86b0
