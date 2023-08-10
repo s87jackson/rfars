@@ -39,7 +39,9 @@ Suggests:
     stargazer,
     viridis,
     rbenchmark,
-    openxlsx
+    openxlsx,
+    lme4,
+    tidyverse
 VignetteBuilder: knitr
 URL: https://github.com/s87jackson/rfars
 BugReports: https://github.com/s87jackson/rfars/issues
