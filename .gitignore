@@ -3,11 +3,14 @@ inst/doc
 /doc/
 /Meta/
 ^sticker\.R$
+^update_process\.txt$
 ^sticker\.pptx$
 ^update_process\.txt$
 ^old$
 in_development
 in_development/
+data-raw
+data-raw/
 FARS data
 GESCRSS data
 FARS data/
