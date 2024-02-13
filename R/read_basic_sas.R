@@ -19,6 +19,7 @@ read_basic_sas <- function(x, wd, rawfiles, catfile=paste0(wd, "formats.sas7bcat
   temp <-
     haven::read_sas(
       data_file = paste0(wd, rawfiles$filename[rawfiles$cleaned==x]),
+      #data_file = rawfiles$filename[rawfiles$cleaned==x],
       catalog_file = catfile) %>%
     dplyr::distinct()
 

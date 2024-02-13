@@ -1,3 +1,8 @@
+# rfars 0.3.1
+
+* Adjusted code to account for file structure changes by data provider
+
+
 # rfars 0.3.0
 
 * Expanded FARS coverage to 2011-2021

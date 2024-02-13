@@ -1,7 +1,7 @@
 Package: rfars
 Type: Package
 Title: Download and Analyze Crash Data
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: person("Steve", "Jackson", 
     email="steve.jackson@toxcel.com",
     role = c("aut", "cre"),
@@ -41,7 +41,8 @@ Suggests:
     rbenchmark,
     openxlsx,
     lme4,
-    tidyverse
+    tidyverse,
+    tidytext
 VignetteBuilder: knitr
 URL: https://github.com/s87jackson/rfars
 BugReports: https://github.com/s87jackson/rfars/issues

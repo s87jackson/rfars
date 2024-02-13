@@ -42,8 +42,8 @@ download_gescrss <- function(years,
       utils::unzip(dest_zip, exdir = dest_raw_y, overwrite = TRUE)
       unlink(dest_zip)
 
-      # 2020+ file structure change
-        if(y %in% 2020:2021){
+      # File structure changes
+        if(y %in% c(2011:2015, 2020:2021)){
 
           from <- paste0(dest_raw_y, "/CRSS", y, "SAS") %>% list.files(full.names = T, recursive = T)
 

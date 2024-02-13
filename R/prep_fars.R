@@ -28,8 +28,15 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
   fars.nmcrash <- fars.nmimpair <- fars.nmprior <- fars.nmdistract <-
     fars.drugs <- fars.race <- fars.personrf <- NULL
 
-  if(y %in% 2016:2021)          my_catfile <- paste0(wd, "format-64/formats.sas7bcat")
-  if(y %in% c(2011, 2014:2015)) my_catfile <- paste0(wd, "formats.sas7bcat")
+  my_catfile <-
+    data.frame(filename = list.files(wd, recursive = T, full.names = T)) %>%
+    filter(stringr::str_detect(.data$filename, "sas7bcat")) %>%
+    arrange(desc(.data$filename)) %>%
+    slice(1) %>%
+    as.character()
+
+  # if(y %in% 2016:2021)          my_catfile <- paste0(wd, "format-64/formats.sas7bcat")
+  # if(y %in% c(2011, 2014:2015)) my_catfile <- paste0(wd, "formats.sas7bcat")
   if(y %in% 2012:2013)          my_catfile <- FALSE
 
   if(!is.null(states)){

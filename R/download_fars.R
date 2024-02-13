@@ -43,8 +43,8 @@ download_fars <- function(years,
       utils::unzip(dest_zip, exdir = dest_raw_y, overwrite = TRUE)
       unlink(dest_zip)
 
-    # 2020+ file structure change
-      if(y %in% 2020:2021){
+    # File structure changes
+      if(y %in% c(2011:2015, 2020:2021)){
 
         from <- paste0(dest_raw_y, "/FARS", y, "NationalSAS") %>% list.files(full.names = T, recursive = T)
 
@@ -62,15 +62,19 @@ download_fars <- function(years,
 
     # Get list of raw data files
       rawfiles <-
+        #data.frame(filename = list.files(dest_raw_y, recursive = T, full.names = T)) %>%
         data.frame(filename = list.files(dest_raw_y)) %>%
+        #filter(stringr::str_detect(filename, "sas7bdat"))
         dplyr::mutate(
           type = stringr::word(.data$filename, start = -1, end = -1, sep = stringr::fixed(".")) %>% stringr::str_to_upper(),
           cleaned  = .data$filename %>%
             stringr::str_to_lower() %>%
             stringr::str_remove(".csv") %>%
             stringr::str_remove(".sas7bdat") %>%
+            stringr::str_remove(".sas7bcat") %>%
             stringr::str_remove(".sas") %>%
-            stringr::str_remove(".txt")
+            stringr::str_remove(".txt") %>%
+            stringr::word(-1, sep="/")
           ) %>%
         filter(stringr::str_to_upper(.data$type) %in% c("SAS7BDAT", "SAS"))
 

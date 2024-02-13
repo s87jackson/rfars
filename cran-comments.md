@@ -1,3 +1,7 @@
+## Update
+
+* This submission is a minor update to the previous version.
+
 ## Test environments
 
 * local windows install (x86_64-w64-mingw32/x64 (64-bit)), R 4.2.1
@@ -10,8 +14,6 @@
   
   
 ## Latest R CMD check results
-
-    Duration: 32m 34s
 
     0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
