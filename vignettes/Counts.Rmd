@@ -1,0 +1,149 @@
+---
+title: "Counts"
+output: rmarkdown::html_vignette
+fig.width: 8
+fig.height: 5
+vignette: >
+  %\VignetteIndexEntry{Counts}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+## Generating Counts
+
+A first step in many transportation safety analyses involves counting the number
+of relevant crashes, fatalities, or people involved. `counts()` lets users
+specify *what* to count, *where* to count them (rural/urban and/or in specified
+states or regions), *who* to include, the *interval* over which to count 
+(annually or monthly), and factors *involved* in the crashes. It
+returns a simple tibble that can be easily piped into `ggplot()` to quickly
+visualize counts.
+
+First we load the required libraries:
+
+```{r, message=F}
+library(rfars)
+library(dplyr)
+library(ggplot2)
+```
+
+Then pull a year of FARS data for Virginia:
+
+```{r}
+myFARS <- get_fars(years = 2021, states = "VA", proceed = T)
+```
+
+Then we can use `counts()` to reduce the data to desired counts.
+
+Here we count crashes:
+
+```{r, results='asis'}
+my_counts <- counts(
+  myFARS,
+  what = "crashes",
+  interval = c("month")
+  )
+```
+
+This returns the following dataframe:
+
+```{r, results='asis'}
+knitr::kable(my_counts, format = "html")
+```
+
+Which we can graph:
+
+```{r}
+my_counts %>%
+  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    labs(x=NULL, y=NULL, title = "Fatal Crashes in Virginia")
+```
+
+We could alternatively count fatalities:
+
+```{r}
+counts(
+  myFARS,
+  what = "fatalities",
+  interval = c("month")
+  ) %>%
+  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    labs(x=NULL, y=NULL, title = "Fatalities in Virginia")
+```
+
+Or fatalities involving speeding:
+
+```{r}
+counts(myFARS,
+       what = "fatalities",
+       interval = c("month"),
+       involved = "speeding"
+       ) %>%
+  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Virginia")
+```
+
+Or fatalities involving speeding in rural areas:
+
+```{r}
+counts(myFARS,
+       what = "fatalities",
+       where = list(urb="rural"),
+       interval = c("month"),
+       involved = "speeding"
+       ) %>%
+  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Rural Virginia")
+```
+
+We can use `compare_counts()` to quickly produce comparison graphs.
+
+Here we compare speeding-related fatalities in rural and urban areas:
+
+```{r}
+compare_counts(
+  df = myFARS,
+  interval = "month",
+  involved = "speeding",
+  what = "fatalities",
+  where = list(urb="rural"),
+  where2 = list(urb="urban")
+  ) %>%
+  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    facet_wrap(.~urb) +
+    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Virginia", fill=NULL)
+```
+
+And here we compare speeding-related crashes to those related to distraction:
+
+```{r}
+compare_counts(
+  df = myFARS,
+  interval = "month",
+  involved = "speeding",
+  involved2 = "distracted driver",
+  what = "crashes",
+  ) %>%
+  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
+    geom_col() + 
+    geom_label(vjust=1.2) +
+    facet_wrap(.~involved) +
+    labs(x=NULL, y=NULL, title = "Speeding- and Distraction-Related Crashes in Virginia", fill=NULL)
+```
+
+See the documentation for more information on the available options.
+* counts()
+* compare_counts()

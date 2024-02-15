@@ -49,13 +49,5 @@ Either a filtered tibble (filterOnly=TRUE) or a tibble of counts
 Use FARS or GES/CRSS data to generate commonly requested counts.
 }
 \examples{
-\donttest{
-
-get_fars(years = 2020) \%>\%
-   counts(where = list(states="Virginia", urb="rural"))
-
-get_fars(years = 2020) \%>\%
-   counts(where=list(states="FL"), involved = "older driver")
-
-}
+counts(get_fars(years = 2020), where = list(states="Virginia", urb="rural"))
 }

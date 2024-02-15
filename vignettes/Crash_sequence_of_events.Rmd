@@ -48,16 +48,17 @@ my_events <- mydata$events
 The **Vsoe** data is stored in the `events` tibble of the object returned by
 `get_gescrss()`. Here we see the top 10 individual events:
 
-```{r}
+```{r, results='asis'}
 my_events %>%
   group_by(soe) %>% summarize(n=n()) %>%
   arrange(desc(n)) %>%
-  slice(1:10) 
+  slice(1:10) %>%
+  knitr::kable(format = "html")
 ```
 
 We can also see the top 10 most common sequences:
 
-```{r}
+```{r, results='asis'}
 my_events %>%
   select(-aoi) %>%
   pivot_wider(names_from = "veventnum", values_from = "soe", values_fill = "x",
@@ -67,7 +68,8 @@ my_events %>%
   summarize(n=n(), .groups = "drop") %>%
   arrange(desc(n)) %>%
   slice(1:10) %>%
-  select(event1, event2, n)
+  select(event1, event2, n) %>%
+  knitr::kable(format = "html")
 ```
 
 Below we consider all state transitions - the transition from one event to the
@@ -81,7 +83,7 @@ was followed by 'Tree (Standing Only)' in 21% of sequences. Note that we have ad
 state labelled 'Pre-Crash' to help account for sequences with just one event. Another 
 notable takeaway is the large number of events that precede Rollover/Overturn.
 
-```{r, fig.height=7, fig.width=10}
+```{r, fig.height=10, fig.width=12}
 my_events %>%
   group_by(year, casenum, veh_no) %>%
   dplyr::rename(event_to = soe) %>%

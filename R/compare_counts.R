@@ -24,19 +24,12 @@
 #' @return A tibble of counts.
 #'
 #' @examples
-#' \donttest{
-#' get_fars(years = 2020, states="Virginia") %>%
-#'    compare_counts(
+#'   compare_counts(
+#'      get_fars(years = 2020, states="Virginia"),
 #'      where = list(urb="rural"),
 #'      where2 = list(urb="urban")
 #'      )
-#'
-#' get_fars(years = 2020, states="FL") %>%
-#'    compare_counts(
-#'      involved = "pedestrians",
-#'      involved2 = "bicyclists"
-#'      )
-#'  }
+
 
 
 

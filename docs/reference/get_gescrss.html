@@ -12,7 +12,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">rfars</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,10 +26,9 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/Counts.html">Counts</a>
     <a class="dropdown-item" href="../articles/Crash_sequence_of_events.html">Crash Sequence of Events</a>
-    <a class="dropdown-item" href="../articles/Driver_passenger_SB_use.html">Driver and Passenger Seatbelt Use</a>
-    <a class="dropdown-item" href="../articles/Rural_roads.html">Rural Roads</a>
-    <a class="dropdown-item" href="../articles/Save_local.html">Saving a local dataset</a>
+    <a class="dropdown-item" href="../articles/Searchable_Codebooks.html">Searchable Codebooks</a>
   </div>
 </li>
 <li class="nav-item">
@@ -145,64 +144,9 @@ saved in 'dir' for quick use in subsequent calls.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="va">myGESCRSS</span> <span class="op">&lt;-</span> <span class="fu">get_gescrss</span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2019</span><span class="op">:</span><span class="fl">2021</span>, regions <span class="op">=</span> <span class="st">"s"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'C:\Users\s87ja\AppData\Local\Temp\RtmpaA9WZK\GESCRSS data\raw\2020\format-32' already exists</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'C:\Users\s87ja\AppData\Local\Temp\RtmpaA9WZK\GESCRSS data\raw\2020\format-64' already exists</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> cols(</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   .default = col_character(),</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   year = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   psu = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   psustrat = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   casenum = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   weight = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   id = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   veh_no = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   per_no = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   minute = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   mod_year = <span style="color: #BBBB00;">col_logical()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   model = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   peds = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   permvit = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   pernotmvit = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   psu_var = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   pvh_invl = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   str_veh = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   ve_forms = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   ve_total = <span style="color: #00BB00;">col_double()</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> )</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Use `spec()` for the full column specifications.</span>
-<span class="r-in"><span><span class="va">myGESCRSS</span> <span class="op">&lt;-</span> <span class="fu">get_gescrss</span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2021</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'C:\Users\s87ja\AppData\Local\Temp\RtmpaA9WZK\GESCRSS data\raw\2021\format-32' already exists</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'C:\Users\s87ja\AppData\Local\Temp\RtmpaA9WZK\GESCRSS data\raw\2021\format-64' already exists</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> cols(</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   .default = col_character(),</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   year = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   psu = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   psustrat = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   casenum = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   weight = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   id = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   veh_no = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   per_no = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   minute = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   mod_year = <span style="color: #BBBB00;">col_logical()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   model = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   peds = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   permvit = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   pernotmvit = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   psu_var = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   pvh_invl = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   str_veh = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   ve_forms = <span style="color: #00BB00;">col_double()</span>,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   ve_total = <span style="color: #00BB00;">col_double()</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> )</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Use `spec()` for the full column specifications.</span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">myGESCRSS</span> <span class="op">&lt;-</span> <span class="fu">get_gescrss</span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2021</span>, regions <span class="op">=</span> <span class="st">"s"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'C:\Users\s87ja\AppData\Local\Temp\RtmpCk2Iqr\GESCRSS data\raw\2021\format-32' already exists</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'C:\Users\s87ja\AppData\Local\Temp\RtmpCk2Iqr\GESCRSS data\raw\2021\format-64' already exists</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -79,8 +79,5 @@ This function downloads raw data from the GES and CRSS crash databases.
       w  = West      = MT, ID, WA, OR, CA, NV, NM, AZ, UT, CO, WY, AK, HI
 }
 \examples{
-\donttest{
-myGESCRSS <- get_gescrss(years = 2019:2021, regions = "s")
-myGESCRSS <- get_gescrss(years = 2021)
-}
+myGESCRSS <- get_gescrss(years = 2021, regions = "s")
 }

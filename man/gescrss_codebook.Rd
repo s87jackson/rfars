@@ -8,7 +8,7 @@
 A data frame with 85,907 rows and 8 variables:
 \describe{
    \item{source}{The source of the data (either FARS or GESCRSS)}
-   \item{year}{Year of the data element definition.}
+   \item{years}{Years of the data element definition.}
    \item{file}{The data file that contains the given variable.}
    \item{name_ncsa}{The original name of the data element.}
    \item{name_rfars}{The modified data element name used in rfars}
