@@ -63,10 +63,7 @@
 #'
 #'
 #' @examples
-#' \donttest{
-#' myGESCRSS <- get_gescrss(years = 2019:2021, regions = "s")
-#' myGESCRSS <- get_gescrss(years = 2021)
-#' }
+#' myGESCRSS <- get_gescrss(years = 2021, regions = "s")
 
 get_gescrss <- function(years     = 2011:2021,
                         regions   = c("mw", "ne", "s", "w"),

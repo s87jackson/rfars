@@ -58,10 +58,8 @@
 #'
 #'
 #' @examples
-#' \donttest{
-#' myFARS <- get_fars(years = 2019:2021, states = "51")
-#' myFARS <- get_fars(years = 2021, states = "NC")
-#' }
+#' myFARS <- get_fars(years = 2021, states = "VA")
+
 
 get_fars <- function(years   = 2011:2021,
                      states  = NULL,

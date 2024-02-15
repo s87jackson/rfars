@@ -13,9 +13,9 @@ use_gescrss <- function(dir, prepared_dir, cache){
 
   flat <-
 
-    #suppressWarnings({ #this is just for the small number of coercion errors with mutate_at(lat, lon, as.numeric)
+    suppressWarnings({ #this is just for the small number of coercion errors with mutate_at(lat, lon, as.numeric)
 
-    #suppressMessages({
+    suppressMessages({
 
       data.frame(path = list.files(path = prepared_dir, full.names = TRUE, pattern = "_flat.rds", recursive = TRUE)) %>%
       mutate(year = stringr::word(.data$path, -1, sep = "/") %>% substr(1,4)) %>%
@@ -28,9 +28,9 @@ use_gescrss <- function(dir, prepared_dir, cache){
       readr::type_convert() %>%
       distinct()
 
-    #})
+    })
 
-    #})
+    })
 
 
   multi_acc <- import_multi("multi_acc.rds", where = prepared_dir) #%>% distinct()

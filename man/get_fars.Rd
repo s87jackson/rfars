@@ -75,8 +75,5 @@ This function downloads raw data from \href{https://www.nhtsa.gov/file-downloads
    Please review the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813417}{FARS Analytical User's Manual}
 }
 \examples{
-\donttest{
-myFARS <- get_fars(years = 2019:2021, states = "51")
-myFARS <- get_fars(years = 2021, states = "NC")
-}
+myFARS <- get_fars(years = 2021, states = "VA")
 }
