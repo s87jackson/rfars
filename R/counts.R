@@ -30,7 +30,7 @@
 #' @importFrom rlang .data
 #'
 #' @examples
-#' counts(get_fars(years = 2020), where = list(states="Virginia", urb="rural"))
+#' counts(get_fars(years = 2019), where = list(states="Virginia", urb="rural"))
 
 
 
