@@ -63,7 +63,10 @@
 #'
 #'
 #' @examples
-#' myGESCRSS <- get_gescrss(years = 2021, regions = "s")
+#'
+#'   \dontrun{
+#'     myGESCRSS <- get_gescrss(years = 2021, regions = "s")
+#'   }
 
 get_gescrss <- function(years     = 2011:2021,
                         regions   = c("mw", "ne", "s", "w"),

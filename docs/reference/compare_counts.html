@@ -131,17 +131,14 @@ trucks.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span>  <span class="fu">compare_counts</span><span class="op">(</span></span></span>
-<span class="r-in"><span>     <span class="fu"><a href="get_fars.html">get_fars</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2020</span>, states<span class="op">=</span><span class="st">"Virginia"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>     where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>urb<span class="op">=</span><span class="st">"rural"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>     where2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>urb<span class="op">=</span><span class="st">"urban"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>     <span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   year [1]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    year date           n what    states region urb   who  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">2</span>020 2020-01-01   408 crashes all    all    rural all  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">2</span>020 2020-01-01   388 crashes all    all    urban all  </span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">compare_counts</span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="get_fars.html">get_fars</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2020</span>, states<span class="op">=</span><span class="st">"Virginia"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>urb<span class="op">=</span><span class="st">"rural"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      where2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>urb<span class="op">=</span><span class="st">"urban"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

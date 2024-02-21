@@ -58,7 +58,10 @@
 #'
 #'
 #' @examples
-#' myFARS <- get_fars(years = 2021, states = "VA")
+#'
+#'   \dontrun{
+#'     myFARS <- get_fars(years = 2021, states = "VA")
+#'   }
 
 
 get_fars <- function(years   = 2011:2021,

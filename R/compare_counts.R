@@ -24,11 +24,14 @@
 #' @return A tibble of counts.
 #'
 #' @examples
-#'   compare_counts(
-#'      get_fars(years = 2020, states="Virginia"),
-#'      where = list(urb="rural"),
-#'      where2 = list(urb="urban")
-#'      )
+#'
+#'   \dontrun{
+#'     compare_counts(
+#'       get_fars(years = 2020, states="Virginia"),
+#'       where = list(urb="rural"),
+#'       where2 = list(urb="urban")
+#'       )
+#'    }
 
 
 

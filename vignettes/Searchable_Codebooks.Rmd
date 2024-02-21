@@ -42,6 +42,7 @@ The tables below show the 2015 and 2020 values for the FARS codebook. The GES/CR
 ```{r, results='asis', warning=F, message=F}
 temp <-
   fars_codebook %>%
+  mutate(value_label = gsub("`", "", value_label)) %>%
   separate_rows(years) %>%
   rename(year=years) %>%
   filter(!(name_ncsa %in% c("VPICMODEL", "MAK_MOD", "STATE", "VPICMAKE", "ALC_RES", "DR_WGT", "AGE", "PBAGE", "DRUGRES1", "DRUGRES2", "DRUGRES3", "TRAV_SP"))) %>%
