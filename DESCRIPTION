@@ -44,5 +44,5 @@ Suggests:
     tidyverse,
     tidytext
 VignetteBuilder: knitr
-URL: https://github.com/s87jackson/rfars
+URL: https://s87jackson.github.io/rfars/, https://github.com/s87jackson/rfars
 BugReports: https://github.com/s87jackson/rfars/issues
