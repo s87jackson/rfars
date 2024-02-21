@@ -8,6 +8,11 @@
 #'
 #' @return Returns an object of class 'FARS' which is a list of six tibbles:
 #'     flat, multi_acc, multi_veh, multi_per, events, and codebook.
+#'
+#' @details The `inj_sev` data through 2016 contains the typo `Injury(…)` (no whitespace),
+#'     while data from 2017 onwards contains `Injury (…)` (correct space).
+#'     Also, the order of months is alphabetical rather than chronological.
+#'     Both these inconsistencies are cleaned up automatically.
 
 use_fars <- function(dir, prepared_dir, cache){
 
@@ -27,7 +32,11 @@ use_fars <- function(dir, prepared_dir, cache){
           }) %>%
         bind_rows() %>%
         readr::type_convert() %>%
-        distinct()
+        distinct() %>%
+        mutate(
+          month = factor(month, levels = month.name, ordered = TRUE),
+          inj_sev = gsub('Injury(', 'Injury (', inj_sev, fixed = TRUE)
+        )
 
       })
 

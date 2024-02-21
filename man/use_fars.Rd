@@ -20,3 +20,9 @@ Returns an object of class 'FARS' which is a list of six tibbles:
 \description{
 Compile multiple years of prepared FARS data.
 }
+\details{
+The `inj_sev` data through 2016 contains the typo `Injury(…)` (no whitespace),
+    while data from 2017 onwards contains `Injury (…)` (correct space).
+    Also, the order of months is alphabetical rather than chronological.
+    Both these inconsistencies are cleaned up automatically.
+}
