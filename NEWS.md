@@ -1,3 +1,12 @@
+# rfars 1.2.0
+
+* Added data from 2022
+* Fixed bugs with 2012-2016
+* Added status updates to let you know the data is being processed
+* Implemented a methodology to use prior codebook entries when formats are unavailable
+* Fixed a bug causing the omission of motor carrier IDs
+* Integrated rfars into a web application to bring crash data to non-R-users
+
 # rfars 1.1.0
 
 * Streamlined the README content

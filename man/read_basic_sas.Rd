@@ -4,7 +4,14 @@
 \alias{read_basic_sas}
 \title{(Internal) Takes care of basic SAS file reading}
 \usage{
-read_basic_sas(x, wd, rawfiles, catfile = paste0(wd, "formats.sas7bcat"))
+read_basic_sas(
+  x,
+  wd,
+  rawfiles,
+  catfile = paste0(wd, "formats.sas7bcat"),
+  imps = NULL,
+  omits = NULL
+)
 }
 \arguments{
 \item{x}{The cleaned name of the data table (SAS7BDAT).}
@@ -14,6 +21,11 @@ read_basic_sas(x, wd, rawfiles, catfile = paste0(wd, "formats.sas7bcat"))
 \item{rawfiles}{The data frame connecting raw filenames to cleaned ones.}
 
 \item{catfile}{The location of the sas7bcat file}
+
+\item{imps}{A named list to be passed to use_imp(). Each item's name represents
+the non-imputed variable name; the item itself represents the related imputed variable.}
+
+\item{omits}{Character vector of columns to omit}
 }
 \description{
 (Internal) Takes care of basic SAS file reading

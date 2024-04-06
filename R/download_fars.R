@@ -34,26 +34,43 @@ download_fars <- function(years,
 
     if(inherits(try_my_url, "try-error")){
 
-      message(paste0("Invalid value for year: ", y))
+      message(paste0("Failed to download data for year ", y))
       next
 
     } else{
+
+      cat(paste0("\u2713 ", y, " data downloaded\n"))
 
     # Unzip and remove zipfiles
       utils::unzip(dest_zip, exdir = dest_raw_y, overwrite = TRUE)
       unlink(dest_zip)
 
     # File structure changes
-      if(y %in% c(2011:2015, 2020:2021)){
+      if(y %in% c(2011:2015, 2020)){
 
         from <- paste0(dest_raw_y, "/FARS", y, "NationalSAS") %>% list.files(full.names = T, recursive = T)
 
         to <- gsub(x = from, pattern = paste0("/FARS", y, "NationalSAS"), replacement = "")
 
-        dir.create(paste0(dest_raw_y, "/format-32"))
-        dir.create(paste0(dest_raw_y, "/format-64"))
+        dir.create(paste0(dest_raw_y, "/format-32"), showWarnings = F)
+        dir.create(paste0(dest_raw_y, "/format-64"), showWarnings = F)
 
-        file.copy(from, to)
+        file.copy(from, to, overwrite = T)
+
+        unlink(paste0(dest_raw_y, "/FARS", y, "NationalSAS"), recursive = T)
+
+      }
+
+
+    if(y %in% c(2021:2022)){
+
+        from <- paste0(dest_raw_y, "/FARS", y, "NationalSAS") %>% list.files(full.names = T, recursive = T)
+
+        to <- gsub(x = from, pattern = paste0("/FARS", y, "NationalSAS"), replacement = "")
+
+        dir.create(paste0(dest_raw_y, "/format-viya"), showWarnings = F)
+
+        file.copy(from, to, overwrite = T)
 
         unlink(paste0(dest_raw_y, "/FARS", y, "NationalSAS"), recursive = T)
 
@@ -63,7 +80,7 @@ download_fars <- function(years,
     # Get list of raw data files
       rawfiles <-
         #data.frame(filename = list.files(dest_raw_y, recursive = T, full.names = T)) %>%
-        data.frame(filename = list.files(dest_raw_y)) %>%
+        data.frame(filename = list.files(dest_raw_y, recursive = T)) %>%
         #filter(stringr::str_detect(filename, "sas7bdat"))
         dplyr::mutate(
           type = stringr::word(.data$filename, start = -1, end = -1, sep = stringr::fixed(".")) %>% stringr::str_to_upper(),
@@ -85,7 +102,13 @@ download_fars <- function(years,
 
 
     # Prep each file, producing annual CSVs
-      prep_fars(y=y, wd = dest_raw_y, rawfiles = rawfiles, prepared_dir = dest_prepd, states = states)
+      prep_fars(
+        y=y,
+        wd = dest_raw_y,
+        rawfiles = rawfiles,
+        prepared_dir = dest_prepd,
+        states = states
+        )
 
 
     # Compile the full codebook
@@ -95,6 +118,8 @@ download_fars <- function(years,
         distinct()
 
       saveRDS(full_codebook, paste0(dest_prepd, "codebook.rds"))
+
+      cat(paste0("\u2713 ", "Codebook file saved in ", dest_prepd, "\n"))
 
     }
 

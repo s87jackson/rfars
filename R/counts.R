@@ -13,7 +13,7 @@
 #'    urb ('all', 'rural', or 'urban'). Any un-specified elements are set to 'all' by default.
 #' @param who The type of person to count: 'all' (default) 'drivers', 'passengers', 'pedestrians', or 'bicyclists'.
 #' @param involved Factors involved with the crash. Can be any of: 'distracted
-#'     driver', 'drowsy driver', 'police pursuit', 'motorcycle', 'pedalcyclist',
+#'     driver', 'police pursuit', 'motorcycle', 'pedalcyclist',
 #'     'bicyclist', 'pedestrian', 'pedbike', 'young driver', 'older driver', 'speeding',
 #'     'alcohol', 'drugs', 'hit and run', 'roadway departure', 'rollover', or 'large
 #'     trucks'. NULL by default.
@@ -143,7 +143,6 @@ counts <- function(df,
 
   # Involved ----
     if("distracted driver" %in% involved) flat <- inner_join(flat, distracted_driver(df), by = c("year", "id"))
-    if("drowsy driver" %in% involved)     flat <- inner_join(flat, drowsy_driver(df), by = c("year", "id"))
     if("police pursuit" %in% involved)    flat <- inner_join(flat, police_pursuit(df), by = c("year", "id"))
     if("motorcycle" %in% involved)        flat <- inner_join(flat, motorcycle(df), by = c("year", "id"))
     if("pedalcyclist" %in% involved)      flat <- inner_join(flat, pedalcyclist(df), by = c("year", "id"))

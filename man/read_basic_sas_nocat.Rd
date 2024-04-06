@@ -4,7 +4,7 @@
 \alias{read_basic_sas_nocat}
 \title{(Internal) Takes care of basic SAS file reading when the bcat file creates an issue}
 \usage{
-read_basic_sas_nocat(x, wd, rawfiles)
+read_basic_sas_nocat(x, wd, rawfiles, imps = NULL, omits = NULL)
 }
 \arguments{
 \item{x}{The cleaned name of the data table (SAS7BDAT).}
@@ -12,6 +12,11 @@ read_basic_sas_nocat(x, wd, rawfiles)
 \item{wd}{The working directory for these files}
 
 \item{rawfiles}{The data frame connecting raw filenames to cleaned ones.}
+
+\item{imps}{A named list to be passed to use_imp(). Each item's name represents
+the non-imputed variable name; the item itself represents the related imputed variable.}
+
+\item{omits}{Character vector of columns to omit}
 }
 \description{
 (Internal) Takes care of basic SAS file reading when the bcat file creates an issue

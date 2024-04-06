@@ -16,6 +16,7 @@
 
 prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
+  cat("Preparing raw data files...\n")
 
 # Setup
 
@@ -37,7 +38,8 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   # if(y %in% 2016:2021)          my_catfile <- paste0(wd, "format-64/formats.sas7bcat")
   # if(y %in% c(2011, 2014:2015)) my_catfile <- paste0(wd, "formats.sas7bcat")
-  if(y %in% 2012:2013)          my_catfile <- FALSE
+  if(y %in% 2021:2022) my_catfile <- paste0(wd, "format-viya/formats.sas7bcat")
+  if(y %in% 2012:2013) my_catfile <- FALSE
 
   if(!is.null(states)){
     geo_filtered <-
@@ -52,7 +54,7 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   ## accident ----
 
-  if(y %in% 2015:2021){
+  if(y %in% 2015:2022){
     fars.accident <-
       read_basic_sas(x = "accident", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
       dplyr::distinct()
@@ -68,27 +70,43 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
         TRUE ~ as.character(NA)))
   }
 
+  cat(paste0("\u2713 ", "Accident file processed\n"))
+
   ## vehicle ----
 
   fars.vehicle <-
-    read_basic_sas(x = "vehicle", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
+    read_basic_sas(
+      x = "vehicle",
+      wd = wd,
+      rawfiles = rawfiles,
+      catfile = my_catfile,
+      omits = c(names(fars.accident))
+      ) %>%
     select(-starts_with("vin_")) %>%
-    rm_cols.f(a=fars.accident, b=NULL) %>%
     dplyr::distinct()
+
+  cat(paste0("\u2713 ", "Vehicle file processed\n"))
 
   ## person ----
 
   fars.person <-
-    read_basic_sas(x = "person", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
-    rm_cols.f(a=fars.accident, b=fars.vehicle) %>%
+    read_basic_sas(
+      x = "person",
+      wd = wd,
+      rawfiles = rawfiles,
+      catfile = my_catfile,
+      omits = c(names(fars.accident), names(fars.vehicle))
+      ) %>%
     dplyr::distinct()
+
+  cat(paste0("\u2713 ", "Person file processed\n"))
 
 
 # Accident-level files ----
 
   ## weather ----
 
-  if(y %in% 2020:2021){
+  if(y %in% 2020:2022){
     fars.weather <- read_basic_sas(x = "weather", wd = wd, rawfiles = rawfiles, catfile = my_catfile)
   } else{
     fars.weather  <- select(fars.accident, "state", "st_case", "weather1", "weather2")
@@ -96,16 +114,20 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   fars.accident <- select(fars.accident, -contains("weather"))
 
+  cat(paste0("\u2713 ", "Weather file(s) processed\n"))
+
 
   ## crashrf ----
 
-  if(y %in% 2020:2021){
+  if(y %in% 2020:2022){
     fars.crashrf <- read_basic_sas(x = "crashrf", wd = wd, rawfiles = rawfiles, catfile = my_catfile)
   } else{
     fars.crashrf  <- select(fars.accident, "state", "st_case", "cf1", "cf2", "cf3")
   }
 
   fars.accident <- select(fars.accident, -any_of(c("cf1", "cf2", "cf3")))
+
+  cat(paste0("\u2713 ", "Crash risk factors file processed\n"))
 
 
 # Vehicle-level files ----
@@ -125,23 +147,39 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
     if(i %in% rawfiles$cleaned){
       assign(
         paste0("fars.", i),
-        read_basic_sas(x = i, wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
-          rm_cols.f(a=fars.accident, b=fars.vehicle))
+        read_basic_sas(
+          x = i,
+          wd = wd,
+          rawfiles = rawfiles,
+          catfile = my_catfile,
+          omits = c(names(fars.accident), names(fars.vehicle))
+          )
+      )
     }
-  }
+    }
+
+  cat(paste0("\u2713 ", "Vehicle-level files processed\n"))
 
   ### driverrf ----
 
   if(y %in% 2011:2019){
     fars.driverrf <- select(fars.vehicle, "state", "st_case", "veh_no", "dr_sf1", "dr_sf2", "dr_sf3", "dr_sf4")
     fars.vehicle <-  select(fars.vehicle, -any_of(c("dr_sf1", "dr_sf2", "dr_sf3", "dr_sf4")))
+
+    cat(paste0("\u2713 ", "Driver risk factor file processed\n"))
+
   }
+
+
 
   ### vehiclesf ----
 
   if(y %in% 2011:2019){
     fars.vehiclesf <- select(fars.vehicle, "state", "st_case", "veh_no", "veh_sc1", "veh_sc2")
     fars.vehicle   <- select(fars.vehicle, -any_of(c("veh_sc1", "veh_sc2")))
+
+    cat(paste0("\u2713 ", "Vehicle risk factor file processed\n"))
+
   }
 
 
@@ -149,20 +187,36 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   ## pbtype ----
 
-  if(y %in% 2014:2021){
+  if(y %in% 2014:2022){
     fars.pbtype <-
-      read_basic_sas(x = "pbtype", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
-      select(-any_of(c("pbptype", "pbage", "pbsex"))) %>%
-      rm_cols.f(a=fars.accident, b=fars.vehicle)
+      read_basic_sas(
+        x = "pbtype",
+        wd = wd,
+        rawfiles = rawfiles,
+        catfile = my_catfile,
+        omits = c(names(fars.accident), names(fars.vehicle))
+        ) %>%
+      select(-any_of(c("pbptype", "pbage", "pbsex")))
+
+    cat(paste0("\u2713 ", "PBtype file processed\n"))
+
   }
 
 
   ## safetyeq ----
 
-  if(y %in% 2011:2021){
+  if(y %in% 2011:2022){
     fars.safetyeq <-
-      read_basic_sas(x = "safetyeq", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
-      rm_cols.f(a=fars.accident, b=fars.vehicle)
+      read_basic_sas(
+        x = "safetyeq",
+        wd = wd,
+        rawfiles = rawfiles,
+        catfile = my_catfile,
+        omits = c(names(fars.accident), names(fars.vehicle))
+        )
+
+    cat(paste0("\u2713 ", "SafetyEq file processed\n"))
+
   }
 
 
@@ -171,6 +225,9 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
   if(y %in% 2011:2019){
     fars.personrf <- select(fars.person, "state", "st_case", "veh_no", "per_no", "p_sf1", "p_sf2", "p_sf3")
     fars.person <-  select(fars.person, -any_of(c("p_sf1", "p_sf2", "p_sf3")))
+
+    cat(paste0("\u2713 ", "Person risk factor file processed\n"))
+
   }
 
 
@@ -179,6 +236,9 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
   if(y %in% 2011:2017){
     fars.drugs  <- select(fars.person, "state", "st_case", "veh_no", "per_no", "drugtst1", "drugtst2", "drugtst3", "drugres1", "drugres2", "drugres3")
     fars.person <- select(fars.person, -any_of(c("drugtst1", "drugtst2", "drugtst3", "drugres1", "drugres2", "drugres3")))
+
+    cat(paste0("\u2713 ", "Drugs file processed\n"))
+
   }
 
 
@@ -196,10 +256,18 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
       if(i %in% rawfiles$cleaned){
         assign(
           paste0("fars.", i),
-          read_basic_sas(x = i, wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
-            rm_cols.f(a=fars.accident, b=fars.vehicle))
+          read_basic_sas(
+            x = i,
+            wd = wd,
+            rawfiles = rawfiles,
+            catfile = my_catfile,
+            omits = c(names(fars.accident), names(fars.vehicle))
+            )
+          )
       }
     }
+
+  cat(paste0("\u2713 ", "Person-level files processed\n"))
 
 
 # Produce flat file ----
@@ -229,7 +297,7 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
   flat <-
     as.data.frame(flat) %>%
     mutate(id = paste0(.data$year, .data$st_case)) %>% # Generate state-independent id for each crash
-    mutate_at("year", as.numeric) %>%
+    mutate_at(c("year", "st_case"), as.numeric) %>%
     select("year", "state", "st_case",
            "id", "veh_no", "per_no",
            "county", "city",
@@ -237,6 +305,8 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
            lat = "latitude",
            any_of(names_flat)
            )
+
+  cat(paste0("\u2713 ", "Flat file constructed\n"))
 
 
 
@@ -254,6 +324,8 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
     mutate(year = y) %>%
     mutate_at(c("st_case", "year"), as.numeric) %>%
     inner_join(select(flat, "st_case", "year") %>% distinct(), by = c("st_case", "year"))
+
+  cat(paste0("\u2713 ", "Multi_acc file constructed\n"))
 
 
   ## Vehicle-level ----
@@ -281,6 +353,8 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
     mutate_at(c("st_case", "year"), as.numeric) %>%
     inner_join(select(flat, "st_case", "year") %>% distinct(), by = c("st_case", "year"))
 
+  cat(paste0("\u2713 ", "Multi_veh file constructed\n"))
+
 
   ## Person-level ----
 
@@ -307,6 +381,8 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
     mutate_at(c("st_case", "year"), as.numeric) %>%
     inner_join(select(flat, "st_case", "year") %>% distinct(), by = c("st_case", "year"))
 
+  cat(paste0("\u2713 ", "Multi_per file constructed\n"))
+
 
   ## Events ----
 
@@ -316,6 +392,8 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
     mutate_at(c("st_case", "year"), as.numeric) %>%
     inner_join(select(flat, "st_case", "year") %>% distinct(), by = c("st_case", "year"))
 
+  cat(paste0("\u2713 ", "SOE file constructed\n"))
+
 
 # return ----
 
@@ -324,6 +402,8 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
   saveRDS(multi_veh, paste0(prepared_dir, "/", y, "_multi_veh.rds"))
   saveRDS(multi_per, paste0(prepared_dir, "/", y, "_multi_per.rds"))
   saveRDS(soe,       paste0(prepared_dir, "/", y, "_events.rds"))
+
+  cat(paste0("\u2713 ", "Prepared files saved in ", prepared_dir, y, "\n"))
 
 
 }

@@ -64,7 +64,7 @@
 #'   }
 
 
-get_fars <- function(years   = 2011:2021,
+get_fars <- function(years   = 2011:2022,
                      states  = NULL,
                      dir     = NULL,
                      proceed = FALSE,
@@ -77,6 +77,8 @@ get_fars <- function(years   = 2011:2021,
       if(!is.null(dir)){
         if(cache %in% list.files(dir)){
 
+          message("Note: you specified years and a cache file. If the cache file exists, 'years' is ignored.")
+
           return(readRDS( gsub("//", "/", paste0(dir, "/", cache))))
 
         }
@@ -88,7 +90,7 @@ get_fars <- function(years   = 2011:2021,
     ymax <- max(as.numeric(years), na.rm = TRUE)
     ymin <- min(as.numeric(years), na.rm = TRUE)
     if(ymin < 2011) stop("Data not yet available prior to 2011.")
-    if(ymax > 2021) stop("Data not yet available beyond 2021.")
+    if(ymax > 2022) stop("Data not yet available beyond 2022.")
 
 
   # Check states ----
@@ -111,9 +113,19 @@ get_fars <- function(years   = 2011:2021,
       dir.create(dest_raw,   showWarnings = FALSE)
       dir.create(dest_prepd, showWarnings = FALSE)
 
-      download_fars(years = years, dest_raw = dest_raw, dest_prepd = dest_prepd, states=states)
+      download_fars(
+        years = years,
+        dest_raw = dest_raw,
+        dest_prepd = dest_prepd,
+        states=states)
 
-      return(use_fars(dir = dir, prepared_dir = dest_prepd, cache = cache))
+      return(
+        use_fars(
+          dir = dir,
+          prepared_dir = dest_prepd,
+          cache = cache
+          )
+        )
 
     }
 

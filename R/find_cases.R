@@ -37,36 +37,6 @@ distracted_driver <- function(df){
 }
 
 
-#' (Internal) Find crashes involving drowsy drivers
-#'
-#' These internal functions take the FARS object created by use_fars and look
-#'     for various cases, such as distracted or drowsy drivers.
-#'
-#' @param df The FARS or GESCRSS data object to be searched.
-#'
-#' @importFrom rlang .data
-
-drowsy_driver <- function(df){
-
-  if(any(class(df) %in% c("FARS", "GESCRSS"))){
-
-    df$multi_veh %>%
-      filter(.data$name == "mdrdstrd",
-             .data$value != "Not Distracted") %>%
-      make_id() %>%
-      select(.data$year, .data$id) %>%
-      make_all_numeric() %>%
-      distinct() %>%
-      return()
-
-  } else{
-
-    stop("Input data must be of type FARS or GESCRSS. Use the results of get_fars() or get_gescrss().")
-
-  }
-
-}
-
 #' (Internal) Find crashes involving police pursuits
 #'
 #' These internal functions take the FARS object created by use_fars and look

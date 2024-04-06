@@ -24,7 +24,7 @@ download_gescrss <- function(years,
     dest_raw_y <- paste0(dest_raw, "/", y)
 
     my_url <- dplyr::case_when(
-      y %in% 2016:2021 ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/CRSS/", y, "/CRSS", y, "SAS.zip"),
+      y %in% 2016:2022 ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/CRSS/", y, "/CRSS", y, "SAS.zip"),
       y == 2015        ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/GES/GES", y-2000, "/GES", y, "sas.zip"),
       y == 2014        ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/GES/GES", y-2000, "/GES", y, "SAS.zip"),
       y %in% 2011:2013 ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/GES/GES", y-2000, "/GES", y-2000, "_PCSAS.zip"),
@@ -39,24 +39,41 @@ download_gescrss <- function(years,
       next
     } else{
 
+      cat(paste0("\u2713 ", y, " data downloaded\n"))
+
       utils::unzip(dest_zip, exdir = dest_raw_y, overwrite = TRUE)
       unlink(dest_zip)
 
       # File structure changes
-        if(y %in% c(2011:2015, 2020:2021)){
+
+        if(y %in% c(2012:2015, 2020:2021)){
 
           from <- paste0(dest_raw_y, "/CRSS", y, "SAS") %>% list.files(full.names = T, recursive = T)
 
           to <- gsub(x = from, pattern = paste0("/CRSS", y, "SAS"), replacement = "")
 
-          dir.create(paste0(dest_raw_y, "/format-32"))
-          dir.create(paste0(dest_raw_y, "/format-64"))
+          dir.create(paste0(dest_raw_y, "/format-32"), showWarnings = F)
+          dir.create(paste0(dest_raw_y, "/format-64"), showWarnings = F)
 
-          file.copy(from, to)
+          file.copy(from, to, overwrite = T)
 
           unlink(paste0(dest_raw_y, "/CRSS", y, "SAS"), recursive = T)
 
         }
+
+      if(y %in% c(2022)){
+
+        from <- paste0(dest_raw_y, "/CRSS", y, "SAS") %>% list.files(full.names = T, recursive = T)
+
+        to <- gsub(x = from, pattern = paste0("/CRSS", y, "SAS"), replacement = "")
+
+        dir.create(paste0(dest_raw_y, "/format-viya"), showWarnings = F)
+
+        file.copy(from, to, overwrite = T)
+
+        unlink(paste0(dest_raw_y, "/CRSS", y, "SAS"), recursive = T)
+
+      }
 
       # Get list of raw data files
         rawfiles <-
@@ -79,7 +96,12 @@ download_gescrss <- function(years,
 
 
     # Prep each file, producing annual CSVs
-      prep_gescrss(y = y, wd = dest_raw_y, rawfiles = rawfiles, prepared_dir = dest_prepd, regions = regions)
+      prep_gescrss(
+        y = y,
+        wd = dest_raw_y,
+        rawfiles = rawfiles,
+        prepared_dir = dest_prepd,
+        regions = regions)
 
     # Compile the codebook
       full_codebook <-
@@ -88,6 +110,8 @@ download_gescrss <- function(years,
         distinct()
 
       saveRDS(full_codebook, paste0(dest_prepd, "codebook.rds"))
+
+      cat(paste0("\u2713 ", "Codebook file saved in ", dest_prepd, "\n"))
 
     }
 

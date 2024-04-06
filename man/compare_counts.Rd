@@ -32,7 +32,7 @@ states ("all" by default), region ("all"), urb ("all")}
 pedestrians, or bicyclists.}
 
 \item{involved}{Factors involved with the crash. Can be any of: distracted
-driver, drowsy driver, police pursuit, motorcycle, pedalcyclist,
+driver, police pursuit, motorcycle, pedalcyclist,
 bicyclist, pedestrian, pedbike, young driver, older driver, speeding,
 alcohol, drugs, hit and run, roadway departure, rollover, or large
 trucks.}

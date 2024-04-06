@@ -16,6 +16,7 @@
 
 prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
 
+  cat("Preparing raw data files...\n")
 
 # Setup
 
@@ -31,6 +32,7 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
   if(y %in% 2016:2021)          my_catfile <- paste0(wd, "format-64/formats.sas7bcat")
   if(y %in% c(2011, 2014:2015)) my_catfile <- paste0(wd, "formats.sas7bcat")
   if(y %in% 2012:2013)          my_catfile <- paste0(wd, "formats-64/formats.sas7bcat") #note the extra s
+  if(y %in% 2022:2022)          my_catfile <- paste0(wd, "format-viya/formats.sas7bcat")
 
   myregions <-
     rfars::geo_relations %>%
@@ -44,60 +46,83 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
   ## accident ----
 
   gescrss.accident <-
-    read_basic_sas(x = "accident", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
-    use_imp("alcohol", "alchl_im") %>%
-    use_imp("harm_ev", "event1_im") %>%
-    use_imp("hour", "hour_im") %>%
-    use_imp("lgt_cond", "lgtcon_im") %>%
-    use_imp("man_coll", "mancol_im") %>%
-    use_imp("max_sev", "maxsev_im") %>%
-    use_imp("minute", "minute_im") %>%
-    use_imp("num_inj", "no_inj_im") %>%
-    use_imp("reljct2", "reljct2_im") %>%
-    use_imp("weather", "weathr_im") %>%
-    use_imp("day_week", "wkdy_im")
+    read_basic_sas(
+      x = "accident",
+      wd = wd,
+      rawfiles = rawfiles,
+      catfile = my_catfile,
+      imps = c(
+        "alcohol" = "alchl_im",
+        "harm_ev" = "event1_im",
+        "hour" = "hour_im",
+        "lgt_cond" = "lgtcon_im",
+        "man_coll" = "mancol_im",
+        "max_sev" = "maxsev_im",
+        "minute" = "minute_im",
+        "num_inj" = "no_inj_im",
+        "reljct2" = "reljct2_im",
+        "weather" = "weathr_im",
+        "day_week" = "wkdy_im",
+        "reljct1" = "reljct1_im"
+        )
+      )
 
-  if(y %in% 2011:2018) gescrss.accident <- use_imp(gescrss.accident, "reljct1", "reljct1_im")
+  cat(paste0("\u2713 ", "Accident file processed\n"))
 
 
   ## vehicle ----
 
   gescrss.vehicle <-
-    read_basic_sas(x = "vehicle", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
-    select(-starts_with("vin"), -ends_with("vin")) %>%
-    rm_cols.g(a=gescrss.accident, b=NULL) %>%
-    use_imp("impact1", "impact1_im") %>%
-    use_imp("mod_year", "mdlyr_im") %>%
-    use_imp("max_vsev", "mxvsev_im") %>%
-    use_imp("num_injv", "numinj_im") %>%
-    use_imp("p_crash1", "pcrash1_im") %>%
-    use_imp("veh_alch", "v_alch_im") %>%
-    use_imp("m_harm", "vevent_im")
+    read_basic_sas(
+      x = "vehicle",
+      wd = wd,
+      rawfiles = rawfiles,
+      catfile = my_catfile,
+      imps = c(
+        "impact1" = "impact1_im",
+        "mod_year" = "mdlyr_im",
+        "max_vsev" = "mxvsev_im",
+        "num_injv" = "numinj_im",
+        "p_crash1" = "pcrash1_im",
+        "veh_alch" = "v_alch_im",
+        "m_harm" = "vevent_im",
+        "hit_run" = "hitrun_im",
+        "body_typ" = "bdytyp_im"
+        ),
+      omits = names(gescrss.accident)
+      ) %>%
+    select(-starts_with("vin"), -ends_with("vin"))
 
-  if(y %in% 2011:2019) gescrss.vehicle <- use_imp(gescrss.vehicle, "hit_run", "hitrun_im")
-
-  if(y %in% 2011:2020) gescrss.vehicle <- use_imp(gescrss.vehicle, "body_typ", "bdytyp_im")
+  cat(paste0("\u2713 ", "Vehicle file processed\n"))
 
 
   ## person ----
 
   gescrss.person <-
-    read_basic_sas(x = "person", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
-    rm_cols.g(a=gescrss.accident, b=gescrss.vehicle) %>%
-    use_imp("age", "age_im") %>%
-    use_imp("ejection", "eject_im") %>%
-    use_imp("inj_sev", "injsev_im") %>%
-    use_imp("drinking", "peralch_im") %>%
-    use_imp("seat_pos", "seat_im") %>%
-    use_imp("sex", "sex_im")
+    read_basic_sas(
+      x = "person",
+      wd = wd,
+      rawfiles = rawfiles,
+      catfile = my_catfile,
+      imps = c(
+        "age" = "age_im",
+        "ejection" = "eject_im",
+        "inj_sev" = "injsev_im",
+        "drinking" = "peralch_im",
+        "seat_pos" = "seat_im",
+        "sex" = "sex_im"
+        ),
+      omits = c(names(gescrss.accident), names(gescrss.vehicle))
+      )
 
+  cat(paste0("\u2713 ", "Person file processed\n"))
 
 
 # Accident-level files ----
 
   ## weather ----
 
-  if(y %in% 2020:2021){
+  if(y %in% 2020:2022){
     gescrss.weather <- read_basic_sas(x = "weather", wd = wd, rawfiles = rawfiles, catfile = my_catfile)
   } else{
     gescrss.weather <- select(gescrss.accident, "casenum", "weather1", "weather2")
@@ -105,15 +130,18 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
 
   gescrss.accident <-  select(gescrss.accident, -contains("weather"))
 
+  cat(paste0("\u2713 ", "Weather file(s) processed\n"))
+
 
   ## crashrf ----
 
-  if(y %in% 2020:2021) gescrss.crashrf <- read_basic_sas(x = "crashrf", wd = wd, rawfiles = rawfiles, catfile = my_catfile)
+  if(y %in% 2020:2022) gescrss.crashrf <- read_basic_sas(x = "crashrf", wd = wd, rawfiles = rawfiles, catfile = my_catfile)
 
   if(y %in% 2012:2019) gescrss.crashrf <- select(gescrss.accident, "casenum", "cf1", "cf2", "cf3")
 
   gescrss.accident <-  select(gescrss.accident, -any_of(c("cf1", "cf2", "cf3")))
 
+  cat(paste0("\u2713 ", "Crash risk factors file processed\n"))
 
 
 # Vehicle-level files ----
@@ -133,10 +161,18 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
     if(i %in% rawfiles$cleaned){
       assign(
         paste0("gescrss.", i),
-        read_basic_sas(x = i, wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
-          rm_cols.g(a=gescrss.accident, b=gescrss.vehicle))
+        read_basic_sas(
+          x = i,
+          wd = wd,
+          rawfiles = rawfiles,
+          catfile = my_catfile,
+          omits = c(names(gescrss.accident), names(gescrss.vehicle))
+          )
+        )
       }
   }
+
+  cat(paste0("\u2713 ", "Vehicle-level files processed\n"))
 
 
   ### driverrf ----
@@ -144,6 +180,9 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
   if(y %in% 2012:2019){
     gescrss.driverrf <- select(gescrss.vehicle, "casenum", "veh_no", "dr_sf1", "dr_sf2", "dr_sf3", "dr_sf4")
     gescrss.vehicle <-  select(gescrss.vehicle, -any_of(c("dr_sf1", "dr_sf2", "dr_sf3", "dr_sf4")))
+
+    cat(paste0("\u2713 ", "Driver risk factor file processed\n"))
+
   }
 
   ### vehiclesf ----
@@ -151,6 +190,9 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
   if(y %in% 2012:2019){
     gescrss.vehiclesf <- select(gescrss.vehicle, "casenum", "veh_no", "veh_sc1", "veh_sc2")
     gescrss.vehicle   <- select(gescrss.vehicle, -any_of(c("veh_sc1", "veh_sc2")))
+
+    cat(paste0("\u2713 ", "Vehicle risk factor file processed\n"))
+
   }
 
 
@@ -158,19 +200,34 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
 
   ## pbtype ----
 
-  if(y %in% 2014:2021){
+  if(y %in% 2014:2022){
     gescrss.pbtype <-
-      read_basic_sas(x = "pbtype", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
-      select(-any_of(c("pbage", "pbsex"))) %>%
-      rm_cols.g(a=gescrss.accident, b=gescrss.vehicle)
+      read_basic_sas(
+        x = "pbtype",
+        wd = wd,
+        rawfiles = rawfiles,
+        catfile = my_catfile,
+        omits = c(names(gescrss.accident), names(gescrss.vehicle))
+        ) %>%
+      select(-any_of(c("pbage", "pbsex")))
+
+    cat(paste0("\u2713 ", "PBtype file processed\n"))
+
   }
 
 
   ## safetyeq ----
 
   gescrss.safetyeq <-
-    read_basic_sas(x = "safetyeq", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
-    rm_cols.g(a=gescrss.accident, b=gescrss.vehicle)
+    read_basic_sas(
+      x = "safetyeq",
+      wd = wd,
+      rawfiles = rawfiles,
+      catfile = my_catfile,
+      omits = c(names(gescrss.accident), names(gescrss.vehicle))
+      )
+
+  cat(paste0("\u2713 ", "SafetyEq file processed\n"))
 
 
   ## personrf ----
@@ -178,6 +235,9 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
   if(y %in% 2012:2019){
     gescrss.personrf <- select(gescrss.person, "casenum", "veh_no", "per_no", "p_sf1", "p_sf2", "p_sf3")
     gescrss.person   <- select(gescrss.person, -any_of(c("p_sf1", "p_sf2", "p_sf3")))
+
+    cat(paste0("\u2713 ", "Person risk factor file processed\n"))
+
   }
 
 
@@ -186,6 +246,9 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
   if(y %in% 2011:2016){
     gescrss.drugs  <- select(gescrss.person, "casenum", "veh_no", "per_no", "drugres1", "drugres2", "drugres3", "drugtst1", "drugtst2", "drugtst3")
     gescrss.person <- select(gescrss.person, -any_of(c("drugres1", "drugres2", "drugres3", "drugtst1", "drugtst2", "drugtst3")))
+
+    cat(paste0("\u2713 ", "Drugs file processed\n"))
+
   }
 
 
@@ -200,12 +263,18 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
       if(i %in% rawfiles$cleaned){
         assign(
           paste0("gescrss.", i),
-          read_basic_sas(x = i, wd = wd, rawfiles = rawfiles, catfile = my_catfile)
-          %>% rm_cols.g(a=gescrss.accident, b=gescrss.vehicle))
+          read_basic_sas(
+            x = i,
+            wd = wd,
+            rawfiles = rawfiles,
+            catfile = my_catfile,
+            omits = c(names(gescrss.accident), names(gescrss.vehicle))
+            )
+          )
       }
     }
 
-
+  cat(paste0("\u2713 ", "Person-level files processed\n"))
 
 
 # Produce flat file ----
@@ -226,10 +295,12 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
   flat <-
     as.data.frame(flat) %>%
     mutate(id = paste0(.data$year, .data$casenum)) %>% # Generate state-independent id for each crash
+    mutate_at("year", as.numeric) %>%
     select("year","region","psu", "psustrat", "casenum", "weight",
            "id", "veh_no", "per_no",
            any_of(names_flat))
 
+  cat(paste0("\u2713 ", "Flat file constructed\n"))
 
 
 # Concatenate long files for multi-row files ----
@@ -251,6 +322,8 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
     mutate(year = y) %>%
     mutate_at(c("casenum", "year"), as.numeric) %>%
     inner_join(select(flat, "casenum", "year") %>% distinct(), by = c("casenum", "year"))
+
+  cat(paste0("\u2713 ", "Multi_acc file constructed\n"))
 
 
   ## Vehicle-level ----
@@ -277,6 +350,8 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
     mutate_at(c("casenum", "year"), as.numeric) %>%
     inner_join(select(flat, "casenum", "year") %>% distinct(), by = c("casenum", "year"))
 
+  cat(paste0("\u2713 ", "Multi_veh file constructed\n"))
+
 
   ## Person-level ----
 
@@ -299,6 +374,8 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
     mutate_at(c("casenum", "year"), as.numeric) %>%
     inner_join(select(flat, "casenum", "year") %>% distinct(), by = c("casenum", "year"))
 
+  cat(paste0("\u2713 ", "Multi_per file constructed\n"))
+
 
   ## Events ----
 
@@ -306,6 +383,8 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
     mutate(year = y) %>%
     mutate_at(c("casenum", "year"), as.numeric) %>%
     inner_join(select(flat, "casenum", "year") %>% distinct(), by = c("casenum", "year"))
+
+  cat(paste0("\u2713 ", "SOE file constructed\n"))
 
 
 # return ----
@@ -315,5 +394,7 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
   saveRDS(multi_veh, paste0(prepared_dir, "/", y, "_multi_veh.rds"))
   saveRDS(multi_per, paste0(prepared_dir, "/", y, "_multi_per.rds"))
   saveRDS(soe,       paste0(prepared_dir, "/", y, "_events.rds"))
+
+  cat(paste0("\u2713 ", "Prepared files saved in ", prepared_dir, y, "\n"))
 
 }

@@ -3,17 +3,21 @@
 #' @param x The cleaned name of the data table (SAS7BDAT).
 #' @param wd The working directory for these files
 #' @param rawfiles The data frame connecting raw filenames to cleaned ones.
+#' @param imps A named list to be passed to use_imp(). Each item's name represents
+#'   the non-imputed variable name; the item itself represents the related imputed variable.
+#' @param omits Character vector of columns to omit
 #'
 #' @importFrom sas7bdat read.sas7bdat
 #' @importFrom rlang .data
 
 
-read_basic_sas_nocat <- function(x, wd, rawfiles){
+read_basic_sas_nocat <- function(x, wd, rawfiles, imps=NULL, omits=NULL){
 
   # Parse the formats.sas file
     format_sas <-
-      list.files(path = wd, pattern = "Format1", full.names = TRUE, ignore.case = T) %>%
-      readLines() %>%
+      list.files(path = wd, pattern = "\\.sas$", full.names = TRUE, ignore.case = T, recursive = T)[1] %>%
+      readLines(encoding = "UTF-8") %>%
+      iconv("UTF-8", "UTF-8",sub='') %>%
       as.data.frame() %>%
       set_names("x") %>%
       mutate(fmat = stringr::word(x, 2, sep = "; VALUE") %>% zoo::na.locf(na.rm = FALSE)) %>%
@@ -24,6 +28,28 @@ read_basic_sas_nocat <- function(x, wd, rawfiles){
 
   # Read in the bdat file
     temp <- read.sas7bdat(paste0(wd, rawfiles$filename[rawfiles$cleaned==x]))
+
+  # Take care of imputed variables
+    if(!is.null(imps)){
+      names(imps) <- toupper(names(imps))
+      imps <- toupper(imps)
+      for(i in 1:length(imps)){
+        temp <- use_imp(
+          df = temp,
+          original = names(imps)[i],
+          imputed = as.character(imps[i])
+          )
+      }
+    }
+
+    temp <- select(temp, -any_of(starts_with("vin_")))
+
+  # Remove unnecessarily duplicated variables
+    if(!is.null(omits)){
+      cleanNames <- janitor::make_clean_names(names(temp))
+      toRemove   <- setdiff(unique(omits), c("casenum", "state", "st_case", "veh_no", "per_no", "year"))
+      temp       <- select(temp, -all_of(which(cleanNames %in% toRemove)))
+    }
 
   # Pull the variable-format pairs out of the bdat file
     key <- attr(temp, "column.info") %>% unlist()
@@ -47,39 +73,63 @@ read_basic_sas_nocat <- function(x, wd, rawfiles){
       mutate_all(as.character) %>%
       pivot_longer(-any_of(c("STATE", "ST_CASE", "VEH_NO", "PER_NO", "VEVENTNUM")), names_to = "varname") %>%
       left_join(select(key, -"xvarlabel"), by = "varname") %>%
-      #filter(!is.na(fmat))
       mutate(value = stringr::str_pad(.data$value, 2, "left", "0") %>% as.character()) %>%
       left_join(format_sas, by = c("fmat", "value")) %>%
       mutate(value2 = dplyr::coalesce(.data$label, .data$value)) %>%
       select(-any_of(c("value", "fmat", "label")))
 
-    formatted <-
-      formatted %>%
+    formatted <- formatted %>%
       group_by_at(1:which(names(formatted)=="varname")) %>% mutate(rownum = row_number()) %>%
-      # dplyr::group_by(STATE, ST_CASE, VEH_NO, varname) %>%
-      # dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
-      # dplyr::filter(n > 1L)
       pivot_wider(names_from = "varname", values_from = "value2") %>%
       select(-"rownum") %>% distinct()
 
-  # Codebook
-    my_codebook <-
-      key %>%
-      mutate(name_rfars = janitor::make_clean_names(.data$varname)) %>%
-      inner_join(format_sas, by = "fmat") %>%
-      dplyr::rename(value_label = .data$label) %>%
-      mutate(
-        source = stringr::word(wd, -4, sep = "/") %>% stringr::word(1),
-        year   = stringr::word(wd, -2, sep = "/"),
-        file   = x,
-        name_ncsa = .data$varname,
-        label = .data$xvarlabel
-        ) %>%
-      select(source, "year", "file", "name_ncsa", "name_rfars", "label", "value", "value_label") %>%
-      #Note that these are hardkeyed in download_gescrss/fars and will require edits if the line above is changed
-      mutate_all(as.character)
 
-    appendRDS(my_codebook, "codebook.rds", wd = wd)
+  for(i in 1:ncol(formatted)){ # i=42; i=24; i=43; i=31; i=4
+
+    if(names(formatted)[i] %in% c("ST_CASE", "CASENUM", "WEIGHT", "LATITUDE", "LONGITUD")) next
+
+      varmap <- key %>%
+        filter(.data$varname== names(formatted)[i]) %>%
+        #left_join(format_sas, by = join_by(fmat)) %>%
+        left_join(format_sas) %>%
+        select(all_of(c("value", "label")))
+
+      xvarlabel <- key$xvarlabel[key$varname== names(formatted)[i]]
+
+      if(nrow(varmap)>0){
+
+        exampleValues <- paste0("Examples: ", paste(varmap$value[1:20], collapse = ", ")) %>% substr(1, 40) %>% paste0("...")
+
+        varmap_reduced <- varmap %>% filter(.data$value != .data$label)
+
+        if(nrow(varmap_reduced)==0){
+          varmap_reduced <-
+            bind_rows(
+              varmap_reduced,
+              data.frame(value=exampleValues, label="(Self-evident)"))
+          }
+
+        my_codebook <- varmap_reduced %>%
+          dplyr::rename(value_label = .data$label) %>%
+          mutate(
+            source = stringr::word(wd, -4, sep = "/") %>% stringr::word(1),
+            year   = stringr::word(wd, -2, sep = "/"),
+            file   = x,
+            name_ncsa = names(temp)[i],
+            name_rfars = names(temp)[i] %>% janitor::make_clean_names(),
+            label = xvarlabel
+          ) %>%
+          select(all_of(c("source", "year", "file", "name_ncsa", "name_rfars", "label", "value", "value_label"))) %>%
+          #Note that these are hardkeyed in download_fars and will require edits if the line above is changed
+          mutate_all(as.character)
+
+      appendRDS(my_codebook, file = "codebook.rds", wd = wd)
+
+    }
+
+  }
+
+
 
   # Return
 

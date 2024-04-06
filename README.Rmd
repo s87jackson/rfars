@@ -93,13 +93,13 @@ specifices the directory, and `cache` names the file (be sure to include the
 Here we get one year of FARS data for Virginia:
 
 ```{r}
-myFARS <- get_fars(years = 2021, states = "VA", proceed = TRUE)
+myFARS <- get_fars(years = 2022, states = "VA", proceed = TRUE)
 ```
 
 We could have saved that file locally with:
 
 ```{r, eval=F}
-myFARS <- get_fars(years=2021, states = "VA", proceed = TRUE, dir = getwd(), cache = "myFARS.rds")
+myFARS <- get_fars(years=2022, states = "VA", proceed = TRUE, dir = getwd(), cache = "myFARS.rds")
 ```
 
 Note that you can assign and save this data with one function call.
@@ -108,8 +108,8 @@ We could similarly get one year of CRSS data for the south (MD, DE, DC, WV, VA,
 KY, TN, NC, SC, GA, FL, AL, MS, LA, AR, OK, TX):
 
 ```{r, eval=F}
-myCRSS <- get_gescrss(years = 2021, regions = "s", proceed = TRUE)
-myCRSS <- get_gescrss(years = 2021, regions = "s", proceed = TRUE, dir = getwd(), cache = "myCRSS.rds")
+myCRSS <- get_gescrss(years = 2022, regions = "s", proceed = TRUE)
+myCRSS <- get_gescrss(years = 2022, regions = "s", proceed = TRUE, dir = getwd(), cache = "myCRSS.rds")
 ```
 
 The data returned by `get_fars()` and `get_gescrss()` adhere to the same
@@ -168,7 +168,7 @@ head(myFARS$events, 10) %>% knitr::kable(format="html")
 The `codebook` tibble provides a searchable codebook for the data, useful if you
 know what concept you're looking for but not the variable that describes it. The
 `rfars` package includes a codebook for FARS and GESCRSS (`rfars::fars_codebook`
-and `rfars::gescrss_codebook`). These tables span 2011-2021 whereas the
+and `rfars::gescrss_codebook`). These tables span 2011-2022 whereas the
 `codebook` object returned from `get_fars()` and `get_gescrss()` only include
 the specified `years`. See the vignette for more information.
 

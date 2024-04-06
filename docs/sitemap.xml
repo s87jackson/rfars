@@ -31,6 +31,9 @@
     <loc>https://s87jackson.github.io/rfars/reference/appendRDS.html</loc>
   </url>
   <url>
+    <loc>https://s87jackson.github.io/rfars/reference/auto_label_unlabeled_values.html</loc>
+  </url>
+  <url>
     <loc>https://s87jackson.github.io/rfars/reference/bicyclist.html</loc>
   </url>
   <url>
@@ -50,9 +53,6 @@
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/driver_age.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/drowsy_driver.html</loc>
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/drugs.html</loc>
@@ -119,12 +119,6 @@
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/read_basic_sas_nocat.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/rm_cols.f.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/rm_cols.g.html</loc>
   </url>
   <url>
     <loc>https://s87jackson.github.io/rfars/reference/road_depart.html</loc>

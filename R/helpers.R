@@ -12,68 +12,32 @@
 
 use_imp <- function(df, original, imputed, show=FALSE){
 
-  if(show) df %>% group_by({{original}}, {{imputed}}) %>% filter({{original}} != {{imputed}}) %>% summarize(n=n()) %>% print()
+  if(length(intersect(c(original, imputed), names(df))) == 2){
 
-  a <- df[[original]]
-  b <- df[[imputed]]
+    if(show) df %>% group_by({{original}}, {{imputed}}) %>% filter({{original}} != {{imputed}}) %>% summarize(n=n()) %>% print()
 
-  c <- ifelse(a != b, b, a)
+    a <- df[[original]]
+    b <- df[[imputed]]
 
-  out <- df
-  out[[original]] <- c
-  out <- select(out, -all_of(imputed))
+    varlabel <- attr(df[[original]], "label", exact = TRUE)
 
-  return(out)
+    #c <- ifelse(a != b, b, a)
 
-  #
-  # df %>%
-  #   mutate({{original}} := ifelse({{original}} != {{imputed}}, {{imputed}}, {{original}})) %>%
-  #   select(-{{imputed}}) %>%
-  #   return()
+    out <- df
+    out[[original]] <- b
 
-}
+    attr(out[[original]], "label") <- varlabel
 
+    out <- select(out, -all_of(imputed))
 
+    return(out)
 
-#' (Internal) rm_cols.g
-#'
-#' An internal function that removes variables that are unnecessarily duplicated across GES/CRSS tables.
-#'
-#' @param df The input data frame.
-#' @param a The original, non-imputed variable.
-#' @param b The imputed variable (often with an _im suffix).
-#'
-#' @importFrom rlang .data
-
-rm_cols.g <- function(df, a, b){
-
-  out <- df %>% select(-setdiff(intersect(names(a), names(df)), c("casenum")))
-
-  if(!is.null(b)) out <- out %>% select(-setdiff(intersect(names(b), names(out)), c("casenum", "veh_no")))
-
-  return(out)
+  } else{
+    return(df)
+  }
 
 }
 
-#' (Internal) rm_cols.f
-#'
-#' An internal function that removes variables that are unnecessarily duplicated across FARS tables.
-#'
-#' @param df The input data frame.
-#' @param a The original, non-imputed variable.
-#' @param b The imputed variable (often with an _im suffix).
-#'
-#' @importFrom rlang .data
-
-rm_cols.f <- function(df, a, b){
-
-  out <- df %>% select(-setdiff(intersect(names(a), names(df)), c("state", "st_case")))
-
-  if(!is.null(b)) out <- out %>% select(-setdiff(intersect(names(b), names(out)), c("state", "st_case", "veh_no")))
-
-  return(out)
-
-}
 
 #' (Internal) Import the multi_ files
 #'
@@ -194,3 +158,71 @@ appendRDS <- function(object, file, wd){
   }
 
 }
+
+
+#' (Internal) Label unlabelled values in imported SAS files
+#'
+#' @param lbl_vector A vector with labels
+#' @param wd Working directory for files
+#' @param x NCSA table name (sas file name)
+#' @param varname Variable name or label
+#'
+#' @importFrom rlang .data
+#' @importFrom stats setNames
+
+
+# Function to automatically label unlabeled values
+  auto_label_unlabeled_values <- function(
+    lbl_vector,
+    wd=wd,
+    x=x,
+    varname) {
+
+  # Extract existing labels and values
+    existing_labels <- attr(lbl_vector, "labels")
+    existing_labels <- existing_labels[!duplicated(names(existing_labels))]
+
+    all_values <- unique(lbl_vector)
+
+    unlabeled_values <- setdiff(all_values, existing_labels)
+
+    #if(is.null(existing_labels) || length(existing_labels) == 0){
+
+      # Check for entries in previous years
+        if(grepl("FARS data", wd))    this_codebook <- rfars::fars_codebook
+        if(grepl("GESCRSS data", wd)) this_codebook <- rfars::gescrss_codebook
+        mini_dict <-
+          this_codebook %>%
+          filter(
+            .data$name_ncsa==varname,
+            .data$file==x,
+            grepl("2020", .data$years))
+
+        if(nrow(mini_dict) > 0){
+          new_labels <- setNames(mini_dict$value, mini_dict$value_label)
+        } else{
+          new_labels <- setNames(as.character(all_values), all_values)
+          new_labels <- new_labels[!duplicated(names(new_labels))]
+        }
+
+
+    #}
+
+    # Create new labels for unlabeled values, using the value itself as the label
+      more_labels <- setNames(as.character(unlabeled_values), unlabeled_values)
+
+    # Combine existing and new labels
+      combined_labels <- c(existing_labels, new_labels, more_labels)
+      combined_labels <- combined_labels[!duplicated(names(combined_labels))]
+      combined_labels <- combined_labels[!duplicated(combined_labels)]
+
+    # Return the vector with updated labels
+      return(
+        haven::labelled(
+          as.character(lbl_vector),
+          labels = combined_labels
+          )
+        )
+
+}
+

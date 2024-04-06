@@ -12,7 +12,7 @@
 #' @param who The type of person to count: all (default) drivers, passengers,
 #'    pedestrians, or bicyclists.
 #' @param involved Factors involved with the crash. Can be any of: distracted
-#'     driver, drowsy driver, police pursuit, motorcycle, pedalcyclist,
+#'     driver, police pursuit, motorcycle, pedalcyclist,
 #'     bicyclist, pedestrian, pedbike, young driver, older driver, speeding,
 #'     alcohol, drugs, hit and run, roadway departure, rollover, or large
 #'     trucks.

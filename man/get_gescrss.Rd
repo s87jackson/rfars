@@ -5,7 +5,7 @@
 \title{Get GES/CRSS data}
 \usage{
 get_gescrss(
-  years = 2011:2021,
+  years = 2011:2022,
   regions = c("mw", "ne", "s", "w"),
   dir = NULL,
   proceed = FALSE,
