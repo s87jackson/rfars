@@ -64,7 +64,7 @@
 #'   }
 
 
-get_fars <- function(years   = 2011:2022,
+get_fars <- function(years   = 2011:2023,
                      states  = NULL,
                      dir     = NULL,
                      proceed = FALSE,
@@ -90,7 +90,7 @@ get_fars <- function(years   = 2011:2022,
     ymax <- max(as.numeric(years), na.rm = TRUE)
     ymin <- min(as.numeric(years), na.rm = TRUE)
     if(ymin < 2011) stop("Data not yet available prior to 2011.")
-    if(ymax > 2022) stop("Data not yet available beyond 2022.")
+    if(ymax > 2023) stop("Data not yet available beyond 2023.")
 
 
   # Check states ----

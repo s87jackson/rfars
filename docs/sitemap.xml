@@ -1,144 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://s87jackson.github.io/rfars/404.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/articles/Counts.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/articles/Crash_sequence_of_events.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/articles/Searchable_Codebooks.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/index.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/alcohol.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/appendRDS.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/auto_label_unlabeled_values.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/bicyclist.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/compare_counts.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/counts.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/distracted_driver.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/download_fars.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/download_gescrss.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/driver_age.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/drugs.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/fars_codebook.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/geo_relations.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/gescrss_codebook.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/get_fars.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/get_gescrss.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/hit_and_run.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/import_multi.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/large_trucks.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/make_all_numeric.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/make_id.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/motorcycle.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/pedalcyclist.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/pedbike.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/pedestrian.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/police_pursuit.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/prep_fars.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/prep_gescrss.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/read_basic_sas.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/read_basic_sas_nocat.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/road_depart.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/rollover.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/speeding.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/use_fars.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/use_gescrss.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/use_imp.html</loc>
-  </url>
-  <url>
-    <loc>https://s87jackson.github.io/rfars/reference/validate_states.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://s87jackson.github.io/rfars/404.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/articles/Counts.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/articles/Crash_sequence_of_events.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/articles/index.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/articles/Searchable_Codebooks.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/authors.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/index.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/news/index.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/alcohol.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/annual_counts.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/appendRDS.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/auto_label_unlabeled_values.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/bicyclist.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/compare_counts.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/counts.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/distracted_driver.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/download_fars.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/download_gescrss.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/driver_age.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/drugs.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/fars_codebook.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/geo_relations.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/gescrss_codebook.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/get_fars.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/get_gescrss.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/hit_and_run.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/import_multi.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/index.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/large_trucks.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/make_all_numeric.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/make_id.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/motorcycle.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/pedalcyclist.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/pedbike.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/pedestrian.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/pipe.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/police_pursuit.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/prep_fars.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/prep_gescrss.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/read_basic_sas.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/read_basic_sas_nocat.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/road_depart.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/rollover.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/speeding.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/use_fars.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/use_gescrss.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/use_imp.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/validate_states.html</loc></url>
 </urlset>
+

@@ -5,7 +5,7 @@
 \title{Get FARS data}
 \usage{
 get_fars(
-  years = 2011:2022,
+  years = 2011:2023,
   states = NULL,
   dir = NULL,
   proceed = FALSE,

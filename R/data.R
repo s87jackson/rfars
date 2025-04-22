@@ -124,3 +124,24 @@
 #'
 #' @seealso "fars_codebook"
 "gescrss_codebook"
+
+
+#' Annual Counts
+#'
+#' Annual counts of crashes and related metrics.
+#'
+#' @format A data frame with 815 rows and 6 variables:
+#' \describe{
+#'    \item{year}{Year}
+#'    \item{date}{Date (January 1 of each year)}
+#'    \item{n}{The number of 'what'}
+#'    \item{what}{The count unit: crashes, fatalities, injuries, or people}
+#'    \item{type}{The type of 'what': fatal, general, NA}
+#'    \item{involved}{The group or activity involved: general, distracted driver, police pursuit, motorcycle, pedalcyclist, bicyclist, pedestrian, pedbike, young driver, older driver, speeding, alcohol, drugs, hit and run, roadway departure, rollover, large trucks}
+#'    }
+#'
+#' @details This table provides quick access to annual counts. It can be
+#'   replicated using counts().
+#'
+#' @seealso "counts"
+"annual_counts"

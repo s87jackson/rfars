@@ -25,8 +25,8 @@ informative.
 
 You can find the data dictionaries here:
 
--   [FARS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813417)
--   [CRSS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813436)
+-   [FARS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706)
+-   [CRSS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707)
 
 Access the codebooks in RStudio with:
 

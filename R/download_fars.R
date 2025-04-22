@@ -46,7 +46,7 @@ download_fars <- function(years,
       unlink(dest_zip)
 
     # File structure changes
-      if(y %in% c(2011:2015, 2020)){
+      if(y %in% c(2011:2015)){
 
         from <- paste0(dest_raw_y, "/FARS", y, "NationalSAS") %>% list.files(full.names = T, recursive = T)
 
@@ -62,7 +62,7 @@ download_fars <- function(years,
       }
 
 
-    if(y %in% c(2021:2022)){
+    if(y %in% c(2020:2023)){
 
         from <- paste0(dest_raw_y, "/FARS", y, "NationalSAS") %>% list.files(full.names = T, recursive = T)
 

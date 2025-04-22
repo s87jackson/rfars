@@ -5,7 +5,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="Download crash data from the National Highway Traffic Safety Administration and prepare it for research.">
 <title>Download and Analyze Crash Data • rfars</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -15,63 +14,50 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Download and Analyze Crash Data">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Download and Analyze Crash Data">
+<meta name="description" content="Download crash data from the National Highway Traffic Safety Administration and prepare it for research.">
 <meta property="og:description" content="Download crash data from the National Highway Traffic Safety Administration and prepare it for research.">
 <meta property="og:image" content="https://s87jackson.github.io/rfars/logo.svg">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="index.html">rfars</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="reference/index.html">Reference</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/Counts.html">Counts</a>
-    <a class="dropdown-item" href="articles/Crash_sequence_of_events.html">Crash Sequence of Events</a>
-    <a class="dropdown-item" href="articles/Searchable_Codebooks.html">Searchable Codebooks</a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/Counts.html">Counts</a></li>
+    <li><a class="dropdown-item" href="articles/Crash_sequence_of_events.html">Crash Sequence of Events</a></li>
+    <li><a class="dropdown-item" href="articles/Searchable_Codebooks.html">Searchable Codebooks</a></li>
+  </ul>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/s87jackson/rfars/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/s87jackson/rfars/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-home">
 <div class="row">
@@ -106,216 +92,234 @@
 <p>The <code><a href="reference/get_fars.html">get_fars()</a></code> and <code><a href="reference/get_gescrss.html">get_gescrss()</a></code> are the primary functions of the <code>rfars</code> package. These functions either download and process data files directly from <a href="https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/" class="external-link">NHTSA’s FTP Site</a>, or pull the prepared file stored on your local machine. They take the functions <code>years</code> and <code>states</code> (FARS) or <code>regions</code> (GES/CRSS). As the source data files follow an annual structure, <code>years</code> determines how many file sets are downloaded, and <code>states</code>/<code>regions</code> filters the resulting dataset. Downloading and processing these files can take several minutes. Before downloading <code>rfars</code> will inform you that it’s about to download files and asks your permission to do so. To skip this dialog, set <code>proceed = TRUE</code>. You can use the <code>dir</code> and <code>cache</code> parameters to save an RDS file to your local machine. The <code>dir</code> parameter specifices the directory, and <code>cache</code> names the file (be sure to include the .rds file extension).</p>
 <p>Here we get one year of FARS data for Virginia:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_fars.html">get_fars</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2021</span>, states <span class="op">=</span> <span class="st">"VA"</span>, proceed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_fars.html">get_fars</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span>, states <span class="op">=</span> <span class="st">"VA"</span>, proceed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✓ 2022 data downloaded</span></span>
+<span><span class="co">#&gt; Preparing raw data files...</span></span>
+<span><span class="co">#&gt; ✓ Accident file processed</span></span>
+<span><span class="co">#&gt; ✓ Vehicle file processed</span></span>
+<span><span class="co">#&gt; ✓ Person file processed</span></span>
+<span><span class="co">#&gt; ✓ Weather file(s) processed</span></span>
+<span><span class="co">#&gt; ✓ Crash risk factors file processed</span></span>
+<span><span class="co">#&gt; ✓ Vehicle-level files processed</span></span>
+<span><span class="co">#&gt; ✓ PBtype file processed</span></span>
+<span><span class="co">#&gt; ✓ SafetyEq file processed</span></span>
+<span><span class="co">#&gt; ✓ Person-level files processed</span></span>
+<span><span class="co">#&gt; ✓ Flat file constructed</span></span>
+<span><span class="co">#&gt; ✓ Multi_acc file constructed</span></span>
+<span><span class="co">#&gt; ✓ Multi_veh file constructed</span></span>
+<span><span class="co">#&gt; ✓ Multi_per file constructed</span></span>
+<span><span class="co">#&gt; ✓ SOE file constructed</span></span>
+<span><span class="co">#&gt; ✓ Prepared files saved in C:/Users/s87ja/AppData/Local/Temp/RtmpOI3o4P/FARS data/prepd/2022</span></span>
+<span><span class="co">#&gt; ✓ Codebook file saved in C:/Users/s87ja/AppData/Local/Temp/RtmpOI3o4P/FARS data/prepd/</span></span></code></pre></div>
 <p>We could have saved that file locally with:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_fars.html">get_fars</a></span><span class="op">(</span>years<span class="op">=</span><span class="fl">2021</span>, states <span class="op">=</span> <span class="st">"VA"</span>, proceed <span class="op">=</span> <span class="cn">TRUE</span>, dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, cache <span class="op">=</span> <span class="st">"myFARS.rds"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_fars.html">get_fars</a></span><span class="op">(</span>years<span class="op">=</span><span class="fl">2022</span>, states <span class="op">=</span> <span class="st">"VA"</span>, proceed <span class="op">=</span> <span class="cn">TRUE</span>, dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, cache <span class="op">=</span> <span class="st">"myFARS.rds"</span><span class="op">)</span></span></code></pre></div>
 <p>Note that you can assign and save this data with one function call.</p>
 <p>We could similarly get one year of CRSS data for the south (MD, DE, DC, WV, VA, KY, TN, NC, SC, GA, FL, AL, MS, LA, AR, OK, TX):</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myCRSS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_gescrss.html">get_gescrss</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2021</span>, regions <span class="op">=</span> <span class="st">"s"</span>, proceed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">myCRSS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_gescrss.html">get_gescrss</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2021</span>, regions <span class="op">=</span> <span class="st">"s"</span>, proceed <span class="op">=</span> <span class="cn">TRUE</span>, dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, cache <span class="op">=</span> <span class="st">"myCRSS.rds"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">myCRSS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_gescrss.html">get_gescrss</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span>, regions <span class="op">=</span> <span class="st">"s"</span>, proceed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">myCRSS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_gescrss.html">get_gescrss</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span>, regions <span class="op">=</span> <span class="st">"s"</span>, proceed <span class="op">=</span> <span class="cn">TRUE</span>, dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, cache <span class="op">=</span> <span class="st">"myCRSS.rds"</span><span class="op">)</span></span></code></pre></div>
 <p>The data returned by <code><a href="reference/get_fars.html">get_fars()</a></code> and <code><a href="reference/get_gescrss.html">get_gescrss()</a></code> adhere to the same structure: a list with six tibbles: <code>flat</code>, <code>multi_acc</code>, <code>multi_veh</code>, <code>multi_per</code>, <code>events</code>, and <code>codebook</code>. FARS and GES/CRSS share many but not all data elements. See the <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813417" class="external-link">FARS Analytical User’s Manual</a> and <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813436" class="external-link">CRSS Analytical User’s Manual</a> for more information.</p>
 <p>The following section decribes the results from <code><a href="reference/get_fars.html">get_fars()</a></code> but largely applies to <code><a href="reference/get_gescrss.html">get_gescrss()</a></code> as well.</p>
 <p>The <code>flat</code> tibble contains all variables for which there is just one value per crash (“accident”), vehicle, or person (e.g., intersection type, travel speed, age). Each row corresponds to a person involved in a crash. As there may be multiple people and/or vehicles involved in one crash, some variable-values are repeated within a crash or vehicle. Each crash is uniquely identified with <code>id</code>, which is a combination of <code>year</code> and <code>st_case</code>. Note that <code>st_case</code> is not unique across years, for example, <code>st_case</code> 510001 will appear in each year. The <code>id</code> variable attempts to avoid this issue.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">myFARS</span><span class="op">$</span><span class="va">flat</span>, width <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 1,969</span></span>
+<span><span class="co">#&gt; Rows: 2,107</span></span>
 <span><span class="co">#&gt; Columns: 196</span></span>
-<span><span class="co">#&gt; $ year          &lt;dbl&gt; 2021, 2021, 2021, 2021, 2021, 2021, 2021, 2021, 2021, 2021, 2021, 2021, 2021…</span></span>
+<span><span class="co">#&gt; $ year          &lt;dbl&gt; 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022…</span></span>
 <span><span class="co">#&gt; $ state         &lt;chr&gt; "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", "Vir…</span></span>
-<span><span class="co">#&gt; $ st_case       &lt;dbl&gt; 510001, 510001, 510001, 510002, 510002, 510003, 510003, 510004, 510005, 5100…</span></span>
-<span><span class="co">#&gt; $ id            &lt;dbl&gt; 2021510001, 2021510001, 2021510001, 2021510002, 2021510002, 2021510003, 2021…</span></span>
-<span><span class="co">#&gt; $ veh_no        &lt;dbl&gt; 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0, 1, 1, 1, 2, 1, 2, 1, 2…</span></span>
-<span><span class="co">#&gt; $ per_no        &lt;dbl&gt; 1, 2, 3, 1, 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 3, 1, 1, 1, 1, 1…</span></span>
-<span><span class="co">#&gt; $ county        &lt;dbl&gt; 143, 143, 143, 35, 35, 83, 83, 15, 730, 730, 33, 33, 59, 61, 61, 61, 800, 81…</span></span>
-<span><span class="co">#&gt; $ city          &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 1910, 1910, 0, 0, 0, 0, 0, 0, 2390, 2540, 2540, 2540…</span></span>
-<span><span class="co">#&gt; $ lon           &lt;dbl&gt; -79.29690, -79.29690, -79.29690, -80.70023, -80.70023, -78.96757, -78.96757,…</span></span>
-<span><span class="co">#&gt; $ lat           &lt;dbl&gt; 36.58791, 36.58791, 36.58791, 36.78224, 36.78224, 36.87302, 36.87302, 37.931…</span></span>
-<span><span class="co">#&gt; $ acc_type      &lt;chr&gt; "A1-Single Driver-Right Roadside Departure-Drive Off Road", "A1-Single Drive…</span></span>
-<span><span class="co">#&gt; $ age           &lt;chr&gt; "26 Years", "27 Years", "24 Years", "20 Years", "21 Years", "79 Years", "28 …</span></span>
-<span><span class="co">#&gt; $ air_bag       &lt;chr&gt; "Deployed- Front", "Deployed- Front", "Not Deployed", "Deployed- Side (door,…</span></span>
-<span><span class="co">#&gt; $ alc_det       &lt;chr&gt; "Not Reported", "Not Reported", "Not Reported", "Not Reported", "Not Reporte…</span></span>
-<span><span class="co">#&gt; $ alc_res       &lt;chr&gt; "0.101 % BAC", "Test Not Given", "Test Not Given", "Test Not Given", "Test N…</span></span>
+<span><span class="co">#&gt; $ st_case       &lt;dbl&gt; 510001, 510001, 510001, 510001, 510001, 510001, 510002, 510002, 510002, 5100…</span></span>
+<span><span class="co">#&gt; $ id            &lt;dbl&gt; 2022510001, 2022510001, 2022510001, 2022510001, 2022510001, 2022510001, 2022…</span></span>
+<span><span class="co">#&gt; $ veh_no        &lt;dbl&gt; 0, 1, 1, 1, 1, 1, 1, 2, 2, 0, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2…</span></span>
+<span><span class="co">#&gt; $ per_no        &lt;dbl&gt; 1, 1, 2, 3, 4, 5, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1…</span></span>
+<span><span class="co">#&gt; $ county        &lt;dbl&gt; 117, 117, 117, 117, 117, 117, 177, 177, 177, 73, 73, 73, 153, 155, 171, 171,…</span></span>
+<span><span class="co">#&gt; $ city          &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2370, 2370, 0, 0, 468, 0, 0, 440, …</span></span>
+<span><span class="co">#&gt; $ lon           &lt;dbl&gt; -78.40886, -78.40886, -78.40886, -78.40886, -78.40886, -78.40886, -77.63212,…</span></span>
+<span><span class="co">#&gt; $ lat           &lt;dbl&gt; 36.66222, 36.66222, 36.66222, 36.66222, 36.66222, 36.66222, 38.17428, 38.174…</span></span>
+<span><span class="co">#&gt; $ acc_type      &lt;chr&gt; NA, "C13-Single Driver-Forward Impact-Pedestrian/ Animal", "C13-Single Drive…</span></span>
+<span><span class="co">#&gt; $ age           &lt;chr&gt; "59 Years", "17 Years", "Not Reported", "Not Reported", "Not Reported", "Not…</span></span>
+<span><span class="co">#&gt; $ air_bag       &lt;chr&gt; "Not a Motor Vehicle Occupant", "Not Deployed", "Not Reported", "Not Reporte…</span></span>
+<span><span class="co">#&gt; $ alc_res       &lt;chr&gt; "0.197 % BAC", "Test Not Given", "Test Not Given", "Test Not Given", "Test N…</span></span>
 <span><span class="co">#&gt; $ alc_status    &lt;chr&gt; "Test Given", "Test Not Given", "Test Not Given", "Test Not Given", "Test No…</span></span>
 <span><span class="co">#&gt; $ arr_hour      &lt;chr&gt; "Unknown EMS Scene Arrival Hour", "Unknown EMS Scene Arrival Hour", "Unknown…</span></span>
-<span><span class="co">#&gt; $ arr_min       &lt;chr&gt; "Unknown EMS Scene Arrival Minutes", "Unknown EMS Scene Arrival Minutes", "U…</span></span>
+<span><span class="co">#&gt; $ arr_min       &lt;chr&gt; "Unknown if Arrived", "Unknown if Arrived", "Unknown if Arrived", "Unknown i…</span></span>
 <span><span class="co">#&gt; $ atst_typ      &lt;chr&gt; "Vitreous", "Test Not Given", "Test Not Given", "Test Not Given", "Test Not …</span></span>
-<span><span class="co">#&gt; $ bikecgp       &lt;chr&gt; NA, NA, NA, NA, NA, "Not a Cyclist", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</span></span>
-<span><span class="co">#&gt; $ bikectype     &lt;chr&gt; NA, NA, NA, NA, NA, "Not a Cyclist", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</span></span>
-<span><span class="co">#&gt; $ bikedir       &lt;chr&gt; NA, NA, NA, NA, NA, "Not a Cyclist", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</span></span>
-<span><span class="co">#&gt; $ bikeloc       &lt;chr&gt; NA, NA, NA, NA, NA, "Not a Cyclist", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</span></span>
-<span><span class="co">#&gt; $ bikepos       &lt;chr&gt; NA, NA, NA, NA, NA, "Not a Cyclist", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</span></span>
-<span><span class="co">#&gt; $ body_typ      &lt;chr&gt; "Compact Utility (Utility Vehicle Categories \"Small\" and \"Midsize\")", "C…</span></span>
-<span><span class="co">#&gt; $ bus_use       &lt;chr&gt; "Not a Bus", "Not a Bus", "Not a Bus", "Not a Bus", "Not a Bus", NA, "Not a …</span></span>
-<span><span class="co">#&gt; $ cargo_bt      &lt;chr&gt; "Not Applicable (N/A)", "Not Applicable (N/A)", "Not Applicable (N/A)", "Not…</span></span>
-<span><span class="co">#&gt; $ cdl_stat      &lt;chr&gt; "No (CDL)", "No (CDL)", "No (CDL)", "No (CDL)", "No (CDL)", NA, "No (CDL)", …</span></span>
+<span><span class="co">#&gt; $ bikecgp       &lt;chr&gt; "Bicyclist Failed to Yield - Sign-Controlled Intersection", NA, NA, NA, NA, …</span></span>
+<span><span class="co">#&gt; $ bikectype     &lt;chr&gt; "Bicyclist Ride Through - Sign-Controlled Intersection", NA, NA, NA, NA, NA,…</span></span>
+<span><span class="co">#&gt; $ bikedir       &lt;chr&gt; "Facing Traffic", NA, NA, NA, NA, NA, NA, NA, NA, "Not a Cyclist", NA, NA, N…</span></span>
+<span><span class="co">#&gt; $ bikeloc       &lt;chr&gt; "At Intersection", NA, NA, NA, NA, NA, NA, NA, NA, "Not a Cyclist", NA, NA, …</span></span>
+<span><span class="co">#&gt; $ bikepos       &lt;chr&gt; "Travel Lane", NA, NA, NA, NA, NA, NA, NA, NA, "Not a Cyclist", NA, NA, NA, …</span></span>
+<span><span class="co">#&gt; $ body_typ      &lt;chr&gt; NA, "Large utility (ANSI D16.1 Utility Vehicle Categories and \"Full Size\" …</span></span>
+<span><span class="co">#&gt; $ bus_use       &lt;chr&gt; NA, "Not a Bus", "Not a Bus", "Not a Bus", "Not a Bus", "Not a Bus", "Not a …</span></span>
+<span><span class="co">#&gt; $ cargo_bt      &lt;chr&gt; NA, "Not Applicable (N/A)", "Not Applicable (N/A)", "Not Applicable (N/A)", …</span></span>
+<span><span class="co">#&gt; $ cdl_stat      &lt;chr&gt; NA, "No (CDL)", "No (CDL)", "No (CDL)", "No (CDL)", "No (CDL)", "No (CDL)", …</span></span>
 <span><span class="co">#&gt; $ cityname      &lt;chr&gt; "NOT APPLICABLE", "NOT APPLICABLE", "NOT APPLICABLE", "NOT APPLICABLE", "NOT…</span></span>
-<span><span class="co">#&gt; $ countyname    &lt;chr&gt; "PITTSYLVANIA (143)", "PITTSYLVANIA (143)", "PITTSYLVANIA (143)", "CARROLL (…</span></span>
-<span><span class="co">#&gt; $ day           &lt;dbl&gt; 1, 1, 1, 2, 2, 6, 6, 6, 6, 6, 5, 5, 8, 4, 4, 4, 11, 6, 6, 6, 6, 6, 11, 11, 1…</span></span>
-<span><span class="co">#&gt; $ day_week      &lt;chr&gt; "Friday", "Friday", "Friday", "Saturday", "Saturday", "Wednesday", "Wednesda…</span></span>
+<span><span class="co">#&gt; $ countyname    &lt;chr&gt; "MECKLENBURG (117)", "MECKLENBURG (117)", "MECKLENBURG (117)", "MECKLENBURG …</span></span>
+<span><span class="co">#&gt; $ day           &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 5, 3, 3, 5, 8, 2, 8, 8, 1, 1, 1, 7, 7…</span></span>
+<span><span class="co">#&gt; $ day_week      &lt;chr&gt; "Saturday", "Saturday", "Saturday", "Saturday", "Saturday", "Saturday", "Sat…</span></span>
 <span><span class="co">#&gt; $ death_da      &lt;chr&gt; "1", "Not Applicable (Non-Fatal)", "Not Applicable (Non-Fatal)", "Not Applic…</span></span>
-<span><span class="co">#&gt; $ death_hr      &lt;chr&gt; "2:00-2:59", "Not Applicable (Non-fatal)", "Not Applicable (Non-fatal)", "No…</span></span>
+<span><span class="co">#&gt; $ death_hr      &lt;chr&gt; "16:00-16:59", "Not Applicable (Non-fatal)", "Not Applicable (Non-fatal)", "…</span></span>
 <span><span class="co">#&gt; $ death_mn      &lt;chr&gt; "28", "Not Applicable (Non-fatal)", "Not Applicable (Non-fatal)", "Not Appli…</span></span>
 <span><span class="co">#&gt; $ death_mo      &lt;chr&gt; "January", "Not Applicable (Non-Fatal)", "Not Applicable (Non-Fatal)", "Not …</span></span>
-<span><span class="co">#&gt; $ death_tm      &lt;chr&gt; NA, "Not Applicable (Non-fatal)", "Not Applicable (Non-fatal)", "Not Applica…</span></span>
-<span><span class="co">#&gt; $ death_yr      &lt;chr&gt; "2021", "Not Applicable (Non-fatal)", "Not Applicable (Non-fatal)", "Not App…</span></span>
-<span><span class="co">#&gt; $ deaths        &lt;dbl&gt; 1, 1, 1, 1, 1, NA, 0, 1, 1, 1, 2, 2, 1, 1, 1, 0, 1, NA, 0, 0, 0, 0, 1, 0, 1,…</span></span>
-<span><span class="co">#&gt; $ deformed      &lt;chr&gt; "Disabling Damage", "Disabling Damage", "Disabling Damage", "Disabling Damag…</span></span>
-<span><span class="co">#&gt; $ doa           &lt;chr&gt; "Died at Scene", "Not Applicable", "Not Applicable", "Not Applicable", "Died…</span></span>
-<span><span class="co">#&gt; $ dr_drink      &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", "No", "No", "…</span></span>
-<span><span class="co">#&gt; $ dr_hgt        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ dr_pres       &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", NA, "Yes", "Yes", "Yes", "Yes", "Yes", "Y…</span></span>
-<span><span class="co">#&gt; $ dr_wgt        &lt;chr&gt; "265 lbs.", "265 lbs.", "265 lbs.", "170 lbs.", "170 lbs.", NA, "240 lbs.", …</span></span>
-<span><span class="co">#&gt; $ dr_zip        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ drinking      &lt;chr&gt; "Reported as Unknown", "Not Reported", "Not Reported", "Yes (Alcohol Involve…</span></span>
-<span><span class="co">#&gt; $ drug_det      &lt;chr&gt; "Not Reported", "Not Reported", "Not Reported", "Not Reported", "Not Reporte…</span></span>
-<span><span class="co">#&gt; $ drugs         &lt;chr&gt; "Reported as Unknown", "Not Reported", "Not Reported", "No (drugs not involv…</span></span>
+<span><span class="co">#&gt; $ death_tm      &lt;chr&gt; "1628", "Not Applicable (Non-fatal)", "Not Applicable (Non-fatal)", "Not App…</span></span>
+<span><span class="co">#&gt; $ death_yr      &lt;chr&gt; "2022", "Not Applicable (Non-fatal)", "Not Applicable (Non-fatal)", "Not App…</span></span>
+<span><span class="co">#&gt; $ deaths        &lt;dbl&gt; NA, 0, 0, 0, 0, 0, 0, 1, 1, NA, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1,…</span></span>
+<span><span class="co">#&gt; $ deformed      &lt;chr&gt; NA, "7", "7", "7", "7", "7", "Disabling Damage", "Disabling Damage", "Disabl…</span></span>
+<span><span class="co">#&gt; $ devmotor      &lt;dbl&gt; 3, NA, NA, NA, NA, NA, NA, NA, NA, 0, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span><span class="co">#&gt; $ devtype       &lt;dbl&gt; 3, NA, NA, NA, NA, NA, NA, NA, NA, 0, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span><span class="co">#&gt; $ doa           &lt;chr&gt; "Died at Scene", "Not Applicable", "Not Applicable", "Not Applicable", "Not …</span></span>
+<span><span class="co">#&gt; $ dr_drink      &lt;chr&gt; NA, "No", "No", "No", "No", "No", "No", "No", "No", NA, "No", "No", "Yes", "…</span></span>
+<span><span class="co">#&gt; $ dr_hgt        &lt;chr&gt; NA, "69", "69", "69", "69", "69", "62", "63", "63", NA, "67", "69", "67", "7…</span></span>
+<span><span class="co">#&gt; $ dr_pres       &lt;chr&gt; NA, "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "Yes", "Yes"…</span></span>
+<span><span class="co">#&gt; $ dr_wgt        &lt;chr&gt; NA, "130 lbs.", "130 lbs.", "130 lbs.", "130 lbs.", "130 lbs.", "140 lbs.", …</span></span>
+<span><span class="co">#&gt; $ dr_zip        &lt;chr&gt; NA, "23893", "23893", "23893", "23893", "23893", "23024", "22551", "22551", …</span></span>
+<span><span class="co">#&gt; $ drinking      &lt;chr&gt; "Reported as Unknown", "No (Alcohol Not Involved)", "Not Reported", "Not Rep…</span></span>
+<span><span class="co">#&gt; $ drugs         &lt;chr&gt; "Reported as Unknown", "No (drugs not involved)", "Not Reported", "Not Repor…</span></span>
 <span><span class="co">#&gt; $ dstatus       &lt;chr&gt; "Test Given", "Test Not Given", "Test Not Given", "Test Not Given", "Test No…</span></span>
 <span><span class="co">#&gt; $ ej_path       &lt;chr&gt; "Ejection Path Not Applicable", "Ejection Path Not Applicable", "Ejection Pa…</span></span>
-<span><span class="co">#&gt; $ ejection      &lt;chr&gt; "Not Ejected", "Not Ejected", "Totally Ejected", "Totally Ejected", "Totally…</span></span>
-<span><span class="co">#&gt; $ emer_use      &lt;chr&gt; "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…</span></span>
+<span><span class="co">#&gt; $ ejection      &lt;chr&gt; "Not Applicable", "Not Ejected", "Not Reported", "Not Reported", "Not Report…</span></span>
+<span><span class="co">#&gt; $ emer_use      &lt;chr&gt; NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …</span></span>
 <span><span class="co">#&gt; $ extricat      &lt;chr&gt; "Not Extricated or Not Applicable", "Not Extricated or Not Applicable", "Not…</span></span>
-<span><span class="co">#&gt; $ fatals        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></span>
-<span><span class="co">#&gt; $ fire_exp      &lt;chr&gt; "No or Not Reported", "No or Not Reported", "No or Not Reported", "No or Not…</span></span>
-<span><span class="co">#&gt; $ first_mo      &lt;chr&gt; "January", "January", "January", "No Record", "No Record", NA, "February", "…</span></span>
-<span><span class="co">#&gt; $ first_yr      &lt;chr&gt; "2017", "2017", "2017", "No Record", "No Record", NA, "2016", "2019", "2020"…</span></span>
-<span><span class="co">#&gt; $ func_sys      &lt;chr&gt; "Minor Collector", "Minor Collector", "Minor Collector", "Minor Arterial", "…</span></span>
-<span><span class="co">#&gt; $ gvwr_from     &lt;chr&gt; "Class 1: 6,000 lbs. or less (2,722 kg or less)", "Class 1: 6,000 lbs. or le…</span></span>
-<span><span class="co">#&gt; $ gvwr_to       &lt;chr&gt; "Class 1: 6,000 lbs. or less (2,722 kg or less)", "Class 1: 6,000 lbs. or le…</span></span>
-<span><span class="co">#&gt; $ harm_ev       &lt;chr&gt; "Tree (Standing Only)", "Tree (Standing Only)", "Tree (Standing Only)", "Rol…</span></span>
-<span><span class="co">#&gt; $ haz_cno       &lt;chr&gt; "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…</span></span>
-<span><span class="co">#&gt; $ haz_id        &lt;chr&gt; "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…</span></span>
-<span><span class="co">#&gt; $ haz_inv       &lt;chr&gt; "No", "No", "No", "No", "No", NA, "No", "No", "No", "No", "No", "No", "No", …</span></span>
-<span><span class="co">#&gt; $ haz_plac      &lt;chr&gt; "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…</span></span>
-<span><span class="co">#&gt; $ haz_rel       &lt;chr&gt; "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…</span></span>
-<span><span class="co">#&gt; $ helm_mis      &lt;chr&gt; "None Used/Not Applicable", "None Used/Not Applicable", "None Used/Not Appli…</span></span>
-<span><span class="co">#&gt; $ helm_use      &lt;chr&gt; "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…</span></span>
+<span><span class="co">#&gt; $ fatals        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></span>
+<span><span class="co">#&gt; $ fire_exp      &lt;chr&gt; NA, "No or Not Reported", "No or Not Reported", "No or Not Reported", "No or…</span></span>
+<span><span class="co">#&gt; $ first_mo      &lt;chr&gt; NA, "November", "November", "November", "November", "November", "No Record",…</span></span>
+<span><span class="co">#&gt; $ first_yr      &lt;chr&gt; NA, "2021", "2021", "2021", "2021", "2021", "No Record", "No Record", "No Re…</span></span>
+<span><span class="co">#&gt; $ func_sys      &lt;chr&gt; "Principal Arterial - Other", "Principal Arterial - Other", "Principal Arter…</span></span>
+<span><span class="co">#&gt; $ gvwr_from     &lt;chr&gt; NA, "Class 2: 6,001 - 10,000 lbs. (2,722 - 4,536 kg)", "Class 2: 6,001 - 10,…</span></span>
+<span><span class="co">#&gt; $ gvwr_to       &lt;chr&gt; NA, "Class 2: 6,001 - 10,000 lbs. (2,722 - 4,536 kg)", "Class 2: 6,001 - 10,…</span></span>
+<span><span class="co">#&gt; $ harm_ev       &lt;chr&gt; "Pedalcyclist", "Pedalcyclist", "Pedalcyclist", "Pedalcyclist", "Pedalcyclis…</span></span>
+<span><span class="co">#&gt; $ haz_cno       &lt;chr&gt; NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …</span></span>
+<span><span class="co">#&gt; $ haz_id        &lt;chr&gt; NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …</span></span>
+<span><span class="co">#&gt; $ haz_inv       &lt;chr&gt; NA, "No", "No", "No", "No", "No", "No", "No", "No", NA, "No", "No", "No", "N…</span></span>
+<span><span class="co">#&gt; $ haz_plac      &lt;chr&gt; NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …</span></span>
+<span><span class="co">#&gt; $ haz_rel       &lt;chr&gt; NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …</span></span>
+<span><span class="co">#&gt; $ helm_mis      &lt;chr&gt; "Not a Motor Vehicle Occupant", "None Used/Not Applicable", "None Used/Not A…</span></span>
+<span><span class="co">#&gt; $ helm_use      &lt;chr&gt; "Not a Motor Vehicle Occupant", "Not Applicable", "Not Applicable", "Not App…</span></span>
 <span><span class="co">#&gt; $ hispanic      &lt;chr&gt; "Non-Hispanic", "Not A Fatality (not Applicable)", "Not A Fatality (not Appl…</span></span>
-<span><span class="co">#&gt; $ hit_run       &lt;chr&gt; "No", "No", "No", "No", "No", NA, "No", "No", "No", "No", "No", "No", "No", …</span></span>
-<span><span class="co">#&gt; $ hosp_hr       &lt;chr&gt; "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Not Applicable (Not …</span></span>
-<span><span class="co">#&gt; $ hosp_mn       &lt;chr&gt; "Unknown EMS Hospital Arrival Time", "Unknown EMS Hospital Arrival Time", "U…</span></span>
-<span><span class="co">#&gt; $ hospital      &lt;chr&gt; "Not Transported for Treatment", "EMS Unknown Mode", "EMS Unknown Mode", "EM…</span></span>
-<span><span class="co">#&gt; $ hour          &lt;chr&gt; "1:00am-1:59am", "1:00am-1:59am", "1:00am-1:59am", "10:00pm-10:59pm", "10:00…</span></span>
-<span><span class="co">#&gt; $ icfinalbody   &lt;chr&gt; "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…</span></span>
-<span><span class="co">#&gt; $ impact1       &lt;chr&gt; "1 Clock Point", "1 Clock Point", "1 Clock Point", "Non-Collision", "Non-Col…</span></span>
-<span><span class="co">#&gt; $ inj_sev       &lt;chr&gt; "Fatal Injury (K)", "Suspected Serious Injury (A)", "Suspected Serious Injur…</span></span>
-<span><span class="co">#&gt; $ j_knife       &lt;chr&gt; "Not an Articulated Vehicle", "Not an Articulated Vehicle", "Not an Articula…</span></span>
-<span><span class="co">#&gt; $ l_compl       &lt;chr&gt; "Valid license for this class vehicle", "Valid license for this class vehicl…</span></span>
-<span><span class="co">#&gt; $ l_endors      &lt;chr&gt; "No Endorsements required for this vehicle", "No Endorsements required for t…</span></span>
-<span><span class="co">#&gt; $ l_restri      &lt;chr&gt; "No Restrictions or Not Applicable", "No Restrictions or Not Applicable", "N…</span></span>
-<span><span class="co">#&gt; $ l_state       &lt;chr&gt; "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", NA, "Virginia", …</span></span>
-<span><span class="co">#&gt; $ l_status      &lt;chr&gt; "Valid", "Valid", "Valid", "Valid", "Valid", NA, "Valid", "Valid", "Valid", …</span></span>
-<span><span class="co">#&gt; $ l_type        &lt;chr&gt; "Full Driver License", "Full Driver License", "Full Driver License", "Full D…</span></span>
-<span><span class="co">#&gt; $ lag_hrs       &lt;chr&gt; NA, "Unknown", "Unknown", "Unknown", NA, NA, "Unknown", NA, "Unknown", NA, N…</span></span>
-<span><span class="co">#&gt; $ lag_mins      &lt;chr&gt; NA, "Unknown", "Unknown", "Unknown", NA, NA, "Unknown", NA, "Unknown", NA, N…</span></span>
-<span><span class="co">#&gt; $ last_mo       &lt;chr&gt; "June", "June", "June", "No Record", "No Record", NA, "July", "October", "No…</span></span>
-<span><span class="co">#&gt; $ last_yr       &lt;chr&gt; "2019", "2019", "2019", "No Record", "No Record", NA, "2018", "2019", "2020"…</span></span>
-<span><span class="co">#&gt; $ lgt_cond      &lt;chr&gt; "Dark - Not Lighted", "Dark - Not Lighted", "Dark - Not Lighted", "Dark - No…</span></span>
-<span><span class="co">#&gt; $ location      &lt;chr&gt; "Occupant of a Motor Vehicle", "Occupant of a Motor Vehicle", "Occupant of a…</span></span>
-<span><span class="co">#&gt; $ m_harm        &lt;chr&gt; "Tree (Standing Only)", "Tree (Standing Only)", "Tree (Standing Only)", "Tre…</span></span>
-<span><span class="co">#&gt; $ mak_mod       &lt;chr&gt; "Jeep / Kaiser-Jeep / Willys- Jeep Cherokee (1984-on) (For Grand Cherokee fo…</span></span>
-<span><span class="co">#&gt; $ make          &lt;chr&gt; "Jeep / Kaiser-Jeep / Willys- Jeep", "Jeep / Kaiser-Jeep / Willys- Jeep", "J…</span></span>
+<span><span class="co">#&gt; $ hit_run       &lt;chr&gt; NA, "No", "No", "No", "No", "No", "No", "No", "No", NA, "No", "No", "No", "N…</span></span>
+<span><span class="co">#&gt; $ hosp_hr       &lt;chr&gt; "Not Applicable (Not Transported)", "Not Applicable (Not Transported)", "Not…</span></span>
+<span><span class="co">#&gt; $ hosp_mn       &lt;chr&gt; "Not Applicable (Not Transported)", "Not Applicable (Not Transported)", "Not…</span></span>
+<span><span class="co">#&gt; $ hospital      &lt;chr&gt; "Not Transported for Treatment", "Not Transported for Treatment", "Not Trans…</span></span>
+<span><span class="co">#&gt; $ hour          &lt;chr&gt; "4:00pm-4:59pm", "4:00pm-4:59pm", "4:00pm-4:59pm", "4:00pm-4:59pm", "4:00pm-…</span></span>
+<span><span class="co">#&gt; $ icfinalbody   &lt;chr&gt; NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …</span></span>
+<span><span class="co">#&gt; $ impact1       &lt;chr&gt; NA, "12 Clock Point", "12 Clock Point", "12 Clock Point", "12 Clock Point", …</span></span>
+<span><span class="co">#&gt; $ inj_sev       &lt;chr&gt; "Fatal Injury (K)", "No Apparent Injury (O)", "No Apparent Injury (O)", "No …</span></span>
+<span><span class="co">#&gt; $ j_knife       &lt;chr&gt; NA, "Not an Articulated Vehicle", "Not an Articulated Vehicle", "Not an Arti…</span></span>
+<span><span class="co">#&gt; $ l_compl       &lt;chr&gt; NA, "Valid license for this class vehicle", "Valid license for this class ve…</span></span>
+<span><span class="co">#&gt; $ l_endors      &lt;chr&gt; NA, "No Endorsements required for this vehicle", "No Endorsements required f…</span></span>
+<span><span class="co">#&gt; $ l_restri      &lt;chr&gt; NA, "Restrictions, Compliance Unknown", "Restrictions, Compliance Unknown", …</span></span>
+<span><span class="co">#&gt; $ l_state       &lt;chr&gt; NA, "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", …</span></span>
+<span><span class="co">#&gt; $ l_status      &lt;chr&gt; NA, "Valid", "Valid", "Valid", "Valid", "Valid", "Valid", "Valid", "Valid", …</span></span>
+<span><span class="co">#&gt; $ l_type        &lt;chr&gt; NA, "Full Driver License", "Full Driver License", "Full Driver License", "Fu…</span></span>
+<span><span class="co">#&gt; $ lag_hrs       &lt;chr&gt; "0", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unkn…</span></span>
+<span><span class="co">#&gt; $ lag_mins      &lt;chr&gt; "6", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unkn…</span></span>
+<span><span class="co">#&gt; $ last_mo       &lt;chr&gt; NA, "November", "November", "November", "November", "November", "No Record",…</span></span>
+<span><span class="co">#&gt; $ last_yr       &lt;chr&gt; NA, "2021", "2021", "2021", "2021", "2021", "No Record", "No Record", "No Re…</span></span>
+<span><span class="co">#&gt; $ lgt_cond      &lt;chr&gt; "Daylight", "Daylight", "Daylight", "Daylight", "Daylight", "Daylight", "Day…</span></span>
+<span><span class="co">#&gt; $ location      &lt;chr&gt; "At Intersection - Not In Crosswalk", "Occupant of a Motor Vehicle", "Occupa…</span></span>
+<span><span class="co">#&gt; $ m_harm        &lt;chr&gt; NA, "Pedalcyclist", "Pedalcyclist", "Pedalcyclist", "Pedalcyclist", "Pedalcy…</span></span>
+<span><span class="co">#&gt; $ mak_mod       &lt;chr&gt; NA, "GMC Fullsize Jimmy/Yukon", "GMC Fullsize Jimmy/Yukon", "GMC Fullsize Ji…</span></span>
+<span><span class="co">#&gt; $ make          &lt;chr&gt; NA, "GMC", "GMC", "GMC", "GMC", "GMC", "Chevrolet", "Ford", "Ford", NA, "Int…</span></span>
 <span><span class="co">#&gt; $ man_coll      &lt;chr&gt; "The First Harmful Event was Not a Collision with a Motor Vehicle in Transpo…</span></span>
-<span><span class="co">#&gt; $ mcarr_i1      &lt;chr&gt; "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…</span></span>
-<span><span class="co">#&gt; $ mcarr_i2      &lt;chr&gt; "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…</span></span>
-<span><span class="co">#&gt; $ mcarr_id      &lt;chr&gt; "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…</span></span>
-<span><span class="co">#&gt; $ milept        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ minute        &lt;dbl&gt; 50, 50, 50, 22, 22, 44, 44, 47, 50, 50, 5, 5, 45, 22, 22, 22, 54, 35, 35, 35…</span></span>
-<span><span class="co">#&gt; $ mod_year      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ model         &lt;dbl&gt; 404, 404, 404, 37, 37, NA, 472, 407, 421, 421, 401, 401, 706, 40, 40, 33, 40…</span></span>
+<span><span class="co">#&gt; $ mcarr_i1      &lt;chr&gt; NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …</span></span>
+<span><span class="co">#&gt; $ mcarr_i2      &lt;chr&gt; NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …</span></span>
+<span><span class="co">#&gt; $ mcarr_id      &lt;chr&gt; NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …</span></span>
+<span><span class="co">#&gt; $ milept        &lt;chr&gt; "3586", "3586", "3586", "3586", "3586", "3586", "370", "370", "370", "101", …</span></span>
+<span><span class="co">#&gt; $ minute        &lt;chr&gt; "22", "22", "22", "22", "22", "22", "55", "55", "55", "35", "35", "35", "11"…</span></span>
+<span><span class="co">#&gt; $ mod_year      &lt;chr&gt; NA, "2016", "2016", "2016", "2016", "2016", "2019", "2008", "2008", NA, "201…</span></span>
+<span><span class="co">#&gt; $ model         &lt;dbl&gt; NA, 421, 421, 421, 421, 421, 422, 481, 481, NA, 881, 37, 43, 404, 32, 881, 4…</span></span>
 <span><span class="co">#&gt; $ month         &lt;chr&gt; "January", "January", "January", "January", "January", "January", "January",…</span></span>
-<span><span class="co">#&gt; $ motdir        &lt;chr&gt; NA, NA, NA, NA, NA, "Not Applicable", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
-<span><span class="co">#&gt; $ motman        &lt;chr&gt; NA, NA, NA, NA, NA, "Not Applicable", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
-<span><span class="co">#&gt; $ nhs           &lt;chr&gt; "Unknown if this section is on the NHS", "Unknown if this section is on the …</span></span>
-<span><span class="co">#&gt; $ nmhelmet      &lt;chr&gt; NA, NA, NA, NA, NA, "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ nmlight       &lt;chr&gt; NA, NA, NA, NA, NA, "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ nmothpre      &lt;chr&gt; NA, NA, NA, NA, NA, "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ nmothpro      &lt;chr&gt; NA, NA, NA, NA, NA, "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ nmpropad      &lt;chr&gt; NA, NA, NA, NA, NA, "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ nmrefclo      &lt;chr&gt; NA, NA, NA, NA, NA, "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
+<span><span class="co">#&gt; $ motdir        &lt;chr&gt; "Not a Pedestrian", NA, NA, NA, NA, NA, NA, NA, NA, "Not Applicable", NA, NA…</span></span>
+<span><span class="co">#&gt; $ motman        &lt;chr&gt; "Not a Pedestrian", NA, NA, NA, NA, NA, NA, NA, NA, "Not Applicable", NA, NA…</span></span>
+<span><span class="co">#&gt; $ nhs           &lt;chr&gt; "This section IS ON the NHS", "This section IS ON the NHS", "This section IS…</span></span>
+<span><span class="co">#&gt; $ nmhelmet      &lt;chr&gt; "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, "Not Reported", NA, NA, NA, …</span></span>
+<span><span class="co">#&gt; $ nmlight       &lt;chr&gt; "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, "Not Reported", NA, NA, NA, …</span></span>
+<span><span class="co">#&gt; $ nmothpre      &lt;chr&gt; "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, "Not Reported", NA, NA, NA, …</span></span>
+<span><span class="co">#&gt; $ nmothpro      &lt;chr&gt; "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, "Not Reported", NA, NA, NA, …</span></span>
+<span><span class="co">#&gt; $ nmpropad      &lt;chr&gt; "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, "Not Reported", NA, NA, NA, …</span></span>
+<span><span class="co">#&gt; $ nmrefclo      &lt;chr&gt; "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, "Not Reported", NA, NA, NA, …</span></span>
 <span><span class="co">#&gt; $ not_hour      &lt;chr&gt; "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown",…</span></span>
-<span><span class="co">#&gt; $ not_min       &lt;chr&gt; "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown if Notified"…</span></span>
-<span><span class="co">#&gt; $ numoccs       &lt;chr&gt; "03", "03", "03", "02", "02", NA, "01", "01", "02", "02", "02", "02", "01", …</span></span>
-<span><span class="co">#&gt; $ owner         &lt;chr&gt; "Driver (in this crash) was  Registered Owner", "Driver (in this crash) was …</span></span>
-<span><span class="co">#&gt; $ p_crash1      &lt;chr&gt; "Going Straight", "Going Straight", "Going Straight", "Negotiating a Curve",…</span></span>
-<span><span class="co">#&gt; $ p_crash2      &lt;chr&gt; "Off the edge of the road on the right side", "Off the edge of the road on t…</span></span>
-<span><span class="co">#&gt; $ p_crash3      &lt;chr&gt; "Unknown/Not Reported", "Unknown/Not Reported", "Unknown/Not Reported", "Unk…</span></span>
-<span><span class="co">#&gt; $ pbcwalk       &lt;chr&gt; NA, NA, NA, NA, NA, "None Noted", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
-<span><span class="co">#&gt; $ pbswalk       &lt;chr&gt; NA, NA, NA, NA, NA, "None Noted", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
-<span><span class="co">#&gt; $ pbszone       &lt;chr&gt; NA, NA, NA, NA, NA, "None Noted", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
-<span><span class="co">#&gt; $ pcrash4       &lt;chr&gt; "Tracking", "Tracking", "Tracking", "Tracking", "Tracking", NA, "Tracking", …</span></span>
-<span><span class="co">#&gt; $ pcrash5       &lt;chr&gt; "Departed roadway", "Departed roadway", "Departed roadway", "Departed roadwa…</span></span>
-<span><span class="co">#&gt; $ pedcgp        &lt;chr&gt; NA, NA, NA, NA, NA, "Pedestrian in Roadway - Circumstances Unknown", NA, NA,…</span></span>
-<span><span class="co">#&gt; $ pedctype      &lt;chr&gt; NA, NA, NA, NA, NA, "Standing in Roadway", NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
-<span><span class="co">#&gt; $ peddir        &lt;chr&gt; NA, NA, NA, NA, NA, "Not Applicable", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
-<span><span class="co">#&gt; $ pedleg        &lt;chr&gt; NA, NA, NA, NA, NA, "Not Applicable", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
-<span><span class="co">#&gt; $ pedloc        &lt;chr&gt; NA, NA, NA, NA, NA, "Not At Intersection", NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
-<span><span class="co">#&gt; $ pedpos        &lt;chr&gt; NA, NA, NA, NA, NA, "Travel Lane", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
-<span><span class="co">#&gt; $ peds          &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0…</span></span>
-<span><span class="co">#&gt; $ pedsnr        &lt;chr&gt; NA, NA, NA, NA, NA, "Not Applicable", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
-<span><span class="co">#&gt; $ per_typ       &lt;chr&gt; "Driver of a Motor Vehicle In-Transport", "Passenger of a Motor Vehicle In-T…</span></span>
-<span><span class="co">#&gt; $ permvit       &lt;dbl&gt; 3, 3, 3, 2, 2, 1, 1, 1, 2, 2, 2, 2, 1, 3, 3, 3, 1, 4, 4, 4, 4, 4, 2, 2, 3, 3…</span></span>
-<span><span class="co">#&gt; $ pernotmvit    &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0…</span></span>
-<span><span class="co">#&gt; $ persons       &lt;dbl&gt; 3, 3, 3, 2, 2, 1, 1, 1, 2, 2, 2, 2, 1, 3, 3, 3, 1, 4, 4, 4, 4, 4, 2, 2, 3, 3…</span></span>
-<span><span class="co">#&gt; $ prev_acc      &lt;chr&gt; "None", "None", "None", "None", "None", NA, "None", "None", "None", "None", …</span></span>
-<span><span class="co">#&gt; $ prev_dwi      &lt;chr&gt; "None", "None", "None", "None", "None", NA, "None", "None", "None", "None", …</span></span>
-<span><span class="co">#&gt; $ prev_oth      &lt;chr&gt; "1", "1", "1", "None", "None", NA, "3", "None", "None", "None", "None", "Non…</span></span>
-<span><span class="co">#&gt; $ prev_spd      &lt;chr&gt; "1", "1", "1", "None", "None", NA, "None", "2", "1", "1", "None", "None", "N…</span></span>
-<span><span class="co">#&gt; $ prev_sus1     &lt;chr&gt; "None", "None", "None", "None", "None", NA, "None", "None", "None", "None", …</span></span>
-<span><span class="co">#&gt; $ prev_sus2     &lt;chr&gt; "None", "None", "None", "None", "None", NA, "None", "None", "None", "None", …</span></span>
-<span><span class="co">#&gt; $ prev_sus3     &lt;chr&gt; "2", "2", "2", "None", "None", NA, "None", "None", "None", "None", "1", "1",…</span></span>
-<span><span class="co">#&gt; $ pvh_invl      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></span>
+<span><span class="co">#&gt; $ not_min       &lt;chr&gt; "Unknown if Notified", "Unknown if Notified", "Unknown if Notified", "Unknow…</span></span>
+<span><span class="co">#&gt; $ numoccs       &lt;chr&gt; NA, "05", "05", "05", "05", "05", "01", "02", "02", NA, "01", "01", "01", "0…</span></span>
+<span><span class="co">#&gt; $ owner         &lt;chr&gt; NA, "Driver (in this crash) Not Registered Owner (Other Private Owner Listed…</span></span>
+<span><span class="co">#&gt; $ p_crash1      &lt;chr&gt; NA, "Negotiating a Curve", "Negotiating a Curve", "Negotiating a Curve", "Ne…</span></span>
+<span><span class="co">#&gt; $ p_crash2      &lt;chr&gt; NA, "Pedalcyclist or other non-motorist in road", "Pedalcyclist or other non…</span></span>
+<span><span class="co">#&gt; $ p_crash3      &lt;chr&gt; NA, "Unknown/Not Reported", "Unknown/Not Reported", "Unknown/Not Reported", …</span></span>
+<span><span class="co">#&gt; $ pbcwalk       &lt;chr&gt; "None Noted", NA, NA, NA, NA, NA, NA, NA, NA, "None Noted", NA, NA, NA, NA, …</span></span>
+<span><span class="co">#&gt; $ pbswalk       &lt;chr&gt; "None Noted", NA, NA, NA, NA, NA, NA, NA, NA, "None Noted", NA, NA, NA, NA, …</span></span>
+<span><span class="co">#&gt; $ pbszone       &lt;chr&gt; "None Noted", NA, NA, NA, NA, NA, NA, NA, NA, "None Noted", NA, NA, NA, NA, …</span></span>
+<span><span class="co">#&gt; $ pcrash4       &lt;chr&gt; NA, "Tracking", "Tracking", "Tracking", "Tracking", "Tracking", "Tracking", …</span></span>
+<span><span class="co">#&gt; $ pcrash5       &lt;chr&gt; NA, "Stayed in original travel lane", "Stayed in original travel lane", "Sta…</span></span>
+<span><span class="co">#&gt; $ pedcgp        &lt;chr&gt; "Not a Pedestrian", NA, NA, NA, NA, NA, NA, NA, NA, "Unusual Circumstances",…</span></span>
+<span><span class="co">#&gt; $ pedctype      &lt;chr&gt; "Not a Pedestrian", NA, NA, NA, NA, NA, NA, NA, NA, "Disabled Vehicle-Relate…</span></span>
+<span><span class="co">#&gt; $ peddir        &lt;chr&gt; "Not a Pedestrian", NA, NA, NA, NA, NA, NA, NA, NA, "Not Applicable", NA, NA…</span></span>
+<span><span class="co">#&gt; $ pedleg        &lt;chr&gt; "Not a Pedestrian", NA, NA, NA, NA, NA, NA, NA, NA, "Not Applicable", NA, NA…</span></span>
+<span><span class="co">#&gt; $ pedloc        &lt;chr&gt; "Not a Pedestrian", NA, NA, NA, NA, NA, NA, NA, NA, "Not At Intersection", N…</span></span>
+<span><span class="co">#&gt; $ pedpos        &lt;chr&gt; "Not a Pedestrian", NA, NA, NA, NA, NA, NA, NA, NA, "Other/Unknown", NA, NA,…</span></span>
+<span><span class="co">#&gt; $ peds          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></span>
+<span><span class="co">#&gt; $ pedsnr        &lt;chr&gt; "Not a Pedestrian", NA, NA, NA, NA, NA, NA, NA, NA, "Not Applicable", NA, NA…</span></span>
+<span><span class="co">#&gt; $ per_typ       &lt;chr&gt; "Bicyclist", "Driver of a Motor Vehicle In-Transport", "Passenger of a Motor…</span></span>
+<span><span class="co">#&gt; $ permvit       &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 3, 3, 3, 2, 2, 2, 1, 1, 2, 2, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3…</span></span>
+<span><span class="co">#&gt; $ pernotmvit    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></span>
+<span><span class="co">#&gt; $ persons       &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 3, 3, 3, 2, 2, 2, 1, 1, 2, 2, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3…</span></span>
+<span><span class="co">#&gt; $ prev_acc      &lt;chr&gt; NA, "1", "1", "1", "1", "1", "None", "None", "None", NA, "3", "None", "None"…</span></span>
+<span><span class="co">#&gt; $ prev_dwi      &lt;chr&gt; NA, "None", "None", "None", "None", "None", "None", "None", "None", NA, "Non…</span></span>
+<span><span class="co">#&gt; $ prev_oth      &lt;chr&gt; NA, "None", "None", "None", "None", "None", "None", "None", "None", NA, "4",…</span></span>
+<span><span class="co">#&gt; $ prev_spd      &lt;chr&gt; NA, "None", "None", "None", "None", "None", "None", "None", "None", NA, "2",…</span></span>
+<span><span class="co">#&gt; $ prev_sus1     &lt;chr&gt; NA, "None", "None", "None", "None", "None", "None", "None", "None", NA, "Non…</span></span>
+<span><span class="co">#&gt; $ prev_sus2     &lt;chr&gt; NA, "None", "None", "None", "None", "None", "None", "None", "None", NA, "Non…</span></span>
+<span><span class="co">#&gt; $ prev_sus3     &lt;chr&gt; NA, "None", "None", "None", "None", "None", "None", "None", "None", NA, "4",…</span></span>
+<span><span class="co">#&gt; $ pvh_invl      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></span>
 <span><span class="co">#&gt; $ rail          &lt;chr&gt; "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…</span></span>
 <span><span class="co">#&gt; $ rd_owner      &lt;chr&gt; "State Highway Agency", "State Highway Agency", "State Highway Agency", "Sta…</span></span>
-<span><span class="co">#&gt; $ reg_stat      &lt;chr&gt; "North Carolina", "North Carolina", "North Carolina", "Virginia", "Virginia"…</span></span>
-<span><span class="co">#&gt; $ rel_road      &lt;chr&gt; "On Roadside", "On Roadside", "On Roadside", "On Roadside", "On Roadside", "…</span></span>
-<span><span class="co">#&gt; $ reljct1       &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No"…</span></span>
-<span><span class="co">#&gt; $ reljct2       &lt;chr&gt; "Non-Junction", "Non-Junction", "Non-Junction", "Non-Junction", "Non-Junctio…</span></span>
-<span><span class="co">#&gt; $ rest_mis      &lt;chr&gt; "No Indication of Misuse", "No Indication of Misuse", "None Used/Not Applica…</span></span>
-<span><span class="co">#&gt; $ rest_use      &lt;chr&gt; "Shoulder and Lap Belt Used", "Shoulder and Lap Belt Used", "None Used/Not A…</span></span>
-<span><span class="co">#&gt; $ rolinloc      &lt;chr&gt; "No Rollover", "No Rollover", "No Rollover", "On Roadside", "On Roadside", N…</span></span>
-<span><span class="co">#&gt; $ rollover      &lt;chr&gt; "No Rollover", "No Rollover", "No Rollover", "Rollover, Untripped", "Rollove…</span></span>
-<span><span class="co">#&gt; $ route         &lt;chr&gt; "County Road", "County Road", "County Road", "U.S. Highway", "U.S. Highway",…</span></span>
-<span><span class="co">#&gt; $ rur_urb       &lt;chr&gt; "Rural", "Rural", "Rural", "Rural", "Rural", "Rural", "Rural", "Rural", "Urb…</span></span>
+<span><span class="co">#&gt; $ reg_stat      &lt;chr&gt; NA, "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", …</span></span>
+<span><span class="co">#&gt; $ rel_road      &lt;chr&gt; "On Roadway", "On Roadway", "On Roadway", "On Roadway", "On Roadway", "On Ro…</span></span>
+<span><span class="co">#&gt; $ reljct1       &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "Yes…</span></span>
+<span><span class="co">#&gt; $ reljct2       &lt;chr&gt; "Intersection-Related", "Intersection-Related", "Intersection-Related", "Int…</span></span>
+<span><span class="co">#&gt; $ rest_mis      &lt;chr&gt; "Not a Motor Vehicle Occupant", "No Indication of Mis-Use", "None Used/Not A…</span></span>
+<span><span class="co">#&gt; $ rest_use      &lt;chr&gt; "Not a Motor Vehicle Occupant", "Shoulder and Lap Belt Used", "Not Reported"…</span></span>
+<span><span class="co">#&gt; $ rolinloc      &lt;chr&gt; NA, "No Rollover", "No Rollover", "No Rollover", "No Rollover", "No Rollover…</span></span>
+<span><span class="co">#&gt; $ rollover      &lt;chr&gt; NA, "No Rollover", "No Rollover", "No Rollover", "No Rollover", "No Rollover…</span></span>
+<span><span class="co">#&gt; $ route         &lt;chr&gt; "U.S. Highway", "U.S. Highway", "U.S. Highway", "U.S. Highway", "U.S. Highwa…</span></span>
+<span><span class="co">#&gt; $ rur_urb       &lt;chr&gt; "Rural", "Rural", "Rural", "Rural", "Rural", "Rural", "Rural", "Rural", "Rur…</span></span>
 <span><span class="co">#&gt; $ sch_bus       &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No"…</span></span>
-<span><span class="co">#&gt; $ seat_pos      &lt;chr&gt; "Front Seat, Left Side", "Front Seat, Right Side", "Second Seat, Middle", "F…</span></span>
-<span><span class="co">#&gt; $ sex           &lt;chr&gt; "Male", "Female", "Male", "Male", "Male", "Female", "Male", "Male", "Not Rep…</span></span>
+<span><span class="co">#&gt; $ seat_pos      &lt;chr&gt; "Not a Motor Vehicle Occupant", "Front Seat, Left Side", "Not Reported", "No…</span></span>
+<span><span class="co">#&gt; $ sex           &lt;chr&gt; "Male", "Male", "Not Reported", "Not Reported", "Not Reported", "Not Reporte…</span></span>
 <span><span class="co">#&gt; $ sp_jur        &lt;chr&gt; "No Special Jurisdiction", "No Special Jurisdiction", "No Special Jurisdicti…</span></span>
-<span><span class="co">#&gt; $ spec_use      &lt;chr&gt; "No Special Use Noted", "No Special Use Noted", "No Special Use Noted", "No …</span></span>
-<span><span class="co">#&gt; $ speedrel      &lt;chr&gt; "Yes, Exceeded Speed Limit", "Yes, Exceeded Speed Limit", "Yes, Exceeded Spe…</span></span>
+<span><span class="co">#&gt; $ spec_use      &lt;chr&gt; NA, "No Special Use", "No Special Use", "No Special Use", "No Special Use", …</span></span>
+<span><span class="co">#&gt; $ speedrel      &lt;chr&gt; NA, "Yes, Exceeded Speed Limit", "Yes, Exceeded Speed Limit", "Yes, Exceeded…</span></span>
 <span><span class="co">#&gt; $ statename     &lt;chr&gt; "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", "Vir…</span></span>
-<span><span class="co">#&gt; $ str_veh       &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0…</span></span>
-<span><span class="co">#&gt; $ tow_veh       &lt;chr&gt; "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trailing …</span></span>
-<span><span class="co">#&gt; $ towed         &lt;chr&gt; "Towed Due to Disabling Damage", "Towed Due to Disabling Damage", "Towed Due…</span></span>
-<span><span class="co">#&gt; $ trav_sp       &lt;chr&gt; "070 MPH", "070 MPH", "070 MPH", "065 MPH", "065 MPH", NA, "055 MPH", "065 M…</span></span>
-<span><span class="co">#&gt; $ trlr1gvwr     &lt;chr&gt; "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trailing …</span></span>
-<span><span class="co">#&gt; $ trlr1vin      &lt;chr&gt; "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trailing …</span></span>
-<span><span class="co">#&gt; $ trlr2gvwr     &lt;chr&gt; "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trailing …</span></span>
-<span><span class="co">#&gt; $ trlr2vin      &lt;chr&gt; "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trailing …</span></span>
-<span><span class="co">#&gt; $ trlr3gvwr     &lt;chr&gt; "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trailing …</span></span>
-<span><span class="co">#&gt; $ trlr3vin      &lt;chr&gt; "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trailing …</span></span>
-<span><span class="co">#&gt; $ tway_id       &lt;chr&gt; "CR-655", "CR-655", "CR-655", "US-221", "US-221", "CR-641", "CR-641", "CR-60…</span></span>
-<span><span class="co">#&gt; $ tway_id2      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "OLD TAVERN RD", "OLD TA…</span></span>
-<span><span class="co">#&gt; $ typ_int       &lt;chr&gt; "Not an Intersection", "Not an Intersection", "Not an Intersection", "Not an…</span></span>
-<span><span class="co">#&gt; $ underoverride &lt;chr&gt; "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…</span></span>
-<span><span class="co">#&gt; $ unittype      &lt;chr&gt; "Motor Vehicle In-Transport (Inside or Outside the Trafficway)", "Motor Vehi…</span></span>
-<span><span class="co">#&gt; $ v_config      &lt;chr&gt; "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…</span></span>
-<span><span class="co">#&gt; $ valign        &lt;chr&gt; "Straight", "Straight", "Straight", "Curve - Left", "Curve - Left", NA, "Cur…</span></span>
-<span><span class="co">#&gt; $ ve_forms      &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3…</span></span>
-<span><span class="co">#&gt; $ ve_total      &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3…</span></span>
-<span><span class="co">#&gt; $ vin           &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ vnum_lan      &lt;chr&gt; "Two lanes", "Two lanes", "Two lanes", "Two lanes", "Two lanes", NA, "Two la…</span></span>
-<span><span class="co">#&gt; $ vpavetyp      &lt;chr&gt; "Blacktop, Bituminous, or Asphalt", "Blacktop, Bituminous, or Asphalt", "Bla…</span></span>
-<span><span class="co">#&gt; $ vpicbodyclass &lt;chr&gt; "Sport Utility Vehicle (SUV)/Multi-Purpose Vehicle (MPV)", "Sport Utility Ve…</span></span>
-<span><span class="co">#&gt; $ vpicmake      &lt;chr&gt; "Jeep", "Jeep", "Jeep", "Ford", "Ford", NA, "Toyota", "Jeep", "Chevrolet", "…</span></span>
-<span><span class="co">#&gt; $ vpicmodel     &lt;chr&gt; "Grand Cherokee", "Grand Cherokee", "Grand Cherokee", "Focus", "Focus", NA, …</span></span>
-<span><span class="co">#&gt; $ vprofile      &lt;chr&gt; "Level", "Level", "Level", "Grade, Unknown Slope", "Grade, Unknown Slope", N…</span></span>
-<span><span class="co">#&gt; $ vspd_lim      &lt;chr&gt; "45 MPH", "45 MPH", "45 MPH", "55 MPH", "55 MPH", NA, "55 MPH", "45 MPH", "6…</span></span>
-<span><span class="co">#&gt; $ vsurcond      &lt;chr&gt; "Dry", "Dry", "Dry", "Dry", "Dry", NA, "Dry", "Dry", "Dry", "Dry", "Dry", "D…</span></span>
-<span><span class="co">#&gt; $ vtcont_f      &lt;chr&gt; "No Controls", "No Controls", "No Controls", "No Controls", "No Controls", N…</span></span>
-<span><span class="co">#&gt; $ vtrafcon      &lt;chr&gt; "No Controls", "No Controls", "No Controls", "No Controls", "No Controls", N…</span></span>
-<span><span class="co">#&gt; $ vtrafway      &lt;chr&gt; "Two-Way, Not Divided", "Two-Way, Not Divided", "Two-Way, Not Divided", "Two…</span></span>
+<span><span class="co">#&gt; $ str_veh       &lt;dbl&gt; 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></span>
+<span><span class="co">#&gt; $ tow_veh       &lt;chr&gt; NA, "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trail…</span></span>
+<span><span class="co">#&gt; $ towed         &lt;chr&gt; NA, "Not Reported", "Not Reported", "Not Reported", "Not Reported", "Not Rep…</span></span>
+<span><span class="co">#&gt; $ trav_sp       &lt;chr&gt; NA, "060 MPH", "060 MPH", "060 MPH", "060 MPH", "060 MPH", "065 MPH", "Stopp…</span></span>
+<span><span class="co">#&gt; $ trlr1gvwr     &lt;chr&gt; NA, "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trail…</span></span>
+<span><span class="co">#&gt; $ trlr1vin      &lt;chr&gt; NA, "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trail…</span></span>
+<span><span class="co">#&gt; $ trlr2gvwr     &lt;chr&gt; NA, "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trail…</span></span>
+<span><span class="co">#&gt; $ trlr2vin      &lt;chr&gt; NA, "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trail…</span></span>
+<span><span class="co">#&gt; $ trlr3gvwr     &lt;chr&gt; NA, "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trail…</span></span>
+<span><span class="co">#&gt; $ trlr3vin      &lt;chr&gt; NA, "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trail…</span></span>
+<span><span class="co">#&gt; $ tway_id       &lt;chr&gt; "US-58", "US-58", "US-58", "US-58", "US-58", "US-58", "SR-208/LAKE ANNA PKWY…</span></span>
+<span><span class="co">#&gt; $ tway_id2      &lt;chr&gt; "JEFFERSON ST", "JEFFERSON ST", "JEFFERSON ST", "JEFFERSON ST", "JEFFERSON S…</span></span>
+<span><span class="co">#&gt; $ typ_int       &lt;chr&gt; "Four-Way Intersection", "Four-Way Intersection", "Four-Way Intersection", "…</span></span>
+<span><span class="co">#&gt; $ underoverride &lt;dbl&gt; NA, 7, 7, 7, 7, 7, 0, 0, 0, NA, 0, 0, 7, 7, 0, 0, 7, 7, 7, 7, 7, 0, 0, 0, 0,…</span></span>
+<span><span class="co">#&gt; $ unittype      &lt;chr&gt; NA, "Motor Vehicle In-Transport (Inside or Outside the Trafficway)", "Motor …</span></span>
+<span><span class="co">#&gt; $ v_config      &lt;chr&gt; NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …</span></span>
+<span><span class="co">#&gt; $ valign        &lt;chr&gt; NA, "Curve - Right", "Curve - Right", "Curve - Right", "Curve - Right", "Cur…</span></span>
+<span><span class="co">#&gt; $ ve_forms      &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2…</span></span>
+<span><span class="co">#&gt; $ ve_total      &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2…</span></span>
+<span><span class="co">#&gt; $ vin           &lt;chr&gt; NA, "1GKS2BKC8GR3", "1GKS2BKC8GR3", "1GKS2BKC8GR3", "1GKS2BKC8GR3", "1GKS2BK…</span></span>
+<span><span class="co">#&gt; $ vnum_lan      &lt;chr&gt; NA, "Five lanes", "Five lanes", "Five lanes", "Five lanes", "Five lanes", "T…</span></span>
+<span><span class="co">#&gt; $ vpavetyp      &lt;chr&gt; NA, "Blacktop, Bituminous, or Asphalt", "Blacktop, Bituminous, or Asphalt", …</span></span>
+<span><span class="co">#&gt; $ vpicbodyclass &lt;chr&gt; NA, "Sport Utility Vehicle (SUV)/Multi-Purpose Vehicle (MPV)", "Sport Utilit…</span></span>
+<span><span class="co">#&gt; $ vpicmake      &lt;chr&gt; NA, "GMC", "GMC", "GMC", "GMC", "GMC", "Chevrolet", "Ford", "Ford", NA, "Int…</span></span>
+<span><span class="co">#&gt; $ vpicmodel     &lt;chr&gt; NA, "Yukon", "Yukon", "Yukon", "Yukon", "Yukon", "Suburban", "F-150", "F-150…</span></span>
+<span><span class="co">#&gt; $ vprofile      &lt;chr&gt; NA, "Level", "Level", "Level", "Level", "Level", "Level", "Level", "Level", …</span></span>
+<span><span class="co">#&gt; $ vspd_lim      &lt;chr&gt; NA, "55 MPH", "55 MPH", "55 MPH", "55 MPH", "55 MPH", "55 MPH", "55 MPH", "5…</span></span>
+<span><span class="co">#&gt; $ vsurcond      &lt;chr&gt; NA, "Dry", "Dry", "Dry", "Dry", "Dry", "Wet", "Wet", "Wet", NA, "Dry", "Dry"…</span></span>
+<span><span class="co">#&gt; $ vtcont_f      &lt;chr&gt; NA, "No Controls", "No Controls", "No Controls", "No Controls", "No Controls…</span></span>
+<span><span class="co">#&gt; $ vtrafcon      &lt;chr&gt; NA, "No Controls", "No Controls", "No Controls", "No Controls", "No Controls…</span></span>
+<span><span class="co">#&gt; $ vtrafway      &lt;chr&gt; NA, "Two-Way, Not Divided With a Continuous Left-Turn Lane", "Two-Way, Not D…</span></span>
 <span><span class="co">#&gt; $ work_inj      &lt;chr&gt; "No", "Not Applicable (not a fatality)", "Not Applicable (not a fatality)", …</span></span>
 <span><span class="co">#&gt; $ wrk_zone      &lt;chr&gt; "None", "None", "None", "None", "None", "None", "None", "None", "None", "Non…</span></span></code></pre></div>
 <p>The <code>multi_</code> tibbles contain those variables for which there may be a varying number of values for any entity (e.g., driver impairments, vehicle events, weather conditions at time of crash). Each tibble has the requisite data elements corresponding to the entity: <code>multi_acc</code> includes <code>st_case</code> and <code>year</code>, <code>multi_veh</code> adds <code>veh_no</code> (vehicle number), and <code>multi_per</code> adds <code>per_no</code> (person number).</p>
@@ -343,7 +347,7 @@ weather
 Rain
 </td>
 <td style="text-align:right;">
-80
+96
 </td>
 </tr>
 <tr>
@@ -354,18 +358,7 @@ crashrf
 Motor Vehicle struck by falling cargo,or something that came loose from or something that was set in motion by a vehicle
 </td>
 <td style="text-align:right;">
-25
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-crashrf
-</td>
-<td style="text-align:left;">
-Police Pursuit Involved
-</td>
-<td style="text-align:right;">
-20
+24
 </td>
 </tr>
 <tr>
@@ -376,7 +369,18 @@ crashrf
 Indication of a Stalled/Disabled Vehicle
 </td>
 <td style="text-align:right;">
-10
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashrf
+</td>
+<td style="text-align:left;">
+Police Pursuit Involved
+</td>
+<td style="text-align:right;">
+11
 </td>
 </tr>
 <tr>
@@ -387,7 +391,7 @@ crashrf
 Recent/Previous Crash scene Nearby
 </td>
 <td style="text-align:right;">
-8
+7
 </td>
 </tr>
 <tr>
@@ -409,7 +413,18 @@ weather
 Snow
 </td>
 <td style="text-align:right;">
-5
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashrf
+</td>
+<td style="text-align:left;">
+Regular Congestion
+</td>
+<td style="text-align:right;">
+3
 </td>
 </tr>
 <tr>
@@ -420,18 +435,7 @@ crashrf
 Non-occupant struck by falling cargo, or something that came loose from, or something that was set in motion by a vehicle
 </td>
 <td style="text-align:right;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-weather
-</td>
-<td style="text-align:left;">
-Clear
-</td>
-<td style="text-align:right;">
-4
+2
 </td>
 </tr>
 <tr>
@@ -439,10 +443,10 @@ Clear
 crashrf
 </td>
 <td style="text-align:left;">
-Other Maintenance or Construction-Created Condition
+10
 </td>
 <td style="text-align:right;">
-2
+1
 </td>
 </tr>
 </tbody>
@@ -470,7 +474,7 @@ vehiclecc
 None Noted
 </td>
 <td style="text-align:right;">
-1278
+1352
 </td>
 </tr>
 <tr>
@@ -481,7 +485,7 @@ vision
 No Obstruction Noted
 </td>
 <td style="text-align:right;">
-1223
+1264
 </td>
 </tr>
 <tr>
@@ -492,7 +496,7 @@ damage
 12 Clock Value
 </td>
 <td style="text-align:right;">
-1041
+1093
 </td>
 </tr>
 <tr>
@@ -503,7 +507,7 @@ drdistract
 Not Distracted
 </td>
 <td style="text-align:right;">
-1011
+1025
 </td>
 </tr>
 <tr>
@@ -514,7 +518,7 @@ damage
 11 Clock Value
 </td>
 <td style="text-align:right;">
-907
+917
 </td>
 </tr>
 <tr>
@@ -525,7 +529,7 @@ damage
 1 Clock Value
 </td>
 <td style="text-align:right;">
-845
+884
 </td>
 </tr>
 <tr>
@@ -536,7 +540,7 @@ drimpair
 None/Apparently Normal
 </td>
 <td style="text-align:right;">
-831
+736
 </td>
 </tr>
 <tr>
@@ -547,7 +551,7 @@ damage
 10 Clock Value
 </td>
 <td style="text-align:right;">
-709
+699
 </td>
 </tr>
 <tr>
@@ -558,7 +562,7 @@ damage
 2 Clock Value
 </td>
 <td style="text-align:right;">
-637
+635
 </td>
 </tr>
 <tr>
@@ -569,7 +573,7 @@ damage
 9 Clock Value
 </td>
 <td style="text-align:right;">
-571
+560
 </td>
 </tr>
 </tbody>
@@ -591,46 +595,24 @@ n
 <tbody>
 <tr>
 <td style="text-align:left;">
+order
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+2107
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 multrace
 </td>
 <td style="text-align:left;">
 No
 </td>
 <td style="text-align:right;">
-1966
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-drugres
-</td>
-<td style="text-align:left;">
-Test Not Given
-</td>
-<td style="text-align:right;">
-1132
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-drugspec
-</td>
-<td style="text-align:left;">
-Test Not Given
-</td>
-<td style="text-align:right;">
-1132
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-race
-</td>
-<td style="text-align:left;">
-Not a Fatality (not Applicable)
-</td>
-<td style="text-align:right;">
-996
+2096
 </td>
 </tr>
 <tr>
@@ -641,7 +623,40 @@ drugspec
 Whole Blood
 </td>
 <td style="text-align:right;">
-968
+1292
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:right;">
+1236
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:right;">
+1236
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+race
+</td>
+<td style="text-align:left;">
+Not a Fatality (not Applicable)
+</td>
+<td style="text-align:right;">
+1099
 </td>
 </tr>
 <tr>
@@ -652,7 +667,7 @@ race
 White
 </td>
 <td style="text-align:right;">
-582
+597
 </td>
 </tr>
 <tr>
@@ -663,18 +678,7 @@ drugres
 Tested, No Drugs Found/Negative
 </td>
 <td style="text-align:right;">
-385
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-race
-</td>
-<td style="text-align:left;">
-Black or African American
-</td>
-<td style="text-align:right;">
-262
+579
 </td>
 </tr>
 <tr>
@@ -685,18 +689,18 @@ drugspec
 Vitreous
 </td>
 <td style="text-align:right;">
-225
+353
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-drugres
+race
 </td>
 <td style="text-align:left;">
-Cannabinoid, Type Unknown
+Black or African American
 </td>
 <td style="text-align:right;">
-166
+254
 </td>
 </tr>
 </tbody>
@@ -740,6 +744,75 @@ Virginia
 1
 </td>
 <td style="text-align:left;">
+12 Clock Point
+</td>
+<td style="text-align:left;">
+Pedalcyclist
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2022
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Virginia
+</td>
+<td style="text-align:left;">
+510002
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+12 Clock Point
+</td>
+<td style="text-align:left;">
+Motor Vehicle In-Transport
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2022
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Virginia
+</td>
+<td style="text-align:left;">
+510002
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+6 Clock Point
+</td>
+<td style="text-align:left;">
+Motor Vehicle In-Transport
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2022
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Virginia
+</td>
+<td style="text-align:left;">
+510003
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
 Non-Harmful Event
 </td>
 <td style="text-align:left;">
@@ -749,7 +822,7 @@ Ran Off Roadway - Right
 1
 </td>
 <td style="text-align:left;">
-2021
+2022
 </td>
 </tr>
 <tr>
@@ -757,22 +830,22 @@ Ran Off Roadway - Right
 Virginia
 </td>
 <td style="text-align:left;">
-510001
+510003
 </td>
 <td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
-1 Clock Point
+9 Clock Point
 </td>
 <td style="text-align:left;">
-Tree (Standing Only)
+Motor Vehicle In-Transport
 </td>
 <td style="text-align:left;">
 2
 </td>
 <td style="text-align:left;">
-2021
+2022
 </td>
 </tr>
 <tr>
@@ -780,22 +853,22 @@ Tree (Standing Only)
 Virginia
 </td>
 <td style="text-align:left;">
-510002
+510003
 </td>
 <td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
-Non-Harmful Event
+5 Clock Point
 </td>
 <td style="text-align:left;">
-Cross Centerline
+Motor Vehicle In-Transport
 </td>
 <td style="text-align:left;">
-1
+3
 </td>
 <td style="text-align:left;">
-2021
+2022
 </td>
 </tr>
 <tr>
@@ -803,30 +876,7 @@ Cross Centerline
 Virginia
 </td>
 <td style="text-align:left;">
-510002
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-Non-Harmful Event
-</td>
-<td style="text-align:left;">
-Ran Off Roadway - Left
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-2021
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Virginia
-</td>
-<td style="text-align:left;">
-510002
+510003
 </td>
 <td style="text-align:left;">
 1
@@ -838,33 +888,10 @@ Non-Collision
 Rollover/Overturn
 </td>
 <td style="text-align:left;">
-3
-</td>
-<td style="text-align:left;">
-2021
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Virginia
-</td>
-<td style="text-align:left;">
-510002
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-4 Clock Point
-</td>
-<td style="text-align:left;">
-Tree (Standing Only)
-</td>
-<td style="text-align:left;">
 4
 </td>
 <td style="text-align:left;">
-2021
+2022
 </td>
 </tr>
 <tr>
@@ -875,30 +902,7 @@ Virginia
 510003
 </td>
 <td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-11 Clock Point
-</td>
-<td style="text-align:left;">
-Pedestrian
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-2021
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Virginia
-</td>
-<td style="text-align:left;">
-510003
-</td>
-<td style="text-align:left;">
-1
+2
 </td>
 <td style="text-align:left;">
 Non-Harmful Event
@@ -907,10 +911,10 @@ Non-Harmful Event
 Ran Off Roadway - Right
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 <td style="text-align:left;">
-2021
+2022
 </td>
 </tr>
 <tr>
@@ -921,19 +925,19 @@ Virginia
 510003
 </td>
 <td style="text-align:left;">
-1
+2
 </td>
 <td style="text-align:left;">
 11 Clock Point
 </td>
 <td style="text-align:left;">
-Ditch
+Motor Vehicle In-Transport
 </td>
 <td style="text-align:left;">
-3
+2
 </td>
 <td style="text-align:left;">
-2021
+2022
 </td>
 </tr>
 <tr>
@@ -941,27 +945,27 @@ Ditch
 Virginia
 </td>
 <td style="text-align:left;">
-510004
+510003
 </td>
 <td style="text-align:left;">
-1
+2
 </td>
 <td style="text-align:left;">
-Non-Harmful Event
+12 Clock Point
 </td>
 <td style="text-align:left;">
-Cross Centerline
+Pedestrian
 </td>
 <td style="text-align:left;">
-1
+3
 </td>
 <td style="text-align:left;">
-2021
+2022
 </td>
 </tr>
 </tbody>
 </table>
-<p>The <code>codebook</code> tibble provides a searchable codebook for the data, useful if you know what concept you’re looking for but not the variable that describes it. The <code>rfars</code> package includes a codebook for FARS and GESCRSS (<code><a href="reference/fars_codebook.html">rfars::fars_codebook</a></code> and <code><a href="reference/gescrss_codebook.html">rfars::gescrss_codebook</a></code>). These tables span 2011-2021 whereas the <code>codebook</code> object returned from <code><a href="reference/get_fars.html">get_fars()</a></code> and <code><a href="reference/get_gescrss.html">get_gescrss()</a></code> only include the specified <code>years</code>. See the vignette for more information.</p>
+<p>The <code>codebook</code> tibble provides a searchable codebook for the data, useful if you know what concept you’re looking for but not the variable that describes it. The <code>rfars</code> package includes a codebook for FARS and GESCRSS (<code><a href="reference/fars_codebook.html">rfars::fars_codebook</a></code> and <code><a href="reference/gescrss_codebook.html">rfars::gescrss_codebook</a></code>). These tables span 2011-2022 whereas the <code>codebook</code> object returned from <code><a href="reference/get_fars.html">get_fars()</a></code> and <code><a href="reference/get_gescrss.html">get_gescrss()</a></code> only include the specified <code>years</code>. See the vignette for more information.</p>
 </div>
 <div class="section level2">
 <h2 id="helpful-links">Helpful Links<a class="anchor" aria-label="anchor" href="#helpful-links"></a>
@@ -1024,21 +1028,19 @@ Cross Centerline
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p>
-<p>Developed by Steve Jackson.</p>
+  <p>Developed by Steve Jackson.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>

@@ -24,7 +24,7 @@ download_gescrss <- function(years,
     dest_raw_y <- paste0(dest_raw, "/", y)
 
     my_url <- dplyr::case_when(
-      y %in% 2016:2022 ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/CRSS/", y, "/CRSS", y, "SAS.zip"),
+      y %in% 2016:2023 ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/CRSS/", y, "/CRSS", y, "SAS.zip"),
       y == 2015        ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/GES/GES", y-2000, "/GES", y, "sas.zip"),
       y == 2014        ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/GES/GES", y-2000, "/GES", y, "SAS.zip"),
       y %in% 2011:2013 ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/GES/GES", y-2000, "/GES", y-2000, "_PCSAS.zip"),
@@ -61,7 +61,7 @@ download_gescrss <- function(years,
 
         }
 
-      if(y %in% c(2022)){
+      if(y %in% c(2022:2023)){
 
         from <- paste0(dest_raw_y, "/CRSS", y, "SAS") %>% list.files(full.names = T, recursive = T)
 

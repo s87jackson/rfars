@@ -93,13 +93,13 @@ specifices the directory, and `cache` names the file (be sure to include the
 Here we get one year of FARS data for Virginia:
 
 ```{r}
-myFARS <- get_fars(years = 2022, states = "VA", proceed = TRUE)
+myFARS <- get_fars(years = 2023, states = "VA", proceed = TRUE)
 ```
 
 We could have saved that file locally with:
 
 ```{r, eval=F}
-myFARS <- get_fars(years=2022, states = "VA", proceed = TRUE, dir = getwd(), cache = "myFARS.rds")
+myFARS <- get_fars(years=2023, states = "VA", proceed = TRUE, dir = getwd(), cache = "myFARS.rds")
 ```
 
 Note that you can assign and save this data with one function call.
@@ -108,17 +108,17 @@ We could similarly get one year of CRSS data for the south (MD, DE, DC, WV, VA,
 KY, TN, NC, SC, GA, FL, AL, MS, LA, AR, OK, TX):
 
 ```{r, eval=F}
-myCRSS <- get_gescrss(years = 2022, regions = "s", proceed = TRUE)
-myCRSS <- get_gescrss(years = 2022, regions = "s", proceed = TRUE, dir = getwd(), cache = "myCRSS.rds")
+myCRSS <- get_gescrss(years = 2023, regions = "s", proceed = TRUE)
+myCRSS <- get_gescrss(years = 2023, regions = "s", proceed = TRUE, dir = getwd(), cache = "myCRSS.rds")
 ```
 
 The data returned by `get_fars()` and `get_gescrss()` adhere to the same
 structure: a list with six tibbles: `flat`, `multi_acc`, `multi_veh`,
 `multi_per`, `events`, and `codebook`. FARS and GES/CRSS share many but not all
 data elements. See the [FARS Analytical User's
-Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813417) and
+Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706) and
 [CRSS Analytical User's
-Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813436) for
+Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707) for
 more information.
 
 The following section decribes the results from `get_fars()` but largely applies
@@ -181,13 +181,13 @@ the specified `years`. See the vignette for more information.
 -   [Fatality and Injury Reporting System Tool
     (FIRST)](https://cdan.dot.gov/query)
 -   [FARS Analytical User's
-    Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813417)
+    Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706)
 -   [General Estimates System
     (GES)](https://www.nhtsa.gov/national-automotive-sampling-system/nass-general-estimates-system)
 -   [Crash Report Sampling System
     (CRSS)](https://www.nhtsa.gov/crash-data-systems/crash-report-sampling-system)
 -   [CRSS Analytical User's
-    Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813436)
+    Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707)
 -   [NCSA and Other Data
     Sources](https://cdan.dot.gov/Homepage/MotorVehicleCrashDataOverview.htm)
 -   [NHTSA FTP Site](https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/)
