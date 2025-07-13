@@ -44,7 +44,7 @@ counts <- function(df,
                               region = c("all", "ne", "mw", "s", "w")[1],
                               urb=c("all", "rural", "urban")[1]),
                    who=c("all", "drivers", "passengers", "bicyclists", "pedestrians")[1],
-                   involved=NULL,
+                   involved = c("any", "all", "alcohol", "bicyclist", "distracted driver", "drugs", "hit and run", "large trucks", "motorcycle", "older driver", "pedalcyclist", "pedbike", "pedestrian", "police pursuit", "roadway departure", "rollover", "speeding", "young driver")[1],
                    filterOnly=FALSE){
 
     if(!(any(class(df) %in% c("FARS", "GESCRSS")))){
@@ -142,22 +142,88 @@ counts <- function(df,
 
 
   # Involved ----
-    if("distracted driver" %in% involved) flat <- inner_join(flat, distracted_driver(df), by = c("year", "id"))
-    if("police pursuit" %in% involved)    flat <- inner_join(flat, police_pursuit(df), by = c("year", "id"))
-    if("motorcycle" %in% involved)        flat <- inner_join(flat, motorcycle(df), by = c("year", "id"))
-    if("pedalcyclist" %in% involved)      flat <- inner_join(flat, pedalcyclist(df), by = c("year", "id"))
-    if("pedestrian" %in% involved)        flat <- inner_join(flat, pedestrian(df), by = c("year", "id"))
-    if("bicyclist" %in% involved)         flat <- inner_join(flat, bicyclist(df), by = c("year", "id"))
-    if("pedbike" %in% involved)           flat <- inner_join(flat, pedbike(df), by = c("year", "id"))
-    if("young driver" %in% involved)      flat <- inner_join(flat, driver_age(df, 15, 20), by = c("year", "id"))
-    if("older driver" %in% involved)      flat <- inner_join(flat, driver_age(df, 65, 100), by = c("year", "id"))
-    if("speeding" %in% involved)          flat <- inner_join(flat, speeding(df), by = c("year", "id"))
-    if("alcohol" %in% involved)           flat <- inner_join(flat, alcohol(df), by = c("year", "id"))
-    if("drugs" %in% involved)             flat <- inner_join(flat, drugs(df), by = c("year", "id"))
-    if("large trucks" %in% involved)      flat <- inner_join(flat, large_trucks(df), by = c("year", "id"))
-    if("hit and run" %in% involved)       flat <- inner_join(flat, hit_and_run(df), by = c("year", "id"))
-    if("roadway departure" %in% involved) flat <- inner_join(flat, road_depart(df), by = c("year", "id"))
-    if("rollover" %in% involved)          flat <- inner_join(flat, rollover(df), by = c("year", "id"))
+
+    if ("any" %in% involved && length(involved) > 1) {
+      stop("'involved' cannot contain both 'any' and other values.")
+    }
+
+    if ("all" %in% involved && length(involved) > 1) {
+      stop("'involved' cannot contain both 'all' and other values.")
+    }
+
+    if(involved == "any") flat$involved <- "any"
+
+
+    if(length(involved)>=1 && !(any(c("all", "any") %in% involved))){
+      if("distracted driver" %in% involved) flat <- inner_join(flat, distracted_driver(df), by = c("year", "id"))
+      if("police pursuit" %in% involved)    flat <- inner_join(flat, police_pursuit(df), by = c("year", "id"))
+      if("motorcycle" %in% involved)        flat <- inner_join(flat, motorcycle(df), by = c("year", "id"))
+      if("pedalcyclist" %in% involved)      flat <- inner_join(flat, pedalcyclist(df), by = c("year", "id"))
+      if("pedestrian" %in% involved)        flat <- inner_join(flat, pedestrian(df), by = c("year", "id"))
+      if("bicyclist" %in% involved)         flat <- inner_join(flat, bicyclist(df), by = c("year", "id"))
+      if("pedbike" %in% involved)           flat <- inner_join(flat, pedbike(df), by = c("year", "id"))
+      if("young driver" %in% involved)      flat <- inner_join(flat, driver_age(df, 15, 20), by = c("year", "id"))
+      if("older driver" %in% involved)      flat <- inner_join(flat, driver_age(df, 65, 100), by = c("year", "id"))
+      if("speeding" %in% involved)          flat <- inner_join(flat, speeding(df), by = c("year", "id"))
+      if("alcohol" %in% involved)           flat <- inner_join(flat, alcohol(df), by = c("year", "id"))
+      if("drugs" %in% involved)             flat <- inner_join(flat, drugs(df), by = c("year", "id"))
+      if("large trucks" %in% involved)      flat <- inner_join(flat, large_trucks(df), by = c("year", "id"))
+      if("hit and run" %in% involved)       flat <- inner_join(flat, hit_and_run(df), by = c("year", "id"))
+      if("roadway departure" %in% involved) flat <- inner_join(flat, road_depart(df), by = c("year", "id"))
+      if("rollover" %in% involved)          flat <- inner_join(flat, rollover(df), by = c("year", "id"))
+
+      flat$involved <- paste(involved, collapse = " AND ")
+
+    }
+
+
+
+    if(involved=="all"){
+
+      # Master list of all possible types
+      all_involved <- c(
+        "alcohol", "bicyclist", "distracted driver", "drugs", "hit and run", "large trucks",
+        "motorcycle", "older driver", "pedalcyclist", "pedbike", "pedestrian",
+        "police pursuit", "roadway departure", "rollover", "speeding", "young driver"
+      )
+
+      # Named list of data-generating functions
+      involved_functions <- list(
+        "alcohol"             = rfars:::alcohol,
+        "bicyclist"           = rfars:::bicyclist,
+        "distracted driver"   = rfars:::distracted_driver,
+        "drugs"               = rfars:::drugs,
+        "hit and run"         = rfars:::hit_and_run,
+        "large trucks"        = rfars:::large_trucks,
+        "motorcycle"          = rfars:::motorcycle,
+        "older driver"        = function(df) rfars:::driver_age(df, 65, 100),
+        "pedalcyclist"        = rfars:::pedalcyclist,
+        "pedbike"             = rfars:::pedbike,
+        "pedestrian"          = rfars:::pedestrian,
+        "police pursuit"      = rfars:::police_pursuit,
+        "roadway departure"   = rfars:::road_depart,
+        "rollover"            = rfars:::rollover,
+        "speeding"            = rfars:::speeding,
+        "young driver"        = function(df) rfars:::driver_age(df, 15, 20)
+      )
+
+
+    # print(str(involved))
+    # print(str(involved_functions[involved]))
+
+    # Stack results
+      combined <- map_dfr(
+        all_involved,
+        function(type) {
+          result <- inner_join(flat, involved_functions[[type]](df), by = c("year", "id"))
+          result$involved <- type
+          result
+        }
+      )
+
+    flat <- combined
+
+    }
 
 
   # Who ----
@@ -177,6 +243,8 @@ counts <- function(df,
 
   # Count ----
 
+    interval <- setdiff(interval, "date")
+
     if(filterOnly){
 
       return(flat)
@@ -187,13 +255,13 @@ counts <- function(df,
 
         if(what == "crashes"){
           #flat <- flat %>% select(all_of(c("id", interval, "region", "weight"))) %>% distinct() %>% group_by_at(c(interval, "region")) %>% summarize(n=sum(.data$weight, na.rm = T))
-          flat <- flat %>% select(all_of(c("id", interval, "weight"))) %>% distinct() %>% group_by_at(c(interval)) %>% summarize(n=sum(.data$weight, na.rm = T))
+          flat <- flat %>% select(all_of(c("id", interval, "weight", "involved"))) %>% distinct() %>% group_by(across(all_of(interval)), involved) %>% summarize(n=sum(.data$weight, na.rm = T))
         }
 
 
         if(what %in% c("fatalities", "people", "injuries")) {
           #flat <- flat %>% select(all_of(c("id", "veh_no", "per_no", interval, "region", "weight"))) %>% distinct() %>% group_by_at(c(interval, "region")) %>% summarize(n=sum(.data$weight, na.rm = T))
-          flat <- flat %>% select(all_of(c("id", "veh_no", "per_no", interval, "weight"))) %>% distinct() %>% group_by_at(c(interval)) %>% summarize(n=sum(.data$weight, na.rm = T))
+          flat <- flat %>% select(all_of(c("id", "veh_no", "per_no", interval, "weight", "involved"))) %>% distinct() %>% group_by(across(all_of(interval)), involved) %>% summarize(n=sum(.data$weight, na.rm = T))
         }
 
 
@@ -201,10 +269,10 @@ counts <- function(df,
 
       if("FARS" %in% class(df)){
 
-        if(what == "crashes") flat <- flat %>% summarize(n=n_distinct(.data$id))
+        if(what == "crashes") flat <- flat %>% group_by(across(all_of(interval)), involved) %>% summarize(n=n_distinct(.data$id))
 
         if(what %in% c("fatalities", "people", "injuries")) {
-          flat <- flat %>% summarize(n=n_distinct(.data$id, .data$veh_no, .data$per_no))
+          flat <- flat %>% group_by(across(all_of(interval)), involved) %>% summarize(n=n_distinct(.data$id, .data$veh_no, .data$per_no))
           }
 
       }
@@ -262,8 +330,10 @@ counts <- function(df,
         states= ifelse(is.null(where$states), "all", where$states),
         region=where$region,
         urb=where$urb,
-        who=who,
-        involved=involved) %>%
+        who=who#,
+        #involved=involved
+        ) %>%
+      select(any_of(c(interval, "what", "states", "region", "urb", "who", "involved", "n"))) %>%
       return()
 
 }

@@ -62,18 +62,34 @@ download_fars <- function(years,
       }
 
 
-    if(y %in% c(2020:2023)){
+    # if(y %in% c(2020:2023)){
+    #
+    #     from <- paste0(dest_raw_y, "/FARS", y, "NationalSAS") %>% list.files(full.names = T, recursive = T)
+    #
+    #     to <- gsub(x = from, pattern = paste0("/FARS", y, "NationalSAS"), replacement = "")
+    #
+    #     dir.create(paste0(dest_raw_y, "/format-viya"), showWarnings = F)
+    #
+    #     file.copy(from, to, overwrite = T)
+    #
+    #     unlink(paste0(dest_raw_y, "/FARS", y, "NationalSAS"), recursive = T)
+    #
+    # }
 
-        from <- paste0(dest_raw_y, "/FARS", y, "NationalSAS") %>% list.files(full.names = T, recursive = T)
+      if(y %in% c(2020:2023)){
+        from <- paste0(dest_raw_y, "/FARS", y, "NationalSAS") %>%
+          list.files(full.names = T, recursive = T)
+        to <- gsub(x = from, pattern = paste0("/FARS", y, "NationalSAS"),
+                   replacement = "")
 
-        to <- gsub(x = from, pattern = paste0("/FARS", y, "NationalSAS"), replacement = "")
-
-        dir.create(paste0(dest_raw_y, "/format-viya"), showWarnings = F)
+        # Create all unique parent directories needed
+        unique_dirs <- unique(dirname(to))
+        for(d in unique_dirs) {
+          dir.create(d, showWarnings = FALSE, recursive = TRUE)
+        }
 
         file.copy(from, to, overwrite = T)
-
         unlink(paste0(dest_raw_y, "/FARS", y, "NationalSAS"), recursive = T)
-
       }
 
 
@@ -93,7 +109,7 @@ download_fars <- function(years,
             stringr::str_remove(".txt") %>%
             stringr::word(-1, sep="/")
           ) %>%
-        filter(stringr::str_to_upper(.data$type) %in% c("SAS7BDAT", "SAS"))
+        dplyr::filter(stringr::str_to_upper(.data$type) %in% c("SAS7BDAT", "SAS"))
 
 
     # Fix dest_raw_y, dest_prepd

@@ -54,7 +54,7 @@
 #'
 #'    Finally, the codebook tibble serves as a searchable codebook for all files of any given year.
 #'
-#'    Please review the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813417}{FARS Analytical User's Manual}
+#'    Please review the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706}{FARS Analytical User's Manual}
 #'
 #'
 #' @examples

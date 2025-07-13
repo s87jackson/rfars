@@ -31,9 +31,9 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   my_catfile <-
     data.frame(filename = list.files(wd, recursive = T, full.names = T)) %>%
-    filter(stringr::str_detect(.data$filename, "sas7bcat")) %>%
-    arrange(desc(.data$filename)) %>%
-    slice(1) %>%
+    dplyr::filter(stringr::str_detect(.data$filename, "sas7bcat")) %>%
+    dplyr::arrange(desc(.data$filename)) %>%
+    dplyr::slice(1) %>%
     as.character()
 
   # if(y %in% 2016:2021)          my_catfile <- paste0(wd, "format-64/formats.sas7bcat")

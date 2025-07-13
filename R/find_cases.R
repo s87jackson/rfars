@@ -9,23 +9,22 @@
 
 distracted_driver <- function(df){
 
+  not_distracted <- c(
+    "No Driver Present/Unknown if Driver present",
+    "Not Distracted",
+    "Not Reported",
+    "Reported as Unknown if Distracted",
+    "Unknown if Distracted"
+  )
+
   if(any(class(df) %in% c("FARS", "GESCRSS"))){
-    bind_rows(
-      df$multi_veh %>%
-        filter(.data$name == "drdistract",
-               .data$value != "Not Distracted") %>%
-        make_id() %>%
-        select(.data$year, .data$id) %>%
-        make_all_numeric() %>%
-        distinct(),
-      df$multi_veh %>%
-        filter(.data$name == "mdrdstrd",
-               .data$value != "Not Distracted") %>%
-        make_id() %>%
-        select(.data$year, .data$id) %>%
-        make_all_numeric() %>%
-        distinct()
-      ) %>%
+    df$multi_veh %>%
+      filter(.data$name %in% c("drdistract", "mdrdstrd"),
+             !(.data$value %in% not_distracted)) %>%
+      make_id() %>%
+      select(.data$year, .data$id) %>%
+      make_all_numeric() %>%
+      distinct() %>%
       return()
 
   } else{
@@ -444,8 +443,10 @@ road_depart <- function(df){
 
   if(any(class(df) %in% c("FARS", "GESCRSS"))){
 
+    acc_var <- intersect(c("acc_type", "acc_typ", "acc_config"), names(df$flat))[1]
+
     df$flat %>%
-      filter(grepl("departure", .data$acc_type, ignore.case = TRUE)) %>%
+      filter(grepl("departure", .data[[acc_var]], ignore.case = TRUE)) %>%
       select(.data$year, .data$id) %>%
       make_all_numeric() %>%
       distinct() %>%
@@ -475,6 +476,8 @@ rollover <- function(df){
 
     df$flat %>%
       filter(!grepl("No Roll", .data$rollover)) %>%
+      filter(!grepl("8", .data$rollover)) %>%
+      filter(!is.na(.data$rollover)) %>%
       select(.data$year, .data$id) %>%
       make_all_numeric() %>%
       distinct() %>%
