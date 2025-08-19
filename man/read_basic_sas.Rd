@@ -4,14 +4,7 @@
 \alias{read_basic_sas}
 \title{(Internal) Takes care of basic SAS file reading}
 \usage{
-read_basic_sas(
-  x,
-  wd,
-  rawfiles,
-  catfile = paste0(wd, "formats.sas7bcat"),
-  imps = NULL,
-  omits = NULL
-)
+read_basic_sas(x, wd, rawfiles, catfile, imps = NULL, omits = NULL)
 }
 \arguments{
 \item{x}{The cleaned name of the data table (SAS7BDAT).}

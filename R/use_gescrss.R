@@ -24,7 +24,7 @@ use_gescrss <- function(dir, prepared_dir, cache){
         readRDS(x) %>%
         mutate_all(as.character)
         }) %>%
-      bind_rows() %>%
+      data.table::rbindlist(fill = TRUE) %>%
       readr::type_convert() %>%
       distinct()
 
@@ -40,14 +40,16 @@ use_gescrss <- function(dir, prepared_dir, cache){
 
   codebook <- readRDS(file = paste0(prepared_dir, "/codebook.rds")) #%>% distinct()
 
+  myReqs <- function(x) ifelse(is.character(x) & n_distinct(x)<1000, TRUE, FALSE)
+
   out <- list(
-    "flat"      = flat,
-    "multi_acc" = multi_acc,
-    "multi_veh" = multi_veh,
-    "multi_per" = multi_per,
-    "events"    = events,
-    "codebook"  = codebook
-    )
+    "flat"      = flat %>% mutate_if(myReqs, factor),
+    "multi_acc" = multi_acc %>% mutate_if(myReqs, factor),
+    "multi_veh" = multi_veh %>% mutate_if(myReqs, factor),
+    "multi_per" = multi_per %>% mutate_if(myReqs, factor),
+    "events"    = events %>% mutate_if(myReqs, factor),
+    "codebook"  = codebook %>% mutate_if(is.character, factor)
+  )
 
   class(out) <- c(class(out), "GESCRSS")
 
@@ -56,6 +58,8 @@ use_gescrss <- function(dir, prepared_dir, cache){
             gsub("//", "/", paste0(dir, "/", cache))
             )
     }
+
+  gc(verbose = F)
 
   return(out)
 

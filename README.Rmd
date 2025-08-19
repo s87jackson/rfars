@@ -46,10 +46,12 @@ annual ZIP files and attempting to stitch them together - after first combing
 through immense data dictionaries to determine the required variables and table
 names.
 
-`rfars` allows users to download FARS and GES/CRSS data back to 2011 with just
-one line of code. The result is a full, rich dataset ready for mapping,
-modeling, and other downstream analysis. Helper functions are also provided to
-produce common counts and comparisons.
+`rfars` allows users to download the last 10 years of FARS and GES/CRSS data
+with just one line of code. The result is a full, rich dataset ready for
+mapping, modeling, and other downstream analysis. Codebooks with variable
+definitions and value labels support an informed analysis of the data (see
+`vignette("Searchable Codebooks", package = "rfars")` for more information).
+Helper functions are also provided to produce common counts and comparisons.
 
 ## Installation
 
@@ -77,61 +79,48 @@ library(dplyr)
 ## Getting and Using Data
 
 The `get_fars()` and `get_gescrss()` are the primary functions of the `rfars`
-package. These functions either download and process data files directly from
-[NHTSA's FTP Site](https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/), or
-pull the prepared file stored on your local machine. They take the functions
-`years` and `states` (FARS) or `regions` (GES/CRSS). As the source data files
-follow an annual structure, `years` determines how many file sets are
-downloaded, and `states`/`regions` filters the resulting dataset. Downloading
-and processing these files can take several minutes. Before downloading `rfars`
+package. These functions download and process data files directly from [NHTSA's
+FTP Site](https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/), or pull the
+prepared data stored on your local machine. They take the parameters `years` and
+`states` (FARS) or `regions` (GES/CRSS). As the source data files follow an
+annual structure, `years` determines how many file sets are downloaded or
+loaded, and `states`/`regions` filters the resulting dataset. Downloading and
+processing these files can take several minutes. Before downloading, `rfars`
 will inform you that it's about to download files and asks your permission to do
 so. To skip this dialog, set `proceed = TRUE`. You can use the `dir` and `cache`
 parameters to save an RDS file to your local machine. The `dir` parameter
-specifices the directory, and `cache` names the file (be sure to include the
-.rds file extension).
+specifies the directory, and `cache` names the file (be sure to include the .rds
+file extension).
 
-Here we get one year of FARS data for Virginia:
+Below we get one year of FARS data:
 
 ```{r}
-myFARS <- get_fars(years = 2023, states = "VA", proceed = TRUE)
+myFARS <- get_fars(years = 2023, proceed = TRUE)
 ```
 
 We could have saved that file locally with:
 
 ```{r, eval=F}
-myFARS <- get_fars(years=2023, states = "VA", proceed = TRUE, dir = getwd(), cache = "myFARS.rds")
+myFARS <- get_fars(years=2023, proceed = TRUE, dir = getwd(), cache = "myFARS.rds")
 ```
 
 Note that you can assign and save this data with one function call.
 
-We could similarly get one year of CRSS data for the south (MD, DE, DC, WV, VA,
-KY, TN, NC, SC, GA, FL, AL, MS, LA, AR, OK, TX):
+We could similarly get one year of CRSS data:
 
 ```{r, eval=F}
-myCRSS <- get_gescrss(years = 2023, regions = "s", proceed = TRUE)
-myCRSS <- get_gescrss(years = 2023, regions = "s", proceed = TRUE, dir = getwd(), cache = "myCRSS.rds")
+myCRSS <- get_gescrss(years = 2023, proceed = TRUE)
 ```
 
-The data returned by `get_fars()` and `get_gescrss()` adhere to the same
-structure: a list with six tibbles: `flat`, `multi_acc`, `multi_veh`,
-`multi_per`, `events`, and `codebook`. FARS and GES/CRSS share many but not all
-data elements. See the [FARS Analytical User's
-Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706) and
-[CRSS Analytical User's
-Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707) for
-more information.
+`get_fars()` and `get_gescrss()` return a list with six tibbles: `flat`,
+`multi_acc`, `multi_veh`, `multi_per`, `events`, and `codebook`.
 
-The following section decribes the results from `get_fars()` but largely applies
-to `get_gescrss()` as well.
-
-The `flat` tibble contains all variables for which there is just one value per
-crash ("accident"), vehicle, or person (e.g., intersection type, travel speed,
-age). Each row corresponds to a person involved in a crash. As there may be
-multiple people and/or vehicles involved in one crash, some variable-values are
-repeated within a crash or vehicle. Each crash is uniquely identified with `id`,
-which is a combination of `year` and `st_case`. Note that `st_case` is not
-unique across years, for example, `st_case` 510001 will appear in each year. The
-`id` variable attempts to avoid this issue.
+Each row in the `flat` tibble corresponds to a person involved in a crash. As
+there may be multiple people and/or vehicles involved in one crash, some
+variable-values are repeated within a crash or vehicle. Each crash is uniquely
+identified with `id`, which is a combination of `year` and `st_case`. Note that
+`st_case` is not unique across years, for example, `st_case` 510001 will appear
+in each year. The `id` variable attempts to avoid this issue.
 
 ```{r}
 glimpse(myFARS$flat, width = 100)
@@ -147,30 +136,58 @@ elements corresponding to the entity: `multi_acc` includes `st_case` and `year`,
 The top name-value pairs of each tibble are shown below.
 
 ```{r, results='asis'}
-myFARS$multi_acc %>% filter(!is.na(value)) %>% group_by(name, value) %>% summarize(n=n(), .groups = "drop") %>% arrange(desc(n)) %>% slice(1:10) %>% select(name, value, n) %>% knitr::kable(format = "html")
+myFARS$multi_acc %>% 
+  filter(!is.na(value)) %>% 
+  group_by(name, value) %>% 
+  summarize(n=n(), .groups = "drop") %>% 
+  arrange(desc(n)) %>% slice(1:10) %>% 
+  select(name, value, n) %>% 
+  knitr::kable(format = "html", caption = "Top Name-Value Pairs for the multi_acc Object")
 ```
 
 ```{r, results='asis'}
-myFARS$multi_veh %>% filter(!is.na(value)) %>% group_by(name, value) %>% summarize(n=n(), .groups = "drop") %>% arrange(desc(n)) %>% slice(1:10) %>% select(name, value, n) %>% knitr::kable(format = "html")
+myFARS$multi_veh %>% 
+  filter(!is.na(value)) %>% 
+  group_by(name, value) %>% 
+  summarize(n=n(), .groups = "drop") %>% 
+  arrange(desc(n)) %>% slice(1:10) %>% 
+  select(name, value, n) %>% 
+  knitr::kable(format = "html", caption = "Top Name-Value Pairs for the multi_veh Object")
 ```
 
 ```{r, results='asis'}
-myFARS$multi_per %>% filter(!is.na(value)) %>% group_by(name, value) %>% summarize(n=n(), .groups = "drop") %>% arrange(desc(n)) %>% slice(1:10) %>% select(name, value, n) %>% knitr::kable(format = "html")
+myFARS$multi_per %>% 
+  filter(!is.na(value)) %>% 
+  group_by(name, value) %>% 
+  summarize(n=n(), .groups = "drop") %>% 
+  arrange(desc(n)) %>% slice(1:10) %>% 
+  select(name, value, n) %>% 
+  knitr::kable(format = "html", caption = "Top Name-Value Pairs for the multi_per Object")
 ```
 
 The `events` tibble provides a sequence of numbered events for each vehicle in
-each crash. See the vignette for more information.
+each crash. See the vignette("Crash Sequence of Events", package = "rfars") for
+more information.
 
 ```{r, results='asis'}
-head(myFARS$events, 10) %>% knitr::kable(format="html")
+head(myFARS$events, 10) %>% 
+  knitr::kable(format="html", caption = "Preview of events Object")
 ```
 
 The `codebook` tibble provides a searchable codebook for the data, useful if you
-know what concept you're looking for but not the variable that describes it. The
-`rfars` package includes a codebook for FARS and GESCRSS (`rfars::fars_codebook`
-and `rfars::gescrss_codebook`). These tables span 2011-2022 whereas the
-`codebook` object returned from `get_fars()` and `get_gescrss()` only include
-the specified `years`. See the vignette for more information.
+know what concept you're looking for but not the variable that describes it.
+`rfars` also includes pre-loaded codebooks for FARS and GESCRSS
+(`rfars::fars_codebook` and `rfars::gescrss_codebook`). These tables span
+2014-2023 whereas the `codebook` object returned from `get_fars()` and
+`get_gescrss()` only include the specified `years`. See
+`vignette('Searchable Codebooks', package = 'rfars')` for more information.
+
+## Counts
+
+See `vignette("Counts", package = "rfars")` for information on the pre-loaded
+`annual_counts` dataframe and the `counts()` function. Also see
+`vignette("Alcohol Counts", package = "rfars")` for details on how BAC values
+are imputed and reported in *Traffic Safety Facts*.
 
 ## Helpful Links
 

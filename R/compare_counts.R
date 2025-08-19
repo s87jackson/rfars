@@ -49,10 +49,12 @@ compare_counts <- function(df,
                            who2=who,
                            involved2=involved){
 
-  bind_rows(
+  #stop if each?
+
+  data.table::rbindlist(list(
     counts(df=df, what=what,  where=where,  interval = interval, who = who,  involved = involved),
-    counts(df=df, what=what2, where=where2, interval = interval, who = who2, involved = involved2),
-    ) %>%
+    counts(df=df, what=what2, where=where2, interval = interval, who = who2, involved = involved2)
+    ), fill = TRUE) %>%
   return()
 
 }

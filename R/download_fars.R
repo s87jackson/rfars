@@ -9,7 +9,7 @@
 #'
 #' @return Nothing directly to the current environment. Various CSV files are stored either in a temporary directory or dir as specified by the user.
 #'
-#' @details Raw files are downloaded from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/}{NHTSA}.
+#' @details Raw files are downloaded from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/}{NHTSA}.
 
 
 download_fars <- function(years,
@@ -62,32 +62,18 @@ download_fars <- function(years,
       }
 
 
-    # if(y %in% c(2020:2023)){
-    #
-    #     from <- paste0(dest_raw_y, "/FARS", y, "NationalSAS") %>% list.files(full.names = T, recursive = T)
-    #
-    #     to <- gsub(x = from, pattern = paste0("/FARS", y, "NationalSAS"), replacement = "")
-    #
-    #     dir.create(paste0(dest_raw_y, "/format-viya"), showWarnings = F)
-    #
-    #     file.copy(from, to, overwrite = T)
-    #
-    #     unlink(paste0(dest_raw_y, "/FARS", y, "NationalSAS"), recursive = T)
-    #
-    # }
-
       if(y %in% c(2020:2023)){
-        from <- paste0(dest_raw_y, "/FARS", y, "NationalSAS") %>%
+        from <-
+          paste0(dest_raw_y, "/FARS", y, "NationalSAS") %>%
           list.files(full.names = T, recursive = T)
-        to <- gsub(x = from, pattern = paste0("/FARS", y, "NationalSAS"),
-                   replacement = "")
+
+        to <- gsub(x = from, pattern = paste0("/FARS", y, "NationalSAS"), replacement = "")
 
         # Create all unique parent directories needed
         unique_dirs <- unique(dirname(to))
-        for(d in unique_dirs) {
-          dir.create(d, showWarnings = FALSE, recursive = TRUE)
-        }
+        for(d in unique_dirs) dir.create(d, showWarnings = FALSE, recursive = TRUE)
 
+        # Copy files over
         file.copy(from, to, overwrite = T)
         unlink(paste0(dest_raw_y, "/FARS", y, "NationalSAS"), recursive = T)
       }
@@ -129,8 +115,9 @@ download_fars <- function(years,
 
     # Compile the full codebook
       full_codebook <-
-        dir(dest_raw, pattern = "codebook.rds", recursive=TRUE, full.names=TRUE) %>%
-        map_dfr(readRDS) %>%
+        dir(dest_raw, pattern = "codebook.rds", recursive = TRUE, full.names = TRUE) %>%
+        map(readRDS) %>%
+        reduce(full_join, by = c("source", "file", "name_ncsa", "name_rfars", "label", "value", "value_label")) %>%
         distinct()
 
       saveRDS(full_codebook, paste0(dest_prepd, "codebook.rds"))
