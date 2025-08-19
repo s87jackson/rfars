@@ -145,8 +145,8 @@ myFARS <- get_fars(years = 2023, proceed = TRUE)
 #> ✓ Multi_veh file constructed
 #> ✓ Multi_per file constructed
 #> ✓ SOE file constructed
-#> ✓ Prepared files saved in C:/Users/STEVEJ~1/AppData/Local/Temp/RtmpayAWJc/FARS data/prepd/2023
-#> ✓ Codebook file saved in C:/Users/STEVEJ~1/AppData/Local/Temp/RtmpayAWJc/FARS data/prepd/
+#> ✓ Prepared files saved in C:/Users/STEVEJ~1/AppData/Local/Temp/Rtmpk5gY1z/FARS data/prepd/2023
+#> ✓ Codebook file saved in C:/Users/STEVEJ~1/AppData/Local/Temp/Rtmpk5gY1z/FARS data/prepd/
 ```
 
 We could have saved that file locally with:

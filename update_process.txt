@@ -4,22 +4,32 @@ pause DropBox
 
 delete the FARS and GESCRSS data folders, and anything created by the vignettes
 
-  browseURL("C:/Users/s87ja/AppData/Local/Temp")
-  dir(path = "C:/Users/s87ja/AppData/Local/Temp", pattern = "Rtmp", recursive = T, full.names = T, ignore.case = T, include.dirs = T)
-  dir(path = "C:/Users/s87ja/AppData/Local/Temp", pattern = "FARS data", recursive = T, full.names = T, ignore.case = T, include.dirs = T)
-  dir(path = "C:/Users/s87ja/AppData/Local/Temp", pattern = "GESCRSS data", recursive = T, full.names = T, ignore.case = T, include.dirs = T)
+  browseURL("C:/Users/SteveJackson/AppData/Local/Temp")
+  dir(path = "C:/Users/SteveJackson/AppData/Local/Temp", pattern = "Rtmp", recursive = T, full.names = T, ignore.case = T, include.dirs = T)
+  dir(path = "C:/Users/SteveJackson/AppData/Local/Temp", pattern = "FARS data", recursive = T, full.names = T, ignore.case = T, include.dirs = T)
+  dir(path = "C:/Users/SteveJackson/AppData/Local/Temp", pattern = "GESCRSS data", recursive = T, full.names = T, ignore.case = T, include.dirs = T)
 
-  dir(path = "C:/Users/s87ja/Dropbox/Work/toXcel/FARS/rfars", pattern = "FARS data", recursive = T, full.names = T, ignore.case = T, include.dirs = T)
-  dir(path = "C:/Users/s87ja/Dropbox/Work/toXcel/FARS/rfars", pattern = "GESCRSS data", recursive = T, full.names = T, ignore.case = T, include.dirs = T)
+  dir(path = "C:/Users/SteveJackson/OneDrive - Toxcel/rfars", pattern = "FARS data", recursive = T, full.names = T, ignore.case = T, include.dirs = T)
+  dir(path = "C:/Users/SteveJackson/OneDrive - Toxcel/rfars", pattern = "GESCRSS data", recursive = T, full.names = T, ignore.case = T, include.dirs = T)
 
 
 rm(list=ls())
 
 Build >> More >> Document
 
+devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))
+
 Install >> Clean and install
 
+unlink("C:/Users/SteveJackson/OneDrive - Toxcel/rfars.Rcheck", recursive = TRUE)
+
 Check
+
+devtools::check(args = c('--as-cran'), check_dir = tempdir())
+
+Move the .claude folder and CLAUDE.md files to /in_development
+
+Delete the docs folder
 
 pkgdown::build_site_github_pages()
 
@@ -34,3 +44,5 @@ Make sure version number in description id accurate.
 devtools::submit_cran()
 
 See https://r-pkgs.org/release.html for more info.
+
+devtools::submit_cran()
