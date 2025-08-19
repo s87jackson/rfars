@@ -21,7 +21,7 @@ This vignette explores the **vsoe** (Vehicle Sequence of Events) data to
 visualize crash sequence patterns.
 
 **vsoe** is one of three event-based data files, the others being **cevent** and
-**vevent**. According to the [CRSS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813436),
+**vevent**. According to the [CRSS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707),
 **vevent** "has the same data elements as the **cevent** data file" plus "a data
 element that records the sequential event number for each vehicle," and the
 **vsoe** file "has a subset of the data elements contained in the **Vevent**
@@ -40,7 +40,7 @@ library(tidyr)
 First we get one year of data, and filter to the southern region for simplicity. 
 
 ```{r, warning=FALSE}
-mydata <- rfars::get_gescrss(years=2021, regions = "s")
+mydata <- rfars::get_gescrss(years=2023, regions = "s")
 
 my_events <- mydata$events
 ```
@@ -61,8 +61,12 @@ We can also see the top 10 most common sequences:
 ```{r, results='asis'}
 my_events %>%
   select(-aoi) %>%
-  pivot_wider(names_from = "veventnum", values_from = "soe", values_fill = "x",
-              names_prefix = "event") %>%
+  mutate_at("soe", as.character) %>%
+  pivot_wider(
+    names_from = "veventnum", 
+    values_from = "soe", 
+    values_fill = "x",
+    names_prefix = "event") %>%
   select(starts_with("event")) %>%
   group_by_all() %>%
   summarize(n=n(), .groups = "drop") %>%
@@ -86,6 +90,7 @@ notable takeaway is the large number of events that precede Rollover/Overturn.
 ```{r, fig.height=10, fig.width=12}
 my_events %>%
   group_by(year, casenum, veh_no) %>%
+  mutate_at("soe", as.character) %>%
   dplyr::rename(event_to = soe) %>%
   mutate(event_from = data.table::shift(event_to, fill = "Pre-Crash")) %>%
   select(event_from, event_to) %>%

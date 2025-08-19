@@ -11,7 +11,10 @@ counts(
   where = list(states = "all", region = c("all", "ne", "mw", "s", "w")[1], urb = c("all",
     "rural", "urban")[1]),
   who = c("all", "drivers", "passengers", "bicyclists", "pedestrians")[1],
-  involved = NULL,
+  involved = c("any", "each", "alcohol", "bicyclist", "distracted driver", "drugs",
+    "hit and run", "large trucks", "motorcycle", "older driver", "pedalcyclist",
+    "pedbike", "pedestrian", "police pursuit", "roadway departure", "rollover",
+    "speeding", "young driver")[1],
   filterOnly = FALSE
 )
 }
@@ -29,11 +32,11 @@ urb ('all', 'rural', or 'urban'). Any un-specified elements are set to 'all' by 
 
 \item{who}{The type of person to count: 'all' (default) 'drivers', 'passengers', 'pedestrians', or 'bicyclists'.}
 
-\item{involved}{Factors involved with the crash. Can be any of: 'distracted
-driver', 'police pursuit', 'motorcycle', 'pedalcyclist',
-'bicyclist', 'pedestrian', 'pedbike', 'young driver', 'older driver', 'speeding',
-'alcohol', 'drugs', 'hit and run', 'roadway departure', 'rollover', or 'large
-trucks'. NULL by default.}
+\item{involved}{Factors involved with the crash: 'any' (the default, produces general counts),
+'each' (produces separate counts for each factor), 'distracted driver',
+'police pursuit', 'motorcycle', 'pedalcyclist', 'bicyclist', 'pedestrian',
+'pedbike', 'young driver', 'older driver', 'speeding','alcohol', 'drugs',
+'hit and run', 'roadway departure', 'rollover', or 'large trucks'.}
 
 \item{filterOnly}{Logical, whether to only filter data or reduce to counts (FALSE by default).}
 }

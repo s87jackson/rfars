@@ -58,7 +58,7 @@ import_multi <- function(filename, where){
           readRDS(x) %>%
           mutate_all(as.character)
           }) %>%
-      bind_rows() %>%
+      data.table::rbindlist(fill = TRUE) %>%
       as.data.frame()
 
     return(out)
@@ -129,7 +129,7 @@ make_all_numeric <- function(df){
 
     out <- df
     out$id <- as.numeric(out$id)
-    out$year <- as.numeric(out$year)
+    out$year <- as.numeric(as.character(out$year))
 
   }
 
@@ -160,69 +160,86 @@ appendRDS <- function(object, file, wd){
 }
 
 
-#' (Internal) Label unlabelled values in imported SAS files
+
+#' (Internal) Check SAS attributes
 #'
-#' @param lbl_vector A vector with labels
-#' @param wd Working directory for files
-#' @param x NCSA table name (sas file name)
-#' @param varname Variable name or label
+#' @param data An object produced by haven::read_sas()
 #'
 #' @importFrom rlang .data
-#' @importFrom stats setNames
 
-
-# Function to automatically label unlabeled values
-  auto_label_unlabeled_values <- function(
-    lbl_vector,
-    wd=wd,
-    x=x,
-    varname) {
-
-  # Extract existing labels and values
-    existing_labels <- attr(lbl_vector, "labels")
-    existing_labels <- existing_labels[!duplicated(names(existing_labels))]
-
-    all_values <- unique(lbl_vector)
-
-    unlabeled_values <- setdiff(all_values, existing_labels)
-
-    #if(is.null(existing_labels) || length(existing_labels) == 0){
-
-      # Check for entries in previous years
-        if(grepl("FARS data", wd))    this_codebook <- rfars::fars_codebook
-        if(grepl("GESCRSS data", wd)) this_codebook <- rfars::gescrss_codebook
-        mini_dict <-
-          this_codebook %>%
-          filter(
-            .data$name_ncsa==varname,
-            .data$file==x,
-            grepl("2020", .data$years))
-
-        if(nrow(mini_dict) > 0){
-          new_labels <- setNames(mini_dict$value, mini_dict$value_label)
-        } else{
-          new_labels <- setNames(as.character(all_values), all_values)
-          new_labels <- new_labels[!duplicated(names(new_labels))]
-        }
-
-
-    #}
-
-    # Create new labels for unlabeled values, using the value itself as the label
-      more_labels <- setNames(as.character(unlabeled_values), unlabeled_values)
-
-    # Combine existing and new labels
-      combined_labels <- c(existing_labels, new_labels, more_labels)
-      combined_labels <- combined_labels[!duplicated(names(combined_labels))]
-      combined_labels <- combined_labels[!duplicated(combined_labels)]
-
-    # Return the vector with updated labels
-      return(
-        haven::labelled(
-          as.character(lbl_vector),
-          labels = combined_labels
-          )
-        )
-
+get_sas_attrs <- function(data) {
+  data.frame(
+    variable = names(data),
+    label = sapply(data, function(x) if(is.null(attr(x, "label"))) "" else attr(x, "label")),
+    sasFormat = sapply(data, function(x) if(is.null(attr(x, "format.sas"))) "" else attr(x, "format.sas")),
+    has_labels = sapply(data, function(x) !is.null(attr(x, "labels"))),
+    labels = I(lapply(data, function(x) {
+      labs <- attr(x, "labels")
+      if(is.null(labs)) return(NULL)
+      data.frame(
+        value = as.character(labs),
+        value_label = names(labs),
+        stringsAsFactors = FALSE
+      )
+    })),
+    stringsAsFactors = FALSE,
+    row.names = NULL
+  )
 }
 
+
+
+
+
+
+
+#' (Internal) Parse formats.sas instead of using a .sas7bcat file
+#'
+#' @param file_path The path of the formats.sas file
+#'
+#' @importFrom rlang .data
+#' @import stringr
+parse_sas_format <- function(file_path) {
+
+  # Read the file
+  lines <- readLines(file_path, warn = FALSE)
+
+  # Find PROC FORMAT blocks
+  proc_indices <- which(grepl("^PROC FORMAT", lines, ignore.case = TRUE))
+  lines_from   <- proc_indices[1:(length(proc_indices)-1)]
+  lines_to     <- proc_indices[2:(length(proc_indices))]
+  line_nums    <- data.frame(from = lines_from,to = lines_to)
+
+  # Initialize table
+  result <- tibble(
+    sasFormat = rep("", nrow(line_nums)),
+    labels = vector("list", nrow(line_nums))
+    )
+
+  # Fill in table
+  for (i in 1:nrow(line_nums)) {
+
+    # Find format name
+    format_name <-
+      lines[line_nums$from[i]] %>%
+      trimws() %>%
+      stringr::word(-1)
+
+    # Get values and value_labels
+    format_lines <- lines[(line_nums$from[i]+1) : (line_nums$to[i]-2)]
+    values <- stringr::word(format_lines, 1, sep = "=")
+    labels <- stringr::word(format_lines, 2, sep = "=") %>% stringr::str_replace_all("'", "")
+
+    # Make values numeric if numeric
+    isNumeric <- all(!is.na( suppressMessages(suppressWarnings(as.numeric(values)))))
+    if(isNumeric) values <- as.numeric(values)
+
+    # Compile result
+    result$sasFormat[i] <- format_name
+    result$labels[[i]]    <- tibble(value = values, value_label = labels)
+
+  }
+
+  return(result)
+
+}

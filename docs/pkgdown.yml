@@ -2,10 +2,11 @@ pandoc: 3.1.11
 pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
+  Alcohol_Counts: Alcohol_Counts.html
   Counts: Counts.html
   Crash_sequence_of_events: Crash_sequence_of_events.html
   Searchable_Codebooks: Searchable_Codebooks.html
-last_built: 2025-04-22T22:44Z
+last_built: 2025-08-19T13:20Z
 urls:
   reference: https://s87jackson.github.io/rfars/reference
   article: https://s87jackson.github.io/rfars/articles

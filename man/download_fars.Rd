@@ -22,5 +22,5 @@ Nothing directly to the current environment. Various CSV files are stored either
 Download files from NHTSA, unzip, and prepare them.
 }
 \details{
-Raw files are downloaded from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/}{NHTSA}.
+Raw files are downloaded from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/}{NHTSA}.
 }

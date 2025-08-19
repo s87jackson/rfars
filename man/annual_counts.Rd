@@ -3,29 +3,90 @@
 \docType{data}
 \name{annual_counts}
 \alias{annual_counts}
-\title{Annual Counts}
+\title{Annual Crash Counts by Risk Factors}
 \format{
-A data frame with 815 rows and 6 variables:
+A tibble with 340 rows and 9 variables:
 \describe{
-   \item{year}{Year}
-   \item{date}{Date (January 1 of each year)}
-   \item{n}{The number of 'what'}
-   \item{what}{The count unit: crashes, fatalities, injuries, or people}
-   \item{type}{The type of 'what': fatal, general, NA}
-   \item{involved}{The group or activity involved: general, distracted driver, police pursuit, motorcycle, pedalcyclist, bicyclist, pedestrian, pedbike, young driver, older driver, speeding, alcohol, drugs, hit and run, roadway departure, rollover, large trucks}
-   }
+  \item{year}{Year (2014-2023)}
+  \item{month}{Month, if included in interval, as the three-letter abbreviation and an ordered factor (Jan=1, Feb=2, etc.)}
+  \item{what}{Count unit - currently only "crashes"}
+  \item{states}{Geographic scope - "all" for national-level data}
+  \item{region}{Regional scope - "all" for national-level data}
+  \item{urb}{Urban/rural classification - "all" for combined data}
+  \item{who}{Person type - "all" for all person types}
+  \item{involved}{Risk factor or crash type. Options include:
+    \describe{
+      \item{"any"}{All crashes (general counts)}
+      \item{"each"}{Each factor listed below, separately}
+      \item{"alcohol"}{Alcohol-involved crashes}
+      \item{"bicyclist"}{Crashes involving bicyclists}
+      \item{"distracted driver"}{Distracted driving crashes}
+      \item{"drugs"}{Drug-involved crashes}
+      \item{"hit and run"}{Hit-and-run crashes}
+      \item{"large trucks"}{Large truck-involved crashes}
+      \item{"motorcycle"}{Motorcycle crashes}
+      \item{"older driver"}{Crashes involving older drivers}
+      \item{"pedalcyclist"}{Crashes involving pedalcyclists}
+      \item{"pedbike"}{Pedestrian and bicyclist crashes combined}
+      \item{"pedestrian"}{Pedestrian crashes}
+      \item{"police pursuit"}{Police pursuit-related crashes}
+      \item{"roadway departure"}{Roadway departure crashes}
+      \item{"rollover"}{Rollover crashes}
+      \item{"speeding"}{Speed-related crashes}
+      \item{"young driver"}{Crashes involving young drivers}
+    }
+  }
+  \item{n}{Count of crashes. FARS counts represent actual fatal crashes;
+            CRSS counts represent weighted estimates of all crashes}
+}
 }
 \usage{
 annual_counts
 }
 \description{
-Annual counts of crashes and related metrics.
+Pre-computed annual crash counts from FARS (fatal crashes) and CRSS (general
+crash estimates) databases for 2014-2023, broken down by various risk factors and
+vulnerable road user categories.
 }
 \details{
-This table provides quick access to annual counts. It can be
-  replicated using counts().
+This dataset provides quick access to national-level annual crash counts
+without needing to download and process the full datasets. It combines data
+from two NHTSA databases:
+
+\describe{
+  \item{\strong{FARS}}{Fatal crashes (actual counts)}
+  \item{\strong{CRSS}}{General crashes (weighted estimates)}
+}
+
+The data can be reproduced using the \code{counts()} function on downloaded
+FARS and CRSS data with \code{involved = "any"} and \code{involved = "each"}
+parameters.
+}
+\examples{
+\dontrun{
+# View total crashes over time by data source
+library(dplyr)
+library(ggplot2)
+
+annual_counts \%>\%
+  filter(involved == "any") \%>\%
+  ggplot(aes(x = year, y = n, fill = source)) +
+  geom_col(position = "dodge") +
+  labs(title = "Annual Crash Counts by Data Source",
+       x = "Year", y = "Number of Crashes")
+
+# Compare risk factor trends in fatal crashes
+annual_counts \%>\%
+  filter(source == "FARS",
+         involved \%in\% c("alcohol", "speeding", "distracted driver")) \%>\%
+  ggplot(aes(x = year, y = n, color = involved)) +
+  geom_line() +
+  labs(title = "Fatal Crash Trends by Risk Factor",
+       x = "Year", y = "Fatal Crashes")
+}
+
 }
 \seealso{
-"counts"
+\code{\link{counts}} for generating custom counts from downloaded data
 }
 \keyword{datasets}

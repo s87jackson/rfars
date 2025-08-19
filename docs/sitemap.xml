@@ -1,5 +1,6 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://s87jackson.github.io/rfars/404.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/articles/Alcohol_Counts.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/articles/Counts.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/articles/Crash_sequence_of_events.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/articles/index.html</loc></url>
@@ -10,7 +11,6 @@
 <url><loc>https://s87jackson.github.io/rfars/reference/alcohol.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/annual_counts.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/appendRDS.html</loc></url>
-<url><loc>https://s87jackson.github.io/rfars/reference/auto_label_unlabeled_values.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/bicyclist.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/compare_counts.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/counts.html</loc></url>
@@ -24,6 +24,7 @@
 <url><loc>https://s87jackson.github.io/rfars/reference/gescrss_codebook.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/get_fars.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/get_gescrss.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/get_sas_attrs.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/hit_and_run.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/import_multi.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/index.html</loc></url>
@@ -31,6 +32,7 @@
 <url><loc>https://s87jackson.github.io/rfars/reference/make_all_numeric.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/make_id.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/motorcycle.html</loc></url>
+<url><loc>https://s87jackson.github.io/rfars/reference/parse_sas_format.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/pedalcyclist.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/pedbike.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/pedestrian.html</loc></url>
@@ -39,7 +41,6 @@
 <url><loc>https://s87jackson.github.io/rfars/reference/prep_fars.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/prep_gescrss.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/read_basic_sas.html</loc></url>
-<url><loc>https://s87jackson.github.io/rfars/reference/read_basic_sas_nocat.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/road_depart.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/rollover.html</loc></url>
 <url><loc>https://s87jackson.github.io/rfars/reference/speeding.html</loc></url>

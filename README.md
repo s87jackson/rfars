@@ -32,10 +32,13 @@ files and attempting to stitch them together - after first combing
 through immense data dictionaries to determine the required variables
 and table names.
 
-`rfars` allows users to download FARS and GES/CRSS data back to 2011
-with just one line of code. The result is a full, rich dataset ready for
-mapping, modeling, and other downstream analysis. Helper functions are
-also provided to produce common counts and comparisons.
+`rfars` allows users to download the last 10 years of FARS and GES/CRSS
+data with just one line of code. The result is a full, rich dataset
+ready for mapping, modeling, and other downstream analysis. Codebooks
+with variable definitions and value labels support an informed analysis
+of the data (see `vignette("Searchable Codebooks", package = "rfars")`
+for more information). Helper functions are also provided to produce
+common counts and comparisons.
 
 ## Installation
 
@@ -63,76 +66,869 @@ library(dplyr)
 ## Getting and Using Data
 
 The `get_fars()` and `get_gescrss()` are the primary functions of the
-`rfars` package. These functions either download and process data files
+`rfars` package. These functions download and process data files
 directly from [NHTSA’s FTP
 Site](https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/), or pull
-the prepared file stored on your local machine. They take the functions
+the prepared data stored on your local machine. They take the parameters
 `years` and `states` (FARS) or `regions` (GES/CRSS). As the source data
 files follow an annual structure, `years` determines how many file sets
-are downloaded, and `states`/`regions` filters the resulting dataset.
-Downloading and processing these files can take several minutes. Before
-downloading `rfars` will inform you that it’s about to download files
-and asks your permission to do so. To skip this dialog, set
-`proceed = TRUE`. You can use the `dir` and `cache` parameters to save
-an RDS file to your local machine. The `dir` parameter specifices the
-directory, and `cache` names the file (be sure to include the .rds file
-extension).
+are downloaded or loaded, and `states`/`regions` filters the resulting
+dataset. Downloading and processing these files can take several
+minutes. Before downloading, `rfars` will inform you that it’s about to
+download files and asks your permission to do so. To skip this dialog,
+set `proceed = TRUE`. You can use the `dir` and `cache` parameters to
+save an RDS file to your local machine. The `dir` parameter specifies
+the directory, and `cache` names the file (be sure to include the .rds
+file extension).
 
-Here we get one year of FARS data for Virginia:
+Below we get one year of FARS data:
 
 ``` r
-myFARS <- get_fars(years = 2023, states = "VA", proceed = TRUE)
+myFARS <- get_fars(years = 2023, proceed = TRUE)
 #> ✓ 2023 data downloaded
-#> Preparing raw data files...
-#> ✓ Accident file processed
-#> ✓ Vehicle file processed
-#> ✓ Person file processed
-#> ✓ Weather file(s) processed
-#> ✓ Crash risk factors file processed
-#> ✓ Vehicle-level files processed
-#> ✓ PBtype file processed
-#> ✓ SafetyEq file processed
-#> ✓ Person-level files processed
+#> Accident file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |==                                                                    |   2%  |                                                                              |===                                                                   |   4%  |                                                                              |=====                                                                 |   7%  |                                                                              |======                                                                |   9%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  13%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  18%  |                                                                              |==============                                                        |  20%  |                                                                              |================                                                      |  22%  |                                                                              |=================                                                     |  24%  |                                                                              |===================                                                   |  27%  |                                                                              |====================                                                  |  29%  |                                                                              |======================                                                |  31%  |                                                                              |=======================                                               |  33%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  38%  |                                                                              |============================                                          |  40%  |                                                                              |==============================                                        |  42%  |                                                                              |===============================                                       |  44%  |                                                                              |=================================                                     |  47%  |                                                                              |==================================                                    |  49%  |                                                                              |====================================                                  |  51%  |                                                                              |=====================================                                 |  53%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  58%  |                                                                              |==========================================                            |  60%  |                                                                              |============================================                          |  62%  |                                                                              |=============================================                         |  64%  |                                                                              |===============================================                       |  67%  |                                                                              |================================================                      |  69%  |                                                                              |==================================================                    |  71%  |                                                                              |===================================================                   |  73%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  78%  |                                                                              |========================================================              |  80%  |                                                                              |==========================================================            |  82%  |                                                                              |===========================================================           |  84%  |                                                                              |=============================================================         |  87%
+#> Warning in read_basic_sas(x = "accident", wd = wd, rawfiles = rawfiles, : NAs
+#> introduced by coercion
+#>   |                                                                              |==============================================================        |  89%  |                                                                              |================================================================      |  91%  |                                                                              |=================================================================     |  93%  |                                                                              |===================================================================   |  96%  |                                                                              |====================================================================  |  98%  |                                                                              |======================================================================| 100%
+#> Vehicle file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |=                                                                     |   1%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |===                                                                   |   4%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  17%  |                                                                              |=============                                                         |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |===============                                                       |  21%  |                                                                              |================                                                      |  22%  |                                                                              |=================                                                     |  24%  |                                                                              |=================                                                     |  25%  |                                                                              |==================                                                    |  26%  |                                                                              |===================                                                   |  27%  |                                                                              |====================                                                  |  28%  |                                                                              |====================                                                  |  29%  |                                                                              |=====================                                                 |  30%  |                                                                              |======================                                                |  31%  |                                                                              |=======================                                               |  33%
+#> Warning in read_basic_sas(x = "vehicle", wd = wd, rawfiles = rawfiles, catfile
+#> = my_catfile, : NAs introduced by coercion
+#>   |                                                                              |========================                                              |  34%  |                                                                              |========================                                              |  35%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  37%  |                                                                              |===========================                                           |  38%  |                                                                              |============================                                          |  39%  |                                                                              |============================                                          |  40%  |                                                                              |=============================                                         |  42%  |                                                                              |==============================                                        |  43%  |                                                                              |===============================                                       |  44%  |                                                                              |===============================                                       |  45%  |                                                                              |================================                                      |  46%  |                                                                              |=================================                                     |  47%  |                                                                              |==================================                                    |  48%  |                                                                              |===================================                                   |  49%  |                                                                              |===================================                                   |  51%  |                                                                              |====================================                                  |  52%  |                                                                              |=====================================                                 |  53%  |                                                                              |======================================                                |  54%  |                                                                              |=======================================                               |  55%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  57%  |                                                                              |=========================================                             |  58%  |                                                                              |==========================================                            |  60%  |                                                                              |==========================================                            |  61%  |                                                                              |===========================================                           |  62%  |                                                                              |============================================                          |  63%  |                                                                              |=============================================                         |  64%  |                                                                              |==============================================                        |  65%  |                                                                              |==============================================                        |  66%  |                                                                              |===============================================                       |  67%  |                                                                              |================================================                      |  69%  |                                                                              |=================================================                     |  70%  |                                                                              |==================================================                    |  71%  |                                                                              |==================================================                    |  72%  |                                                                              |===================================================                   |  73%  |                                                                              |====================================================                  |  74%  |                                                                              |=====================================================                 |  75%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  78%  |                                                                              |=======================================================               |  79%  |                                                                              |========================================================              |  80%  |                                                                              |=========================================================             |  81%  |                                                                              |=========================================================             |  82%  |                                                                              |==========================================================            |  83%  |                                                                              |===========================================================           |  84%  |                                                                              |============================================================          |  85%  |                                                                              |=============================================================         |  87%  |                                                                              |=============================================================         |  88%  |                                                                              |==============================================================        |  89%  |                                                                              |===============================================================       |  90%  |                                                                              |================================================================      |  91%  |                                                                              |================================================================      |  92%  |                                                                              |=================================================================     |  93%  |                                                                              |==================================================================    |  94%  |                                                                              |===================================================================   |  96%  |                                                                              |====================================================================  |  97%  |                                                                              |====================================================================  |  98%  |                                                                              |===================================================================== |  99%  |                                                                              |======================================================================| 100%
+#> Person file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |==                                                                    |   3%  |                                                                              |====                                                                  |   5%  |                                                                              |======                                                                |   8%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  14%  |                                                                              |===========                                                           |  16%  |                                                                              |=============                                                         |  19%  |                                                                              |===============                                                       |  22%  |                                                                              |=================                                                     |  24%  |                                                                              |===================                                                   |  27%  |                                                                              |=====================                                                 |  30%  |                                                                              |=======================                                               |  32%  |                                                                              |=========================                                             |  35%  |                                                                              |==========================                                            |  38%  |                                                                              |============================                                          |  41%  |                                                                              |==============================                                        |  43%  |                                                                              |================================                                      |  46%  |                                                                              |==================================                                    |  49%  |                                                                              |====================================                                  |  51%  |                                                                              |======================================                                |  54%  |                                                                              |========================================                              |  57%  |                                                                              |==========================================                            |  59%  |                                                                              |============================================                          |  62%  |                                                                              |=============================================                         |  65%  |                                                                              |===============================================                       |  68%  |                                                                              |=================================================                     |  70%  |                                                                              |===================================================                   |  73%  |                                                                              |=====================================================                 |  76%  |                                                                              |=======================================================               |  78%  |                                                                              |=========================================================             |  81%  |                                                                              |===========================================================           |  84%  |                                                                              |=============================================================         |  86%  |                                                                              |==============================================================        |  89%  |                                                                              |================================================================      |  92%  |                                                                              |==================================================================    |  95%  |                                                                              |====================================================================  |  97%  |                                                                              |======================================================================| 100%
+#> Multiple Imputation Driver BAC by Crash file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |========                                                              |  11%  |                                                                              |================                                                      |  22%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================                                       |  44%  |                                                                              |=======================================                               |  56%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================                |  78%  |                                                                              |==============================================================        |  89%  |                                                                              |======================================================================| 100%
+#> Weather file(s):
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%
+#> Crash risk factors:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%
+#> vsoe file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |==================                                                    |  25%  |                                                                              |===================================                                   |  50%  |                                                                              |====================================================                  |  75%  |                                                                              |======================================================================| 100%
+#> distract file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+#> drimpair file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+#> factor file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+#> maneuver file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+#> violatn file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+#> vision file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+#> damage file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+#> vehiclesf file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+#> pvehiclesf file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+#> driverrf file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+#> PBtype file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |===                                                                   |   5%  |                                                                              |======                                                                |   9%  |                                                                              |==========                                                            |  14%  |                                                                              |=============                                                         |  18%  |                                                                              |================                                                      |  23%  |                                                                              |===================                                                   |  27%  |                                                                              |======================                                                |  32%  |                                                                              |=========================                                             |  36%  |                                                                              |=============================                                         |  41%  |                                                                              |================================                                      |  45%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================                                |  55%  |                                                                              |=========================================                             |  59%  |                                                                              |=============================================                         |  64%  |                                                                              |================================================                      |  68%  |                                                                              |===================================================                   |  73%  |                                                                              |======================================================                |  77%  |                                                                              |=========================================================             |  82%  |                                                                              |============================================================          |  86%  |                                                                              |================================================================      |  91%  |                                                                              |===================================================================   |  95%  |                                                                              |======================================================================| 100%
+#> SafetyEq file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |=========                                                             |  12%  |                                                                              |==================                                                    |  25%  |                                                                              |==========================                                            |  38%  |                                                                              |===================================                                   |  50%  |                                                                              |============================================                          |  62%  |                                                                              |====================================================                  |  75%  |                                                                              |=============================================================         |  88%  |                                                                              |======================================================================| 100%
+#> Multiple Imputation Person BAC file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |======                                                                |   9%  |                                                                              |=============                                                         |  18%  |                                                                              |===================                                                   |  27%  |                                                                              |=========================                                             |  36%  |                                                                              |================================                                      |  45%  |                                                                              |======================================                                |  55%  |                                                                              |=============================================                         |  64%  |                                                                              |===================================================                   |  73%  |                                                                              |=========================================================             |  82%  |                                                                              |================================================================      |  91%  |                                                                              |======================================================================| 100%
+#> nmcrash file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%
+#> nmimpair file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%
+#> nmprior file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%
+#> nmdistract file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%
+#> drugs file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |=========                                                             |  12%  |                                                                              |==================                                                    |  25%  |                                                                              |==========================                                            |  38%  |                                                                              |===================================                                   |  50%  |                                                                              |============================================                          |  62%  |                                                                              |====================================================                  |  75%  |                                                                              |=============================================================         |  88%  |                                                                              |======================================================================| 100%
+#> race file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |==============                                                        |  20%  |                                                                              |============================                                          |  40%  |                                                                              |==========================================                            |  60%  |                                                                              |========================================================              |  80%  |                                                                              |======================================================================| 100%
+#> personrf file:
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#> Warning in parse_sas_format(file_path = list.files(path = wd, pattern =
+#> "^Format\\d{2}\\.sas$", : NAs introduced by coercion
+#>   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%
 #> ✓ Flat file constructed
 #> ✓ Multi_acc file constructed
 #> ✓ Multi_veh file constructed
 #> ✓ Multi_per file constructed
 #> ✓ SOE file constructed
-#> ✓ Prepared files saved in C:/Users/STEVEJ~1/AppData/Local/Temp/Rtmp86XeJ3/FARS data/prepd/2023
-#> ✓ Codebook file saved in C:/Users/STEVEJ~1/AppData/Local/Temp/Rtmp86XeJ3/FARS data/prepd/
+#> ✓ Prepared files saved in C:/Users/STEVEJ~1/AppData/Local/Temp/Rtmp461TYS/FARS data/prepd/2023
+#> ✓ Codebook file saved in C:/Users/STEVEJ~1/AppData/Local/Temp/Rtmp461TYS/FARS data/prepd/
 ```
 
 We could have saved that file locally with:
 
 ``` r
-myFARS <- get_fars(years=2023, states = "VA", proceed = TRUE, dir = getwd(), cache = "myFARS.rds")
+myFARS <- get_fars(years=2023, proceed = TRUE, dir = getwd(), cache = "myFARS.rds")
 ```
 
 Note that you can assign and save this data with one function call.
 
-We could similarly get one year of CRSS data for the south (MD, DE, DC,
-WV, VA, KY, TN, NC, SC, GA, FL, AL, MS, LA, AR, OK, TX):
+We could similarly get one year of CRSS data:
 
 ``` r
-myCRSS <- get_gescrss(years = 2023, regions = "s", proceed = TRUE)
-myCRSS <- get_gescrss(years = 2023, regions = "s", proceed = TRUE, dir = getwd(), cache = "myCRSS.rds")
+myCRSS <- get_gescrss(years = 2023, proceed = TRUE)
 ```
 
-The data returned by `get_fars()` and `get_gescrss()` adhere to the same
-structure: a list with six tibbles: `flat`, `multi_acc`, `multi_veh`,
-`multi_per`, `events`, and `codebook`. FARS and GES/CRSS share many but
-not all data elements. See the [FARS Analytical User’s
-Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706)
-and [CRSS Analytical User’s
-Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707)
-for more information.
+`get_fars()` and `get_gescrss()` return a list with six tibbles: `flat`,
+`multi_acc`, `multi_veh`, `multi_per`, `events`, and `codebook`.
 
-The following section decribes the results from `get_fars()` but largely
-applies to `get_gescrss()` as well.
-
-The `flat` tibble contains all variables for which there is just one
-value per crash (“accident”), vehicle, or person (e.g., intersection
-type, travel speed, age). Each row corresponds to a person involved in a
+Each row in the `flat` tibble corresponds to a person involved in a
 crash. As there may be multiple people and/or vehicles involved in one
 crash, some variable-values are repeated within a crash or vehicle. Each
 crash is uniquely identified with `id`, which is a combination of `year`
@@ -142,204 +938,225 @@ attempts to avoid this issue.
 
 ``` r
 glimpse(myFARS$flat, width = 100)
-#> Rows: 1,789
-#> Columns: 196
+#> Rows: 92,400
+#> Columns: 217
 #> $ year          <dbl> 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023…
-#> $ state         <chr> "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", "Vir…
-#> $ st_case       <dbl> 510001, 510001, 510002, 510002, 510003, 510003, 510003, 510003, 510004, 5100…
-#> $ id            <dbl> 2023510001, 2023510001, 2023510002, 2023510002, 2023510003, 2023510003, 2023…
-#> $ veh_no        <dbl> 0, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 3, 1, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2…
-#> $ per_no        <dbl> 1, 1, 1, 1, 1, 2, 3, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 3, 4, 5, 1, 1, 1, 1…
-#> $ county        <dbl> 810, 810, 1, 1, 125, 125, 125, 125, 33, 710, 770, 199, 199, 199, 87, 87, 53,…
-#> $ city          <dbl> 2540, 2540, 0, 0, 0, 0, 0, 0, 0, 1760, 2100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
-#> $ lon           <dbl> -76.03962, -76.03962, -75.55837, -75.55837, -78.93293, -78.93293, -78.93293,…
-#> $ lat           <dbl> 36.63201, 36.63201, 37.87557, 37.87557, 37.70849, 37.70849, 37.70849, 37.708…
-#> $ acc_config    <dbl> NA, 103, 401, 402, 502, 502, 502, 501, 102, 101, 998, 504, 503, 998, 102, 10…
-#> $ age           <chr> "41 Years", "32 Years", "39 Years", "61 Years", "37 Years", "25 Years", "31 …
-#> $ air_bag       <chr> "Not a Motor Vehicle Occupant", "Not Deployed", "Deployed- Combination", "No…
-#> $ alc_res       <chr> "0.303 % BAC", "Test Not Given", "Test Not Given", "0.000 % BAC", "Test Not …
-#> $ alc_status    <chr> "Test Given", "Test Not Given", "Test Not Given", "Test Given", "Test Not Gi…
-#> $ arr_hour      <chr> "Unknown EMS Scene Arrival Hour", "Unknown EMS Scene Arrival Hour", "Unknown…
-#> $ arr_min       <chr> "Unknown if Arrived", "Unknown if Arrived", "Unknown EMS Scene Arrival Minut…
-#> $ atst_typ      <chr> "Vitreous", "Test Not Given", "Test Not Given", "Vitreous", "Test Not Given"…
-#> $ bikecgp       <chr> "Not a Cyclist", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-#> $ bikectype     <chr> "Not a Cyclist", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-#> $ bikedir       <chr> "Not a Cyclist", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-#> $ bikeloc       <chr> "Not a Cyclist", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-#> $ bikepos       <chr> "Not a Cyclist", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-#> $ body_typ      <chr> NA, "Medium/heavy Pickup (GVWR greater than 10,000 lbs.)", "Minivan (Chrysle…
-#> $ bus_use       <chr> NA, "Not a Bus", "Not a Bus", "Not a Bus", "Not a Bus", "Not a Bus", "Not a …
-#> $ cargo_bt      <chr> NA, "Van/Enclosed Box", "Not Applicable (N/A)", "Not Applicable (N/A)", "Not…
-#> $ cdl_stat      <chr> NA, "No (CDL)", "No (CDL)", "No (CDL)", "No (CDL)", "No (CDL)", "No (CDL)", …
-#> $ cityname      <chr> "VIRGINIA BEACH", "VIRGINIA BEACH", "NOT APPLICABLE", "NOT APPLICABLE", "NOT…
-#> $ countyname    <chr> "VIRGINIA BEACH (CITY) (810)", "VIRGINIA BEACH (CITY) (810)", "ACCOMACK (1)"…
-#> $ day           <dbl> 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 5, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 7, 7…
-#> $ day_week      <chr> "Sunday", "Sunday", "Sunday", "Sunday", "Monday", "Monday", "Monday", "Monda…
-#> $ death_da      <chr> "1", "Not Applicable (Non-Fatal)", "Not Applicable (Non-Fatal)", "1", "Not A…
-#> $ death_hr      <chr> "18:00-18:59", "Not Applicable (Non-fatal)", "Not Applicable (Non-fatal)", "…
-#> $ death_mn      <chr> "10", "Not Applicable (Non-fatal)", "Not Applicable (Non-fatal)", "0", "Not …
-#> $ death_mo      <chr> "January", "Not Applicable (Non-Fatal)", "Not Applicable (Non-Fatal)", "Janu…
-#> $ death_tm      <chr> "1810", "Not Applicable (Non-fatal)", "Not Applicable (Non-fatal)", "1700", …
-#> $ death_yr      <chr> "2023", "Not Applicable (Non-fatal)", "Not Applicable (Non-fatal)", "2023", …
-#> $ deaths        <dbl> NA, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, …
-#> $ deformed      <chr> NA, "Not Reported", "Disabling Damage", "Disabling Damage", "Disabling Damag…
-#> $ devmotor      <dbl> 0, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-#> $ devtype       <dbl> 0, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-#> $ doa           <chr> "Died at Scene", "Not Applicable", "Not Applicable", "Died at Scene", "Not A…
-#> $ dr_drink      <chr> NA, "No", "No", "No", "No", "No", "No", "No", "Yes", "No", "Yes", "No", "No"…
-#> $ dr_hgt        <chr> NA, "70", "63", "69", "59", "59", "59", "65", "72", "74", "72", "67", "72", …
-#> $ dr_pres       <chr> NA, "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Y…
-#> $ dr_wgt        <chr> NA, "170 lbs.", "170 lbs.", "180 lbs.", "115 lbs.", "115 lbs.", "115 lbs.", …
-#> $ dr_zip        <chr> NA, "23457", "23421", "23308", "24554", "24554", "24554", "24572", "20746", …
-#> $ drinking      <chr> "Yes (Alcohol Involved)", "No (Alcohol Not Involved)", "No (Alcohol Not Invo…
-#> $ drugs         <chr> "Reported as Unknown", "No (drugs not involved)", "No (drugs not involved)",…
-#> $ dstatus       <chr> "Test Given", "Test Not Given", "Test Not Given", "Test Given", "Test Not Gi…
-#> $ ej_path       <chr> "Ejection Path Not Applicable", "Ejection Path Not Applicable", "Ejection Pa…
-#> $ ejection      <chr> "Not Applicable", "Not Ejected", "Not Ejected", "Not Applicable", "Not Eject…
-#> $ emer_use      <chr> NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …
-#> $ extricat      <chr> "Not Extricated or Not Applicable", "Not Extricated or Not Applicable", "Not…
-#> $ fatals        <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-#> $ fire_exp      <chr> NA, "No or Not Reported", "No or Not Reported", "Yes", "No or Not Reported",…
-#> $ first_mo      <chr> NA, "No Record", "No Record", "No Record", "March", "March", "March", "Septe…
-#> $ first_yr      <chr> NA, "No Record", "No Record", "No Record", "2019", "2019", "2019", "2018", "…
-#> $ func_sys      <chr> "Major Collector", "Major Collector", "Principal Arterial - Other", "Princip…
-#> $ gvwr_from     <chr> NA, "Class 3: 10,001 - 14,000 lbs. (4,536 - 6,350 kg)", "Class 2: 6,001 - 10…
-#> $ gvwr_to       <chr> NA, "Class 3: 10,001 - 14,000 lbs. (4,536 - 6,350 kg)", "Class 2: 6,001 - 10…
-#> $ harm_ev       <chr> "Pedestrian", "Pedestrian", "Motor Vehicle In-Transport", "Motor Vehicle In-…
-#> $ haz_cno       <chr> NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …
-#> $ haz_id        <chr> NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …
-#> $ haz_inv       <chr> NA, "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", …
-#> $ haz_plac      <chr> NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …
-#> $ haz_rel       <chr> NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …
-#> $ helm_mis      <chr> "Not a Motor Vehicle Occupant", "None Used/Not Applicable", "None Used/Not A…
-#> $ helm_use      <chr> "Not a Motor Vehicle Occupant", "Not Applicable", "Not Applicable", "Helmet,…
-#> $ hispanic      <chr> "Non-Hispanic", "Not A Fatality (not Applicable)", "Not A Fatality (not Appl…
-#> $ hit_run       <chr> NA, "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", …
-#> $ hosp_hr       <chr> "Not Applicable (Not Transported)", "Not Applicable (Not Transported)", "Unk…
-#> $ hosp_mn       <chr> "Not Applicable (Not Transported)", "Not Applicable (Not Transported)", "Unk…
-#> $ hospital      <chr> "Not Transported for Treatment", "Not Transported for Treatment", "EMS Unkno…
-#> $ hour          <chr> "6:00pm-6:59pm", "6:00pm-6:59pm", "4:00pm-4:59pm", "4:00pm-4:59pm", "9:00pm-…
-#> $ icfinalbody   <chr> NA, "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", …
-#> $ impact1       <chr> NA, "12 Clock Point", "1 Clock Point", "12 Clock Point", "3 Clock Point", "3…
-#> $ inj_sev       <chr> "Fatal Injury (K)", "No Apparent Injury (O)", "Possible Injury (C)", "Fatal …
-#> $ j_knife       <chr> NA, "No", "Not an Articulated Vehicle", "Not an Articulated Vehicle", "Not a…
-#> $ l_compl       <chr> NA, "Valid license for this class vehicle", "No valid license for this class…
-#> $ l_endors      <chr> NA, "No Endorsements required for this vehicle", "No Endorsements required f…
-#> $ l_restri      <chr> NA, "Restrictions, Compliance Unknown", "No Restrictions or Not Applicable",…
-#> $ l_state       <chr> NA, "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", …
-#> $ l_status      <chr> NA, "Valid", "Suspended", "Valid", "Suspended", "Suspended", "Suspended", "V…
-#> $ l_type        <chr> NA, "Full Driver License", "Full Driver License", "Full Driver License", "Fu…
-#> $ lag_hrs       <chr> "0", "Unknown", "Unknown", "0", "Unknown", "0", "Unknown", "Unknown", "0", "…
-#> $ lag_mins      <chr> "10", "Unknown", "Unknown", "6", "Unknown", "20", "Unknown", "Unknown", "0",…
-#> $ last_mo       <chr> NA, "No Record", "No Record", "No Record", "March", "March", "March", "Septe…
-#> $ last_yr       <chr> NA, "No Record", "No Record", "No Record", "2021", "2021", "2021", "2018", "…
-#> $ lgt_cond      <chr> "Dark - Lighted", "Dark - Lighted", "Daylight", "Daylight", "Dark - Not Ligh…
-#> $ location      <chr> "Not at Intersection - On Roadway, Not in Marked Crosswalk", "Occupant of a …
-#> $ m_harm        <chr> NA, "Pedestrian", "Motor Vehicle In-Transport", "Motor Vehicle In-Transport"…
-#> $ mak_mod       <chr> NA, "Chevrolet Medium/Heavy Pickup (pickup-style only - over 10,000 lbs)", "…
-#> $ make          <chr> NA, "Chevrolet", "Honda", "Honda", "Chevrolet", "Chevrolet", "Chevrolet", "C…
-#> $ man_coll      <chr> "The First Harmful Event was Not a Collision with a Motor Vehicle in Transpo…
-#> $ mcarr_i1      <chr> NA, "US DOT", "Not Applicable", "Not Applicable", "Not Applicable", "Not App…
-#> $ mcarr_i2      <chr> NA, "03036659", "Not Applicable", "Not Applicable", "Not Applicable", "Not A…
-#> $ mcarr_id      <chr> NA, "5703036659", "Not Applicable", "Not Applicable", "Not Applicable", "Not…
-#> $ milept        <chr> "67", "67", "1337", "1337", "1016", "1016", "1016", "1016", "1170", "4036", …
-#> $ minute        <dbl> 0, 0, 54, 54, 32, 32, 32, 32, 1, 21, 17, 22, 22, 22, 33, 33, 40, 40, 40, 40,…
-#> $ mod_year      <chr> NA, "2015", "2008", "1997", "2005", "2005", "2005", "2016", "2017", "2020", …
-#> $ model         <dbl> NA, 880, 441, 706, 2, 2, 2, 29, 40, 56, 403, 17, 481, 32, 16, 16, 404, 35, 3…
-#> $ month         <chr> "January", "January", "January", "January", "January", "January", "January",…
-#> $ motdir        <chr> "Not Applicable", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-#> $ motman        <chr> "Not Applicable", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-#> $ nhs           <chr> "This section IS NOT on the NHS", "This section IS NOT on the NHS", "This se…
-#> $ nmhelmet      <chr> "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ nmlight       <chr> "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ nmothpre      <chr> "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ nmothpro      <chr> "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ nmpropad      <chr> "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ nmrefclo      <chr> "Not Reported", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ not_hour      <chr> "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown",…
-#> $ not_min       <chr> "Unknown if Notified", "Unknown if Notified", "Unknown", "Unknown", "Unknown…
-#> $ numoccs       <chr> NA, "01", "01", "01", "03", "03", "03", "01", "01", "01", "01", "01", "01", …
-#> $ owner         <chr> NA, "Driver (in this crash) was  Registered Owner", "Driver (in this crash) …
-#> $ p_crash1      <chr> NA, "Going Straight", "Turning Left", "Going Straight", "Going Straight", "G…
-#> $ p_crash2      <chr> NA, "Pedestrian in road", "Turning Left", "From opposite direction  over lef…
-#> $ p_crash3      <chr> NA, "Unknown/Not Reported", "Unknown/Not Reported", "Unknown/Not Reported", …
-#> $ pbcwalk       <chr> "None Noted", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-#> $ pbswalk       <chr> "None Noted", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-#> $ pbszone       <chr> "None Noted", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-#> $ pcrash4       <chr> NA, "Tracking", "Tracking", "Tracking", "Tracking", "Tracking", "Tracking", …
-#> $ pcrash5       <chr> NA, "Stayed in original travel lane", "Stayed in original travel lane", "Sta…
-#> $ pedcgp        <chr> "Walking/Running Along Roadway", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-#> $ pedctype      <chr> "Walking/Running Along Roadway Against Traffic - From Front", NA, NA, NA, NA…
-#> $ peddir        <chr> "Not Applicable", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-#> $ pedleg        <chr> "Not Applicable", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-#> $ pedloc        <chr> "Not At Intersection", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-#> $ pedpos        <chr> "Travel Lane", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-#> $ peds          <dbl> 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
-#> $ pedsnr        <chr> "Not Applicable", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-#> $ per_typ       <chr> "Pedestrian", "Driver of a Motor Vehicle In-Transport", "Driver of a Motor V…
-#> $ permvit       <dbl> 1, 1, 2, 2, 4, 4, 4, 4, 1, 1, 1, 3, 3, 3, 2, 2, 6, 6, 6, 6, 6, 6, 2, 2, 2, 2…
-#> $ pernotmvit    <dbl> 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
-#> $ persons       <dbl> 1, 1, 2, 2, 4, 4, 4, 4, 1, 1, 1, 3, 3, 3, 2, 2, 6, 6, 6, 6, 6, 6, 2, 2, 2, 2…
-#> $ prev_acc      <chr> NA, "None", "None", "None", "None", "None", "None", "None", "None", "None", …
-#> $ prev_dwi      <chr> NA, "None", "None", "None", "None", "None", "None", "None", "None", "None", …
-#> $ prev_oth      <chr> NA, "None", "None", "None", "1", "1", "1", "None", "1", "None", "None", "Non…
-#> $ prev_spd      <chr> NA, "None", "None", "None", "1", "1", "1", "1", "None", "None", "1", "None",…
-#> $ prev_sus1     <chr> NA, "None", "None", "None", "None", "None", "None", "None", "None", "None", …
-#> $ prev_sus2     <chr> NA, "None", "None", "None", "None", "None", "None", "None", "None", "None", …
-#> $ prev_sus3     <chr> NA, "None", "None", "None", "1", "1", "1", "None", "None", "None", "1", "Non…
-#> $ pvh_invl      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
-#> $ rail          <chr> "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…
-#> $ rd_owner      <chr> "City or Municipal Highway Agency", "City or Municipal Highway Agency", "Sta…
-#> $ reg_stat      <chr> NA, "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", …
-#> $ rel_road      <chr> "On Roadway", "On Roadway", "On Roadway", "On Roadway", "On Roadway", "On Ro…
-#> $ reljct1       <chr> "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No"…
-#> $ reljct2       <chr> "Non-Junction", "Non-Junction", "Intersection", "Intersection", "Intersectio…
-#> $ rest_mis      <chr> "Not a Motor Vehicle Occupant", "None Used/Not Applicable", "No Indication o…
-#> $ rest_use      <chr> "Not a Motor Vehicle Occupant", "None Used/Not Applicable", "Shoulder and La…
-#> $ rolinloc      <chr> NA, "No Rollover", "No Rollover", "8", "No Rollover", "No Rollover", "No Rol…
-#> $ rollover      <chr> NA, "No Rollover", "No Rollover", "8", "No Rollover", "No Rollover", "No Rol…
-#> $ route         <chr> "Local Street - Municipality", "Local Street - Municipality", "U.S. Highway"…
-#> $ rur_urb       <chr> "Urban", "Urban", "Rural", "Rural", "Rural", "Rural", "Rural", "Rural", "Rur…
-#> $ sch_bus       <chr> "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No"…
-#> $ seat_pos      <chr> "Not a Motor Vehicle Occupant", "Front Seat, Left Side", "Front Seat, Left S…
-#> $ sex           <chr> "Male", "Male", "Male", "Male", "Female", "Female", "Male", "Female", "Male"…
-#> $ sp_jur        <chr> "No Special Jurisdiction", "No Special Jurisdiction", "No Special Jurisdicti…
-#> $ spec_use      <chr> NA, "No Special Use", "No Special Use", "No Special Use", "No Special Use", …
-#> $ speedrel      <chr> NA, "No", "No", "No", "No", "No", "No", "No", "No", "No", "Yes, Exceeded Spe…
-#> $ statename     <chr> "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", "Virginia", "Vir…
-#> $ str_veh       <dbl> 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
-#> $ tow_veh       <chr> NA, "One Trailing Unit", "No Trailing Units", "No Trailing Units", "No Trail…
-#> $ towed         <chr> NA, "Not Reported", "6", "6", "6", "6", "6", "6", "6", "6", "6", "6", "6", "…
-#> $ trav_sp       <chr> NA, "050 MPH", "015 MPH", "055 MPH", "025 MPH", "025 MPH", "025 MPH", "060 M…
-#> $ trlr1gvwr     <chr> NA, "Not Reported", "No Trailing Units", "No Trailing Units", "No Trailing U…
-#> $ trlr1vin      <chr> NA, "Not Reported", "No Trailing Units", "No Trailing Units", "No Trailing U…
-#> $ trlr2gvwr     <chr> NA, "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trail…
-#> $ trlr2vin      <chr> NA, "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trail…
-#> $ trlr3gvwr     <chr> NA, "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trail…
-#> $ trlr3vin      <chr> NA, "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trail…
-#> $ tway_id       <chr> "MU-8669 PRINCESS ANNE RD", "MU-8669 PRINCESS ANNE RD", "US-13", "US-13", "U…
-#> $ tway_id2      <chr> NA, NA, "CHESSER RD", "CHESSER RD", "RT-655", "RT-655", "RT-655", "RT-655", …
-#> $ typ_int       <chr> "Not an Intersection", "Not an Intersection", "T-Intersection", "T-Intersect…
-#> $ underoverride <dbl> NA, 7, 7, 7, 0, 0, 0, 0, 7, 7, 0, 0, 0, 0, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-#> $ unittype      <chr> NA, "Motor Vehicle In-Transport (Inside or Outside the Trafficway)", "Motor …
-#> $ v_config      <chr> NA, "Truck Pulling Trailer(s)", "Not Applicable", "Not Applicable", "Not App…
-#> $ valign        <chr> NA, "Straight", "Straight", "Straight", "Not Reported", "Not Reported", "Not…
-#> $ ve_forms      <dbl> 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 3, 3, 3, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2…
-#> $ ve_total      <dbl> 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 3, 3, 3, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2…
-#> $ vin           <chr> NA, "1GC5KZC88FZ1", "5FNRL387X8B0", "1HFSC2231VA9", "2G1WF52E3591", "2G1WF52…
-#> $ vnum_lan      <chr> NA, "Two lanes", "Three lanes", "Two lanes", "Two lanes", "Two lanes", "Two …
-#> $ vpavetyp      <chr> NA, "Blacktop, Bituminous, or Asphalt", "Blacktop, Bituminous, or Asphalt", …
-#> $ vpicbodyclass <chr> NA, "Pickup", "Minivan", "Motorcycle - Street", "Sedan/Saloon", "Sedan/Saloo…
-#> $ vpicmake      <chr> NA, "Chevrolet", "Honda", "Honda", "Chevrolet", "Chevrolet", "Chevrolet", "C…
-#> $ vpicmodel     <chr> NA, "Silverado", "Odyssey", "GL1500SE (GOLD WING SE)", "Impala", "Impala", "…
-#> $ vprofile      <chr> NA, "Level", "Level", "Level", "Not Reported", "Not Reported", "Not Reported…
-#> $ vspd_lim      <chr> NA, "45 MPH", "55 MPH", "55 MPH", "60 MPH", "60 MPH", "60 MPH", "60 MPH", "6…
-#> $ vsurcond      <chr> NA, "Dry", "Dry", "Dry", "Dry", "Dry", "Dry", "Dry", "Dry", "Dry", "Dry", "N…
-#> $ vtcont_f      <chr> NA, "No Controls", "No Controls", "No Controls", "Device Functioning Properl…
-#> $ vtrafcon      <chr> NA, "No Controls", "No Controls", "No Controls", "Yield Sign", "Yield Sign",…
-#> $ vtrafway      <chr> NA, "Two-Way, Not Divided", "Two-Way, Divided, Unprotected Median", "Two-Way…
-#> $ work_inj      <chr> "No", "Not Applicable (not a fatality)", "Not Applicable (not a fatality)", …
-#> $ wrk_zone      <chr> "None", "None", "None", "None", "None", "None", "None", "None", "None", "Non…
+#> $ state         <fct> Alabama, Alabama, Alabama, Alabama, Alabama, Alabama, Alabama, Alabama, Alab…
+#> $ st_case       <dbl> 10001, 10002, 10003, 10004, 10004, 10004, 10005, 10005, 10005, 10005, 10006,…
+#> $ id            <dbl> 202310001, 202310002, 202310003, 202310004, 202310004, 202310004, 202310005,…
+#> $ veh_no        <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 2…
+#> $ per_no        <dbl> 1, 1, 1, 1, 2, 3, 1, 2, 3, 4, 1, 1, 1, 1, 2, 1, 2, 3, 1, 1, 2, 3, 1, 1, 1, 1…
+#> $ county        <dbl> 13, 97, 89, 53, 53, 53, 3, 3, 3, 3, 121, 95, 95, 123, 123, 119, 119, 119, 85…
+#> $ city          <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+#> $ lon           <dbl> -86.53883, -88.27321, -86.37583, -86.74669, -86.74669, -86.74669, -87.64380,…
+#> $ lat           <dbl> 31.92797, 30.50874, 34.73833, 31.01478, 31.01478, 31.01478, 31.02741, 31.027…
+#> $ acc_config    <fct> "Single Driver-Right Roadside Departure", "Single Driver-Left Roadside Depar…
+#> $ acc_type      <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "G50-Same Trafficway, Opposite D…
+#> $ age           <fct> 33 Years, 32 Years, 21 Years, 54 Years, 53 Years, 36 Years, 54 Years, 60 Yea…
+#> $ air_bag       <fct> "Deployed- Front", "Deployed- Front", "Deployed- Front", "Deployed- Combinat…
+#> $ alc_res       <fct> "Test Not Given", "0.217 % BAC", "0.148 % BAC", "0.117 % BAC", "Test Not Giv…
+#> $ alc_status    <fct> Test Not Given, Test Given, Test Given, Test Given, Test Not Given, Test Giv…
+#> $ arr_hour      <fct> 10:00pm-10:59pm, 2:00am-2:59am, 11:00pm-11:59pm, 7:00pm-7:59pm, 7:00pm-7:59p…
+#> $ arr_min       <fct> 45, 23, 8, 44, 44, 44, 8, 8, 8, 8, 33, 48, 48, 22, 22, 1, 1, 1, 59, 59, 59, …
+#> $ atst_typ      <fct> "Test Not Given", "Blood", "Blood", "Blood", "Test Not Given", "Vitreous", "…
+#> $ bikecgp       <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ bikectype     <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ bikedir       <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ bikeloc       <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ bikepos       <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ body_typ      <fct> "Compact Utility (Utility Vehicle Categories \"Small\" and \"Midsize\")", "5…
+#> $ bus_use       <fct> "Not a Bus", "Not a Bus", "Not a Bus", "Not a Bus", "Not a Bus", "Not a Bus"…
+#> $ cargo_bt      <fct> Not Applicable (N/A), Not Applicable (N/A), Not Applicable (N/A), Not Applic…
+#> $ cdl_stat      <fct> No (CDL), No (CDL), No (CDL), No (CDL), No (CDL), No (CDL), No (CDL), No (CD…
+#> $ cityname      <chr> "NOT APPLICABLE", "NOT APPLICABLE", "NOT APPLICABLE", "NOT APPLICABLE", "NOT…
+#> $ countyname    <chr> "BUTLER (13)", "MOBILE (97)", "MADISON (89)", "ESCAMBIA (53)", "ESCAMBIA (53…
+#> $ day           <dbl> 4, 20, 18, 17, 17, 17, 17, 17, 17, 17, 16, 16, 16, 15, 15, 11, 11, 11, 12, 1…
+#> $ day_week      <fct> Wednesday, Monday, Saturday, Friday, Friday, Friday, Friday, Friday, Friday,…
+#> $ death_da      <fct> 4, 20, 18, Not Applicable (Non-Fatal), Not Applicable (Non-Fatal), 17, 17, N…
+#> $ death_hr      <fct> 22:00-22:59, 2:00-2:59, 22:00-22:59, Not Applicable (Non-fatal), Not Applica…
+#> $ death_mn      <fct> 20, 0, 56, Not Applicable (Non-fatal), Not Applicable (Non-fatal), 0, 55, No…
+#> $ death_mo      <fct> January, March, March, Not Applicable (Non-Fatal), Not Applicable (Non-Fatal…
+#> $ death_tm      <fct> NA, NA, NA, Not Applicable (Non-fatal), Not Applicable (Non-fatal), NA, NA, …
+#> $ death_yr      <fct> 2023, 2023, 2023, Not Applicable (Non-fatal), Not Applicable (Non-fatal), 20…
+#> $ deaths        <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1, 0…
+#> $ deformed      <fct> "Disabling Damage", "Disabling Damage", "Disabling Damage", "Disabling Damag…
+#> $ devmotor      <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ devtype       <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ doa           <fct> Died at Scene, Died at Scene, Died at Scene, Not Applicable, Not Applicable,…
+#> $ dr_drink      <fct> No, Yes, Yes, Yes, Yes, Yes, No, No, No, No, No, No, No, No, No, Yes, Yes, Y…
+#> $ dr_hgt        <fct> Unknown, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+#> $ dr_pres       <fct> Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Y…
+#> $ dr_wgt        <fct> Unknown, 190 lbs., 130 lbs., 250 lbs., 250 lbs., 250 lbs., 287 lbs., 287 lbs…
+#> $ dr_zip        <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ drinking      <fct> No (Alcohol Not Involved), Yes (Alcohol Involved), No (Alcohol Not Involved)…
+#> $ drugs         <fct> No (drugs not involved), Reported as Unknown, No (drugs not involved), No (d…
+#> $ dstatus       <fct> Test Not Given, Test Given, Test Given, Test Given, Test Not Given, Test Giv…
+#> $ ej_path       <fct> "Ejection Path Not Applicable", "Ejection Path Not Applicable", "Ejection Pa…
+#> $ ejection      <fct> Not Ejected, Not Ejected, Not Ejected, Not Ejected, Not Ejected, Totally Eje…
+#> $ emer_use      <fct> "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…
+#> $ extricat      <fct> Not Extricated or Not Applicable, Not Extricated or Not Applicable, Not Extr…
+#> $ fatals        <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1…
+#> $ fire_exp      <fct> No or Not Reported, No or Not Reported, No or Not Reported, No or Not Report…
+#> $ first_mo      <fct> November, No Record, No Record, July, July, July, No Record, No Record, No R…
+#> $ first_yr      <fct> 2022, No Record, No Record, 2020, 2020, 2020, No Record, No Record, No Recor…
+#> $ func_sys      <fct> Major Collector, Local, Major Collector, Local, Local, Local, Interstate, In…
+#> $ gvwr_from     <fct> "Class 1: 6,000 lbs. or less (2,722 kg or less)", "Class 1: 6,000 lbs. or le…
+#> $ gvwr_to       <fct> "Class 1: 6,000 lbs. or less (2,722 kg or less)", "Class 1: 6,000 lbs. or le…
+#> $ harm_ev       <fct> "Rollover/Overturn", "Tree (Standing Only)", "Embankment", "Live Animal", "L…
+#> $ haz_cno       <fct> Not Applicable, Not Applicable, Not Applicable, Not Applicable, Not Applicab…
+#> $ haz_id        <fct> Not Applicable, Not Applicable, Not Applicable, Not Applicable, Not Applicab…
+#> $ haz_inv       <fct> No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, …
+#> $ haz_plac      <fct> Not Applicable, Not Applicable, Not Applicable, Not Applicable, Not Applicab…
+#> $ haz_rel       <fct> Not Applicable, Not Applicable, Not Applicable, Not Applicable, Not Applicab…
+#> $ helm_mis      <fct> "None Used/Not Applicable", "None Used/Not Applicable", "None Used/Not Appli…
+#> $ helm_use      <fct> "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…
+#> $ hispanic      <fct> "Non-Hispanic", "Non-Hispanic", "Non-Hispanic", "Not A Fatality (not Applica…
+#> $ hit_run       <fct> No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, …
+#> $ hosp_hr       <fct> Not Applicable (Not Transported), Not Applicable (Not Transported), Not Appl…
+#> $ hosp_mn       <fct> Not Applicable (Not Transported), Not Applicable (Not Transported), Not Appl…
+#> $ hospital      <fct> Not Transported for Treatment, Not Transported for Treatment, Not Transporte…
+#> $ hour          <fct> 10:00pm-10:59pm, 2:00am-2:59am, 10:00pm-10:59pm, 7:00pm-7:59pm, 7:00pm-7:59p…
+#> $ icfinalbody   <fct> Not Applicable, Not Applicable, Not Applicable, Not Applicable, Not Applicab…
+#> $ impact1       <fct> "Non-Collision", "12 Clock Point", "12 Clock Point", "Not Reported", "Not Re…
+#> $ inj_sev       <fct> "Fatal Injury (K)", "Fatal Injury (K)", "Fatal Injury (K)", "Suspected Serio…
+#> $ j_knife       <fct> Not an Articulated Vehicle, Not an Articulated Vehicle, Not an Articulated V…
+#> $ l_compl       <fct> Valid license for this class vehicle, Valid license for this class vehicle, …
+#> $ l_endors      <fct> "No Endorsements required for this vehicle", "No Endorsements required for t…
+#> $ l_restri      <fct> "No Restrictions or Not Applicable", "No Restrictions or Not Applicable", "R…
+#> $ l_state       <fct> Georgia, Alabama, Alabama, Iowa, Iowa, Iowa, Alabama, Alabama, Alabama, Alab…
+#> $ l_status      <fct> Valid, Valid, Valid, Valid, Valid, Valid, Not licensed, Not licensed, Not li…
+#> $ l_type        <fct> Full Driver License, Full Driver License, Full Driver License, Full Driver L…
+#> $ lag_hrs       <fct> NA, NA, NA, Unknown, Unknown, NA, NA, Unknown, Unknown, Unknown, NA, NA, NA,…
+#> $ lag_mins      <fct> NA, NA, NA, Unknown, Unknown, NA, NA, Unknown, Unknown, Unknown, NA, NA, NA,…
+#> $ last_mo       <fct> November, No Record, No Record, August, August, August, No Record, No Record…
+#> $ last_yr       <fct> 2022, No Record, No Record, 2020, 2020, 2020, No Record, No Record, No Recor…
+#> $ lgt_cond      <fct> Dark - Not Lighted, Dark - Not Lighted, Dark - Not Lighted, Dark - Not Light…
+#> $ location      <fct> "Occupant of a Motor Vehicle", "Occupant of a Motor Vehicle", "Occupant of a…
+#> $ m_harm        <fct> "Embankment", "Tree (Standing Only)", "Tree (Standing Only)", "Tree (Standin…
+#> $ mak_mod       <fct> "Ford Bronco (thru 1977)/Bronco II/Explorer/Explorer Sport (Explorer for 199…
+#> $ make          <fct> Ford, Dodge, Toyota, Jeep / Kaiser-Jeep / Willys- Jeep, Jeep / Kaiser-Jeep /…
+#> $ man_coll      <fct> The First Harmful Event was Not a Collision with a Motor Vehicle in Transpor…
+#> $ mcarr_i1      <fct> Not Applicable, Not Applicable, Not Applicable, Not Applicable, Not Applicab…
+#> $ mcarr_i2      <fct> Not Applicable, Not Applicable, Not Applicable, Not Applicable, Not Applicab…
+#> $ mcarr_id      <fct> Not Applicable, Not Applicable, Not Applicable, Not Applicable, Not Applicab…
+#> $ milept        <fct> NA, None, None, None, None, None, NA, NA, NA, NA, None, None, None, NA, NA, …
+#> $ minute        <fct> 20, 0, 56, 0, 0, 0, 55, 55, 55, 55, 25, 25, 25, 12, 12, 30, 30, 30, 20, 20, …
+#> $ mod_year      <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ model         <dbl> 401, 25, 40, 1, 1, 1, 43, 43, 43, 43, 481, 482, 481, 481, 481, 31, 31, 31, 3…
+#> $ month         <fct> January, March, March, March, March, March, March, March, March, March, Marc…
+#> $ motdir        <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ motman        <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ nhs           <fct> This Section IS NOT on the NHS, This Section IS NOT on the NHS, This Section…
+#> $ nmhelmet      <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ nmlight       <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ nmothpre      <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ nmothpro      <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ nmpropad      <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ nmrefclo      <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ not_hour      <fct> 10:00pm-10:59pm, 2:00am-2:59am, 10:00pm-10:59pm, 7:00pm-7:59pm, 7:00pm-7:59p…
+#> $ not_min       <fct> 20, 8, 48, 0, 0, 0, 53, 53, 53, 53, 18, 31, 31, 12, 12, 40, 40, 40, 18, 18, …
+#> $ numoccs       <fct> 01, 01, 01, 03, 03, 03, 04, 04, 04, 04, 01, 01, 01, 02, 02, 03, 03, 03, 01, …
+#> $ owner         <fct> "Driver (in this crash) Not Registered Owner (Other Private Owner Listed)", …
+#> $ p_crash1      <fct> Going Straight, Going Straight, Negotiating a Curve, Negotiating a Curve, Ne…
+#> $ p_crash2      <fct> "Off the edge of the road on the right side", "Off the edge of the road on t…
+#> $ p_crash3      <fct> Steering left, Unknown/Not Reported, Unknown/Not Reported, Steering right, S…
+#> $ pbcwalk       <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ pbswalk       <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ pbszone       <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ pcrash4       <fct> "Skidding laterally clockwise rotation", "Tracking", "Tracking", "Tracking",…
+#> $ pcrash5       <fct> "Departed roadway", "Departed roadway", "Departed roadway", "Departed roadwa…
+#> $ pedcgp        <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ pedctype      <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ peddir        <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ pedleg        <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ pedloc        <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ pedpos        <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ peds          <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+#> $ pedsnr        <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ per_typ       <fct> Driver of a Motor Vehicle In-Transport, Driver of a Motor Vehicle In-Transpo…
+#> $ permvit       <dbl> 1, 1, 1, 3, 3, 3, 4, 4, 4, 4, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 1, 1, 4, 4…
+#> $ pernotmvit    <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+#> $ persons       <dbl> 1, 1, 1, 3, 3, 3, 4, 4, 4, 4, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 1, 1, 4, 4…
+#> $ prev_acc      <fct> None, None, None, 1, 1, 1, None, None, None, None, 4, None, None, 2, 2, None…
+#> $ prev_dwi      <fct> None, None, None, None, None, None, None, None, None, None, None, None, None…
+#> $ prev_oth      <fct> None, None, None, 1, 1, 1, None, None, None, None, None, None, None, None, N…
+#> $ prev_spd      <fct> 1, None, None, None, None, None, None, None, None, None, None, None, 1, 1, 1…
+#> $ prev_sus1     <fct> None, None, None, None, None, None, None, None, None, None, None, None, None…
+#> $ prev_sus2     <fct> None, None, None, None, None, None, None, None, None, None, None, None, None…
+#> $ prev_sus3     <fct> None, None, None, None, None, None, None, None, None, None, None, None, None…
+#> $ pvh_invl      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+#> $ rail          <fct> Not Applicable, Not Applicable, Not Applicable, Not Applicable, Not Applicab…
+#> $ rd_owner      <fct> "State Highway Agency", "County Highway Agency", "County Highway Agency", "C…
+#> $ reg_stat      <fct> Alabama, Alabama, Alabama, Iowa, Iowa, Iowa, Alabama, Alabama, Alabama, Alab…
+#> $ rel_road      <fct> On Roadside, On Roadside, On Roadside, On Roadside, On Roadside, On Roadside…
+#> $ reljct1       <fct> No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, …
+#> $ reljct2       <fct> Non-Junction, Non-Junction, Non-Junction, Non-Junction, Non-Junction, Non-Ju…
+#> $ rest_mis      <fct> "No Indication of Misuse", "None Used/Not Applicable", "None Used/Not Applic…
+#> $ rest_use      <fct> NA, None Used/Not Applicable, None Used/Not Applicable, NA, NA, None Used/No…
+#> $ rolinloc      <fct> On Roadside, No Rollover, No Rollover, No Rollover, No Rollover, No Rollover…
+#> $ rollover      <fct> Rollover, No Rollover, No Rollover, No Rollover, No Rollover, No Rollover, N…
+#> $ route         <fct> U.S. Highway, County, County, County, County, County, Interstate, Interstate…
+#> $ rur_urb       <fct> Rural, Rural, Rural, Rural, Rural, Rural, Rural, Rural, Rural, Rural, Rural,…
+#> $ sch_bus       <fct> No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, No, …
+#> $ seat_pos      <fct> "Front Seat, Left Side", "Front Seat, Left Side", "Front Seat, Left Side", "…
+#> $ sex           <fct> Male, Female, Female, Male, Male, Male, Male, Male, Male, Female, Male, Male…
+#> $ sp_jur        <fct> No Special Jurisdiction, No Special Jurisdiction, No Special Jurisdiction, N…
+#> $ spec_use      <fct> "No Special Use Noted", "No Special Use Noted", "No Special Use Noted", "No …
+#> $ speedrel      <fct> "No", "No", "Yes, Exceeded Speed Limit", "Yes, Exceeded Speed Limit", "Yes, …
+#> $ statename     <fct> Alabama, Alabama, Alabama, Alabama, Alabama, Alabama, Alabama, Alabama, Alab…
+#> $ str_veh       <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+#> $ tow_veh       <fct> "No Trailers", "No Trailers", "No Trailers", "No Trailers", "No Trailers", "…
+#> $ towed         <fct> Towed, Towed, Towed, Towed, Towed, Towed, Towed, Towed, Towed, Towed, Towed,…
+#> $ trav_sp       <fct> 055 MPH, 065 MPH, 060 MPH, 060 MPH, 060 MPH, 060 MPH, 070 MPH, 070 MPH, 070 …
+#> $ trlr1gvwr     <fct> "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trailing …
+#> $ trlr1vin      <fct> "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trailing …
+#> $ trlr2gvwr     <fct> "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trailing …
+#> $ trlr2vin      <fct> No Trailing Units, No Trailing Units, No Trailing Units, No Trailing Units, …
+#> $ trlr3gvwr     <fct> "No Trailing Units", "No Trailing Units", "No Trailing Units", "No Trailing …
+#> $ trlr3vin      <fct> No Trailing Units, No Trailing Units, No Trailing Units, No Trailing Units, …
+#> $ tway_id       <chr> "US-31 SR-3", "CR-BOE RD", "CR-GURLEY PIKE", "CR-ROCK CREEK RD", "CR-ROCK CR…
+#> $ tway_id2      <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ typ_int       <fct> "Not an Intersection", "Not an Intersection", "Not an Intersection", "Not an…
+#> $ underoverride <fct> Not Applicable, Not Applicable, Not Applicable, Not Applicable, Not Applicab…
+#> $ unittype      <fct> Motor Vehicle In-Transport (Inside or Outside the Trafficway), Motor Vehicle…
+#> $ v_config      <fct> "Not Applicable", "Not Applicable", "Not Applicable", "Not Applicable", "Not…
+#> $ valign        <fct> Straight, Straight, Curve Right, Curve Left, Curve Left, Curve Left, Straigh…
+#> $ ve_forms      <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2…
+#> $ ve_total      <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2…
+#> $ vin           <fct> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ vnum_lan      <fct> Two lanes, Two lanes, Two lanes, Two lanes, Two lanes, Two lanes, Two lanes,…
+#> $ vpavetyp      <fct> "Blacktop, Bituminous, or Asphalt", "Blacktop, Bituminous, or Asphalt", "Bla…
+#> $ vpicbodyclass <dbl> 7, 5, 13, 7, 7, 7, 13, 13, 13, 13, 60, 119, 60, 60, 60, 13, 13, 13, 7, 13, 1…
+#> $ vpicmake      <dbl> 460, 476, 448, 483, 483, 483, 448, 448, 448, 448, 472, 467, 467, 467, 467, 4…
+#> $ vpicmodel     <dbl> 1800, 1896, 2469, 1946, 1946, 1946, 2465, 2465, 2465, 2465, 1857, 3876, 1850…
+#> $ vprofile      <fct> "Downhill", "Level", "Downhill", "Downhill", "Downhill", "Downhill", "Level"…
+#> $ vspd_lim      <fct> 55 MPH, 45 MPH, 45 MPH, 35 MPH, 35 MPH, 35 MPH, 70 MPH, 70 MPH, 70 MPH, 70 M…
+#> $ vsurcond      <fct> "Dry", "Dry", "Dry", "Dry", "Dry", "Dry", "Wet", "Wet", "Wet", "Wet", "Dry",…
+#> $ vtcont_f      <fct> "No Controls", "No Controls", "Not Reported", "Device Functioning Properly",…
+#> $ vtrafcon      <fct> NA, NA, Not Reported, Other, Other, Other, NA, NA, NA, NA, NA, NA, NA, NA, N…
+#> $ vtrafway      <fct> "Two-Way, Not Divided", "Two-Way, Not Divided", "Two-Way, Not Divided", "Two…
+#> $ work_inj      <fct> No, No, No, Not Applicable (not a fatality), Not Applicable (not a fatality)…
+#> $ wrk_zone      <fct> "None", "None", "None", "None", "None", "None", "None", "None", "None", "Non…
+#> $ a1            <dbl> 21, 21, 14, 11, 11, 11, 0, 0, 0, 0, 25, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 0, …
+#> $ a2            <dbl> 0, 21, 14, 11, 11, 11, 0, 0, 0, 0, 25, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 0, 0…
+#> $ a3            <dbl> 0, 21, 14, 11, 11, 11, 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 0, 0…
+#> $ a4            <dbl> 0, 21, 14, 11, 11, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 0, 0,…
+#> $ a5            <dbl> 13, 21, 14, 11, 11, 11, 0, 0, 0, 0, 25, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 0, …
+#> $ a6            <dbl> 13, 21, 14, 11, 11, 11, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 0, …
+#> $ a7            <dbl> 0, 21, 14, 11, 11, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 0, 0,…
+#> $ a8            <dbl> 0, 21, 14, 11, 11, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 0, 0,…
+#> $ a9            <dbl> 0, 21, 14, 11, 11, 11, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 0, 0,…
+#> $ a10           <dbl> 0, 21, 14, 11, 11, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 0, 0,…
+#> $ p1            <dbl> 21, 21, 14, 11, NA, NA, 0, NA, NA, NA, 25, 0, 0, 0, NA, 0, NA, NA, 5, 5, NA,…
+#> $ p2            <dbl> 0, 21, 14, 11, NA, NA, 0, NA, NA, NA, 25, 0, 0, 0, NA, 0, NA, NA, 5, 5, NA, …
+#> $ p3            <dbl> 0, 21, 14, 11, NA, NA, 0, NA, NA, NA, 18, 0, 0, 0, NA, 0, NA, NA, 5, 5, NA, …
+#> $ p4            <dbl> 0, 21, 14, 11, NA, NA, 0, NA, NA, NA, 0, 0, 0, 0, NA, 0, NA, NA, 5, 5, NA, N…
+#> $ p5            <dbl> 13, 21, 14, 11, NA, NA, 0, NA, NA, NA, 25, 0, 0, 0, NA, 0, NA, NA, 5, 5, NA,…
+#> $ p6            <dbl> 13, 21, 14, 11, NA, NA, 0, NA, NA, NA, 14, 0, 0, 0, NA, 0, NA, NA, 5, 5, NA,…
+#> $ p7            <dbl> 0, 21, 14, 11, NA, NA, 0, NA, NA, NA, 0, 0, 0, 0, NA, 0, NA, NA, 5, 5, NA, N…
+#> $ p8            <dbl> 0, 21, 14, 11, NA, NA, 0, NA, NA, NA, 0, 0, 0, 0, NA, 0, NA, NA, 5, 5, NA, N…
+#> $ p9            <dbl> 0, 21, 14, 11, NA, NA, 0, NA, NA, NA, 8, 0, 0, 0, NA, 0, NA, NA, 5, 5, NA, N…
+#> $ p10           <dbl> 0, 21, 14, 11, NA, NA, 0, NA, NA, NA, 0, 0, 0, 0, NA, 0, NA, NA, 5, 5, NA, N…
 ```
 
 The `multi_` tibbles contain those variables for which there may be a
@@ -372,24 +1189,46 @@ n
 <tbody>
 <tr>
 <td style="text-align:left;">
+crashrf
+</td>
+<td style="text-align:left;">
+None Noted
+</td>
+<td style="text-align:right;">
+34846
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+weather
+</td>
+<td style="text-align:left;">
+Clear
+</td>
+<td style="text-align:right;">
+27872
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+weather
+</td>
+<td style="text-align:left;">
+Cloudy
+</td>
+<td style="text-align:right;">
+5202
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 weather
 </td>
 <td style="text-align:left;">
 Rain
 </td>
 <td style="text-align:right;">
-91
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-crashrf
-</td>
-<td style="text-align:left;">
-Police Pursuit Involved
-</td>
-<td style="text-align:right;">
-19
+2663
 </td>
 </tr>
 <tr>
@@ -401,7 +1240,7 @@ Motor Vehicle struck by falling cargo,or something that came loose from
 or something that was set in motion by a vehicle
 </td>
 <td style="text-align:right;">
-17
+889
 </td>
 </tr>
 <tr>
@@ -412,7 +1251,18 @@ crashrf
 Indication of a Stalled/Disabled Vehicle
 </td>
 <td style="text-align:right;">
-9
+473
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashrf
+</td>
+<td style="text-align:left;">
+Police Pursuit Involved
+</td>
+<td style="text-align:right;">
+468
 </td>
 </tr>
 <tr>
@@ -423,30 +1273,7 @@ weather
 Fog, Smog, Smoke
 </td>
 <td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-crashrf
-</td>
-<td style="text-align:left;">
-Non-occupant struck by falling cargo, or something that came loose from,
-or something that was set in motion by a vehicle
-</td>
-<td style="text-align:right;">
-3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-crashrf
-</td>
-<td style="text-align:left;">
-10
-</td>
-<td style="text-align:right;">
-2
+420
 </td>
 </tr>
 <tr>
@@ -457,29 +1284,18 @@ crashrf
 Recent/Previous Crash scene Nearby
 </td>
 <td style="text-align:right;">
-2
+419
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-crashrf
+weather
 </td>
 <td style="text-align:left;">
-Other Maintenance or Construction-Created Condition
+Snow
 </td>
 <td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-crashrf
-</td>
-<td style="text-align:left;">
-Regular Congestion
-</td>
-<td style="text-align:right;">
-1
+222
 </td>
 </tr>
 </tbody>
@@ -506,24 +1322,24 @@ n
 <tbody>
 <tr>
 <td style="text-align:left;">
-vehiclecc
-</td>
-<td style="text-align:left;">
-None Noted
-</td>
-<td style="text-align:right;">
-1198
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 vision
 </td>
 <td style="text-align:left;">
 No Obstruction Noted
 </td>
 <td style="text-align:right;">
-1113
+54593
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vehiclecc
+</td>
+<td style="text-align:left;">
+None Noted
+</td>
+<td style="text-align:right;">
+54279
 </td>
 </tr>
 <tr>
@@ -534,18 +1350,18 @@ damage
 12 Clock Value
 </td>
 <td style="text-align:right;">
-1002
+42485
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-drdistract
+driverrf
 </td>
 <td style="text-align:left;">
-Not Distracted
+None Noted
 </td>
 <td style="text-align:right;">
-955
+37254
 </td>
 </tr>
 <tr>
@@ -556,7 +1372,7 @@ damage
 11 Clock Value
 </td>
 <td style="text-align:right;">
-813
+22765
 </td>
 </tr>
 <tr>
@@ -567,18 +1383,7 @@ damage
 1 Clock Value
 </td>
 <td style="text-align:right;">
-811
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-damage
-</td>
-<td style="text-align:left;">
-10 Clock Value
-</td>
-<td style="text-align:right;">
-633
+21620
 </td>
 </tr>
 <tr>
@@ -589,7 +1394,29 @@ drimpair
 None/Apparently Normal
 </td>
 <td style="text-align:right;">
-625
+21223
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+damage
+</td>
+<td style="text-align:left;">
+10 Clock Value
+</td>
+<td style="text-align:right;">
+18445
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+drdistract
+</td>
+<td style="text-align:left;">
+Not Distracted
+</td>
+<td style="text-align:right;">
+17166
 </td>
 </tr>
 <tr>
@@ -600,18 +1427,7 @@ damage
 2 Clock Value
 </td>
 <td style="text-align:right;">
-581
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-drimpair
-</td>
-<td style="text-align:left;">
-Reported as Unknown if Impaired
-</td>
-<td style="text-align:right;">
-516
+16904
 </td>
 </tr>
 </tbody>
@@ -638,35 +1454,24 @@ n
 <tbody>
 <tr>
 <td style="text-align:left;">
-drugactqty
-</td>
-<td style="text-align:left;">
--99
-</td>
-<td style="text-align:right;">
-1883
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 druguom
 </td>
 <td style="text-align:left;">
--9
+Not Applicable
 </td>
 <td style="text-align:right;">
-1883
+108993
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-order
+drugactqty
 </td>
 <td style="text-align:left;">
-1
+Not Applicable
 </td>
 <td style="text-align:right;">
-1789
+108992
 </td>
 </tr>
 <tr>
@@ -677,40 +1482,29 @@ multrace
 No
 </td>
 <td style="text-align:right;">
-1788
+91887
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-drugspec
+personrf
 </td>
 <td style="text-align:left;">
-Whole Blood
+None Noted
 </td>
 <td style="text-align:right;">
-1252
+91594
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-drugmethod
+race
 </td>
 <td style="text-align:left;">
-0
+Not a Fatality (not applicable)
 </td>
 <td style="text-align:right;">
-955
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-drugqty
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:right;">
-955
+51499
 </td>
 </tr>
 <tr>
@@ -721,18 +1515,29 @@ drugres
 Test Not Given
 </td>
 <td style="text-align:right;">
-955
+48991
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-drugspec
+drugmethod
 </td>
 <td style="text-align:left;">
 Test Not Given
 </td>
 <td style="text-align:right;">
-955
+48982
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:right;">
+48982
 </td>
 </tr>
 <tr>
@@ -740,17 +1545,29 @@ Test Not Given
 race
 </td>
 <td style="text-align:left;">
-Not a Fatality (not Applicable)
+White
 </td>
 <td style="text-align:right;">
-876
+26514
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+Actual Drug Quantity
+</td>
+<td style="text-align:right;">
+20190
 </td>
 </tr>
 </tbody>
 </table>
 
 The `events` tibble provides a sequence of numbered events for each
-vehicle in each crash. See the vignette for more information.
+vehicle in each crash. See the vignette(“Crash Sequence of Events”,
+package = “rfars”) for more information.
 
 ``` r
 head(myFARS$events, 10) %>% knitr::kable(format="html")
@@ -785,125 +1602,10 @@ year
 <tbody>
 <tr>
 <td style="text-align:left;">
-Virginia
+Alabama
 </td>
 <td style="text-align:left;">
-510001
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-12 Clock Point
-</td>
-<td style="text-align:left;">
-Pedestrian
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-2023
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Virginia
-</td>
-<td style="text-align:left;">
-510002
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1 Clock Point
-</td>
-<td style="text-align:left;">
-Motor Vehicle In-Transport
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-2023
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Virginia
-</td>
-<td style="text-align:left;">
-510002
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-12 Clock Point
-</td>
-<td style="text-align:left;">
-Motor Vehicle In-Transport
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-2023
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Virginia
-</td>
-<td style="text-align:left;">
-510002
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-Non-Collision
-</td>
-<td style="text-align:left;">
-Fire/Explosion
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-2023
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Virginia
-</td>
-<td style="text-align:left;">
-510003
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-3 Clock Point
-</td>
-<td style="text-align:left;">
-Motor Vehicle In-Transport
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-2023
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Virginia
-</td>
-<td style="text-align:left;">
-510003
+10001
 </td>
 <td style="text-align:left;">
 1
@@ -912,7 +1614,30 @@ Virginia
 Non-Harmful Event
 </td>
 <td style="text-align:left;">
-Ran Off Roadway - Left
+Ran Off Roadway - Right
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2023
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Alabama
+</td>
+<td style="text-align:left;">
+10001
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+Non-Harmful Event
+</td>
+<td style="text-align:left;">
+Re-entering Roadway
 </td>
 <td style="text-align:left;">
 2
@@ -923,19 +1648,19 @@ Ran Off Roadway - Left
 </tr>
 <tr>
 <td style="text-align:left;">
-Virginia
+Alabama
 </td>
 <td style="text-align:left;">
-510003
+10001
 </td>
 <td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
-12 Clock Point
+Non-Harmful Event
 </td>
 <td style="text-align:left;">
-Traffic Sign Support
+Cross Centerline
 </td>
 <td style="text-align:left;">
 3
@@ -946,19 +1671,111 @@ Traffic Sign Support
 </tr>
 <tr>
 <td style="text-align:left;">
-Virginia
+Alabama
 </td>
 <td style="text-align:left;">
-510003
+10001
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 <td style="text-align:left;">
-12 Clock Point
+Non-Harmful Event
 </td>
 <td style="text-align:left;">
-Motor Vehicle In-Transport
+Cross Centerline
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+2023
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Alabama
+</td>
+<td style="text-align:left;">
+10001
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+Non-Harmful Event
+</td>
+<td style="text-align:left;">
+Ran Off Roadway - Right
+</td>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+2023
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Alabama
+</td>
+<td style="text-align:left;">
+10001
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+Non-Collision
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+2023
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Alabama
+</td>
+<td style="text-align:left;">
+10001
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+10 Clock Point
+</td>
+<td style="text-align:left;">
+Embankment
+</td>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+2023
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Alabama
+</td>
+<td style="text-align:left;">
+10002
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+Non-Harmful Event
+</td>
+<td style="text-align:left;">
+Cross Centerline
 </td>
 <td style="text-align:left;">
 1
@@ -969,10 +1786,10 @@ Motor Vehicle In-Transport
 </tr>
 <tr>
 <td style="text-align:left;">
-Virginia
+Alabama
 </td>
 <td style="text-align:left;">
-510004
+10002
 </td>
 <td style="text-align:left;">
 1
@@ -984,7 +1801,7 @@ Non-Harmful Event
 Ran Off Roadway - Left
 </td>
 <td style="text-align:left;">
-1
+2
 </td>
 <td style="text-align:left;">
 2023
@@ -992,22 +1809,22 @@ Ran Off Roadway - Left
 </tr>
 <tr>
 <td style="text-align:left;">
-Virginia
+Alabama
 </td>
 <td style="text-align:left;">
-510004
+10002
 </td>
 <td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
-1 Clock Point
+12 Clock Point
 </td>
 <td style="text-align:left;">
-Guardrail Face
+Tree (Standing Only)
 </td>
 <td style="text-align:left;">
-2
+3
 </td>
 <td style="text-align:left;">
 2023
@@ -1018,11 +1835,19 @@ Guardrail Face
 
 The `codebook` tibble provides a searchable codebook for the data,
 useful if you know what concept you’re looking for but not the variable
-that describes it. The `rfars` package includes a codebook for FARS and
-GESCRSS (`rfars::fars_codebook` and `rfars::gescrss_codebook`). These
-tables span 2011-2022 whereas the `codebook` object returned from
+that describes it. `rfars` also includes pre-loaded codebooks for FARS
+and GESCRSS (`rfars::fars_codebook` and `rfars::gescrss_codebook`).
+These tables span 2014-2023 whereas the `codebook` object returned from
 `get_fars()` and `get_gescrss()` only include the specified `years`. See
-the vignette for more information.
+`vignette('Searchable Codebooks', package = 'rfars')` for more
+information.
+
+## Counts
+
+See `vignette("Counts", package = "rfars")` for information on the
+pre-loaded `annual_counts` dataframe and the `counts()` function. Also
+see `vignette("Alcohol Counts", package = "rfars")` for details on how
+BAC values are imputed and reported in *Traffic Safety Facts*.
 
 ## Helpful Links
 

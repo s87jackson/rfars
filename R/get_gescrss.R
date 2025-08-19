@@ -5,8 +5,8 @@
 #'
 #' @export
 #'
-#' @param years Years to be downloaded, in yyyy (character or numeric formats),
-#'     currently limited to 2011-2021.
+#' @param years Years to be downloaded, in yyyy (character or numeric formats,
+#'     defaults to last 10 years).
 #' @param regions (Optional) Regions to keep: mw=midwest, ne=northeast, s=south, w=west.
 #' @param dir Directory in which to search for or save a 'GESCRSS data' folder. If
 #'     NULL (the default), files are downloaded and unzipped to temporary
@@ -68,7 +68,7 @@
 #'     myGESCRSS <- get_gescrss(years = 2021, regions = "s")
 #'   }
 
-get_gescrss <- function(years     = 2011:2023,
+get_gescrss <- function(years     = 2014:2023,
                         regions   = c("mw", "ne", "s", "w"),
                         dir       = NULL,
                         proceed   = FALSE,
@@ -76,28 +76,47 @@ get_gescrss <- function(years     = 2011:2023,
                         ){
 
 
-  # Check for cached RDS file in dir
-    if(!is.null(cache)){
-      if(!is.null(dir)){
-        if(cache %in% list.files(dir)){
+  # Check years ----
+  ymax <- max(as.numeric(years), na.rm = TRUE)
+  ymin <- min(as.numeric(years), na.rm = TRUE)
+  if(ymin < 2014) stop("Data not available prior to 2014.")
+  if(ymax > 2023) stop("Data not available beyond 2023.")
 
-          message("Note: you specified years and a cache file. If the cache file exists, 'years' is ignored.")
-          return(readRDS( gsub("//", "/", paste0(dir, "/", cache))))
 
-        }
-      }
+  # Find years in dir ----
+  if(!is.null(dir)){
+    years_found <-
+      data.frame(x=list.files(dir, pattern = "_flat.rds", recursive = TRUE)) %>%
+      filter(grepl("GESCRSS", x)) %>%
+      mutate(x = stringr::word(x, -1, sep="/") %>% stringr::word(1, sep="_")) %>%
+      pluck("x")
+  }
+
+
+  # Check regions ----
+  if(any(!regions %in% c("mw", "ne", "s", "w"))) stop("Specify regions as: mw (midwest), ne (northeast), s (south), w (west).")
+
+
+  # Cached RDS file in dir ----
+  if(!is.null(cache) && !is.null(dir) && cache %in% list.files(dir)){
+
+    temp <- readRDS(gsub("//", "/", paste0(dir, "/", cache)))
+
+    if(all(years %in% years_found)){
+      temp$flat      <- dplyr::filter(temp$flat, year %in% years)
+      temp$multi_acc <- dplyr::filter(temp$multi_acc, year %in% years)
+      temp$multi_veh <- dplyr::filter(temp$multi_veh, year %in% years)
+      temp$multi_per <- dplyr::filter(temp$multi_per, year %in% years)
+      temp$events    <- dplyr::filter(temp$events, year %in% years)
+      temp$codebook  <- temp$codebook
+
+      return(temp)
+
+    } else{
+      message("Not all years requested exist in cache. Downloading data anew for given years.")
     }
 
-
-  # Check years ----
-    ymax <- max(as.numeric(years), na.rm = TRUE)
-    ymin <- min(as.numeric(years), na.rm = TRUE)
-    if(ymin < 2011) stop("Data not available prior to 2011.")
-    if(ymax > 2023) stop("Data not available beyond 2022.")
-
-
-  # Check regions
-    if(any(!regions %in% c("mw", "ne", "s", "w"))) stop("Specify regions as: mw (midwest), ne (northeast), s (south), w (west).")
+  }
 
 
   # Download data without saving or checking hard drive ----
@@ -137,8 +156,6 @@ get_gescrss <- function(years     = 2011:2023,
 
     if(!is.null(dir)){ #...in this folder
 
-      # dir = getwd()
-
       my_dir <-
         data.frame(path=list.dirs(dir)) %>%
         mutate(folder = stringr::word(.data$path, start = -1, end = -1, sep = "/")) %>%
@@ -170,11 +187,6 @@ get_gescrss <- function(years     = 2011:2023,
 
     if(nrow(my_dir)==1){ # Some data found ----
 
-       check_dir <- paste0(my_dir$path, "/prepd")
-
-       # Check years
-         files_found <- list.files(check_dir, pattern = "_flat.csv")
-         years_found <- stringr::word(files_found, sep = "_")
          years_needed  <- setdiff(years, years_found)
 
          if(length(years_needed) > 0){

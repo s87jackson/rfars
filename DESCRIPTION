@@ -1,7 +1,7 @@
 Package: rfars
 Type: Package
 Title: Download and Analyze Crash Data
-Version: 1.3.1
+Version: 2.0.0
 Authors@R: person("Steve", "Jackson", 
     email="steve.jackson@toxcel.com",
     role = c("aut", "cre"),
@@ -21,11 +21,9 @@ Imports:
     purrr,
     readr,
     rlang,
-    sas7bdat,
     stringr,
     tidyr,
-    tidyselect,
-    zoo
+    tidyselect
 RoxygenNote: 7.3.2
 Depends: 
     R (>= 3.5.0)
@@ -40,7 +38,8 @@ Suggests:
     viridis,
     lme4,
     tidyverse,
-    tidytext
+    tidytext,
+    DT
 VignetteBuilder: knitr
-URL: https://github.com/s87jackson/rfars, https://s87jackson.github.io/rfars
+URL: https://github.com/s87jackson/rfars, https://s87jackson.github.io/rfars/
 BugReports: https://github.com/s87jackson/rfars/issues

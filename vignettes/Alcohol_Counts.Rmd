@@ -1,0 +1,209 @@
+---
+title: "Alcohol Counts"
+output: rmarkdown::html_vignette
+fig.width: 8
+fig.height: 5
+vignette: >
+  %\VignetteIndexEntry{Alcohol Counts}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+## Alcohol Counts
+
+Counts involving alcohol are complicated due to a high rate of missing BAC
+values. FARS and GESCRSS include the variables `alc_res` (BAC values) and
+`dr_drink` (police-reported alcohol involvement). NHTSA also uses [multiple
+imputation](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/809403)
+(MI) to estimate missing BAC values in FARS records (*not* GES/CRSS records).
+[Traffic Safety
+Facts](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813713) uses
+MI to report the number of fatalities from crashes involving a driver with a BAC
+of .08 g/dL or higher. Using `alc_res` and `dr_drink` produce smaller counts
+than those produced via MI.
+
+`rfars::counts()` counts alcohol-involved crashes, fatalities and injuries using
+`alc_res` and `dr_drink`. However, the `flat` object returned by `get_fars()`
+includes the MI variables `a1`:`a10` from the ***Midrvacc*** file, and
+`p1`:`p10` from the ***Miper*** file. Below we explore the differences and show
+how to use the MI variables to replicate NHTSA's reporting. See Appendix E of
+the [FARS Analytical User's
+Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706) for
+more information on these files.
+
+```{r, message=F}
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(rfars)
+```
+
+Here we use `rfars::counts()` to count alcohol-involved crashes:
+
+```{r, results='asis'}
+myFARS <- get_fars(2023)
+
+counts(myFARS, involved = 'alcohol') %>% knitr::kable(format = "html")
+```
+
+And here we use `rfars::counts()` to count the number of alcohol-involved
+fatalities:
+
+```{r, results='asis'}
+counts(
+  df = myFARS, 
+  what = "fatalities",
+  involved = 'alcohol'
+) %>%
+  knitr::kable(format = "html")
+```
+
+The MI process produces 10 separate BAC estimates. The ***Miper*** file provides
+`p1`:`p10`, person level BAC estimates for each driver and non-occupant in the
+FARS Person data file. The ***Midrvacc*** file provides variables `a1`:`a10`,
+crash level BAC estimates derived from driver records in the ***Miper*** file.
+
+To replicate the estimated number of fatalities reported in Traffic Safety
+Facts, we implement the procedure below.
+
+**Step 1.** Start with the `flat` object and filter to fatalities. Then generate
+30 indicator variables, 10 `FPC_i`, 10 `SPC_i`, and 10 `TPC_i` variables. `i`
+corresponds to the 10 `a_i` and `p_i` variables. FPC indicates that BAC = 0.00,
+SPC that BAC is between 0.01 and 0.07, and TPC that BAC is \>= 0.08. So if `a_1`
+= 5 (representing a BAC of 0.05), then `FPC_1` = 0, `SPC_1` = 1, and `TPC_1` =
+0.
+
+```{r}
+temp <- myFARS$flat %>% 
+  select(year:per_no, age, sex, per_typ, inj_sev, alc_res, dr_drink, a1:a10) %>%
+  filter(inj_sev == "Fatal Injury (K)")
+
+for(i in 1:10) {
+  imputation_col <- paste0("a", i)
+  temp[[paste0("FPC", i)]] <- ifelse(temp[[imputation_col]] == 0, 1, 0)  # BAC = 0.00
+  temp[[paste0("SPC", i)]] <- ifelse(temp[[imputation_col]] >= 1 & temp[[imputation_col]] <= 7, 1, 0)  # BAC = 0.01-0.07
+  temp[[paste0("TPC", i)]] <- ifelse(temp[[imputation_col]] >= 8, 1, 0)  # BAC = 0.08+
+}
+```
+
+This produces the table below (transposed for easier viewing).
+
+```{r, results='asis'}
+temp %>% 
+  select(st_case, a1:a10, starts_with("FPC"), starts_with("SPC"), starts_with("TPC")) %>% 
+  slice(1:10) %>% 
+  t() %>%
+  knitr::kable(format = "html")
+```
+
+We can examine one crash to see the relation between the `a` and `FPC`, `SPS`,
+and `TPC` variables. The table below shows the 10 iterations for `a`, and the
+corresponding indicator variables.
+
+```{r, results='asis'}
+temp %>% 
+  slice(1) %>% 
+  select(st_case, a1:a10, starts_with("FPC"), starts_with("SPC"), starts_with("TPC")) %>%
+  pivot_longer(-1) %>%
+  mutate(
+    iter = gsub("\\D", "", name),
+    name = gsub("[^A-Za-z]", "", name)
+  ) %>%
+  pivot_wider() %>%
+  knitr::kable(format = "html")
+```
+
+**Step 2.** Sum the indicator variables in each iteration.
+
+```{r}
+case_results <- list()
+
+for(i in 1:10) {
+  fpc_col <- paste0("FPC", i)
+  spc_col <- paste0("SPC", i)
+  tpc_col <- paste0("TPC", i)
+  
+  case_results[[i]] <-
+    temp %>%
+    summarise(
+      TOTAL = n(),
+      !!paste0("FSBAC", i) := sum(!!sym(fpc_col), na.rm = TRUE),
+      !!paste0("SSBAC", i) := sum(!!sym(spc_col), na.rm = TRUE),
+      !!paste0("TSBAC", i) := sum(!!sym(tpc_col), na.rm = TRUE),
+      .groups = 'drop'
+    )
+}
+```
+
+This produces 10 estimates of the number of fatalities from crashes where BAC =
+0 (FSBAC), where BAC was between 0.01 and 0.07 (SSBAC), and where BAC \>= 0.08
+(TSBAC). The table below shows all of these estimates.
+
+```{r, results='asis'}
+bind_rows(
+  data.frame(case_results[[1]])  %>% select(TOTAL, FSBAC=2, SSBAC=3, TSBAC=4) %>% mutate(iter=1),
+  data.frame(case_results[[2]])  %>% select(TOTAL, FSBAC=2, SSBAC=3, TSBAC=4) %>% mutate(iter=2),
+  data.frame(case_results[[3]])  %>% select(TOTAL, FSBAC=2, SSBAC=3, TSBAC=4) %>% mutate(iter=3),
+  data.frame(case_results[[4]])  %>% select(TOTAL, FSBAC=2, SSBAC=3, TSBAC=4) %>% mutate(iter=4),
+  data.frame(case_results[[5]])  %>% select(TOTAL, FSBAC=2, SSBAC=3, TSBAC=4) %>% mutate(iter=5),
+  data.frame(case_results[[6]])  %>% select(TOTAL, FSBAC=2, SSBAC=3, TSBAC=4) %>% mutate(iter=6),
+  data.frame(case_results[[7]])  %>% select(TOTAL, FSBAC=2, SSBAC=3, TSBAC=4) %>% mutate(iter=7),
+  data.frame(case_results[[8]])  %>% select(TOTAL, FSBAC=2, SSBAC=3, TSBAC=4) %>% mutate(iter=8),
+  data.frame(case_results[[9]])  %>% select(TOTAL, FSBAC=2, SSBAC=3, TSBAC=4) %>% mutate(iter=9),
+  data.frame(case_results[[10]]) %>% select(TOTAL, FSBAC=2, SSBAC=3, TSBAC=4) %>% mutate(iter=10)
+  ) %>%
+  knitr::kable(format = "html")
+```
+
+**Step 3.** Take the average of each set of estimates.
+
+```{r}
+calc <- case_results[[1]]
+  for(i in 2:10) {
+    calc <- calc %>% bind_cols(case_results[[i]] %>% select(-TOTAL))
+  }
+
+calc <-
+  calc %>%
+  rowwise() %>%
+  mutate(
+    SBAC0 = round(mean(c_across(starts_with("FSBAC")), na.rm = TRUE)), # BAC 0.00
+    SBAC1 = round(mean(c_across(starts_with("SSBAC")), na.rm = TRUE)), # BAC 0.01-0.07
+    SBAC2 = round(mean(c_across(starts_with("TSBAC")), na.rm = TRUE))  # BAC 0.08+
+  ) %>%
+  ungroup()
+```
+
+This gives us our answer. The values below give the final estimates of the
+number of fatalities from crashes where BAC = 0 (SBAC0), where BAC was between
+0.01 and 0.07 (SBAC1), and where BAC \>= 0.08 (SBAC2). The value for SBAC2 is
+12,429, which matches *Traffic Safety Facts* for 2023.
+
+```{r, results='asis'}
+select(calc, SBAC0:SBAC2) %>% knitr::kable(format = "html")
+```
+
+**Shortcut.** We can do this more directly if we're only interested in the
+number of fatalities from crashes with alcohol-impaired drivers:
+
+```{r}
+x <-
+  myFARS$flat %>% 
+  select(year:per_no, age, sex, per_typ, inj_sev, alc_res, dr_drink, a1:a10) %>%
+  filter(inj_sev == "Fatal Injury (K)") %>%
+  mutate_at(paste0("a", 1:10), function(x) 1*(x>=8)) %>%
+  group_by(year) %>%
+  summarize_at(paste0("a", 1:10), sum, na.rm=T) %>%
+  rowwise() %>%
+  mutate(a = round(mean(c_across(a1:a10)))) 
+
+x$a
+```
+
+Please see [Transitioning to Multiple Imputation – A New Method to Impute
+Missing BAC values in
+FARS](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/809403) for
+more guidance on generating other counts using the MI data.

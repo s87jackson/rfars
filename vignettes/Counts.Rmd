@@ -17,37 +17,69 @@ editor_options:
 A first step in many transportation safety analyses involves counting the number
 of relevant crashes, fatalities, or people involved. `counts()` lets users
 specify *what* to count, *where* to count them (rural/urban and/or in specified
-states or regions), *who* to include, the *interval* over which to count 
-(annually or monthly), and factors *involved* in the crashes. It
-returns a simple tibble that can be easily piped into `ggplot()` to quickly
-visualize counts.
-
-### Generating Counts
+states or regions), *who* to include, the *interval* over which to count
+(annually or monthly), and factors *involved* in the crashes. It returns a
+simple tibble that can be easily piped into `ggplot()` to quickly visualize
+counts.
 
 First we load the required libraries:
 
 ```{r, message=F}
-library(rfars)
 library(dplyr)
 library(ggplot2)
 library(tidyr)
+library(rfars)
 ```
 
-Then pull a year of FARS data for Virginia:
+### annual_counts
+
+`rfars` includes `annual_counts`, a table of annual crash counts:
 
 ```{r}
-myFARS <- get_fars(years = 2021, states = "VA", proceed = T)
+rfars::annual_counts %>%
+  filter(what == "crashes", involved == "any") %>%
+  ggplot(aes(x=year, y=n)) +
+  geom_col() +
+  facet_wrap(.~source, nrow=1, scales = "free_y") +
+  labs(title = "Total annual crashes by type (FARS = fatal, CRSS = general)", x=NULL, y=NULL) +
+  theme_minimal()
+
+rfars::annual_counts %>%
+  filter(source=="FARS", involved != "any") %>%
+  ggplot(aes(x=year, y=n)) +
+  geom_col() +
+  facet_wrap(.~involved, scales = "free_y") +
+  labs(title = "Annual fatal crashes by factor involved", subtitle = "Derived from FARS data files", x=NULL, y=NULL) +
+  theme_minimal() +
+  theme(plot.title.position = "plot")
+
+rfars::annual_counts %>%
+  filter(source=="CRSS", involved != "any") %>%
+  ggplot(aes(x=year, y=n)) +
+  geom_col() +
+  facet_wrap(.~involved, scales = "free_y") +
+  labs(title = "Annual crashes of all severity levels by factor involved", subtitle = "Derived from CRSS data files", x=NULL, y=NULL) +
+  theme_minimal() +
+  theme(plot.title.position = "plot")
 ```
 
-Then we can use `counts()` to reduce the data to desired counts.
+### Generating Custom Counts
 
-Here we count crashes:
+We can use get_fars() and then counts() to generate a variety of custom counts.
+Below we pull two years of data:
+
+```{r, message=FALSE}
+myFARS <- get_fars(years = c(2022, 2023), proceed = T)
+```
+
+Then we can use `counts()` to get the monthly number of crashes in Virginia:
 
 ```{r, results='asis'}
 my_counts <- counts(
-  myFARS,
+  df = myFARS,
+  where = list(states = "VA"),
   what = "crashes",
-  interval = c("month")
+  interval = c("year", "month")
   )
 ```
 
@@ -61,76 +93,97 @@ Which we can graph:
 
 ```{r}
 my_counts %>%
-  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
-    geom_col() + 
-    geom_label(vjust=1.2) +
-    labs(x=NULL, y=NULL, title = "Fatal Crashes in Virginia")
+  mutate_at("year", factor) %>%
+  ggplot(aes(x=month, y=n, group=year, color=year, label=scales::comma(n))) +
+  geom_line(linewidth = 1.5) + 
+  labs(x=NULL, y=NULL, title = "Fatal Crashes in Virginia") +
+  theme_minimal() +
+  theme(plot.title.position = "plot")
 ```
 
-We could alternatively count fatalities:
+or
 
 ```{r}
+my_counts %>%
+  mutate(date = lubridate::make_date(year, month)) %>%
+  ggplot(aes(x=date, y=n, label=scales::comma(n))) +
+  geom_col() + 
+  labs(x=NULL, y=NULL, title = "Fatal Crashes in Virginia")  +
+  theme(plot.title.position = "plot")
+```
+
+We could alternatively count annual fatalities:
+
+```{r, results='asis'}
 counts(
   myFARS,
+  where = list(states = "VA"),
   what = "fatalities",
-  interval = c("month")
+  interval = c("year")
   ) %>%
-  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
-    geom_col() + 
-    geom_label(vjust=1.2) +
-    labs(x=NULL, y=NULL, title = "Fatalities in Virginia")
+  knitr::kable(format = "html")
 ```
 
 Or fatalities involving speeding:
 
-```{r}
-counts(myFARS,
-       what = "fatalities",
-       interval = c("month"),
-       involved = "speeding"
-       ) %>%
-  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
-    geom_col() + 
-    geom_label(vjust=1.2) +
-    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Virginia")
+```{r, results='asis'}
+counts(
+  df = myFARS,
+  where = list(states = "VA"),
+  what = "fatalities",
+  interval = c("year"),
+  involved = "speeding"
+) %>%
+  knitr::kable(format = "html")
 ```
 
 Or fatalities involving speeding in rural areas:
 
-```{r}
-counts(myFARS,
-       what = "fatalities",
-       where = list(urb="rural"),
-       interval = c("month"),
-       involved = "speeding"
-       ) %>%
-  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
-    geom_col() + 
-    geom_label(vjust=1.2) +
-    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Rural Virginia")
+```{r, results='asis'}
+counts(
+  myFARS,
+  where = list(states = "VA", urb="rural"),
+  what = "fatalities",
+  interval = c("year"),
+  involved = "speeding"
+) %>%
+  knitr::kable(format = "html")
 ```
 
+Or we can use involved = 'each' to see all of the problems in one state:
+
+```{r, results='asis'}
+counts(
+  df = myFARS,
+  where = list(states = "VA"),
+  what = "crashes",
+  interval = "year",
+  involved = "each"
+) %>%
+  pivot_wider(names_from = "year", values_from = "n") %>%
+  arrange(desc(`2023`)) %>%
+  knitr::kable(format = "html")
+```
 
 ### Comparing Counts
 
-We can use `compare_counts()` to quickly produce comparison graphs.
-
-Here we compare speeding-related fatalities in rural and urban areas:
+We can use `compare_counts()` to quickly produce comparison graphs. Below we
+compare speeding-related fatalities in rural and urban areas:
 
 ```{r}
 compare_counts(
   df = myFARS,
-  interval = "month",
+  interval = "year",
   involved = "speeding",
   what = "fatalities",
-  where = list(urb="rural"),
-  where2 = list(urb="urban")
+  where = list(states = "VA", urb="rural"),
+  where2 = list(states = "VA", urb="urban")
   ) %>%
-  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
+  ggplot(aes(x=factor(year), y=n, label=scales::comma(n))) + 
     geom_col() + 
     geom_label(vjust=1.2) +
     facet_wrap(.~urb) +
-    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Virginia", fill=NULL)
+    labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Virginia", fill=NULL) 
 ```
 
 And here we compare speeding-related crashes to those related to distraction:
@@ -138,78 +191,15 @@ And here we compare speeding-related crashes to those related to distraction:
 ```{r}
 compare_counts(
   df = myFARS,
-  interval = "month",
+  where = list(states = "VA"),
+  interval = "year",
   involved = "speeding",
   involved2 = "distracted driver",
   what = "crashes",
   ) %>%
-  ggplot(aes(x=date, y=n, label=scales::comma(n))) + 
+  ggplot(aes(x=factor(year), y=n, label=scales::comma(n))) + 
     geom_col() + 
     geom_label(vjust=1.2) +
     facet_wrap(.~involved) +
     labs(x=NULL, y=NULL, title = "Speeding- and Distraction-Related Crashes in Virginia", fill=NULL)
-```
-
-### annual_counts data table
-
-*rfars* includes **annual_counts**, a table of annual crash counts and 
-related metrics:
-
-```{r, fig.height=5, fig.width=12.5, dpi=800}
-rfars::annual_counts %>%
-  filter(involved != "general") %>%
-  replace_na(list(type="")) %>%
-  unite(type, what, col="what2", sep = " ", remove = T) %>%
-  mutate_at(c("involved", "what2"), stringr::str_to_sentence) %>%
-
-  ggplot(aes(x=year, y=n)) +
-  geom_line() +
-  facet_grid(what2~involved, scales="free_y", labeller = label_wrap_gen(width = 10)) +
-  scale_y_continuous(label=scales::comma, expand = expansion()) +
-  scale_x_continuous(labels = seq(2014, 2023, 2), breaks = seq(2014, 2023, 2), expand = expansion()) +
-  labs(x=NULL, y=NULL, title = "Crash Types Over Time") +
-  theme(
-    strip.text.y.right = element_text(angle=0),
-    axis.ticks = element_blank(),
-    axis.text.x.bottom = element_text(angle=45, hjust=1, size=8)
-    )
-```
-
-
-```{r}
-rfars::annual_counts %>%
-  filter(involved == "general") %>%
-  replace_na(list(type="")) %>%
-  unite(type, what, col="what2", sep = " ", remove = T) %>%
-  mutate_at(c("involved", "what2"), stringr::str_to_sentence) %>%
-
-  ggplot(aes(x=year, y=n)) +
-  geom_line() +
-  facet_grid(what2~., scales="free_y", labeller = label_wrap_gen(width = 10)) +
-  scale_y_continuous(label=scales::comma, expand = expansion()) +
-  scale_x_continuous(labels = seq(2014, 2023, 2), breaks = seq(2014, 2023, 2), expand = expansion()) +
-  labs(x=NULL, y=NULL, title = "Crash Types Over Time") +
-  theme(
-    strip.text.y.right = element_text(angle=0),
-    axis.ticks = element_blank()
-  )
-
-
-rfars::annual_counts %>%
-  filter(involved %in% c("pedalcyclist", "bicyclist", "pedestrian", "pedbike")) %>%
-  replace_na(list(type="")) %>%
-  unite(type, what, col="what2", sep = " ", remove = T) %>%
-  mutate_at(c("involved", "what2"), stringr::str_to_sentence) %>%
-
-  ggplot(aes(x=year, y=n)) +
-  geom_line() +
-  facet_grid(what2~involved, scales="free_y", labeller = label_wrap_gen(width = 10)) +
-  scale_y_continuous(label=scales::comma, expand = expansion()) +
-  scale_x_continuous(labels = seq(2014, 2023, 2), breaks = seq(2014, 2023, 2), expand = expansion()) +
-  labs(x=NULL, y=NULL, title = "Crash Types Over Time") +
-  theme(
-    strip.text.y.right = element_text(angle=0),
-    axis.ticks = element_blank(),
-    axis.text.x.bottom = element_text(angle=45, hjust=1, size=8)
-  )
 ```

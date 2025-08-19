@@ -41,6 +41,7 @@ download_gescrss <- function(years,
 
       cat(paste0("\u2713 ", y, " data downloaded\n"))
 
+      # Unzip and remove zipfiles
       utils::unzip(dest_zip, exdir = dest_raw_y, overwrite = TRUE)
       unlink(dest_zip)
 
@@ -105,8 +106,9 @@ download_gescrss <- function(years,
 
     # Compile the codebook
       full_codebook <-
-        dir(dest_raw, pattern = "codebook.rds", recursive=TRUE, full.names=TRUE) %>%
-        map_dfr(readRDS) %>%
+        dir(dest_raw, pattern = "codebook.rds", recursive = TRUE, full.names = TRUE) %>%
+        map(readRDS) %>%
+        reduce(full_join, by = c("source", "file", "name_ncsa", "name_rfars", "label", "value", "value_label")) %>%
         distinct()
 
       saveRDS(full_codebook, paste0(dest_prepd, "codebook.rds"))

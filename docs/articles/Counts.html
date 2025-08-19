@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Counts">
 </head>
 <body>
@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rfars</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/Counts.html">Counts</a></li>
+<li><a class="dropdown-item" href="../articles/Alcohol_Counts.html">Alcohol Counts</a></li>
+    <li><a class="dropdown-item" href="../articles/Counts.html">Counts</a></li>
     <li><a class="dropdown-item" href="../articles/Crash_sequence_of_events.html">Crash Sequence of Events</a></li>
     <li><a class="dropdown-item" href="../articles/Searchable_Codebooks.html">Searchable Codebooks</a></li>
   </ul>
@@ -83,58 +84,199 @@ regions), <em>who</em> to include, the <em>interval</em> over which to
 count (annually or monthly), and factors <em>involved</em> in the
 crashes. It returns a simple tibble that can be easily piped into
 <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot()</a></code> to quickly visualize counts.</p>
-<div class="section level3">
-<h3 id="generating-counts">Generating Counts<a class="anchor" aria-label="anchor" href="#generating-counts"></a>
-</h3>
 <p>First we load the required libraries:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/s87jackson/rfars" class="external-link">rfars</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></code></pre></div>
-<p>Then pull a year of FARS data for Virginia:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_fars.html">get_fars</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2021</span>, states <span class="op">=</span> <span class="st">"VA"</span>, proceed <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## ✓ 2021 data downloaded</span></span>
-<span><span class="co">## Preparing raw data files...</span></span>
-<span><span class="co">## ✓ Accident file processed</span></span>
-<span><span class="co">## ✓ Vehicle file processed</span></span>
-<span><span class="co">## ✓ Person file processed</span></span>
-<span><span class="co">## ✓ Weather file(s) processed</span></span>
-<span><span class="co">## ✓ Crash risk factors file processed</span></span>
-<span><span class="co">## ✓ Vehicle-level files processed</span></span>
-<span><span class="co">## ✓ PBtype file processed</span></span>
-<span><span class="co">## ✓ SafetyEq file processed</span></span>
-<span><span class="co">## ✓ Person-level files processed</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: package 'ggplot2' was built under R version 4.4.3</span></span></code></pre>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/s87jackson/rfars" class="external-link">rfars</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="annual_counts">annual_counts<a class="anchor" aria-label="anchor" href="#annual_counts"></a>
+</h3>
+<p><code>rfars</code> includes <code>annual_counts</code>, a table of
+annual crash counts:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">rfars</span><span class="fu">::</span><span class="va"><a href="../reference/annual_counts.html">annual_counts</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">what</span> <span class="op">==</span> <span class="st">"crashes"</span>, <span class="va">involved</span> <span class="op">==</span> <span class="st">"any"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">year</span>, y<span class="op">=</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="va">.</span><span class="op">~</span><span class="va">source</span>, nrow<span class="op">=</span><span class="fl">1</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Total annual crashes by type (FARS = fatal, CRSS = general)"</span>, x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Counts_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">rfars</span><span class="fu">::</span><span class="va"><a href="../reference/annual_counts.html">annual_counts</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">source</span><span class="op">==</span><span class="st">"FARS"</span>, <span class="va">involved</span> <span class="op">!=</span> <span class="st">"any"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">year</span>, y<span class="op">=</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="va">.</span><span class="op">~</span><span class="va">involved</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Annual fatal crashes by factor involved"</span>, subtitle <span class="op">=</span> <span class="st">"Derived from FARS data files"</span>, x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title.position <span class="op">=</span> <span class="st">"plot"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Counts_files/figure-html/unnamed-chunk-2-2.png" width="700"></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">rfars</span><span class="fu">::</span><span class="va"><a href="../reference/annual_counts.html">annual_counts</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">source</span><span class="op">==</span><span class="st">"CRSS"</span>, <span class="va">involved</span> <span class="op">!=</span> <span class="st">"any"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">year</span>, y<span class="op">=</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="va">.</span><span class="op">~</span><span class="va">involved</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Annual crashes of all severity levels by factor involved"</span>, subtitle <span class="op">=</span> <span class="st">"Derived from CRSS data files"</span>, x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title.position <span class="op">=</span> <span class="st">"plot"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Counts_files/figure-html/unnamed-chunk-2-3.png" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="generating-custom-counts">Generating Custom Counts<a class="anchor" aria-label="anchor" href="#generating-custom-counts"></a>
+</h3>
+<p>We can use get_fars() and then counts() to generate a variety of
+custom counts. Below we pull two years of data:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_fars.html">get_fars</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2022</span>, <span class="fl">2023</span><span class="op">)</span>, proceed <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## ✓ 2022 data downloaded</span></span>
+<span><span class="co">## Accident file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |==                                                                    |   2%  |                                                                              |===                                                                   |   4%  |                                                                              |=====                                                                 |   7%  |                                                                              |======                                                                |   9%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  13%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  18%  |                                                                              |==============                                                        |  20%  |                                                                              |================                                                      |  22%  |                                                                              |=================                                                     |  24%  |                                                                              |===================                                                   |  27%  |                                                                              |====================                                                  |  29%  |                                                                              |======================                                                |  31%  |                                                                              |=======================                                               |  33%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  38%  |                                                                              |============================                                          |  40%  |                                                                              |==============================                                        |  42%  |                                                                              |===============================                                       |  44%  |                                                                              |=================================                                     |  47%  |                                                                              |==================================                                    |  49%  |                                                                              |====================================                                  |  51%  |                                                                              |=====================================                                 |  53%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  58%  |                                                                              |==========================================                            |  60%  |                                                                              |============================================                          |  62%  |                                                                              |=============================================                         |  64%  |                                                                              |===============================================                       |  67%  |                                                                              |================================================                      |  69%  |                                                                              |==================================================                    |  71%  |                                                                              |===================================================                   |  73%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  78%  |                                                                              |========================================================              |  80%  |                                                                              |==========================================================            |  82%  |                                                                              |===========================================================           |  84%  |                                                                              |=============================================================         |  87%  |                                                                              |==============================================================        |  89%  |                                                                              |================================================================      |  91%  |                                                                              |=================================================================     |  93%  |                                                                              |===================================================================   |  96%  |                                                                              |====================================================================  |  98%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## Vehicle file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |=                                                                     |   1%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |===                                                                   |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  12%  |                                                                              |==========                                                            |  14%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  17%  |                                                                              |=============                                                         |  18%  |                                                                              |==============                                                        |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |===============                                                       |  22%  |                                                                              |================                                                      |  23%  |                                                                              |=================                                                     |  24%  |                                                                              |==================                                                    |  25%  |                                                                              |==================                                                    |  26%  |                                                                              |===================                                                   |  27%  |                                                                              |====================                                                  |  28%  |                                                                              |=====================                                                 |  30%  |                                                                              |=====================                                                 |  31%  |                                                                              |======================                                                |  32%  |                                                                              |=======================                                               |  33%  |                                                                              |========================                                              |  34%  |                                                                              |=========================                                             |  35%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  38%  |                                                                              |===========================                                           |  39%  |                                                                              |============================                                          |  40%  |                                                                              |=============================                                         |  41%  |                                                                              |=============================                                         |  42%  |                                                                              |==============================                                        |  43%  |                                                                              |===============================                                       |  44%  |                                                                              |================================                                      |  45%  |                                                                              |=================================                                     |  47%  |                                                                              |=================================                                     |  48%  |                                                                              |==================================                                    |  49%  |                                                                              |===================================                                   |  50%  |                                                                              |====================================                                  |  51%  |                                                                              |=====================================                                 |  52%  |                                                                              |=====================================                                 |  53%  |                                                                              |======================================                                |  55%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  57%  |                                                                              |=========================================                             |  58%  |                                                                              |=========================================                             |  59%  |                                                                              |==========================================                            |  60%  |                                                                              |===========================================                           |  61%  |                                                                              |============================================                          |  62%  |                                                                              |=============================================                         |  64%  |                                                                              |=============================================                         |  65%  |                                                                              |==============================================                        |  66%  |                                                                              |===============================================                       |  67%  |                                                                              |================================================                      |  68%  |                                                                              |=================================================                     |  69%  |                                                                              |=================================================                     |  70%  |                                                                              |==================================================                    |  72%  |                                                                              |===================================================                   |  73%  |                                                                              |====================================================                  |  74%  |                                                                              |====================================================                  |  75%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  77%  |                                                                              |=======================================================               |  78%  |                                                                              |========================================================              |  80%  |                                                                              |========================================================              |  81%  |                                                                              |=========================================================             |  82%  |                                                                              |==========================================================            |  83%  |                                                                              |===========================================================           |  84%  |                                                                              |============================================================          |  85%  |                                                                              |============================================================          |  86%  |                                                                              |=============================================================         |  88%  |                                                                              |==============================================================        |  89%  |                                                                              |===============================================================       |  90%  |                                                                              |================================================================      |  91%  |                                                                              |================================================================      |  92%  |                                                                              |=================================================================     |  93%  |                                                                              |==================================================================    |  94%  |                                                                              |===================================================================   |  95%  |                                                                              |====================================================================  |  97%  |                                                                              |====================================================================  |  98%  |                                                                              |===================================================================== |  99%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## Person file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |==                                                                    |   3%  |                                                                              |====                                                                  |   5%  |                                                                              |======                                                                |   8%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  14%  |                                                                              |===========                                                           |  16%  |                                                                              |=============                                                         |  19%  |                                                                              |===============                                                       |  22%  |                                                                              |=================                                                     |  24%  |                                                                              |===================                                                   |  27%  |                                                                              |=====================                                                 |  30%  |                                                                              |=======================                                               |  32%  |                                                                              |=========================                                             |  35%  |                                                                              |==========================                                            |  38%  |                                                                              |============================                                          |  41%  |                                                                              |==============================                                        |  43%  |                                                                              |================================                                      |  46%  |                                                                              |==================================                                    |  49%  |                                                                              |====================================                                  |  51%  |                                                                              |======================================                                |  54%  |                                                                              |========================================                              |  57%  |                                                                              |==========================================                            |  59%  |                                                                              |============================================                          |  62%  |                                                                              |=============================================                         |  65%  |                                                                              |===============================================                       |  68%  |                                                                              |=================================================                     |  70%  |                                                                              |===================================================                   |  73%  |                                                                              |=====================================================                 |  76%  |                                                                              |=======================================================               |  78%  |                                                                              |=========================================================             |  81%  |                                                                              |===========================================================           |  84%  |                                                                              |=============================================================         |  86%  |                                                                              |==============================================================        |  89%  |                                                                              |================================================================      |  92%  |                                                                              |==================================================================    |  95%  |                                                                              |====================================================================  |  97%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## Multiple Imputation Driver BAC by Crash file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |========                                                              |  11%  |                                                                              |================                                                      |  22%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================                                       |  44%  |                                                                              |=======================================                               |  56%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================                |  78%  |                                                                              |==============================================================        |  89%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## Weather file(s):</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## Crash risk factors:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## vsoe file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |==================                                                    |  25%  |                                                                              |===================================                                   |  50%  |                                                                              |====================================================                  |  75%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## distract file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## drimpair file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## factor file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## maneuver file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## violatn file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## vision file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## damage file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## vehiclesf file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## pvehiclesf file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## driverrf file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## PBtype file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===                                                                   |   5%  |                                                                              |======                                                                |   9%  |                                                                              |==========                                                            |  14%  |                                                                              |=============                                                         |  18%  |                                                                              |================                                                      |  23%  |                                                                              |===================                                                   |  27%  |                                                                              |======================                                                |  32%  |                                                                              |=========================                                             |  36%  |                                                                              |=============================                                         |  41%  |                                                                              |================================                                      |  45%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================                                |  55%  |                                                                              |=========================================                             |  59%  |                                                                              |=============================================                         |  64%  |                                                                              |================================================                      |  68%  |                                                                              |===================================================                   |  73%  |                                                                              |======================================================                |  77%  |                                                                              |=========================================================             |  82%  |                                                                              |============================================================          |  86%  |                                                                              |================================================================      |  91%  |                                                                              |===================================================================   |  95%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## SafetyEq file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |=========                                                             |  12%  |                                                                              |==================                                                    |  25%  |                                                                              |==========================                                            |  38%  |                                                                              |===================================                                   |  50%  |                                                                              |============================================                          |  62%  |                                                                              |====================================================                  |  75%  |                                                                              |=============================================================         |  88%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## Multiple Imputation Person BAC file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |======                                                                |   9%  |                                                                              |=============                                                         |  18%  |                                                                              |===================                                                   |  27%  |                                                                              |=========================                                             |  36%  |                                                                              |================================                                      |  45%  |                                                                              |======================================                                |  55%  |                                                                              |=============================================                         |  64%  |                                                                              |===================================================                   |  73%  |                                                                              |=========================================================             |  82%  |                                                                              |================================================================      |  91%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## nmcrash file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## nmimpair file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## nmprior file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## nmdistract file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## drugs file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |==================                                                    |  25%  |                                                                              |===================================                                   |  50%  |                                                                              |====================================================                  |  75%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## race file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |==============                                                        |  20%  |                                                                              |============================                                          |  40%  |                                                                              |==========================================                            |  60%  |                                                                              |========================================================              |  80%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## personrf file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">## ✓ Flat file constructed</span></span>
 <span><span class="co">## ✓ Multi_acc file constructed</span></span>
 <span><span class="co">## ✓ Multi_veh file constructed</span></span>
 <span><span class="co">## ✓ Multi_per file constructed</span></span>
 <span><span class="co">## ✓ SOE file constructed</span></span>
-<span><span class="co">## ✓ Prepared files saved in C:/Users/STEVEJ~1/AppData/Local/Temp/RtmpGmtyS1/FARS data/prepd/2021</span></span>
-<span><span class="co">## ✓ Codebook file saved in C:/Users/STEVEJ~1/AppData/Local/Temp/RtmpGmtyS1/FARS data/prepd/</span></span></code></pre>
-<p>Then we can use <code><a href="../reference/counts.html">counts()</a></code> to reduce the data to desired
-counts.</p>
-<p>Here we count crashes:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<span><span class="co">## ✓ Prepared files saved in C:/Users/STEVEJ~1/AppData/Local/Temp/RtmpC8MgaG/FARS data/prepd/2022</span></span>
+<span><span class="co">## ✓ Codebook file saved in C:/Users/STEVEJ~1/AppData/Local/Temp/RtmpC8MgaG/FARS data/prepd/</span></span>
+<span><span class="co">## ✓ 2023 data downloaded</span></span>
+<span><span class="co">## Accident file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |==                                                                    |   2%  |                                                                              |===                                                                   |   4%  |                                                                              |=====                                                                 |   7%  |                                                                              |======                                                                |   9%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  13%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  18%  |                                                                              |==============                                                        |  20%  |                                                                              |================                                                      |  22%  |                                                                              |=================                                                     |  24%  |                                                                              |===================                                                   |  27%  |                                                                              |====================                                                  |  29%  |                                                                              |======================                                                |  31%  |                                                                              |=======================                                               |  33%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  38%  |                                                                              |============================                                          |  40%  |                                                                              |==============================                                        |  42%  |                                                                              |===============================                                       |  44%  |                                                                              |=================================                                     |  47%  |                                                                              |==================================                                    |  49%  |                                                                              |====================================                                  |  51%  |                                                                              |=====================================                                 |  53%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  58%  |                                                                              |==========================================                            |  60%  |                                                                              |============================================                          |  62%  |                                                                              |=============================================                         |  64%  |                                                                              |===============================================                       |  67%  |                                                                              |================================================                      |  69%  |                                                                              |==================================================                    |  71%  |                                                                              |===================================================                   |  73%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  78%  |                                                                              |========================================================              |  80%  |                                                                              |==========================================================            |  82%  |                                                                              |===========================================================           |  84%  |                                                                              |=============================================================         |  87%  |                                                                              |==============================================================        |  89%  |                                                                              |================================================================      |  91%  |                                                                              |=================================================================     |  93%  |                                                                              |===================================================================   |  96%  |                                                                              |====================================================================  |  98%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## Vehicle file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |=                                                                     |   1%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |===                                                                   |   4%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  17%  |                                                                              |=============                                                         |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |===============                                                       |  21%  |                                                                              |================                                                      |  22%  |                                                                              |=================                                                     |  24%  |                                                                              |=================                                                     |  25%  |                                                                              |==================                                                    |  26%  |                                                                              |===================                                                   |  27%  |                                                                              |====================                                                  |  28%  |                                                                              |====================                                                  |  29%  |                                                                              |=====================                                                 |  30%  |                                                                              |======================                                                |  31%  |                                                                              |=======================                                               |  33%  |                                                                              |========================                                              |  34%  |                                                                              |========================                                              |  35%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  37%  |                                                                              |===========================                                           |  38%  |                                                                              |============================                                          |  39%  |                                                                              |============================                                          |  40%  |                                                                              |=============================                                         |  42%  |                                                                              |==============================                                        |  43%  |                                                                              |===============================                                       |  44%  |                                                                              |===============================                                       |  45%  |                                                                              |================================                                      |  46%  |                                                                              |=================================                                     |  47%  |                                                                              |==================================                                    |  48%  |                                                                              |===================================                                   |  49%  |                                                                              |===================================                                   |  51%  |                                                                              |====================================                                  |  52%  |                                                                              |=====================================                                 |  53%  |                                                                              |======================================                                |  54%  |                                                                              |=======================================                               |  55%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  57%  |                                                                              |=========================================                             |  58%  |                                                                              |==========================================                            |  60%  |                                                                              |==========================================                            |  61%  |                                                                              |===========================================                           |  62%  |                                                                              |============================================                          |  63%  |                                                                              |=============================================                         |  64%  |                                                                              |==============================================                        |  65%  |                                                                              |==============================================                        |  66%  |                                                                              |===============================================                       |  67%  |                                                                              |================================================                      |  69%  |                                                                              |=================================================                     |  70%  |                                                                              |==================================================                    |  71%  |                                                                              |==================================================                    |  72%  |                                                                              |===================================================                   |  73%  |                                                                              |====================================================                  |  74%  |                                                                              |=====================================================                 |  75%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  78%  |                                                                              |=======================================================               |  79%  |                                                                              |========================================================              |  80%  |                                                                              |=========================================================             |  81%  |                                                                              |=========================================================             |  82%  |                                                                              |==========================================================            |  83%  |                                                                              |===========================================================           |  84%  |                                                                              |============================================================          |  85%  |                                                                              |=============================================================         |  87%  |                                                                              |=============================================================         |  88%  |                                                                              |==============================================================        |  89%  |                                                                              |===============================================================       |  90%  |                                                                              |================================================================      |  91%  |                                                                              |================================================================      |  92%  |                                                                              |=================================================================     |  93%  |                                                                              |==================================================================    |  94%  |                                                                              |===================================================================   |  96%  |                                                                              |====================================================================  |  97%  |                                                                              |====================================================================  |  98%  |                                                                              |===================================================================== |  99%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## Person file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |==                                                                    |   3%  |                                                                              |====                                                                  |   5%  |                                                                              |======                                                                |   8%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  14%  |                                                                              |===========                                                           |  16%  |                                                                              |=============                                                         |  19%  |                                                                              |===============                                                       |  22%  |                                                                              |=================                                                     |  24%  |                                                                              |===================                                                   |  27%  |                                                                              |=====================                                                 |  30%  |                                                                              |=======================                                               |  32%  |                                                                              |=========================                                             |  35%  |                                                                              |==========================                                            |  38%  |                                                                              |============================                                          |  41%  |                                                                              |==============================                                        |  43%  |                                                                              |================================                                      |  46%  |                                                                              |==================================                                    |  49%  |                                                                              |====================================                                  |  51%  |                                                                              |======================================                                |  54%  |                                                                              |========================================                              |  57%  |                                                                              |==========================================                            |  59%  |                                                                              |============================================                          |  62%  |                                                                              |=============================================                         |  65%  |                                                                              |===============================================                       |  68%  |                                                                              |=================================================                     |  70%  |                                                                              |===================================================                   |  73%  |                                                                              |=====================================================                 |  76%  |                                                                              |=======================================================               |  78%  |                                                                              |=========================================================             |  81%  |                                                                              |===========================================================           |  84%  |                                                                              |=============================================================         |  86%  |                                                                              |==============================================================        |  89%  |                                                                              |================================================================      |  92%  |                                                                              |==================================================================    |  95%  |                                                                              |====================================================================  |  97%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## Multiple Imputation Driver BAC by Crash file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |========                                                              |  11%  |                                                                              |================                                                      |  22%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================                                       |  44%  |                                                                              |=======================================                               |  56%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================                |  78%  |                                                                              |==============================================================        |  89%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## Weather file(s):</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## Crash risk factors:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## vsoe file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |==================                                                    |  25%  |                                                                              |===================================                                   |  50%  |                                                                              |====================================================                  |  75%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## distract file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## drimpair file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## factor file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## maneuver file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## violatn file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## vision file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## damage file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## vehiclesf file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## pvehiclesf file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## driverrf file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## PBtype file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |===                                                                   |   5%  |                                                                              |======                                                                |   9%  |                                                                              |==========                                                            |  14%  |                                                                              |=============                                                         |  18%  |                                                                              |================                                                      |  23%  |                                                                              |===================                                                   |  27%  |                                                                              |======================                                                |  32%  |                                                                              |=========================                                             |  36%  |                                                                              |=============================                                         |  41%  |                                                                              |================================                                      |  45%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================                                |  55%  |                                                                              |=========================================                             |  59%  |                                                                              |=============================================                         |  64%  |                                                                              |================================================                      |  68%  |                                                                              |===================================================                   |  73%  |                                                                              |======================================================                |  77%  |                                                                              |=========================================================             |  82%  |                                                                              |============================================================          |  86%  |                                                                              |================================================================      |  91%  |                                                                              |===================================================================   |  95%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## SafetyEq file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |=========                                                             |  12%  |                                                                              |==================                                                    |  25%  |                                                                              |==========================                                            |  38%  |                                                                              |===================================                                   |  50%  |                                                                              |============================================                          |  62%  |                                                                              |====================================================                  |  75%  |                                                                              |=============================================================         |  88%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## Multiple Imputation Person BAC file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |======                                                                |   9%  |                                                                              |=============                                                         |  18%  |                                                                              |===================                                                   |  27%  |                                                                              |=========================                                             |  36%  |                                                                              |================================                                      |  45%  |                                                                              |======================================                                |  55%  |                                                                              |=============================================                         |  64%  |                                                                              |===================================================                   |  73%  |                                                                              |=========================================================             |  82%  |                                                                              |================================================================      |  91%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## nmcrash file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## nmimpair file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## nmprior file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## nmdistract file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## drugs file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |=========                                                             |  12%  |                                                                              |==================                                                    |  25%  |                                                                              |==========================                                            |  38%  |                                                                              |===================================                                   |  50%  |                                                                              |============================================                          |  62%  |                                                                              |====================================================                  |  75%  |                                                                              |=============================================================         |  88%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## race file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |==============                                                        |  20%  |                                                                              |============================                                          |  40%  |                                                                              |==========================================                            |  60%  |                                                                              |========================================================              |  80%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## personrf file:</span></span>
+<span><span class="co">##   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">## ✓ Flat file constructed</span></span>
+<span><span class="co">## ✓ Multi_acc file constructed</span></span>
+<span><span class="co">## ✓ Multi_veh file constructed</span></span>
+<span><span class="co">## ✓ Multi_per file constructed</span></span>
+<span><span class="co">## ✓ SOE file constructed</span></span>
+<span><span class="co">## ✓ Prepared files saved in C:/Users/STEVEJ~1/AppData/Local/Temp/RtmpC8MgaG/FARS data/prepd/2023</span></span>
+<span><span class="co">## ✓ Codebook file saved in C:/Users/STEVEJ~1/AppData/Local/Temp/RtmpC8MgaG/FARS data/prepd/</span></span></code></pre>
+<p>Then we can use <code><a href="../reference/counts.html">counts()</a></code> to get the monthly number of
+crashes in Virginia:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span></span>
-<span>  <span class="va">myFARS</span>,</span>
+<span>  df <span class="op">=</span> <span class="va">myFARS</span>,</span>
+<span>  where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>states <span class="op">=</span> <span class="st">"VA"</span><span class="op">)</span>,</span>
 <span>  what <span class="op">=</span> <span class="st">"crashes"</span>,</span>
-<span>  interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"month"</span><span class="op">)</span></span>
+<span>  interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"month"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>This returns the following dataframe:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">my_counts</span>, format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr>
+<th style="text-align:right;">
+year
+</th>
 <th style="text-align:left;">
 month
-</th>
-<th style="text-align:left;">
-date
-</th>
-<th style="text-align:right;">
-n
 </th>
 <th style="text-align:left;">
 what
@@ -151,23 +293,26 @@ urb
 <th style="text-align:left;">
 who
 </th>
+<th style="text-align:left;">
+involved
+</th>
+<th style="text-align:right;">
+n
+</th>
 </tr></thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
-April
-</td>
-<td style="text-align:left;">
-2021-04-01
-</td>
 <td style="text-align:right;">
-83
+2022
+</td>
+<td style="text-align:left;">
+Jan
 </td>
 <td style="text-align:left;">
 crashes
 </td>
 <td style="text-align:left;">
-all
+VA
 </td>
 <td style="text-align:left;">
 all
@@ -177,23 +322,26 @@ all
 </td>
 <td style="text-align:left;">
 all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+62
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-August
-</td>
-<td style="text-align:left;">
-2021-08-01
-</td>
 <td style="text-align:right;">
-77
+2022
+</td>
+<td style="text-align:left;">
+Feb
 </td>
 <td style="text-align:left;">
 crashes
 </td>
 <td style="text-align:left;">
-all
+VA
 </td>
 <td style="text-align:left;">
 all
@@ -203,23 +351,26 @@ all
 </td>
 <td style="text-align:left;">
 all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+84
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-December
-</td>
-<td style="text-align:left;">
-2021-12-01
-</td>
 <td style="text-align:right;">
-74
+2022
+</td>
+<td style="text-align:left;">
+Mar
 </td>
 <td style="text-align:left;">
 crashes
 </td>
 <td style="text-align:left;">
-all
+VA
 </td>
 <td style="text-align:left;">
 all
@@ -229,23 +380,26 @@ all
 </td>
 <td style="text-align:left;">
 all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+63
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-February
-</td>
-<td style="text-align:left;">
-2021-02-01
-</td>
 <td style="text-align:right;">
-47
+2022
+</td>
+<td style="text-align:left;">
+Apr
 </td>
 <td style="text-align:left;">
 crashes
 </td>
 <td style="text-align:left;">
-all
+VA
 </td>
 <td style="text-align:left;">
 all
@@ -256,126 +410,141 @@ all
 <td style="text-align:left;">
 all
 </td>
-</tr>
-<tr>
 <td style="text-align:left;">
-January
-</td>
-<td style="text-align:left;">
-2021-01-01
+any
 </td>
 <td style="text-align:right;">
-50
-</td>
-<td style="text-align:left;">
-crashes
-</td>
-<td style="text-align:left;">
-all
-</td>
-<td style="text-align:left;">
-all
-</td>
-<td style="text-align:left;">
-all
-</td>
-<td style="text-align:left;">
-all
+58
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-July
-</td>
-<td style="text-align:left;">
-2021-07-01
-</td>
 <td style="text-align:right;">
-100
+2022
 </td>
-<td style="text-align:left;">
-crashes
-</td>
-<td style="text-align:left;">
-all
-</td>
-<td style="text-align:left;">
-all
-</td>
-<td style="text-align:left;">
-all
-</td>
-<td style="text-align:left;">
-all
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-June
-</td>
-<td style="text-align:left;">
-2021-06-01
-</td>
-<td style="text-align:right;">
-65
-</td>
-<td style="text-align:left;">
-crashes
-</td>
-<td style="text-align:left;">
-all
-</td>
-<td style="text-align:left;">
-all
-</td>
-<td style="text-align:left;">
-all
-</td>
-<td style="text-align:left;">
-all
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-March
-</td>
-<td style="text-align:left;">
-2021-03-01
-</td>
-<td style="text-align:right;">
-57
-</td>
-<td style="text-align:left;">
-crashes
-</td>
-<td style="text-align:left;">
-all
-</td>
-<td style="text-align:left;">
-all
-</td>
-<td style="text-align:left;">
-all
-</td>
-<td style="text-align:left;">
-all
-</td>
-</tr>
-<tr>
 <td style="text-align:left;">
 May
 </td>
 <td style="text-align:left;">
-2021-05-01
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+84
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Jun
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+84
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Jul
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+82
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Aug
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
 </td>
 <td style="text-align:right;">
 87
 </td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+Sep
+</td>
 <td style="text-align:left;">
 crashes
 </td>
 <td style="text-align:left;">
-all
+VA
 </td>
 <td style="text-align:left;">
 all
@@ -385,23 +554,26 @@ all
 </td>
 <td style="text-align:left;">
 all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+93
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-November
-</td>
-<td style="text-align:left;">
-2021-11-01
-</td>
 <td style="text-align:right;">
-79
+2022
+</td>
+<td style="text-align:left;">
+Oct
 </td>
 <td style="text-align:left;">
 crashes
 </td>
 <td style="text-align:left;">
-all
+VA
 </td>
 <td style="text-align:left;">
 all
@@ -411,23 +583,26 @@ all
 </td>
 <td style="text-align:left;">
 all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+99
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-October
-</td>
-<td style="text-align:left;">
-2021-10-01
-</td>
 <td style="text-align:right;">
-108
+2022
+</td>
+<td style="text-align:left;">
+Nov
 </td>
 <td style="text-align:left;">
 crashes
 </td>
 <td style="text-align:left;">
-all
+VA
 </td>
 <td style="text-align:left;">
 all
@@ -437,23 +612,26 @@ all
 </td>
 <td style="text-align:left;">
 all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+85
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-September
-</td>
-<td style="text-align:left;">
-2021-09-01
-</td>
 <td style="text-align:right;">
-79
+2022
+</td>
+<td style="text-align:left;">
+Dec
 </td>
 <td style="text-align:left;">
 crashes
 </td>
 <td style="text-align:left;">
-all
+VA
 </td>
 <td style="text-align:left;">
 all
@@ -463,156 +641,1073 @@ all
 </td>
 <td style="text-align:left;">
 all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+63
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+Jan
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+78
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+Feb
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+48
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+Mar
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+60
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+Apr
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+75
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+May
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+77
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+Jun
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+72
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+Jul
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+68
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+Aug
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+93
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+Sep
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+85
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+Oct
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+69
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+Nov
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+71
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+Dec
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+59
 </td>
 </tr>
 </tbody>
 </table>
 <p>Which we can graph:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_counts</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Fatal Crashes in Virginia"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<p>We could alternatively count fatalities:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html" class="external-link">mutate_at</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="va">factor</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">month</span>, y<span class="op">=</span><span class="va">n</span>, group<span class="op">=</span><span class="va">year</span>, color<span class="op">=</span><span class="va">year</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Fatal Crashes in Virginia"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title.position <span class="op">=</span> <span class="st">"plot"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Counts_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p>or</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_counts</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>date <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/make_datetime.html" class="external-link">make_date</a></span><span class="op">(</span><span class="va">year</span>, <span class="va">month</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Fatal Crashes in Virginia"</span><span class="op">)</span>  <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title.position <span class="op">=</span> <span class="st">"plot"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Counts_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p>We could alternatively count annual fatalities:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span></span>
 <span>  <span class="va">myFARS</span>,</span>
+<span>  where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>states <span class="op">=</span> <span class="st">"VA"</span><span class="op">)</span>,</span>
 <span>  what <span class="op">=</span> <span class="st">"fatalities"</span>,</span>
-<span>  interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"month"</span><span class="op">)</span></span>
+<span>  interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Fatalities in Virginia"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr>
+<th style="text-align:right;">
+year
+</th>
+<th style="text-align:left;">
+what
+</th>
+<th style="text-align:left;">
+states
+</th>
+<th style="text-align:left;">
+region
+</th>
+<th style="text-align:left;">
+urb
+</th>
+<th style="text-align:left;">
+who
+</th>
+<th style="text-align:left;">
+involved
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+913
+</td>
+</tr></tbody>
+</table>
 <p>Or fatalities involving speeding:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span><span class="va">myFARS</span>,</span>
-<span>       what <span class="op">=</span> <span class="st">"fatalities"</span>,</span>
-<span>       interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"month"</span><span class="op">)</span>,</span>
-<span>       involved <span class="op">=</span> <span class="st">"speeding"</span></span>
-<span>       <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Speeding-Related Fatalities in Virginia"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span></span>
+<span>  df <span class="op">=</span> <span class="va">myFARS</span>,</span>
+<span>  where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>states <span class="op">=</span> <span class="st">"VA"</span><span class="op">)</span>,</span>
+<span>  what <span class="op">=</span> <span class="st">"fatalities"</span>,</span>
+<span>  interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span><span class="op">)</span>,</span>
+<span>  involved <span class="op">=</span> <span class="st">"speeding"</span></span>
+<span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr>
+<th style="text-align:right;">
+year
+</th>
+<th style="text-align:left;">
+what
+</th>
+<th style="text-align:left;">
+states
+</th>
+<th style="text-align:left;">
+region
+</th>
+<th style="text-align:left;">
+urb
+</th>
+<th style="text-align:left;">
+who
+</th>
+<th style="text-align:left;">
+involved
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+321
+</td>
+</tr></tbody>
+</table>
 <p>Or fatalities involving speeding in rural areas:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span><span class="va">myFARS</span>,</span>
-<span>       what <span class="op">=</span> <span class="st">"fatalities"</span>,</span>
-<span>       where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>urb<span class="op">=</span><span class="st">"rural"</span><span class="op">)</span>,</span>
-<span>       interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"month"</span><span class="op">)</span>,</span>
-<span>       involved <span class="op">=</span> <span class="st">"speeding"</span></span>
-<span>       <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Speeding-Related Fatalities in Rural Virginia"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span></span>
+<span>  <span class="va">myFARS</span>,</span>
+<span>  where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>states <span class="op">=</span> <span class="st">"VA"</span>, urb<span class="op">=</span><span class="st">"rural"</span><span class="op">)</span>,</span>
+<span>  what <span class="op">=</span> <span class="st">"fatalities"</span>,</span>
+<span>  interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span><span class="op">)</span>,</span>
+<span>  involved <span class="op">=</span> <span class="st">"speeding"</span></span>
+<span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr>
+<th style="text-align:right;">
+year
+</th>
+<th style="text-align:left;">
+what
+</th>
+<th style="text-align:left;">
+states
+</th>
+<th style="text-align:left;">
+region
+</th>
+<th style="text-align:left;">
+urb
+</th>
+<th style="text-align:left;">
+who
+</th>
+<th style="text-align:left;">
+involved
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rural
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+157
+</td>
+</tr></tbody>
+</table>
+<p>Or we can use involved = ‘each’ to see all of the problems in one
+state:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span></span>
+<span>  df <span class="op">=</span> <span class="va">myFARS</span>,</span>
+<span>  where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>states <span class="op">=</span> <span class="st">"VA"</span><span class="op">)</span>,</span>
+<span>  what <span class="op">=</span> <span class="st">"crashes"</span>,</span>
+<span>  interval <span class="op">=</span> <span class="st">"year"</span>,</span>
+<span>  involved <span class="op">=</span> <span class="st">"each"</span></span>
+<span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="st">"year"</span>, values_from <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">`2023`</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Note: rfars::counts() uses the variables alc_res and dr_drink to determine alcohol involvement. NHTSA reports counts using multiple imputation to estimate missing BAC values. See vignette('Alcohol Counts', package = 'rfars') for more information.</span></span></code></pre>
+<table class="table">
+<thead><tr>
+<th style="text-align:left;">
+what
+</th>
+<th style="text-align:left;">
+states
+</th>
+<th style="text-align:left;">
+region
+</th>
+<th style="text-align:left;">
+urb
+</th>
+<th style="text-align:left;">
+who
+</th>
+<th style="text-align:left;">
+involved
+</th>
+<th style="text-align:right;">
+2022
+</th>
+<th style="text-align:right;">
+2023
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+507
+</td>
+<td style="text-align:right;">
+474
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+276
+</td>
+<td style="text-align:right;">
+292
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+274
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+223
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+193
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+145
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+130
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+118
+</td>
+<td style="text-align:right;">
+126
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+109
+</td>
+<td style="text-align:right;">
+111
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+102
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+82
+</td>
+<td style="text-align:right;">
+52
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+51
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+21
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+19
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+15
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+15
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level3">
 <h3 id="comparing-counts">Comparing Counts<a class="anchor" aria-label="anchor" href="#comparing-counts"></a>
 </h3>
 <p>We can use <code><a href="../reference/compare_counts.html">compare_counts()</a></code> to quickly produce
-comparison graphs.</p>
-<p>Here we compare speeding-related fatalities in rural and urban
-areas:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+comparison graphs. Below we compare speeding-related fatalities in rural
+and urban areas:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/compare_counts.html">compare_counts</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">myFARS</span>,</span>
-<span>  interval <span class="op">=</span> <span class="st">"month"</span>,</span>
+<span>  interval <span class="op">=</span> <span class="st">"year"</span>,</span>
 <span>  involved <span class="op">=</span> <span class="st">"speeding"</span>,</span>
 <span>  what <span class="op">=</span> <span class="st">"fatalities"</span>,</span>
-<span>  where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>urb<span class="op">=</span><span class="st">"rural"</span><span class="op">)</span>,</span>
-<span>  where2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>urb<span class="op">=</span><span class="st">"urban"</span><span class="op">)</span></span>
+<span>  where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>states <span class="op">=</span> <span class="st">"VA"</span>, urb<span class="op">=</span><span class="st">"rural"</span><span class="op">)</span>,</span>
+<span>  where2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>states <span class="op">=</span> <span class="st">"VA"</span>, urb<span class="op">=</span><span class="st">"urban"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="va">.</span><span class="op">~</span><span class="va">urb</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Speeding-Related Fatalities in Virginia"</span>, fill<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Speeding-Related Fatalities in Virginia"</span>, fill<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span> </span></code></pre></div>
+<p><img src="Counts_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 <p>And here we compare speeding-related crashes to those related to
 distraction:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/compare_counts.html">compare_counts</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">myFARS</span>,</span>
-<span>  interval <span class="op">=</span> <span class="st">"month"</span>,</span>
+<span>  where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>states <span class="op">=</span> <span class="st">"VA"</span><span class="op">)</span>,</span>
+<span>  interval <span class="op">=</span> <span class="st">"year"</span>,</span>
 <span>  involved <span class="op">=</span> <span class="st">"speeding"</span>,</span>
 <span>  involved2 <span class="op">=</span> <span class="st">"distracted driver"</span>,</span>
 <span>  what <span class="op">=</span> <span class="st">"crashes"</span>,</span>
 <span>  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="va">.</span><span class="op">~</span><span class="va">involved</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Speeding- and Distraction-Related Crashes in Virginia"</span>, fill<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
-</div>
-<div class="section level3">
-<h3 id="annual_counts-data-table">annual_counts data table<a class="anchor" aria-label="anchor" href="#annual_counts-data-table"></a>
-</h3>
-<p><em>rfars</em> includes <strong>annual_counts</strong>, a table of
-annual crash counts and related metrics:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">rfars</span><span class="fu">::</span><span class="va"><a href="../reference/annual_counts.html">annual_counts</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">involved</span> <span class="op">!=</span> <span class="st">"general"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/replace_na.html" class="external-link">replace_na</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unite.html" class="external-link">unite</a></span><span class="op">(</span><span class="va">type</span>, <span class="va">what</span>, col<span class="op">=</span><span class="st">"what2"</span>, sep <span class="op">=</span> <span class="st">" "</span>, remove <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html" class="external-link">mutate_at</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"involved"</span>, <span class="st">"what2"</span><span class="op">)</span>, <span class="fu">stringr</span><span class="fu">::</span><span class="va"><a href="https://stringr.tidyverse.org/reference/case.html" class="external-link">str_to_sentence</a></span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">year</span>, y<span class="op">=</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="va">what2</span><span class="op">~</span><span class="va">involved</span>, scales<span class="op">=</span><span class="st">"free_y"</span>, labeller <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labellers.html" class="external-link">label_wrap_gen</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span>, expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html" class="external-link">expansion</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2014</span>, <span class="fl">2023</span>, <span class="fl">2</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2014</span>, <span class="fl">2023</span>, <span class="fl">2</span><span class="op">)</span>, expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html" class="external-link">expansion</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Crash Types Over Time"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>    strip.text.y.right <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
-<span>    axis.ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    axis.text.x.bottom <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle<span class="op">=</span><span class="fl">45</span>, hjust<span class="op">=</span><span class="fl">1</span>, size<span class="op">=</span><span class="fl">8</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-11-1.png" width="10000"></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">rfars</span><span class="fu">::</span><span class="va"><a href="../reference/annual_counts.html">annual_counts</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">involved</span> <span class="op">==</span> <span class="st">"general"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/replace_na.html" class="external-link">replace_na</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unite.html" class="external-link">unite</a></span><span class="op">(</span><span class="va">type</span>, <span class="va">what</span>, col<span class="op">=</span><span class="st">"what2"</span>, sep <span class="op">=</span> <span class="st">" "</span>, remove <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html" class="external-link">mutate_at</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"involved"</span>, <span class="st">"what2"</span><span class="op">)</span>, <span class="fu">stringr</span><span class="fu">::</span><span class="va"><a href="https://stringr.tidyverse.org/reference/case.html" class="external-link">str_to_sentence</a></span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">year</span>, y<span class="op">=</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="va">what2</span><span class="op">~</span><span class="va">.</span>, scales<span class="op">=</span><span class="st">"free_y"</span>, labeller <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labellers.html" class="external-link">label_wrap_gen</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span>, expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html" class="external-link">expansion</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2014</span>, <span class="fl">2023</span>, <span class="fl">2</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2014</span>, <span class="fl">2023</span>, <span class="fl">2</span><span class="op">)</span>, expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html" class="external-link">expansion</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Crash Types Over Time"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>    strip.text.y.right <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
-<span>    axis.ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">rfars</span><span class="fu">::</span><span class="va"><a href="../reference/annual_counts.html">annual_counts</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">involved</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pedalcyclist"</span>, <span class="st">"bicyclist"</span>, <span class="st">"pedestrian"</span>, <span class="st">"pedbike"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/replace_na.html" class="external-link">replace_na</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unite.html" class="external-link">unite</a></span><span class="op">(</span><span class="va">type</span>, <span class="va">what</span>, col<span class="op">=</span><span class="st">"what2"</span>, sep <span class="op">=</span> <span class="st">" "</span>, remove <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html" class="external-link">mutate_at</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"involved"</span>, <span class="st">"what2"</span><span class="op">)</span>, <span class="fu">stringr</span><span class="fu">::</span><span class="va"><a href="https://stringr.tidyverse.org/reference/case.html" class="external-link">str_to_sentence</a></span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">year</span>, y<span class="op">=</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="va">what2</span><span class="op">~</span><span class="va">involved</span>, scales<span class="op">=</span><span class="st">"free_y"</span>, labeller <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labellers.html" class="external-link">label_wrap_gen</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span>, expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html" class="external-link">expansion</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2014</span>, <span class="fl">2023</span>, <span class="fl">2</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2014</span>, <span class="fl">2023</span>, <span class="fl">2</span><span class="op">)</span>, expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html" class="external-link">expansion</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Crash Types Over Time"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>    strip.text.y.right <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
-<span>    axis.ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    axis.text.x.bottom <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle<span class="op">=</span><span class="fl">45</span>, hjust<span class="op">=</span><span class="fl">1</span>, size<span class="op">=</span><span class="fl">8</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-12-2.png" width="700"></p>
+<p><img src="Counts_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

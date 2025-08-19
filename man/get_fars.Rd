@@ -5,7 +5,7 @@
 \title{Get FARS data}
 \usage{
 get_fars(
-  years = 2011:2023,
+  years = 2014:2023,
   states = NULL,
   dir = NULL,
   proceed = FALSE,
@@ -13,8 +13,8 @@ get_fars(
 )
 }
 \arguments{
-\item{years}{Years to be downloaded, in yyyy (character or numeric formats),
-currently limited to 2011-2021 (the default).}
+\item{years}{Years to be downloaded, in yyyy (character or numeric formats,
+defaults to last 10 years).}
 
 \item{states}{States to keep. Leave as NULL (the default) to keep
 all states. Can be specified as full state name (e.g. "Virginia"),
@@ -40,7 +40,7 @@ Bring FARS data into the current environment, whether by downloading it anew
     or by using pre-existing files.
 }
 \details{
-This function downloads raw data from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/}{NHTSA}.
+This function downloads raw data from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/}{NHTSA}.
    If no directory (dir) is specified, SAS files are downloaded into a
    tempdir(), where they are also prepared, combined, and then brought into
    the current environment. If you specify a directory (dir), the function will
@@ -72,7 +72,7 @@ This function downloads raw data from \href{https://www.nhtsa.gov/file-downloads
 
    Finally, the codebook tibble serves as a searchable codebook for all files of any given year.
 
-   Please review the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813417}{FARS Analytical User's Manual}
+   Please review the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706}{FARS Analytical User's Manual}
 }
 \examples{
 

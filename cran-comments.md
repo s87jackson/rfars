@@ -1,5 +1,6 @@
 ## Update
 
+-   Fixed issues identified by automatic CRAN checks.
 -   Added code to accommodate a new data release (2023).
 -   Added the annual_counts data table.
 -   Added to the Counts vignette.
