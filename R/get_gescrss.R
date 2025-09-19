@@ -8,25 +8,32 @@
 #' @param years Years to be downloaded, in yyyy (character or numeric formats,
 #'     defaults to last 10 years).
 #' @param regions (Optional) Regions to keep: mw=midwest, ne=northeast, s=south, w=west.
-#' @param dir Directory in which to search for or save a 'GESCRSS data' folder. If
-#'     NULL (the default), files are downloaded and unzipped to temporary
-#'     directories and prepared in memory.
+#' @param source The source of the data: 'zenodo' (the default) pulls the prepared
+#'    dataset from \href{https://zenodo.org/records/17162674}{Zenodo}, 'nhtsa'
+#'    pulls the raw files from NHTSA's FTP site and prepares them on your machine.
+#'    'zenodo' is much faster and provides the same dataset produced by using source='nhtsa'.
 #' @param proceed Logical, whether or not to proceed with downloading files without
 #'     asking for user permission (defaults to FALSE, thus asking permission)
+#' @param dir Directory in which to search for or save a 'GESCRSS data' folder. If
+#'     NULL (the default), files are downloaded and unzipped to temporary
+#'     directories and prepared in memory. Ignored if source = 'zenodo'.
 #' @param cache The name of an RDS file to save or use. If the specified file (e.g., 'myFARS.rds')
 #'    exists in 'dir' it will be returned; if not, an RDS file of this name will be
-#'    saved in 'dir' for quick use in subsequent calls.
+#'    saved in 'dir' for quick use in subsequent calls. Ignored if source = 'zenodo'.
 #'
 #' @return A GESCRSS data object (a list with six tibbles: flat, multi_acc,
 #'     multi_veh, multi_per, events, and codebook).
 #'
-#' @details
-#'    This function downloads raw data from the GES and CRSS crash databases.
-#'    If no directory (dir) is specified, raw CSV files are downloaded into a
+#' @details This function provides the GES/CRSS database for the specified years and regions
+#'    By default, it pulls from a Zenodo repository for speed and memory efficiency.
+#'    It can also pull the raw files from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/}{NHTSA} and process them in memory, or
+#'    use an RDS file saved on your machine.
+#'
+#'    If source = 'nhtsa' and no directory (dir) is specified, SAS files are downloaded into a
 #'    tempdir(), where they are also prepared, combined, and then brought into
 #'    the current environment. If you specify a directory (dir), the function will
 #'    look there for a 'GESCRSS data' folder. If not found, it will be created and
-#'    populated with raw and prepared SAS and RDS files. If the directory is found, the
+#'    populated with raw and prepared SAS and RDS files, otherwise the
 #'    function makes sure all requested years are present and asks permission
 #'    to download any missing years.
 #'
@@ -70,8 +77,9 @@
 
 get_gescrss <- function(years     = 2014:2023,
                         regions   = c("mw", "ne", "s", "w"),
-                        dir       = NULL,
+                        source  = c("zenodo", "nhtsa"),
                         proceed   = FALSE,
+                        dir       = NULL,
                         cache     = NULL
                         ){
 
@@ -95,6 +103,57 @@ get_gescrss <- function(years     = 2014:2023,
 
   # Check regions ----
   if(any(!regions %in% c("mw", "ne", "s", "w"))) stop("Specify regions as: mw (midwest), ne (northeast), s (south), w (west).")
+
+
+  # Zenodo ----
+  if(!(source[1] %in% c("zenodo", "nhtsa"))) stop("source must be either 'zenodo' or 'nhtsa'")
+
+  if(source[1]=="zenodo"){
+
+    if(!proceed){
+      x <- readline("We will now download the processed file from https://zenodo.org/records/17162674/files/GESCRSS.rds?download=1 \nProceed? (Y/N) \n")
+      if(!(x %in% c("y", "Y"))) stop(message("Download cancelled.\n"))
+    }
+
+    # Download
+    url <- "https://zenodo.org/records/17162674/files/GESCRSS.rds?download=1"
+    dest <- tempfile(fileext = ".rds")
+    downloader::download(url, dest, mode = "wb")
+    gescrss_zen <- readRDS(dest)
+
+    # Filter years
+    gescrss_zen$flat      <- dplyr::filter(gescrss_zen$flat, .data$year %in% years)
+    gescrss_zen$multi_acc <- dplyr::filter(gescrss_zen$multi_acc, .data$year %in% years)
+    gescrss_zen$multi_veh <- dplyr::filter(gescrss_zen$multi_veh, .data$year %in% years)
+    gescrss_zen$multi_per <- dplyr::filter(gescrss_zen$multi_per, .data$year %in% years)
+    gescrss_zen$events    <- dplyr::filter(gescrss_zen$events, .data$year %in% years)
+
+    # Filter regions
+    if(!is.null(regions)){
+
+      myregions <-
+        rfars::geo_relations %>%
+        filter(.data$region_abbr %in% regions) %>%
+        pull("region") %>%
+        unique()
+
+      gescrss_zen$flat <- dplyr::filter(gescrss_zen$flat, .data$region %in% myregions)
+
+      filter_frame <-
+        distinct(gescrss_zen$flat, .data$year, .data$casenum) %>%
+        mutate_at("casenum", as.character) %>%
+        mutate_at("year", factor)
+
+      gescrss_zen$multi_acc <- inner_join(gescrss_zen$multi_acc, filter_frame, by = c("casenum", "year"))
+      gescrss_zen$multi_veh <- inner_join(gescrss_zen$multi_veh, filter_frame, by = c("casenum", "year"))
+      gescrss_zen$multi_per <- inner_join(gescrss_zen$multi_per, filter_frame, by = c("casenum", "year"))
+      gescrss_zen$events    <- inner_join(gescrss_zen$events, filter_frame, by = c("casenum", "year"))
+
+    }
+
+    return(gescrss_zen)
+
+  }
 
 
   # Cached RDS file in dir ----

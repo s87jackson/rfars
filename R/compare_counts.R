@@ -36,18 +36,19 @@
 
 
 
-compare_counts <- function(df,
-                           interval=c("year", "month")[1],
-                           what=c("crashes", "fatalities", "injuries", "people")[1],
-                           where=list(states="all",
-                                      region = c("all", "ne", "mw", "s", "w")[1],
-                                      urb=c("all", "rural", "urban")[1]),
-                           who=c("all", "drivers", "passengers", "bicyclists", "pedestrians")[1],
-                           involved=NULL,
-                           what2=what,
-                           where2=where,
-                           who2=who,
-                           involved2=involved){
+compare_counts <- function(
+    df,
+    interval=c("year", "month")[1],
+    what=c("crashes", "fatalities", "injuries", "people")[1],
+    where=list(states="all",
+               region = c("all", "ne", "mw", "s", "w")[1],
+               urb=c("all", "rural", "urban")[1]),
+    who=c("all", "drivers", "passengers", "bicyclists", "pedestrians")[1],
+    involved=NULL,
+    what2=what,
+    where2=where,
+    who2=who,
+    involved2=involved){
 
   #stop if each?
 

@@ -10,13 +10,6 @@ editor_options:
     wrap: 80
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
 This vignette explores the **vsoe** (Vehicle Sequence of Events) data to
 visualize crash sequence patterns.
 
@@ -40,7 +33,7 @@ library(tidyr)
 First we get one year of data, and filter to the southern region for simplicity. 
 
 ```{r, warning=FALSE}
-mydata <- rfars::get_gescrss(years=2023, regions = "s")
+mydata <- rfars::get_gescrss(years=2023, regions = "s", proceed = TRUE)
 
 my_events <- mydata$events
 ```

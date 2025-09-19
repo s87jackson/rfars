@@ -107,262 +107,9 @@ Analytical User’s Manual</a> for more information on these files.</p>
 <p>Here we use <code><a href="../reference/counts.html">rfars::counts()</a></code> to count alcohol-involved
 crashes:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_fars.html">get_fars</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span></span></code></pre></div>
-<p>✓ 2023 data downloaded Accident file: | | | 0% | |== | 2% | |=== | 4%
-| |===== | 7% | |====== | 9% | |======== | 11% | |========= | 13% |
-|=========== | 16% | |============ | 18% | |============== | 20% |
-|================ | 22% | |================= | 24% |
-|=================== | 27% | |==================== | 29% |
-|====================== | 31% | |======================= | 33% |
-|========================= | 36% | |========================== | 38% |
-|============================ | 40% | |============================== |
-42% | |=============================== | 44% |
-|================================= | 47% |
-|================================== | 49% |
-|==================================== | 51% |
-|===================================== | 53% |
-|======================================= | 56% |
-|======================================== | 58% |
-|========================================== | 60% |
-|============================================ | 62% |
-|============================================= | 64% |
-|=============================================== | 67% |
-|================================================ | 69% |
-|================================================== | 71% |
-|=================================================== | 73% |
-|===================================================== | 76% |
-|====================================================== | 78% |
-|======================================================== | 80% |
-|========================================================== | 82% |
-|=========================================================== | 84% |
-|============================================================= | 87% |
-|============================================================== | 89% |
-|================================================================ | 91%
-| |================================================================= |
-93% |
-|=================================================================== |
-96% |
-|==================================================================== |
-98% |
-|======================================================================|
-100% Vehicle file: | | | 0% | |= | 1% | |== | 2% | |== | 3% | |=== | 4%
-| |==== | 6% | |===== | 7% | |====== | 8% | |====== | 9% | |======= |
-10% | |======== | 11% | |========= | 12% | |========= | 13% |
-|========== | 15% | |=========== | 16% | |============ | 17% |
-|============= | 18% | |============= | 19% | |============== | 20% |
-|=============== | 21% | |================ | 22% | |================= |
-24% | |================= | 25% | |================== | 26% |
-|=================== | 27% | |==================== | 28% |
-|==================== | 29% | |===================== | 30% |
-|====================== | 31% | |======================= | 33% |
-|======================== | 34% | |======================== | 35% |
-|========================= | 36% | |========================== | 37% |
-|=========================== | 38% | |============================ | 39%
-| |============================ | 40% | |============================= |
-42% | |============================== | 43% |
-|=============================== | 44% |
-|=============================== | 45% |
-|================================ | 46% |
-|================================= | 47% |
-|================================== | 48% |
-|=================================== | 49% |
-|=================================== | 51% |
-|==================================== | 52% |
-|===================================== | 53% |
-|====================================== | 54% |
-|======================================= | 55% |
-|======================================= | 56% |
-|======================================== | 57% |
-|========================================= | 58% |
-|========================================== | 60% |
-|========================================== | 61% |
-|=========================================== | 62% |
-|============================================ | 63% |
-|============================================= | 64% |
-|============================================== | 65% |
-|============================================== | 66% |
-|=============================================== | 67% |
-|================================================ | 69% |
-|================================================= | 70% |
-|================================================== | 71% |
-|================================================== | 72% |
-|=================================================== | 73% |
-|==================================================== | 74% |
-|===================================================== | 75% |
-|===================================================== | 76% |
-|====================================================== | 78% |
-|======================================================= | 79% |
-|======================================================== | 80% |
-|========================================================= | 81% |
-|========================================================= | 82% |
-|========================================================== | 83% |
-|=========================================================== | 84% |
-|============================================================ | 85% |
-|============================================================= | 87% |
-|============================================================= | 88% |
-|============================================================== | 89% |
-|=============================================================== | 90% |
-|================================================================ | 91%
-| |================================================================ |
-92% | |=================================================================
-| 93% |
-|================================================================== |
-94% |
-|=================================================================== |
-96% |
-|==================================================================== |
-97% |
-|==================================================================== |
-98% |
-|===================================================================== |
-99% |
-|======================================================================|
-100% Person file: | | | 0% | |== | 3% | |==== | 5% | |====== | 8% |
-|======== | 11% | |========= | 14% | |=========== | 16% | |=============
-| 19% | |=============== | 22% | |================= | 24% |
-|=================== | 27% | |===================== | 30% |
-|======================= | 32% | |========================= | 35% |
-|========================== | 38% | |============================ | 41%
-| |============================== | 43% |
-|================================ | 46% |
-|================================== | 49% |
-|==================================== | 51% |
-|====================================== | 54% |
-|======================================== | 57% |
-|========================================== | 59% |
-|============================================ | 62% |
-|============================================= | 65% |
-|=============================================== | 68% |
-|================================================= | 70% |
-|=================================================== | 73% |
-|===================================================== | 76% |
-|======================================================= | 78% |
-|========================================================= | 81% |
-|=========================================================== | 84% |
-|============================================================= | 86% |
-|============================================================== | 89% |
-|================================================================ | 92%
-| |================================================================== |
-95% |
-|==================================================================== |
-97% |
-|======================================================================|
-100% Multiple Imputation Driver BAC by Crash file: | | | 0% | |========
-| 11% | |================ | 22% | |======================= | 33% |
-|=============================== | 44% |
-|======================================= | 56% |
-|=============================================== | 67% |
-|====================================================== | 78% |
-|============================================================== | 89% |
-|======================================================================|
-100% Weather file(s): | | | 0% |
-|======================================================================|
-100% Crash risk factors: | | | 0% |
-|======================================================================|
-100% vsoe file: | | | 0% | |================== | 25% |
-|=================================== | 50% |
-|==================================================== | 75% |
-|======================================================================|
-100% distract file: | | | 0% | |=================================== |
-50% |
-|======================================================================|
-100% drimpair file: | | | 0% | |=================================== |
-50% |
-|======================================================================|
-100% factor file: | | | 0% | |=================================== | 50%
-|
-|======================================================================|
-100% maneuver file: | | | 0% | |=================================== |
-50% |
-|======================================================================|
-100% violatn file: | | | 0% | |=================================== | 50%
-|
-|======================================================================|
-100% vision file: | | | 0% | |=================================== | 50%
-|
-|======================================================================|
-100% damage file: | | | 0% | |=================================== | 50%
-|
-|======================================================================|
-100% vehiclesf file: | | | 0% | |=================================== |
-50% |
-|======================================================================|
-100% pvehiclesf file: | | | 0% | |=================================== |
-50% |
-|======================================================================|
-100% driverrf file: | | | 0% | |=================================== |
-50% |
-|======================================================================|
-100% PBtype file: | | | 0% | |=== | 5% | |====== | 9% | |========== |
-14% | |============= | 18% | |================ | 23% |
-|=================== | 27% | |====================== | 32% |
-|========================= | 36% | |============================= | 41%
-| |================================ | 45% |
-|=================================== | 50% |
-|====================================== | 55% |
-|========================================= | 59% |
-|============================================= | 64% |
-|================================================ | 68% |
-|=================================================== | 73% |
-|====================================================== | 77% |
-|========================================================= | 82% |
-|============================================================ | 86% |
-|================================================================ | 91%
-| |=================================================================== |
-95% |
-|======================================================================|
-100% SafetyEq file: | | | 0% | |========= | 12% | |================== |
-25% | |========================== | 38% |
-|=================================== | 50% |
-|============================================ | 62% |
-|==================================================== | 75% |
-|============================================================= | 88% |
-|======================================================================|
-100% Multiple Imputation Person BAC file: | | | 0% | |====== | 9% |
-|============= | 18% | |=================== | 27% |
-|========================= | 36% | |================================ |
-45% | |====================================== | 55% |
-|============================================= | 64% |
-|=================================================== | 73% |
-|========================================================= | 82% |
-|================================================================ | 91%
-|
-|======================================================================|
-100% nmcrash file: | | | 0% | |======================= | 33% |
-|=============================================== | 67% |
-|======================================================================|
-100% nmimpair file: | | | 0% | |======================= | 33% |
-|=============================================== | 67% |
-|======================================================================|
-100% nmprior file: | | | 0% | |======================= | 33% |
-|=============================================== | 67% |
-|======================================================================|
-100% nmdistract file: | | | 0% | |======================= | 33% |
-|=============================================== | 67% |
-|======================================================================|
-100% drugs file: | | | 0% | |========= | 12% | |================== | 25%
-| |========================== | 38% |
-|=================================== | 50% |
-|============================================ | 62% |
-|==================================================== | 75% |
-|============================================================= | 88% |
-|======================================================================|
-100% race file: | | | 0% | |============== | 20% |
-|============================ | 40% |
-|========================================== | 60% |
-|======================================================== | 80% |
-|======================================================================|
-100% personrf file: | | | 0% | |======================= | 33% |
-|=============================================== | 67% |
-|======================================================================|
-100% ✓ Flat file constructed ✓ Multi_acc file constructed ✓ Multi_veh
-file constructed ✓ Multi_per file constructed ✓ SOE file constructed ✓
-Prepared files saved in
-C:/Users/STEVEJ~1/AppData/Local/Temp/Rtmpmk3OI9/FARS data/prepd/2023 ✓
-Codebook file saved in
-C:/Users/STEVEJ~1/AppData/Local/Temp/Rtmpmk3OI9/FARS data/prepd/</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span><span class="va">myFARS</span>, involved <span class="op">=</span> <span class="st">'alcohol'</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_fars.html">get_fars</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2023</span>, proceed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span><span class="va">myFARS</span>, involved <span class="op">=</span> <span class="st">'alcohol'</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Note: rfars::counts() uses the variables alc_res and dr_drink to determine alcohol involvement. NHTSA reports counts using multiple imputation to estimate missing BAC values. See vignette('Alcohol Counts', package = 'rfars') for more information.</span></span></code></pre>
 <table class="table">
 <thead><tr>
@@ -420,7 +167,7 @@ alcohol
 </table>
 <p>And here we use <code><a href="../reference/counts.html">rfars::counts()</a></code> to count the number of
 alcohol-involved fatalities:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">myFARS</span>, </span>
 <span>  what <span class="op">=</span> <span class="st">"fatalities"</span>,</span>
@@ -500,7 +247,7 @@ is between 0.01 and 0.07, and TPC that BAC is &gt;= 0.08. So if
 <code>a_1</code> = 5 (representing a BAC of 0.05), then
 <code>FPC_1</code> = 0, <code>SPC_1</code> = 1, and <code>TPC_1</code> =
 0.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">temp</span> <span class="op">&lt;-</span> <span class="va">myFARS</span><span class="op">$</span><span class="va">flat</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">year</span><span class="op">:</span><span class="va">per_no</span>, <span class="va">age</span>, <span class="va">sex</span>, <span class="va">per_typ</span>, <span class="va">inj_sev</span>, <span class="va">alc_res</span>, <span class="va">dr_drink</span>, <span class="va">a1</span><span class="op">:</span><span class="va">a10</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">inj_sev</span> <span class="op">==</span> <span class="st">"Fatal Injury (K)"</span><span class="op">)</span></span>
@@ -512,7 +259,7 @@ is between 0.01 and 0.07, and TPC that BAC is &gt;= 0.08. So if
 <span>  <span class="va">temp</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"TPC"</span>, <span class="va">i</span><span class="op">)</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">temp</span><span class="op">[[</span><span class="va">imputation_col</span><span class="op">]</span><span class="op">]</span> <span class="op">&gt;=</span> <span class="fl">8</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>  <span class="co"># BAC = 0.08+</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>This produces the table below (transposed for easier viewing).</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">temp</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">st_case</span>, <span class="va">a1</span><span class="op">:</span><span class="va">a10</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"FPC"</span><span class="op">)</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"SPC"</span><span class="op">)</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"TPC"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -1959,7 +1706,7 @@ TPC10
 <code>a</code> and <code>FPC</code>, <code>SPS</code>, and
 <code>TPC</code> variables. The table below shows the 10 iterations for
 <code>a</code>, and the corresponding indicator variables.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">temp</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">st_case</span>, <span class="va">a1</span><span class="op">:</span><span class="va">a10</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"FPC"</span><span class="op">)</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"SPC"</span><span class="op">)</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"TPC"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -2196,7 +1943,7 @@ TPC
 </table>
 <p><strong>Step 2.</strong> Sum the indicator variables in each
 iteration.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">case_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
@@ -2218,7 +1965,7 @@ iteration.</p>
 where BAC = 0 (FSBAC), where BAC was between 0.01 and 0.07 (SSBAC), and
 where BAC &gt;= 0.08 (TSBAC). The table below shows all of these
 estimates.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">case_results</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>  <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">TOTAL</span>, FSBAC<span class="op">=</span><span class="fl">2</span>, SSBAC<span class="op">=</span><span class="fl">3</span>, TSBAC<span class="op">=</span><span class="fl">4</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>iter<span class="op">=</span><span class="fl">1</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">case_results</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>  <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">TOTAL</span>, FSBAC<span class="op">=</span><span class="fl">2</span>, SSBAC<span class="op">=</span><span class="fl">3</span>, TSBAC<span class="op">=</span><span class="fl">4</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>iter<span class="op">=</span><span class="fl">2</span><span class="op">)</span>,</span>
@@ -2425,7 +2172,7 @@ iter
 </table>
 <p><strong>Step 3.</strong> Take the average of each set of
 estimates.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">calc</span> <span class="op">&lt;-</span> <span class="va">case_results</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span>  <span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">calc</span> <span class="op">&lt;-</span> <span class="va">calc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span><span class="va">case_results</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">TOTAL</span><span class="op">)</span><span class="op">)</span></span>
@@ -2445,7 +2192,7 @@ of the number of fatalities from crashes where BAC = 0 (SBAC0), where
 BAC was between 0.01 and 0.07 (SBAC1), and where BAC &gt;= 0.08 (SBAC2).
 The value for SBAC2 is 12,429, which matches <em>Traffic Safety
 Facts</em> for 2023.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">calc</span>, <span class="va">SBAC0</span><span class="op">:</span><span class="va">SBAC2</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr>
@@ -2474,7 +2221,7 @@ SBAC2
 <p><strong>Shortcut.</strong> We can do this more directly if we’re only
 interested in the number of fatalities from crashes with
 alcohol-impaired drivers:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">myFARS</span><span class="op">$</span><span class="va">flat</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">year</span><span class="op">:</span><span class="va">per_no</span>, <span class="va">age</span>, <span class="va">sex</span>, <span class="va">per_typ</span>, <span class="va">inj_sev</span>, <span class="va">alc_res</span>, <span class="va">dr_drink</span>, <span class="va">a1</span><span class="op">:</span><span class="va">a10</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>

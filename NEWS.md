@@ -2,7 +2,7 @@
 
 * Added data from 2023
 * Added 'Definition' and 'Additional Information' fields from the User Manuals to the codebooks
-* Significantly improved speed and memory usage
+* Significantly improved speed and memory usage by downloading RDS files from Zenodo by default
 * Improved data processing status updates
 * Fixed a bug in downloading 2020 data
 * Added multiple imputation BAC data elements `a1`:`a10` and `p1`:`p10` to `get_fars()` output (the `flat` object)

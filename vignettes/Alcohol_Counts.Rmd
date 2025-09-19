@@ -44,7 +44,7 @@ library(rfars)
 Here we use `rfars::counts()` to count alcohol-involved crashes:
 
 ```{r, results='asis'}
-myFARS <- get_fars(2023)
+myFARS <- get_fars(years = 2023, proceed = TRUE)
 
 counts(myFARS, involved = 'alcohol') %>% knitr::kable(format = "html")
 ```

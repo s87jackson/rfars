@@ -96,828 +96,66 @@
 <code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_fars.html">get_fars</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2023</span>, proceed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ✓ 2023 data downloaded</span></span>
 <span><span class="co">#&gt; Accident file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |==                                                                    |   2%  |                                                                              |===                                                                   |   4%  |                                                                              |=====                                                                 |   7%  |                                                                              |======                                                                |   9%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  13%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  18%  |                                                                              |==============                                                        |  20%  |                                                                              |================                                                      |  22%  |                                                                              |=================                                                     |  24%  |                                                                              |===================                                                   |  27%  |                                                                              |====================                                                  |  29%  |                                                                              |======================                                                |  31%  |                                                                              |=======================                                               |  33%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  38%  |                                                                              |============================                                          |  40%  |                                                                              |==============================                                        |  42%  |                                                                              |===============================                                       |  44%  |                                                                              |=================================                                     |  47%  |                                                                              |==================================                                    |  49%  |                                                                              |====================================                                  |  51%  |                                                                              |=====================================                                 |  53%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  58%  |                                                                              |==========================================                            |  60%  |                                                                              |============================================                          |  62%  |                                                                              |=============================================                         |  64%  |                                                                              |===============================================                       |  67%  |                                                                              |================================================                      |  69%  |                                                                              |==================================================                    |  71%  |                                                                              |===================================================                   |  73%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  78%  |                                                                              |========================================================              |  80%  |                                                                              |==========================================================            |  82%  |                                                                              |===========================================================           |  84%  |                                                                              |=============================================================         |  87%</span></span>
-<span><span class="co">#&gt; Warning in read_basic_sas(x = "accident", wd = wd, rawfiles = rawfiles, : NAs</span></span>
-<span><span class="co">#&gt; introduced by coercion</span></span>
-<span><span class="co">#&gt;   |                                                                              |==============================================================        |  89%  |                                                                              |================================================================      |  91%  |                                                                              |=================================================================     |  93%  |                                                                              |===================================================================   |  96%  |                                                                              |====================================================================  |  98%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |==                                                                    |   2%  |                                                                              |===                                                                   |   4%  |                                                                              |=====                                                                 |   7%  |                                                                              |======                                                                |   9%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  13%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  18%  |                                                                              |==============                                                        |  20%  |                                                                              |================                                                      |  22%  |                                                                              |=================                                                     |  24%  |                                                                              |===================                                                   |  27%  |                                                                              |====================                                                  |  29%  |                                                                              |======================                                                |  31%  |                                                                              |=======================                                               |  33%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  38%  |                                                                              |============================                                          |  40%  |                                                                              |==============================                                        |  42%  |                                                                              |===============================                                       |  44%  |                                                                              |=================================                                     |  47%  |                                                                              |==================================                                    |  49%  |                                                                              |====================================                                  |  51%  |                                                                              |=====================================                                 |  53%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  58%  |                                                                              |==========================================                            |  60%  |                                                                              |============================================                          |  62%  |                                                                              |=============================================                         |  64%  |                                                                              |===============================================                       |  67%  |                                                                              |================================================                      |  69%  |                                                                              |==================================================                    |  71%  |                                                                              |===================================================                   |  73%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  78%  |                                                                              |========================================================              |  80%  |                                                                              |==========================================================            |  82%  |                                                                              |===========================================================           |  84%  |                                                                              |=============================================================         |  87%  |                                                                              |==============================================================        |  89%  |                                                                              |================================================================      |  91%  |                                                                              |=================================================================     |  93%  |                                                                              |===================================================================   |  96%  |                                                                              |====================================================================  |  98%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; Vehicle file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=                                                                     |   1%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |===                                                                   |   4%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  17%  |                                                                              |=============                                                         |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |===============                                                       |  21%  |                                                                              |================                                                      |  22%  |                                                                              |=================                                                     |  24%  |                                                                              |=================                                                     |  25%  |                                                                              |==================                                                    |  26%  |                                                                              |===================                                                   |  27%  |                                                                              |====================                                                  |  28%  |                                                                              |====================                                                  |  29%  |                                                                              |=====================                                                 |  30%  |                                                                              |======================                                                |  31%  |                                                                              |=======================                                               |  33%</span></span>
-<span><span class="co">#&gt; Warning in read_basic_sas(x = "vehicle", wd = wd, rawfiles = rawfiles, catfile</span></span>
-<span><span class="co">#&gt; = my_catfile, : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt;   |                                                                              |========================                                              |  34%  |                                                                              |========================                                              |  35%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  37%  |                                                                              |===========================                                           |  38%  |                                                                              |============================                                          |  39%  |                                                                              |============================                                          |  40%  |                                                                              |=============================                                         |  42%  |                                                                              |==============================                                        |  43%  |                                                                              |===============================                                       |  44%  |                                                                              |===============================                                       |  45%  |                                                                              |================================                                      |  46%  |                                                                              |=================================                                     |  47%  |                                                                              |==================================                                    |  48%  |                                                                              |===================================                                   |  49%  |                                                                              |===================================                                   |  51%  |                                                                              |====================================                                  |  52%  |                                                                              |=====================================                                 |  53%  |                                                                              |======================================                                |  54%  |                                                                              |=======================================                               |  55%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  57%  |                                                                              |=========================================                             |  58%  |                                                                              |==========================================                            |  60%  |                                                                              |==========================================                            |  61%  |                                                                              |===========================================                           |  62%  |                                                                              |============================================                          |  63%  |                                                                              |=============================================                         |  64%  |                                                                              |==============================================                        |  65%  |                                                                              |==============================================                        |  66%  |                                                                              |===============================================                       |  67%  |                                                                              |================================================                      |  69%  |                                                                              |=================================================                     |  70%  |                                                                              |==================================================                    |  71%  |                                                                              |==================================================                    |  72%  |                                                                              |===================================================                   |  73%  |                                                                              |====================================================                  |  74%  |                                                                              |=====================================================                 |  75%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  78%  |                                                                              |=======================================================               |  79%  |                                                                              |========================================================              |  80%  |                                                                              |=========================================================             |  81%  |                                                                              |=========================================================             |  82%  |                                                                              |==========================================================            |  83%  |                                                                              |===========================================================           |  84%  |                                                                              |============================================================          |  85%  |                                                                              |=============================================================         |  87%  |                                                                              |=============================================================         |  88%  |                                                                              |==============================================================        |  89%  |                                                                              |===============================================================       |  90%  |                                                                              |================================================================      |  91%  |                                                                              |================================================================      |  92%  |                                                                              |=================================================================     |  93%  |                                                                              |==================================================================    |  94%  |                                                                              |===================================================================   |  96%  |                                                                              |====================================================================  |  97%  |                                                                              |====================================================================  |  98%  |                                                                              |===================================================================== |  99%  |                                                                              |======================================================================| 100%</span></span>
+<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=                                                                     |   1%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |===                                                                   |   4%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  17%  |                                                                              |=============                                                         |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |===============                                                       |  21%  |                                                                              |================                                                      |  22%  |                                                                              |=================                                                     |  24%  |                                                                              |=================                                                     |  25%  |                                                                              |==================                                                    |  26%  |                                                                              |===================                                                   |  27%  |                                                                              |====================                                                  |  28%  |                                                                              |====================                                                  |  29%  |                                                                              |=====================                                                 |  30%  |                                                                              |======================                                                |  31%  |                                                                              |=======================                                               |  33%  |                                                                              |========================                                              |  34%  |                                                                              |========================                                              |  35%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  37%  |                                                                              |===========================                                           |  38%  |                                                                              |============================                                          |  39%  |                                                                              |============================                                          |  40%  |                                                                              |=============================                                         |  42%  |                                                                              |==============================                                        |  43%  |                                                                              |===============================                                       |  44%  |                                                                              |===============================                                       |  45%  |                                                                              |================================                                      |  46%  |                                                                              |=================================                                     |  47%  |                                                                              |==================================                                    |  48%  |                                                                              |===================================                                   |  49%  |                                                                              |===================================                                   |  51%  |                                                                              |====================================                                  |  52%  |                                                                              |=====================================                                 |  53%  |                                                                              |======================================                                |  54%  |                                                                              |=======================================                               |  55%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  57%  |                                                                              |=========================================                             |  58%  |                                                                              |==========================================                            |  60%  |                                                                              |==========================================                            |  61%  |                                                                              |===========================================                           |  62%  |                                                                              |============================================                          |  63%  |                                                                              |=============================================                         |  64%  |                                                                              |==============================================                        |  65%  |                                                                              |==============================================                        |  66%  |                                                                              |===============================================                       |  67%  |                                                                              |================================================                      |  69%  |                                                                              |=================================================                     |  70%  |                                                                              |==================================================                    |  71%  |                                                                              |==================================================                    |  72%  |                                                                              |===================================================                   |  73%  |                                                                              |====================================================                  |  74%  |                                                                              |=====================================================                 |  75%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  78%  |                                                                              |=======================================================               |  79%  |                                                                              |========================================================              |  80%  |                                                                              |=========================================================             |  81%  |                                                                              |=========================================================             |  82%  |                                                                              |==========================================================            |  83%  |                                                                              |===========================================================           |  84%  |                                                                              |============================================================          |  85%  |                                                                              |=============================================================         |  87%  |                                                                              |=============================================================         |  88%  |                                                                              |==============================================================        |  89%  |                                                                              |===============================================================       |  90%  |                                                                              |================================================================      |  91%  |                                                                              |================================================================      |  92%  |                                                                              |=================================================================     |  93%  |                                                                              |==================================================================    |  94%  |                                                                              |===================================================================   |  96%  |                                                                              |====================================================================  |  97%  |                                                                              |====================================================================  |  98%  |                                                                              |===================================================================== |  99%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; Person file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |==                                                                    |   3%  |                                                                              |====                                                                  |   5%  |                                                                              |======                                                                |   8%  |                                                                              |========                                                              |  11%  |                                                                              |=========                                                             |  14%  |                                                                              |===========                                                           |  16%  |                                                                              |=============                                                         |  19%  |                                                                              |===============                                                       |  22%  |                                                                              |=================                                                     |  24%  |                                                                              |===================                                                   |  27%  |                                                                              |=====================                                                 |  30%  |                                                                              |=======================                                               |  32%  |                                                                              |=========================                                             |  35%  |                                                                              |==========================                                            |  38%  |                                                                              |============================                                          |  41%  |                                                                              |==============================                                        |  43%  |                                                                              |================================                                      |  46%  |                                                                              |==================================                                    |  49%  |                                                                              |====================================                                  |  51%  |                                                                              |======================================                                |  54%  |                                                                              |========================================                              |  57%  |                                                                              |==========================================                            |  59%  |                                                                              |============================================                          |  62%  |                                                                              |=============================================                         |  65%  |                                                                              |===============================================                       |  68%  |                                                                              |=================================================                     |  70%  |                                                                              |===================================================                   |  73%  |                                                                              |=====================================================                 |  76%  |                                                                              |=======================================================               |  78%  |                                                                              |=========================================================             |  81%  |                                                                              |===========================================================           |  84%  |                                                                              |=============================================================         |  86%  |                                                                              |==============================================================        |  89%  |                                                                              |================================================================      |  92%  |                                                                              |==================================================================    |  95%  |                                                                              |====================================================================  |  97%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; Multiple Imputation Driver BAC by Crash file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |========                                                              |  11%  |                                                                              |================                                                      |  22%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================                                       |  44%  |                                                                              |=======================================                               |  56%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================                |  78%  |                                                                              |==============================================================        |  89%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; Weather file(s):</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; Crash risk factors:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; vsoe file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |==================                                                    |  25%  |                                                                              |===================================                                   |  50%  |                                                                              |====================================================                  |  75%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; distract file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; drimpair file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; factor file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; maneuver file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; violatn file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; vision file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; damage file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; vehiclesf file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; pvehiclesf file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; driverrf file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; PBtype file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |===                                                                   |   5%  |                                                                              |======                                                                |   9%  |                                                                              |==========                                                            |  14%  |                                                                              |=============                                                         |  18%  |                                                                              |================                                                      |  23%  |                                                                              |===================                                                   |  27%  |                                                                              |======================                                                |  32%  |                                                                              |=========================                                             |  36%  |                                                                              |=============================                                         |  41%  |                                                                              |================================                                      |  45%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================                                |  55%  |                                                                              |=========================================                             |  59%  |                                                                              |=============================================                         |  64%  |                                                                              |================================================                      |  68%  |                                                                              |===================================================                   |  73%  |                                                                              |======================================================                |  77%  |                                                                              |=========================================================             |  82%  |                                                                              |============================================================          |  86%  |                                                                              |================================================================      |  91%  |                                                                              |===================================================================   |  95%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; SafetyEq file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=========                                                             |  12%  |                                                                              |==================                                                    |  25%  |                                                                              |==========================                                            |  38%  |                                                                              |===================================                                   |  50%  |                                                                              |============================================                          |  62%  |                                                                              |====================================================                  |  75%  |                                                                              |=============================================================         |  88%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; Multiple Imputation Person BAC file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |======                                                                |   9%  |                                                                              |=============                                                         |  18%  |                                                                              |===================                                                   |  27%  |                                                                              |=========================                                             |  36%  |                                                                              |================================                                      |  45%  |                                                                              |======================================                                |  55%  |                                                                              |=============================================                         |  64%  |                                                                              |===================================================                   |  73%  |                                                                              |=========================================================             |  82%  |                                                                              |================================================================      |  91%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; nmcrash file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; nmimpair file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; nmprior file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; nmdistract file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; drugs file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=========                                                             |  12%  |                                                                              |==================                                                    |  25%  |                                                                              |==========================                                            |  38%  |                                                                              |===================================                                   |  50%  |                                                                              |============================================                          |  62%  |                                                                              |====================================================                  |  75%  |                                                                              |=============================================================         |  88%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; race file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |==============                                                        |  20%  |                                                                              |============================                                          |  40%  |                                                                              |==========================================                            |  60%  |                                                                              |========================================================              |  80%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; personrf file:</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
-<span><span class="co">#&gt; Warning in parse_sas_format(file_path = list.files(path = wd, pattern =</span></span>
-<span><span class="co">#&gt; "^Format\\d{2}\\.sas$", : NAs introduced by coercion</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span></span>
 <span><span class="co">#&gt; ✓ Flat file constructed</span></span>
 <span><span class="co">#&gt; ✓ Multi_acc file constructed</span></span>
 <span><span class="co">#&gt; ✓ Multi_veh file constructed</span></span>
 <span><span class="co">#&gt; ✓ Multi_per file constructed</span></span>
 <span><span class="co">#&gt; ✓ SOE file constructed</span></span>
-<span><span class="co">#&gt; ✓ Prepared files saved in C:/Users/STEVEJ~1/AppData/Local/Temp/Rtmp461TYS/FARS data/prepd/2023</span></span>
-<span><span class="co">#&gt; ✓ Codebook file saved in C:/Users/STEVEJ~1/AppData/Local/Temp/Rtmp461TYS/FARS data/prepd/</span></span></code></pre></div>
+<span><span class="co">#&gt; ✓ Prepared files saved in C:/Users/STEVEJ~1/AppData/Local/Temp/Rtmpk5gY1z/FARS data/prepd/2023</span></span>
+<span><span class="co">#&gt; ✓ Codebook file saved in C:/Users/STEVEJ~1/AppData/Local/Temp/Rtmpk5gY1z/FARS data/prepd/</span></span></code></pre></div>
 <p>We could have saved that file locally with:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_fars.html">get_fars</a></span><span class="op">(</span>years<span class="op">=</span><span class="fl">2023</span>, proceed <span class="op">=</span> <span class="cn">TRUE</span>, dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, cache <span class="op">=</span> <span class="st">"myFARS.rds"</span><span class="op">)</span></span></code></pre></div>
@@ -1151,8 +389,17 @@
 <p>The <code>multi_</code> tibbles contain those variables for which there may be a varying number of values for any entity (e.g., driver impairments, vehicle events, weather conditions at time of crash). Each tibble has the requisite data elements corresponding to the entity: <code>multi_acc</code> includes <code>st_case</code> and <code>year</code>, <code>multi_veh</code> adds <code>veh_no</code> (vehicle number), and <code>multi_per</code> adds <code>per_no</code> (person number).</p>
 <p>The top name-value pairs of each tibble are shown below.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myFARS</span><span class="op">$</span><span class="va">multi_acc</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span>, <span class="va">n</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">myFARS</span><span class="op">$</span><span class="va">multi_acc</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span>, <span class="va">n</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span>, caption <span class="op">=</span> <span class="st">"Top Name-Value Pairs for the multi_acc Object"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<caption>
+Top Name-Value Pairs for the multi_acc Object
+</caption>
 <thead><tr>
 <th style="text-align:left;">
 name
@@ -1278,8 +525,17 @@ Snow
 </tbody>
 </table>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myFARS</span><span class="op">$</span><span class="va">multi_veh</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span>, <span class="va">n</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">myFARS</span><span class="op">$</span><span class="va">multi_veh</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span>, <span class="va">n</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span>, caption <span class="op">=</span> <span class="st">"Top Name-Value Pairs for the multi_veh Object"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<caption>
+Top Name-Value Pairs for the multi_veh Object
+</caption>
 <thead><tr>
 <th style="text-align:left;">
 name
@@ -1405,8 +661,17 @@ damage
 </tbody>
 </table>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myFARS</span><span class="op">$</span><span class="va">multi_per</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span>, <span class="va">n</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">myFARS</span><span class="op">$</span><span class="va">multi_per</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span>, <span class="va">n</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span>, caption <span class="op">=</span> <span class="st">"Top Name-Value Pairs for the multi_per Object"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<caption>
+Top Name-Value Pairs for the multi_per Object
+</caption>
 <thead><tr>
 <th style="text-align:left;">
 name
@@ -1533,8 +798,12 @@ Actual Drug Quantity
 </table>
 <p>The <code>events</code> tibble provides a sequence of numbered events for each vehicle in each crash. See the vignette(“Crash Sequence of Events”, package = “rfars”) for more information.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">myFARS</span><span class="op">$</span><span class="va">events</span>, <span class="fl">10</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format<span class="op">=</span><span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">myFARS</span><span class="op">$</span><span class="va">events</span>, <span class="fl">10</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format<span class="op">=</span><span class="st">"html"</span>, caption <span class="op">=</span> <span class="st">"Preview of events Object"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<caption>
+Preview of events Object
+</caption>
 <thead><tr>
 <th style="text-align:left;">
 state

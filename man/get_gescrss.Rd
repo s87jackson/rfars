@@ -7,8 +7,9 @@
 get_gescrss(
   years = 2014:2023,
   regions = c("mw", "ne", "s", "w"),
-  dir = NULL,
+  source = c("zenodo", "nhtsa"),
   proceed = FALSE,
+  dir = NULL,
   cache = NULL
 )
 }
@@ -18,16 +19,21 @@ defaults to last 10 years).}
 
 \item{regions}{(Optional) Regions to keep: mw=midwest, ne=northeast, s=south, w=west.}
 
-\item{dir}{Directory in which to search for or save a 'GESCRSS data' folder. If
-NULL (the default), files are downloaded and unzipped to temporary
-directories and prepared in memory.}
+\item{source}{The source of the data: 'zenodo' (the default) pulls the prepared
+dataset from \href{https://zenodo.org/records/17162674}{Zenodo}, 'nhtsa'
+pulls the raw files from NHTSA's FTP site and prepares them on your machine.
+'zenodo' is much faster and provides the same dataset produced by using source='nhtsa'.}
 
 \item{proceed}{Logical, whether or not to proceed with downloading files without
 asking for user permission (defaults to FALSE, thus asking permission)}
 
+\item{dir}{Directory in which to search for or save a 'GESCRSS data' folder. If
+NULL (the default), files are downloaded and unzipped to temporary
+directories and prepared in memory. Ignored if source = 'zenodo'.}
+
 \item{cache}{The name of an RDS file to save or use. If the specified file (e.g., 'myFARS.rds')
 exists in 'dir' it will be returned; if not, an RDS file of this name will be
-saved in 'dir' for quick use in subsequent calls.}
+saved in 'dir' for quick use in subsequent calls. Ignored if source = 'zenodo'.}
 }
 \value{
 A GESCRSS data object (a list with six tibbles: flat, multi_acc,
@@ -38,12 +44,16 @@ Bring GES/CRSS data into the current environment, whether by downloading it anew
     or by using pre-existing files.
 }
 \details{
-This function downloads raw data from the GES and CRSS crash databases.
-   If no directory (dir) is specified, raw CSV files are downloaded into a
+This function provides the GES/CRSS database for the specified years and regions
+   By default, it pulls from a Zenodo repository for speed and memory efficiency.
+   It can also pull the raw files from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/}{NHTSA} and process them in memory, or
+   use an RDS file saved on your machine.
+
+   If source = 'nhtsa' and no directory (dir) is specified, SAS files are downloaded into a
    tempdir(), where they are also prepared, combined, and then brought into
    the current environment. If you specify a directory (dir), the function will
    look there for a 'GESCRSS data' folder. If not found, it will be created and
-   populated with raw and prepared SAS and RDS files. If the directory is found, the
+   populated with raw and prepared SAS and RDS files, otherwise the
    function makes sure all requested years are present and asks permission
    to download any missing years.
 

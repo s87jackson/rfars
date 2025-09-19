@@ -10,24 +10,32 @@
 #' @param states States to keep. Leave as NULL (the default) to keep
 #'     all states. Can be specified as full state name (e.g. "Virginia"),
 #'     abbreviation ("VA"), or FIPS code (51).
-#' @param dir Directory in which to search for or save a 'FARS data' folder. If
-#'     NULL (the default), files are downloaded and unzipped to temporary
-#'     directories and prepared in memory.
+#' @param source The source of the data: 'zenodo' (the default) pulls the prepared
+#'    dataset from \href{https://zenodo.org/records/17162673}{Zenodo}, 'nhtsa'
+#'    pulls the raw files from NHTSA's FTP site and prepares them on your machine.
+#'    'zenodo' is much faster and provides the same dataset produced by using source='nhtsa'.
 #' @param proceed Logical, whether or not to proceed with downloading files without
 #'     asking for user permission (defaults to FALSE, thus asking permission)
+#' @param dir Directory in which to search for or save a 'FARS data' folder. If
+#'     NULL (the default), files are downloaded and unzipped to temporary
+#'     directories and prepared in memory. Ignored if source = 'zenodo'.
 #' @param cache The name of an RDS file to save or use. If the specified file (e.g., 'myFARS.rds')
 #'    exists in 'dir' it will be returned; if not, an RDS file of this name will be
-#'    saved in 'dir' for quick use in subsequent calls.
+#'    saved in 'dir' for quick use in subsequent calls. Ignored if source = 'zenodo'.
 #'
 #' @return A FARS data object (list of six tibbles: flat, multi_acc,
-#'     multi_veh, multi_per, events, and codebook), described below.
+#'    multi_veh, multi_per, events, and codebook), described below.
 #'
-#' @details This function downloads raw data from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/}{NHTSA}.
-#'    If no directory (dir) is specified, SAS files are downloaded into a
+#' @details This function provides the FARS database for the specified years and states.
+#'    By default, it pulls from a Zenodo repository for speed and memory efficiency.
+#'    It can also pull the raw files from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/}{NHTSA} and process them in memory, or
+#'    use an RDS file saved on your machine.
+#'
+#'    If source = 'nhtsa' and no directory (dir) is specified, SAS files are downloaded into a
 #'    tempdir(), where they are also prepared, combined, and then brought into
 #'    the current environment. If you specify a directory (dir), the function will
 #'    look there for a 'FARS data' folder. If not found, it will be created and
-#'    populated with raw and prepared SAS and RDS files. If the directory is found, the
+#'    populated with raw and prepared SAS and RDS files, otherwise the
 #'    function makes sure all requested years are present and asks permission
 #'    to download any missing years.
 #'
@@ -66,8 +74,9 @@
 
 get_fars <- function(years   = 2014:2023,
                      states  = NULL,
-                     dir     = NULL,
+                     source  = c("zenodo", "nhtsa"),
                      proceed = FALSE,
+                     dir     = NULL,
                      cache   = NULL
 ){
 
@@ -91,6 +100,55 @@ get_fars <- function(years   = 2014:2023,
 
   # Check states ----
   validate_states(states)
+
+
+  # Zenodo ----
+  if(!(source[1] %in% c("zenodo", "nhtsa"))) stop("source must be either 'zenodo' or 'nhtsa'")
+
+  if(source[1]=="zenodo"){
+
+    if(!proceed){
+      x <- readline("We will now download the processed file from https://zenodo.org/records/17162673/files/FARS.rds?download=1 \nProceed? (Y/N) \n")
+      if(!(x %in% c("y", "Y"))) stop(message("Download cancelled.\n"))
+    }
+
+    # Download
+    url <- "https://zenodo.org/records/17162673/files/FARS.rds?download=1"
+    dest <- tempfile(fileext = ".rds")
+    downloader::download(url, dest, mode = "wb")
+    fars_zen <- readRDS(dest)
+
+    # Filter years
+    fars_zen$flat      <- dplyr::filter(fars_zen$flat, year %in% years)
+    fars_zen$multi_acc <- dplyr::filter(fars_zen$multi_acc, year %in% years)
+    fars_zen$multi_veh <- dplyr::filter(fars_zen$multi_veh, year %in% years)
+    fars_zen$multi_per <- dplyr::filter(fars_zen$multi_per, year %in% years)
+    fars_zen$events    <- dplyr::filter(fars_zen$events, year %in% years)
+
+    # Filter states
+    if(!is.null(states)){
+
+      geo_filtered <-
+        rfars::geo_relations %>%
+        filter(.data$fips_state %in% states | .data$state_name_abbr %in% states | .data$state_name_full %in% states)
+
+      fars_zen$flat <- dplyr::filter(fars_zen$flat, .data$state %in% geo_filtered$state_name_full)
+
+      filter_frame <-
+        distinct(fars_zen$flat, .data$year, .data$state, .data$st_case) %>%
+        mutate_at("st_case", as.character) %>%
+        mutate_at("year", factor)
+
+      fars_zen$multi_acc <- inner_join(fars_zen$multi_acc, filter_frame, by = c("state", "st_case", "year"))
+      fars_zen$multi_veh <- inner_join(fars_zen$multi_veh, filter_frame, by = c("state", "st_case", "year"))
+      fars_zen$multi_per <- inner_join(fars_zen$multi_per, filter_frame, by = c("state", "st_case", "year"))
+      fars_zen$events    <- inner_join(fars_zen$events, filter_frame, by = c("state", "st_case", "year"))
+
+    }
+
+    return(fars_zen)
+
+  }
 
 
   # Cached RDS file in dir ----

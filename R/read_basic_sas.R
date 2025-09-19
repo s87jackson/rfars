@@ -94,9 +94,15 @@ read_basic_sas <- function(x,
       var_name  <- process_vars[i]
       col_idx   <- which(names(temp) == var_name)
       xvar      <- select(temp, xvar = all_of(var_name))
-      varmap    <- formatData[["labels"]][formatData$variable == var_name][[1]]
       xvarlabel <- formatData[["label"]][formatData$variable == var_name]
       y         <- stringr::str_extract(wd, "[^/]+(?=/[^/]*$)")
+
+      varmap    <- formatData[["labels"]][formatData$variable == var_name][[1]]
+
+      if(any(str_detect(varmap$value, ";"))){
+        varmap    <- varmap[1:(min(which(str_detect(varmap$value, ";")))-1),]
+      }
+
 
       if(is.null(varmap)){
 
@@ -116,6 +122,29 @@ read_basic_sas <- function(x,
 
       } else{
 
+        # Apply value transformations
+        original_name <- names(temp_no_attrs)[col_idx]
+
+        if(inherits(temp_no_attrs[[original_name]], "numeric") && inherits(varmap$value, "character")){
+          varmap$value <- suppressMessages( suppressWarnings( as.numeric(varmap$value) ))
+        }
+
+        if (inherits(varmap$value, "character")) {
+          temp_no_attrs[[original_name]] <- as.character(temp_no_attrs[[original_name]])
+        }
+
+        if (inherits(varmap$value, "integer") || inherits(varmap$value, "numeric")) {
+          temp_no_attrs[[original_name]] <- suppressMessages( suppressWarnings( as.numeric(temp_no_attrs[[original_name]])))
+        }
+
+        temp_no_attrs <- temp_no_attrs %>%
+          dplyr::rename(value = all_of(original_name)) %>%
+          left_join(varmap, by = "value") %>%
+          mutate(value = .data$value_label) %>%
+          select(-all_of("value_label"))
+
+        names(temp_no_attrs)[col_idx] <- original_name
+
         all_codebooks[[var_name]] <-
           varmap %>%
           mutate(
@@ -128,25 +157,6 @@ read_basic_sas <- function(x,
           ) %>%
           select(all_of(c("source", y, "file", "name_ncsa", "name_rfars", "label", "value", "value_label"))) %>%
           mutate(across(everything(), as.character))
-
-
-        # Apply value transformations
-        original_name <- names(temp_no_attrs)[col_idx]
-
-        if (inherits(varmap$value, "character")) {
-          temp_no_attrs[[original_name]] <- as.character(temp_no_attrs[[original_name]])
-        }
-        if (inherits(varmap$value, "integer") || inherits(varmap$value, "numeric")) {
-          temp_no_attrs[[original_name]] <- suppressMessages( suppressWarnings( as.numeric(temp_no_attrs[[original_name]])))
-        }
-
-        temp_no_attrs <- temp_no_attrs %>%
-          dplyr::rename(value = all_of(original_name)) %>%
-          left_join(varmap, by = "value") %>%
-          mutate(value = .data$value_label) %>%
-          select(-all_of("value_label"))
-
-        names(temp_no_attrs)[col_idx] <- original_name
 
       }
 

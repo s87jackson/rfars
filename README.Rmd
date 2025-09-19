@@ -81,7 +81,12 @@ library(dplyr)
 The `get_fars()` and `get_gescrss()` are the primary functions of the `rfars`
 package. These functions download and process data files directly from [NHTSA's
 FTP Site](https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/), or pull the
-prepared data stored on your local machine. They take the parameters `years` and
+prepared data stored on your local machine, or (as of Version 2.0) pull the 
+prepared data from Zenodo. The data files hosted on Zenodo are stable, have DOIs, 
+and replicate the data that would be produced by `get_fars()` and `get_gescrss()`,
+but in a fraction of the time.
+
+They take the parameters `years` and
 `states` (FARS) or `regions` (GES/CRSS). As the source data files follow an
 annual structure, `years` determines how many file sets are downloaded or
 loaded, and `states`/`regions` filters the resulting dataset. Downloading and
@@ -92,24 +97,16 @@ parameters to save an RDS file to your local machine. The `dir` parameter
 specifies the directory, and `cache` names the file (be sure to include the .rds
 file extension).
 
-Below we get one year of FARS data:
+Executing the code below will download the prepared FARS database for 2014-2023.
 
 ```{r}
-myFARS <- get_fars(years = 2023, proceed = TRUE)
+myFARS <- get_fars(proceed = TRUE)
 ```
 
-We could have saved that file locally with:
+We could also download the prepared GES/CRSS database:
 
 ```{r, eval=F}
-myFARS <- get_fars(years=2023, proceed = TRUE, dir = getwd(), cache = "myFARS.rds")
-```
-
-Note that you can assign and save this data with one function call.
-
-We could similarly get one year of CRSS data:
-
-```{r, eval=F}
-myCRSS <- get_gescrss(years = 2023, proceed = TRUE)
+myCRSS <- get_gescrss(proceed = TRUE)
 ```
 
 `get_fars()` and `get_gescrss()` return a list with six tibbles: `flat`,
@@ -123,7 +120,7 @@ identified with `id`, which is a combination of `year` and `st_case`. Note that
 in each year. The `id` variable attempts to avoid this issue.
 
 ```{r}
-glimpse(myFARS$flat, width = 100)
+glimpse(myFARS$flat, width = 80)
 ```
 
 The `multi_` tibbles contain those variables for which there may be a varying
@@ -177,9 +174,7 @@ head(myFARS$events, 10) %>%
 The `codebook` tibble provides a searchable codebook for the data, useful if you
 know what concept you're looking for but not the variable that describes it.
 `rfars` also includes pre-loaded codebooks for FARS and GESCRSS
-(`rfars::fars_codebook` and `rfars::gescrss_codebook`). These tables span
-2014-2023 whereas the `codebook` object returned from `get_fars()` and
-`get_gescrss()` only include the specified `years`. See
+(`rfars::fars_codebook` and `rfars::gescrss_codebook`). See
 `vignette('Searchable Codebooks', package = 'rfars')` for more information.
 
 ## Counts
