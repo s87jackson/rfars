@@ -1,7 +1,7 @@
 Package: rfars
 Type: Package
 Title: Download and Analyze Crash Data
-Version: 2.0.0
+Version: 2.0.1
 Authors@R: person("Steve", "Jackson", 
     email="steve.jackson@toxcel.com",
     role = c("aut", "cre"),
