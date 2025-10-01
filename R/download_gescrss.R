@@ -30,12 +30,20 @@ download_gescrss <- function(years,
       y %in% 2011:2013 ~ paste0("https://static.nhtsa.gov/nhtsa/downloads/GES/GES", y-2000, "/GES", y-2000, "_PCSAS.zip"),
       TRUE             ~ "invalid year")
 
+    # Check internet connection before attempting download
+    if (!check_internet_connection()) {
+      message("Internet connection not available. Unable to download GES/CRSS data.")
+      message("Please check your internet connection and try again.")
+      return(invisible(NULL))
+    }
+
     try_my_url <- try(
       expr = downloader::download(my_url, destfile=dest_zip, mode="wb"),
       silent = TRUE)
 
     if(inherits(try_my_url, "try-error")){
-      message(paste0("Failed to download data for year ", y)) # is this necessary? Maybe a different message
+      message(paste0("Failed to download GES/CRSS data for year ", y))
+      message(paste0("URL attempted: ", my_url))
       next
     } else{
 

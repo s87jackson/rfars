@@ -28,13 +28,20 @@ download_fars <- function(years,
       "/National/FARS", y,
       "NationalSAS.zip")
 
+    # Check internet connection before attempting download
+    if (!check_internet_connection()) {
+      message("Internet connection not available. Unable to download FARS data.")
+      message("Please check your internet connection and try again.")
+      return(invisible(NULL))
+    }
+
     try_my_url <- try(
       expr = downloader::download(my_url, destfile=dest_zip, mode="wb"),
       silent = TRUE)
 
     if(inherits(try_my_url, "try-error")){
-
-      message(paste0("Failed to download data for year ", y))
+      message(paste0("Failed to download FARS data for year ", y))
+      message(paste0("URL attempted: ", my_url))
       next
 
     } else{

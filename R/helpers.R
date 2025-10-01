@@ -193,6 +193,35 @@ get_sas_attrs <- function(data) {
 
 
 
+#' (Internal) Check internet connection
+#'
+#' Test if internet connection is available by attempting to reach a reliable host.
+#' This function is used to gracefully handle cases where internet resources
+#' are not available.
+#'
+#' @return Logical indicating whether internet connection is available
+#'
+check_internet_connection <- function() {
+  # Try to connect to a reliable host (Google's public DNS)
+  tryCatch({
+    # Use a simple approach that works across platforms
+    # Try to resolve a domain name - this requires internet connectivity
+    nslookup_result <- system("nslookup google.com", intern = TRUE, ignore.stderr = TRUE)
+    return(length(nslookup_result) > 0)
+  }, error = function(e) {
+    # If nslookup is not available, try a different approach
+    tryCatch({
+      # Alternative: try to open a connection to a reliable host
+      con <- url("http://www.google.com", open = "rb")
+      close(con)
+      return(TRUE)
+    }, error = function(e2) {
+      return(FALSE)
+    })
+  })
+}
+
+
 #' (Internal) Parse formats.sas instead of using a .sas7bcat file
 #'
 #' @param file_path The path of the formats.sas file

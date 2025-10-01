@@ -118,7 +118,26 @@ get_gescrss <- function(years     = 2014:2023,
     # Download
     url <- "https://zenodo.org/records/17162674/files/GESCRSS.rds?download=1"
     dest <- tempfile(fileext = ".rds")
-    downloader::download(url, dest, mode = "wb")
+    
+    # Check internet connection before attempting download
+    if (!check_internet_connection()) {
+      message("Internet connection not available. Unable to download GES/CRSS data from Zenodo.")
+      message("Please check your internet connection and try again.")
+      return(invisible(NULL))
+    }
+    
+    # Attempt download with error handling
+    download_result <- try(
+      downloader::download(url, dest, mode = "wb"),
+      silent = TRUE
+    )
+    
+    if (inherits(download_result, "try-error")) {
+      message("Failed to download GES/CRSS data from Zenodo.")
+      message(paste0("URL attempted: ", url))
+      return(invisible(NULL))
+    }
+    
     gescrss_zen <- readRDS(dest)
 
     # Filter years
