@@ -1,12 +1,12 @@
 Package: rfars
 Type: Package
 Title: Download and Analyze Crash Data
-Version: 2.0.1
+Version: 2.0.2
 Authors@R: person("Steve", "Jackson", 
     email="steve.jackson@toxcel.com",
     role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-3337-7846"))
-Description: Download crash data from the National Highway Traffic Safety Administration and prepare it for research.
+Description: Easily Download Analysis-Ready Crash Data from the U.S. National Highway Traffic Safety Administration.
 License: CC0
 Encoding: UTF-8
 LazyData: true
@@ -39,7 +39,9 @@ Suggests:
     lme4,
     tidyverse,
     tidytext,
-    DT
+    DT,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 URL: https://github.com/s87jackson/rfars, https://s87jackson.github.io/rfars/
 BugReports: https://github.com/s87jackson/rfars/issues
+Config/testthat/edition: 3

@@ -91,6 +91,13 @@ This function provides the GES/CRSS database for the specified years and regions
 \examples{
 
   \dontrun{
-    myGESCRSS <- get_gescrss(years = 2021, regions = "s")
+    # Use defaults to get 10 years of national data
+    myCRSS <- get_gescrss()
+
+    # Get latest year of data
+    myCRSS <- get_gescrss(2023)
+
+    # Get data for one region
+    myCRSS <- get_gescrss(regions = "s")
   }
 }

@@ -6,6 +6,7 @@ inst/doc
 ^update_process\.txt$
 ^sticker\.pptx$
 ^update_process\.txt$
+^update_process\.R$
 ^old$
 in_development
 in_development/

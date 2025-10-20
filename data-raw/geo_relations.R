@@ -54,6 +54,8 @@ geo_relations <-
       region == "South (MD, DE, DC, WV, VA, KY, TN, NC, SC, GA, FL, AL, MS, LA, AR, OK, TX)" ~ "s",
       region == "West (MT, ID, WA, OR, CA, NV, NM, AZ, UT, CO, WY, AK, HI)" ~ "w")
 
-    )
+    ) %>%
+
+  mutate_if(is.character, as.factor)
 
 usethis::use_data(geo_relations, overwrite = TRUE)

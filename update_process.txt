@@ -15,17 +15,13 @@ delete the FARS and GESCRSS data folders, and anything created by the vignettes
 
 rm(list=ls())
 
-Build >> More >> Document
-
-devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))
+Build >> More >> Document: devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))
 
 Install >> Clean and install
 
 unlink("C:/Users/SteveJackson/OneDrive - Toxcel/rfars.Rcheck", recursive = TRUE)
 
-Check
-
-devtools::check(args = c('--as-cran'), check_dir = tempdir())
+Check: devtools::check(args = c('--as-cran'), check_dir = tempdir())
 
 Move the .claude folder and CLAUDE.md files to /in_development
 
@@ -39,7 +35,7 @@ Git commit all of the changed files (Commit, Push)
 
 Update cran-comments.md
 
-Make sure version number in description id accurate.
+Make sure version number in description is accurate.
 
 devtools::submit_cran()
 

@@ -88,7 +88,7 @@ counts <- function(df,
 
   # Where ----
 
-    if(where$states != "all"){
+    if(!("all" %in% where$states)){
 
       mystates <- rfars::geo_relations %>% filter(.data$state_name_abbr %in% where$states |
                                                   .data$state_name_full %in% where$states |
@@ -105,7 +105,7 @@ counts <- function(df,
     }
 
 
-    if(where$region != "all"){
+    if(!("all" %in% where$region)){
 
       if("GESCRSS" %in% class(df)){
 
@@ -123,8 +123,7 @@ counts <- function(df,
 
     }
 
-
-    if(where$urb != "all"){
+    if(!("all" %in% where$urb)){
 
       if("GESCRSS" %in% class(df)){
 
@@ -150,7 +149,7 @@ counts <- function(df,
 
     if ("each" %in% involved && filterOnly == TRUE) stop("To use involved = 'each', set filterOnly = FALSE")
 
-    if(involved == "any") flat$involved <- "any"
+    if(length(involved) == 1 && involved == "any") flat$involved <- "any"
 
 
     if(length(involved)>=1 && !(any(c("any", "each") %in% involved))){
@@ -230,7 +229,7 @@ counts <- function(df,
 
 
   # Who ----
-    if(all(who != "all")){
+    if(!("all" %in% who)){
 
       who_convert <- data.frame(
         simple = c("bicyclists", "pedestrians", "drivers", "passengers"),

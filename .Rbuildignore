@@ -34,5 +34,6 @@ vignettes/in_development$
 vignettes/in_development
 ^\.github
 ^update_process\.txt$
+^update_process\.R$
 in_development
 in_development/

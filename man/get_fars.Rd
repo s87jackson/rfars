@@ -87,6 +87,13 @@ This function provides the FARS database for the specified years and states.
 \examples{
 
   \dontrun{
-    myFARS <- get_fars(years = 2021, states = "VA")
+    # Use defaults to get 10 years of national data
+    myFARS <- get_fars()
+
+    # Get latest year of data
+    myFARS <- get_fars(2023)
+
+    # Get data for one state
+    myFARS <- get_fars(states = "VA")
   }
 }
