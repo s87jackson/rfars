@@ -29,83 +29,136 @@ library(magrittr)
 library(tidyr)
 ```
 
+For this analysis, we will use one year of data from CRSS and explore which
+crash events were associated with more severe crash outcomes.
 
-First we get one year of data, and filter to the southern region for simplicity. 
-
-```{r, warning=FALSE}
-mydata <- rfars::get_gescrss(years=2023, regions = "s", proceed = TRUE)
-
+```{r, warning=FALSE, eval=F}
+mydata <- rfars::get_gescrss(years=2023, proceed = TRUE)
 my_events <- mydata$events
 ```
 
-The **Vsoe** data is stored in the `events` tibble of the object returned by
-`get_gescrss()`. Here we see the top 10 individual events:
+Below is the sequence for one randomly selected crash:
 
-```{r, results='asis'}
-my_events %>%
-  group_by(soe) %>% summarize(n=n()) %>%
-  arrange(desc(n)) %>%
-  slice(1:10) %>%
-  knitr::kable(format = "html")
+```{r, results='asis', eval=F}
+knitr::kable(filter(my_events, casenum == "202304741191")format = "html")
 ```
 
-We can also see the top 10 most common sequences:
-
-```{r, results='asis'}
-my_events %>%
-  select(-aoi) %>%
-  mutate_at("soe", as.character) %>%
-  pivot_wider(
-    names_from = "veventnum", 
-    values_from = "soe", 
-    values_fill = "x",
-    names_prefix = "event") %>%
-  select(starts_with("event")) %>%
-  group_by_all() %>%
-  summarize(n=n(), .groups = "drop") %>%
-  arrange(desc(n)) %>%
-  slice(1:10) %>%
-  select(event1, event2, n) %>%
-  knitr::kable(format = "html")
+```{r, results='asis', echo=F}
+vignette_data <- rfars:::vignette_data
+knitr::kable(vignette_data$events_1, format = "html")
 ```
 
-Below we consider all state transitions - the transition from one event to the
-next in the sequence. For example, the sequence A-B-C-D has three transitions: A
-to B, B to C, and C to D. The graph below shows a subset of the more common
-transitions in the crash sequences. It is interpreted as follows: the event listed 
-on the x-axis (top) was followed by the event listed on the y-axis. The percentage
-shown at the graphical intersection represents the percentage of transitions from one
-event (x) to another event (y). For example, 'Fence'
-was followed by 'Tree (Standing Only)' in 21% of sequences. Note that we have added a 
-state labelled 'Pre-Crash' to help account for sequences with just one event. Another 
-notable takeaway is the large number of events that precede Rollover/Overturn.
 
-```{r, fig.height=10, fig.width=12}
-my_events %>%
-  group_by(year, casenum, veh_no) %>%
-  mutate_at("soe", as.character) %>%
-  dplyr::rename(event_to = soe) %>%
-  mutate(event_from = data.table::shift(event_to, fill = "Pre-Crash")) %>%
-  select(event_from, event_to) %>%
-  group_by(event_from, event_to) %>% summarize(n=n()) %>%
-  group_by(event_from) %>% mutate(n_from = sum(n)) %>%
-  mutate(n_pct = n/n_from) %>%
-  filter(n_pct>.2, n>5) %>%
+After some moderate data wrangling, the event sequences can be compared by severity
+across regions, as shown below. 
+This figure shows how many fatal and non-fatal crashes occurred in 2023 by region. It 
+filters to event sequences that end with "Pedestrian" and shows the preceding events in order.
+The most common crash sequence begins and ends with "Pedestrian." The top-left panel
+of the graph indicates that 37 fatal pedestrian crashes in the midwest were preceded by
+a vehicle running off the roadway in an unknown direction. The other 516-31=`r cat(516-31)` 
+were single-event crashes beginning and ending with striking the pedestrian. Fatal
+pedestrian crashes in the northeast followed 4 distinct patterns, including the single-event
+sequence; 5 patterns emerge in the south; etc. With the exception of the midwest, all other
+crash sequences involved running off the roadway to the right. Notably, running off
+the roadway to the left was much more common among non-fatal crashes.
+
+```{r, eval=F, fig.width=12, fig.height=7}
+events_temp <-
+  my_events %>%
+  group_by(casenum, veh_no) %>%
   mutate(
-    event_from = ifelse(nchar(event_from)>30, paste0(stringr::str_sub(event_from, 1, 30), "..."), event_from),
-    #event_to   = paste0(stringr::str_sub(event_to, 1, 30), "..."),
-    event_to = stringr::str_wrap(event_to, 40)
-    ) %>%
-  filter(event_from != event_to) %>%
+    veventnum = as.numeric(as.character(veventnum)),
+    lasteventnum = max(veventnum)
+  ) %>%
+  ungroup() %>%
+  filter(soe=="Pedestrian" & veventnum==lasteventnum) %>%
+  distinct(casenum, veh_no, year, lasteventnum) %>%
+  left_join(events_data$events) %>%
+  left_join(
+    distinct(events_data$flat, year, region, casenum, max_sev, weight) %>%
+      mutate_at(c("casenum", "year"), as.character) %>%
+      mutate_at(c("region"), word)
+  ) %>%
+  mutate(
+    fatal = factor(ifelse(max_sev != "Fatal Injury (K)", "Non-Fatal", "Fatal"), ordered = T),
+    veventnum = as.numeric(as.character(veventnum)),
+    eventnum = as.factor(veventnum - lasteventnum),
+    soe = str_replace_all(soe, "Motor Vehicle In-Transport Strikes or is Struck by Cargo, Persons or Objects Set-in-Motion from/by Another Motor Vehicle In Transport", "Motor Vehicle In-Transport Strikes or is Struck by Something")
+  )
 
-  ggplot(aes(x=event_from, y=event_to, fill=n_pct, label=scales::percent(n_pct, accuracy = 1))) +
-    viridis::scale_fill_viridis() +
-    geom_label() +
-    scale_x_discrete(position = "top") +
-    theme(
-      axis.text.x.top = element_text(angle=45, hjust=0),
-      axis.ticks = element_blank(),
-      #axis.text.x.bottom = element_text(angle=270, hjust = 0, vjust=.5),
-      #legend.position = "none"
-      )
+sequences <-
+  events_temp %>%
+  arrange(casenum, eventnum) %>%
+  distinct(casenum, region, eventnum, soe, fatal) %>%
+  group_by(casenum, region, fatal) %>%
+  summarize(sequence = paste0(soe, collapse = " THEN "), .groups = "drop")
+
+sequences_meta <-
+  sequences %>%
+  group_by(sequence, region, fatal) %>%
+  summarize(sequence_n = n(), .groups = "drop") %>%
+  arrange(-sequence_n) %>%
+  mutate(sequence_num = row_number()) %>%
+  filter(sequence_n > 1)
+
+sequence_event_counts <-
+  inner_join(events_temp, sequences) %>%
+  group_by(sequence, soe, eventnum, region, fatal) %>%
+  summarize(n=sum(weight)) %>%
+  filter(sequence %in% unique(sequences_meta$sequence))
+
+event_counts <-
+  sequence_event_counts %>%
+  group_by(soe, eventnum, region, fatal) %>%
+  summarize(n=sum(n))
+  
+sequence_event_counts %>%
+  ggplot(aes(x=eventnum, y=soe, group=sequence)) +
+  geom_line(aes(linewidth = log(n)), alpha=.6) +
+  geom_label(
+    inherit.aes = F,
+    data = event_counts,
+    aes(x=eventnum, y=soe, size=log(n), label = scales::comma(n, accuracy = 1))
+  ) +
+  scale_x_discrete(expand = expansion(add=c(.2, .6))) +
+  facet_grid(fatal~region, scales = "free_y", space = "free_y") +
+  guides(size="none", linewidth="none") +
+  labs(
+    x = "Event Number (Relative to Last Event)",
+    y = NULL,
+    title = "Crash Sequences",
+    subtitle = "Pedestrian crashes in 2023"
+  ) +
+  theme(
+    axis.ticks = element_blank(),
+    strip.text.y.right = element_text(angle=0)
+  )
 ```
+
+
+```{r, echo=F, fig.width=12, fig.height=7}
+vignette_data$events_2$sequence_event_counts %>%
+  ggplot(aes(x=eventnum, y=soe, group=sequence)) +
+  geom_line(aes(linewidth = log(n)), alpha=.6) +
+  geom_label(
+    inherit.aes = F,
+    data = vignette_data$events_2$event_counts,
+    aes(x=eventnum, y=soe, size=log(n), label = scales::comma(n, accuracy = 1))
+  ) +
+  scale_x_discrete(expand = expansion(add=c(.2, .6))) +
+  facet_grid(fatal~region, scales = "free_y", space = "free_y") +
+  guides(size="none", linewidth="none") +
+  labs(
+    x = "Event Number (Relative to Last Event)",
+    y = NULL,
+    title = "Crash Sequences",
+    subtitle = "Pedestrian crashes in 2023"
+  ) +
+  theme(
+    axis.ticks = element_blank(),
+    strip.text.y.right = element_text(angle=0)
+  )
+```
+
+This topic could be explored further with other data elements and techniques. The
+event sequence data represents an underused resource for this research.

@@ -85,300 +85,266 @@ that records the sequential event number for each vehicle,” and the
 in the <strong>Vevent</strong> data file (it is a simplified
 <strong>vevent</strong> data file)” (p. 16). <code>rfars</code>
 therefore omits <strong>cevent</strong> and <strong>vevent</strong>.</p>
-<p>First we get one year of data, and filter to the southern region for
-simplicity.</p>
+<p>For this analysis, we will use one year of data from CRSS and explore
+which crash events were associated with more severe crash outcomes.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu">rfars</span><span class="fu">::</span><span class="fu"><a href="../reference/get_gescrss.html">get_gescrss</a></span><span class="op">(</span>years<span class="op">=</span><span class="fl">2023</span>, regions <span class="op">=</span> <span class="st">"s"</span>, proceed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
+<code class="sourceCode R"><span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu">rfars</span><span class="fu">::</span><span class="fu"><a href="../reference/get_gescrss.html">get_gescrss</a></span><span class="op">(</span>years<span class="op">=</span><span class="fl">2023</span>, proceed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">my_events</span> <span class="op">&lt;-</span> <span class="va">mydata</span><span class="op">$</span><span class="va">events</span></span></code></pre></div>
-<p>The <strong>Vsoe</strong> data is stored in the <code>events</code>
-tibble of the object returned by <code><a href="../reference/get_gescrss.html">get_gescrss()</a></code>. Here we see
-the top 10 individual events:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_events</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">soe</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
+<p>Below is the sequence for one randomly selected crash:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">filter</span>(my_events, casenum <span class="sc">==</span> <span class="st">"202304741191"</span>)<span class="at">format =</span> <span class="st">"html"</span>)</span></code></pre></div>
 <table class="table">
 <thead><tr>
+<th style="text-align:left;">
+casenum
+</th>
+<th style="text-align:left;">
+veh_no
+</th>
+<th style="text-align:left;">
+aoi
+</th>
 <th style="text-align:left;">
 soe
 </th>
-<th style="text-align:right;">
-n
+<th style="text-align:left;">
+veventnum
+</th>
+<th style="text-align:left;">
+year
 </th>
 </tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
+202304741191
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+12 Clock Point
+</td>
+<td style="text-align:left;">
 Motor Vehicle In-Transport
 </td>
-<td style="text-align:right;">
-42924
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2023
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Ran Off Roadway - Right
+202304741191
 </td>
-<td style="text-align:right;">
-3812
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+Left-Back Side
+</td>
+<td style="text-align:left;">
+Motor Vehicle In-Transport
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2023
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+202304741191
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+Non-Harmful Event
+</td>
+<td style="text-align:left;">
+Ran Off Roadway - Right
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2023
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+202304741191
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+Non-Harmful Event
+</td>
+<td style="text-align:left;">
+Re-entering Roadway
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+2023
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+202304741191
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+Non-Collision
+</td>
+<td style="text-align:left;">
+Rollover/Overturn
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+2023
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+202304741191
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+Non-Harmful Event
+</td>
 <td style="text-align:left;">
 Ran Off Roadway - Left
 </td>
-<td style="text-align:right;">
-2653
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+2023
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Parked Motor Vehicle
+202304741191
 </td>
-<td style="text-align:right;">
-1862
-</td>
-</tr>
-<tr>
 <td style="text-align:left;">
-Rollover/Overturn
+2
 </td>
-<td style="text-align:right;">
-1509
-</td>
-</tr>
-<tr>
 <td style="text-align:left;">
-Cross Centerline
+Right-Back Side
 </td>
-<td style="text-align:right;">
-1499
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Pedestrian
-</td>
-<td style="text-align:right;">
-1142
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Tree (Standing Only)
-</td>
-<td style="text-align:right;">
-1114
-</td>
-</tr>
-<tr>
 <td style="text-align:left;">
 Ditch
 </td>
-<td style="text-align:right;">
-784
-</td>
-</tr>
-<tr>
 <td style="text-align:left;">
-Pedalcyclist
+6
 </td>
-<td style="text-align:right;">
-668
+<td style="text-align:left;">
+2023
 </td>
 </tr>
 </tbody>
 </table>
-<p>We can also see the top 10 most common sequences:</p>
+<p>After some moderate data wrangling, the event sequences can be
+compared by severity across regions, as shown below. This figure shows
+how many fatal and non-fatal crashes occurred in 2023 by region. It
+filters to event sequences that end with “Pedestrian” and shows the
+preceding events in order. The most common crash sequence begins and
+ends with “Pedestrian.” The top-left panel of the graph indicates that
+37 fatal pedestrian crashes in the midwest were preceded by a vehicle
+running off the roadway in an unknown direction. The other 516-31= were
+single-event crashes beginning and ending with striking the pedestrian.
+Fatal pedestrian crashes in the northeast followed 4 distinct patterns,
+including the single-event sequence; 5 patterns emerge in the south;
+etc. With the exception of the midwest, all other crash sequences
+involved running off the roadway to the right. Notably, running off the
+roadway to the left was much more common among non-fatal crashes.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_events</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">aoi</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html" class="external-link">mutate_at</a></span><span class="op">(</span><span class="st">"soe"</span>, <span class="va">as.character</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span></span>
-<span>    names_from <span class="op">=</span> <span class="st">"veventnum"</span>, </span>
-<span>    values_from <span class="op">=</span> <span class="st">"soe"</span>, </span>
-<span>    values_fill <span class="op">=</span> <span class="st">"x"</span>,</span>
-<span>    names_prefix <span class="op">=</span> <span class="st">"event"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"event"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by_all.html" class="external-link">group_by_all</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">event1</span>, <span class="va">event2</span>, <span class="va">n</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
-<thead><tr>
-<th style="text-align:left;">
-event1
-</th>
-<th style="text-align:left;">
-event2
-</th>
-<th style="text-align:right;">
-n
-</th>
-</tr></thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Motor Vehicle In-Transport
-</td>
-<td style="text-align:left;">
-x
-</td>
-<td style="text-align:right;">
-35761
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Motor Vehicle In-Transport
-</td>
-<td style="text-align:left;">
-Motor Vehicle In-Transport
-</td>
-<td style="text-align:right;">
-1828
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Parked Motor Vehicle
-</td>
-<td style="text-align:left;">
-x
-</td>
-<td style="text-align:right;">
-958
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Pedestrian
-</td>
-<td style="text-align:left;">
-x
-</td>
-<td style="text-align:right;">
-877
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Pedalcyclist
-</td>
-<td style="text-align:left;">
-x
-</td>
-<td style="text-align:right;">
-611
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Cross Centerline
-</td>
-<td style="text-align:left;">
-Motor Vehicle In-Transport
-</td>
-<td style="text-align:right;">
-482
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Live Animal
-</td>
-<td style="text-align:left;">
-x
-</td>
-<td style="text-align:right;">
-447
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Ran Off Roadway - Right
-</td>
-<td style="text-align:left;">
-Parked Motor Vehicle
-</td>
-<td style="text-align:right;">
-303
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Motor Vehicle In-Transport Strikes or is Struck by Cargo, Persons or
-Objects Set-in-Motion from/by Another Motor Vehicle In Transport
-</td>
-<td style="text-align:left;">
-x
-</td>
-<td style="text-align:right;">
-205
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Motor Vehicle In-Transport
-</td>
-<td style="text-align:left;">
-Rollover/Overturn
-</td>
-<td style="text-align:right;">
-188
-</td>
-</tr>
-</tbody>
-</table>
-<p>Below we consider all state transitions - the transition from one
-event to the next in the sequence. For example, the sequence A-B-C-D has
-three transitions: A to B, B to C, and C to D. The graph below shows a
-subset of the more common transitions in the crash sequences. It is
-interpreted as follows: the event listed on the x-axis (top) was
-followed by the event listed on the y-axis. The percentage shown at the
-graphical intersection represents the percentage of transitions from one
-event (x) to another event (y). For example, ‘Fence’ was followed by
-‘Tree (Standing Only)’ in 21% of sequences. Note that we have added a
-state labelled ‘Pre-Crash’ to help account for sequences with just one
-event. Another notable takeaway is the large number of events that
-precede Rollover/Overturn.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_events</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">year</span>, <span class="va">casenum</span>, <span class="va">veh_no</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html" class="external-link">mutate_at</a></span><span class="op">(</span><span class="st">"soe"</span>, <span class="va">as.character</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>event_to <span class="op">=</span> <span class="va">soe</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>event_from <span class="op">=</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/shift.html" class="external-link">shift</a></span><span class="op">(</span><span class="va">event_to</span>, fill <span class="op">=</span> <span class="st">"Pre-Crash"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">event_from</span>, <span class="va">event_to</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">event_from</span>, <span class="va">event_to</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">event_from</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>n_from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>n_pct <span class="op">=</span> <span class="va">n</span><span class="op">/</span><span class="va">n_from</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">n_pct</span><span class="op">&gt;</span><span class="fl">.2</span>, <span class="va">n</span><span class="op">&gt;</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">events_temp</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">my_events</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">casenum</span>, <span class="va">veh_no</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    event_from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nchar</a></span><span class="op">(</span><span class="va">event_from</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">30</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html" class="external-link">str_sub</a></span><span class="op">(</span><span class="va">event_from</span>, <span class="fl">1</span>, <span class="fl">30</span><span class="op">)</span>, <span class="st">"..."</span><span class="op">)</span>, <span class="va">event_from</span><span class="op">)</span>,</span>
-<span>    <span class="co">#event_to   = paste0(stringr::str_sub(event_to, 1, 30), "..."),</span></span>
-<span>    event_to <span class="op">=</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_wrap.html" class="external-link">str_wrap</a></span><span class="op">(</span><span class="va">event_to</span>, <span class="fl">40</span><span class="op">)</span></span>
-<span>    <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">event_from</span> <span class="op">!=</span> <span class="va">event_to</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    veventnum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">veventnum</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    lasteventnum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">veventnum</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">soe</span><span class="op">==</span><span class="st">"Pedestrian"</span> <span class="op">&amp;</span> <span class="va">veventnum</span><span class="op">==</span><span class="va">lasteventnum</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">casenum</span>, <span class="va">veh_no</span>, <span class="va">year</span>, <span class="va">lasteventnum</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">events_data</span><span class="op">$</span><span class="va">events</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">events_data</span><span class="op">$</span><span class="va">flat</span>, <span class="va">year</span>, <span class="va">region</span>, <span class="va">casenum</span>, <span class="va">max_sev</span>, <span class="va">weight</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html" class="external-link">mutate_at</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"casenum"</span>, <span class="st">"year"</span><span class="op">)</span>, <span class="va">as.character</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html" class="external-link">mutate_at</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"region"</span><span class="op">)</span>, <span class="va">word</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    fatal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">max_sev</span> <span class="op">!=</span> <span class="st">"Fatal Injury (K)"</span>, <span class="st">"Non-Fatal"</span>, <span class="st">"Fatal"</span><span class="op">)</span>, ordered <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>,</span>
+<span>    veventnum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">veventnum</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    eventnum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">veventnum</span> <span class="op">-</span> <span class="va">lasteventnum</span><span class="op">)</span>,</span>
+<span>    soe <span class="op">=</span> <span class="fu">str_replace_all</span><span class="op">(</span><span class="va">soe</span>, <span class="st">"Motor Vehicle In-Transport Strikes or is Struck by Cargo, Persons or Objects Set-in-Motion from/by Another Motor Vehicle In Transport"</span>, <span class="st">"Motor Vehicle In-Transport Strikes or is Struck by Something"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
 <span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">event_from</span>, y<span class="op">=</span><span class="va">event_to</span>, fill<span class="op">=</span><span class="va">n_pct</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html" class="external-link">percent</a></span><span class="op">(</span><span class="va">n_pct</span>, accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">viridis</span><span class="fu">::</span><span class="fu"><a href="https://sjmgarnier.github.io/viridis/reference/scale_viridis.html" class="external-link">scale_fill_viridis</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_x_discrete</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
-<span>      axis.text.x.top <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle<span class="op">=</span><span class="fl">45</span>, hjust<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
-<span>      axis.ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>      <span class="co">#axis.text.x.bottom = element_text(angle=270, hjust = 0, vjust=.5),</span></span>
-<span>      <span class="co">#legend.position = "none"</span></span>
-<span>      <span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Adding missing grouping variables: `year`, `casenum`, `veh_no`</span></span>
-<span><span class="co">## `summarise()` has grouped output by 'event_from'. You can override using the</span></span>
-<span><span class="co">## `.groups` argument.</span></span></code></pre>
-<p><img src="Crash_sequence_of_events_files/figure-html/unnamed-chunk-4-1.png" width="1152"></p>
+<span><span class="va">sequences</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">events_temp</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">casenum</span>, <span class="va">eventnum</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">casenum</span>, <span class="va">region</span>, <span class="va">eventnum</span>, <span class="va">soe</span>, <span class="va">fatal</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">casenum</span>, <span class="va">region</span>, <span class="va">fatal</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">soe</span>, collapse <span class="op">=</span> <span class="st">" THEN "</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sequences_meta</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">sequences</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">sequence</span>, <span class="va">region</span>, <span class="va">fatal</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>sequence_n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="op">-</span><span class="va">sequence_n</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>sequence_num <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/row_number.html" class="external-link">row_number</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">sequence_n</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sequence_event_counts</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">inner_join</a></span><span class="op">(</span><span class="va">events_temp</span>, <span class="va">sequences</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">sequence</span>, <span class="va">soe</span>, <span class="va">eventnum</span>, <span class="va">region</span>, <span class="va">fatal</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">sequence</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">sequences_meta</span><span class="op">$</span><span class="va">sequence</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">event_counts</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">sequence_event_counts</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">soe</span>, <span class="va">eventnum</span>, <span class="va">region</span>, <span class="va">fatal</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="va">sequence_event_counts</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">eventnum</span>, y<span class="op">=</span><span class="va">soe</span>, group<span class="op">=</span><span class="va">sequence</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span>, alpha<span class="op">=</span><span class="fl">.6</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span></span>
+<span>    inherit.aes <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">event_counts</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">eventnum</span>, y<span class="op">=</span><span class="va">soe</span>, size<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>, label <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span>, accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_x_discrete</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html" class="external-link">expansion</a></span><span class="op">(</span>add<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.2</span>, <span class="fl">.6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="va">fatal</span><span class="op">~</span><span class="va">region</span>, scales <span class="op">=</span> <span class="st">"free_y"</span>, space <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>size<span class="op">=</span><span class="st">"none"</span>, linewidth<span class="op">=</span><span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"Event Number (Relative to Last Event)"</span>,</span>
+<span>    y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Crash Sequences"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Pedestrian crashes in 2023"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>    axis.ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    strip.text.y.right <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="Crash_sequence_of_events_files/figure-html/unnamed-chunk-5-1.png" width="1152"></p>
+<p>This topic could be explored further with other data elements and
+techniques. The event sequence data represents an underused resource for
+this research.</p>
   </main>
 </div>
 

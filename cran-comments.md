@@ -1,6 +1,6 @@
 ## Update
 
--   Re-submitting as I believe the package was archived in error and have not been able to reach the review team via email.
+-   Created sample data for use in Readme and vignettes to avoid errors caused by internet connectivity lapses.
 -   Added extensive testing suite.
 
 
@@ -13,7 +13,8 @@
 ## Latest R CMD check results
 
 ```         
-─  using log directory 'C:/Users/SteveJackson/AppData/Local/Temp/RtmpW6W1tz/rfars.Rcheck'
+── R CMD check ──────────────────────────────────────────────────
+─  using log directory 'C:/Users/SteveJackson/AppData/Local/Temp/Rtmpug6jux/rfars.Rcheck' (364ms)
 ─  using R version 4.4.0 (2024-04-24 ucrt)
 ─  using platform: x86_64-w64-mingw32
 ─  R was compiled by
@@ -27,65 +28,68 @@
 ─  this is package 'rfars' version '2.0.2'
 ─  package encoding: UTF-8
 ✔  checking package namespace information
-✔  checking package dependencies (846ms)
+✔  checking package dependencies (2s)
 ✔  checking if this is a source package ...
 ✔  checking if there is a namespace
-✔  checking for executable files (1.1s)
+✔  checking for executable files (1.5s)
 ✔  checking for hidden files and directories ...
 ✔  checking for portable file names
-✔  checking whether package 'rfars' can be installed (9.3s)
+✔  checking whether package 'rfars' can be installed (9.8s)
 ✔  checking installed package size ... 
-✔  checking package directory (606ms)
-✔  checking for future file timestamps (435ms)
+✔  checking package directory (1.2s)
+N  checking for future file timestamps (365ms)
+   unable to verify current time
 ✔  checking 'build' directory
-✔  checking DESCRIPTION meta-information ... 
+✔  checking DESCRIPTION meta-information (567ms)
 ✔  checking top-level files ...
 ✔  checking for left-over files
-✔  checking index information ... 
-✔  checking package subdirectories (855ms)
+✔  checking index information (377ms)
+✔  checking package subdirectories (1.2s)
 ✔  checking code files for non-ASCII characters ... 
 ✔  checking R files for syntax errors ... 
-✔  checking whether the package can be loaded (671ms)
-✔  checking whether the package can be loaded with stated dependencies (553ms)
-✔  checking whether the package can be unloaded cleanly (662ms)
-✔  checking whether the namespace can be loaded with stated dependencies (537ms)
-✔  checking whether the namespace can be unloaded cleanly (757ms)
-✔  checking loading without being on the library search path (978ms)
-✔  checking dependencies in R code (1.4s)
-✔  checking S3 generic/method consistency (647ms)
-✔  checking replacement functions (528ms)
-✔  checking foreign function calls (659ms)
-✔  checking R code for possible problems (5.6s)
-✔  checking Rd files ... 
+✔  checking whether the package can be loaded (877ms)
+✔  checking whether the package can be loaded with stated dependencies (775ms)
+✔  checking whether the package can be unloaded cleanly (891ms)
+✔  checking whether the namespace can be loaded with stated dependencies (773ms)
+✔  checking whether the namespace can be unloaded cleanly (862ms)
+✔  checking loading without being on the library search path (1.4s)
+✔  checking dependencies in R code (2.1s)
+✔  checking S3 generic/method consistency (984ms)
+✔  checking replacement functions (765ms)
+✔  checking foreign function calls (877ms)
+✔  checking R code for possible problems (8.3s)
+✔  checking Rd files (545ms)
 ✔  checking Rd metadata ... 
 ✔  checking Rd line widths ... 
-✔  checking Rd cross-references (650ms)
-✔  checking for missing documentation entries (776ms)
-✔  checking for code/documentation mismatches (2.1s)
-✔  checking Rd \usage sections (980ms)
+✔  checking Rd cross-references (978ms)
+✔  checking for missing documentation entries (882ms)
+✔  checking for code/documentation mismatches (2.6s)
+✔  checking Rd \usage sections (1.4s)
 ✔  checking Rd contents ... 
-✔  checking for unstated dependencies in examples ... 
-✔  checking contents of 'data' directory (3.1s)
-✔  checking data for non-ASCII characters (1.6s)
+✔  checking for unstated dependencies in examples (340ms)
+✔  checking contents of 'data' directory (394ms)
+✔  checking data for non-ASCII characters (650ms)
 ✔  checking LazyData
 ✔  checking data for ASCII and uncompressed saves ... 
+✔  checking R/sysdata.rda ... 
 ✔  checking installed files from 'inst/doc' ... 
 ✔  checking files in 'vignettes' ... 
-✔  checking examples (1.5s)
+✔  checking examples (2.1s)
 ✔  checking for unstated dependencies in 'tests' ... 
 ─  checking tests ...
-    [150s] OKestthat.R'
+    [132s] OKestthat.R'
    * checking for unstated dependencies in vignettes ... OK
    * checking package vignettes ... OK
-   * checking re-building of vignette outputs ... [122s] OK
+   * checking re-building of vignette outputs ... [23s] OK
    * checking for non-standard things in the check directory ... OK
    * checking for detritus in the temp directory ... OK
    * DONE
    
-   Status: OK
+   Status: 1 NOTE
+   See
+     'C:/Users/SteveJackson/AppData/Local/Temp/Rtmpug6jux/rfars.Rcheck/00check.log'
+   for details.
    
-── R CMD check results ─────────────────────────────────────────────────────────────── rfars 2.0.2 ────
-Duration: 5m 15.2s
-
-0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+── R CMD check results ───────────────────────── rfars 2.0.2 ────
+Duration: 3m 33.1s
 ```

@@ -97,81 +97,80 @@ parameters to save an RDS file to your local machine. The `dir` parameter
 specifies the directory, and `cache` names the file (be sure to include the .rds
 file extension).
 
-Executing the code below will download the prepared FARS database for 2014-2023.
-
-```{r}
-myFARS <- get_fars(proceed = TRUE)
-```
-
-We could also download the prepared GES/CRSS database:
+Executing the code below will download the prepared FARS and GES/CRSS databases 
+for 2014-2023.
 
 ```{r, eval=F}
+myFARS <- get_fars(proceed = TRUE)
 myCRSS <- get_gescrss(proceed = TRUE)
 ```
 
-`get_fars()` and `get_gescrss()` return a list with six tibbles: `flat`,
+```{r, echo=FALSE}
+vignette_data <- rfars:::vignette_data$myFARS_sample
+```
+
+`get_fars()` and `get_gescrss()` return a list with six dataframes: `flat`,
 `multi_acc`, `multi_veh`, `multi_per`, `events`, and `codebook`.
 
-Each row in the `flat` tibble corresponds to a person involved in a crash. As
+The tables below show records for randomly selected crashes to illustrate the 
+content and structure of the data. The tables are transposed for readability.
+
+Each row in the `flat` dataframe corresponds to a person involved in a crash. As
 there may be multiple people and/or vehicles involved in one crash, some
 variable-values are repeated within a crash or vehicle. Each crash is uniquely
 identified with `id`, which is a combination of `year` and `st_case`. Note that
 `st_case` is not unique across years, for example, `st_case` 510001 will appear
-in each year. The `id` variable attempts to avoid this issue.
+in each year. The `id` variable attempts to avoid this issue. The GES/CRSS data 
+includes a `weight` variable that indicates how many crashes each row 
+represents. 
 
-```{r}
-glimpse(myFARS$flat, width = 80)
+```{r, results='asis', echo=FALSE}
+vignette_data$flat %>%
+  t() %>%
+  knitr::kable(format = "html", caption = "The 'flat' dataframe (transposed for readability)")
 ```
 
-The `multi_` tibbles contain those variables for which there may be a varying
+
+The `multi_` dataframes contain those variables for which there may be a varying
 number of values for any entity (e.g., driver impairments, vehicle events,
-weather conditions at time of crash). Each tibble has the requisite data
+weather conditions at time of crash). Each dataframe has the requisite data
 elements corresponding to the entity: `multi_acc` includes `st_case` and `year`,
 `multi_veh` adds `veh_no` (vehicle number), and `multi_per` adds `per_no`
 (person number).
 
-The top name-value pairs of each tibble are shown below.
-
-```{r, results='asis'}
-myFARS$multi_acc %>% 
-  filter(!is.na(value)) %>% 
-  group_by(name, value) %>% 
-  summarize(n=n(), .groups = "drop") %>% 
-  arrange(desc(n)) %>% slice(1:10) %>% 
-  select(name, value, n) %>% 
-  knitr::kable(format = "html", caption = "Top Name-Value Pairs for the multi_acc Object")
+```{r, results='asis', echo=FALSE}
+vignette_data$multi_acc %>%
+  arrange(st_case) %>%
+  #t() %>%
+  knitr::kable(format = "html", caption = "The 'multi_acc' dataframe")
 ```
 
-```{r, results='asis'}
-myFARS$multi_veh %>% 
-  filter(!is.na(value)) %>% 
-  group_by(name, value) %>% 
-  summarize(n=n(), .groups = "drop") %>% 
-  arrange(desc(n)) %>% slice(1:10) %>% 
-  select(name, value, n) %>% 
-  knitr::kable(format = "html", caption = "Top Name-Value Pairs for the multi_veh Object")
+```{r, results='asis', echo=FALSE}
+vignette_data$multi_veh %>%
+  arrange(st_case) %>%
+  #t() %>%
+  knitr::kable(format = "html", caption = "The 'multi_veh' dataframe")
 ```
 
-```{r, results='asis'}
-myFARS$multi_per %>% 
-  filter(!is.na(value)) %>% 
-  group_by(name, value) %>% 
-  summarize(n=n(), .groups = "drop") %>% 
-  arrange(desc(n)) %>% slice(1:10) %>% 
-  select(name, value, n) %>% 
-  knitr::kable(format = "html", caption = "Top Name-Value Pairs for the multi_per Object")
+```{r, results='asis', echo=FALSE}
+vignette_data$multi_per %>%
+  arrange(st_case) %>%
+  #t() %>%
+  knitr::kable(format = "html", caption = "The 'multi_per' dataframe")
 ```
 
-The `events` tibble provides a sequence of numbered events for each vehicle in
+The `events` dataframe provides a sequence of  events for each vehicle in
 each crash. See the vignette("Crash Sequence of Events", package = "rfars") for
 more information.
 
-```{r, results='asis'}
-head(myFARS$events, 10) %>% 
-  knitr::kable(format="html", caption = "Preview of events Object")
+```{r, results='asis', echo=FALSE}
+vignette_data$events %>%
+  arrange(st_case) %>%
+  #t() %>%
+  knitr::kable(format = "html", caption = "The 'events' dataframe")
 ```
 
-The `codebook` tibble provides a searchable codebook for the data, useful if you
+The `codebook` dataframe provides a searchable codebook for the data, useful if you
 know what concept you're looking for but not the variable that describes it.
 `rfars` also includes pre-loaded codebooks for FARS and GESCRSS
 (`rfars::fars_codebook` and `rfars::gescrss_codebook`). See
@@ -180,9 +179,9 @@ know what concept you're looking for but not the variable that describes it.
 ## Counts
 
 See `vignette("Counts", package = "rfars")` for information on the pre-loaded
-`annual_counts` dataframe and the `counts()` function. Also see
-`vignette("Alcohol Counts", package = "rfars")` for details on how BAC values
-are imputed and reported in *Traffic Safety Facts*.
+`annual_counts` dataframe and the `counts()` and `compare_counts()` functions. 
+Also see `vignette("Alcohol Counts", package = "rfars")` for details on how BAC 
+values are imputed and reported in *Traffic Safety Facts*.
 
 ## Helpful Links
 

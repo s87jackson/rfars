@@ -152,24 +152,16 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">rfars</span><span class="fu">::</span><span class="va">fars_codebook</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    source     file name_ncsa name_rfars        label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;char&gt;   &lt;char&gt;    &lt;char&gt;     &lt;char&gt;       &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   FARS accident     STATE      state State Number</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:   FARS accident     STATE      state State Number</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:   FARS accident     STATE      state State Number</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:   FARS accident     STATE      state State Number</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:   FARS accident     STATE      state State Number</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:   FARS accident     STATE      state State Number</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                      Definition</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                          &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: This data element identifies the State in which the crash occurred. The codes are from the General Services Administration’s (GSA) publication of worldwide Geographic Location Codes (GLC).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: This data element identifies the State in which the crash occurred. The codes are from the General Services Administration’s (GSA) publication of worldwide Geographic Location Codes (GLC).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: This data element identifies the State in which the crash occurred. The codes are from the General Services Administration’s (GSA) publication of worldwide Geographic Location Codes (GLC).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: This data element identifies the State in which the crash occurred. The codes are from the General Services Administration’s (GSA) publication of worldwide Geographic Location Codes (GLC).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: This data element identifies the State in which the crash occurred. The codes are from the General Services Administration’s (GSA) publication of worldwide Geographic Location Codes (GLC).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: This data element identifies the State in which the crash occurred. The codes are from the General Services Administration’s (GSA) publication of worldwide Geographic Location Codes (GLC).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    source     file name_ncsa name_rfars        label Definition</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;fctr&gt;   &lt;fctr&gt;    &lt;fctr&gt;     &lt;fctr&gt;       &lt;fctr&gt;     &lt;fctr&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   FARS accident     STATE      state State Number       &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:   FARS accident     STATE      state State Number       &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:   FARS accident     STATE      state State Number       &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:   FARS accident     STATE      state State Number       &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:   FARS accident     STATE      state State Number       &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:   FARS accident     STATE      state State Number       &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                    Additional Information</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                    &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                    &lt;fctr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: GSA State data elements except for 43, Puerto Rico. The State in which the vehicle is registered, REG_STAT, is found in the Vehicle data file; the coding is the same.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: GSA State data elements except for 43, Puerto Rico. The State in which the vehicle is registered, REG_STAT, is found in the Vehicle data file; the coding is the same.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: GSA State data elements except for 43, Puerto Rico. The State in which the vehicle is registered, REG_STAT, is found in the Vehicle data file; the coding is the same.</span>
@@ -177,7 +169,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5: GSA State data elements except for 43, Puerto Rico. The State in which the vehicle is registered, REG_STAT, is found in the Vehicle data file; the coding is the same.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: GSA State data elements except for 43, Puerto Rico. The State in which the vehicle is registered, REG_STAT, is found in the Vehicle data file; the coding is the same.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     value value_label   2014   2015   2016   2017   2018   2019   2020   2021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;char&gt;      &lt;char&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;fctr&gt;      &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:      1     Alabama      1      1      1      1      1      1      1      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:      2      Alaska      1      1      1      1      1      1      1      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:      4     Arizona      1      1      1      1      1      1      1      1</span>
@@ -185,7 +177,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:      6  California      1      1      1      1      1      1      1      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:      8    Colorado      1      1      1      1      1      1      1      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      2022   2023</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;char&gt; &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;fctr&gt; &lt;fctr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:      1      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:      1      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:      1      1</span>

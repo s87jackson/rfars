@@ -12,8 +12,6 @@ editor_options:
     wrap: 80
 ---
 
-## Counts
-
 A first step in many transportation safety analyses involves counting the number
 of relevant crashes, fatalities, or people involved. `counts()` lets users
 specify *what* to count, *where* to count them (rural/urban and/or in specified
@@ -24,18 +22,28 @@ counts.
 
 First we load the required libraries:
 
-```{r, message=F}
+```{r, message=F, warning=FALSE}
 library(dplyr)
 library(ggplot2)
 library(tidyr)
 library(rfars)
 ```
 
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(fig.width = 7, fig.height = 5)
+```
+
 ### annual_counts
 
 `rfars` includes `annual_counts`, a table of annual crash counts:
 
-```{r}
+```{r, results='asis'}
+knitr::kable(rfars::annual_counts, format = "html")
+```
+
+
+```{r, fig.width = 7, fig.height=3}
 rfars::annual_counts %>%
   filter(what == "crashes", involved == "any") %>%
   ggplot(aes(x=year, y=n)) +
@@ -43,7 +51,10 @@ rfars::annual_counts %>%
   facet_wrap(.~source, nrow=1, scales = "free_y") +
   labs(title = "Total annual crashes by type (FARS = fatal, CRSS = general)", x=NULL, y=NULL) +
   theme_minimal()
+```
 
+
+```{r}
 rfars::annual_counts %>%
   filter(source=="FARS", involved != "any") %>%
   ggplot(aes(x=year, y=n)) +
@@ -66,15 +77,20 @@ rfars::annual_counts %>%
 ### Generating Custom Counts
 
 We can use get_fars() and then counts() to generate a variety of custom counts.
-Below we pull two years of data:
+Below we pull the latest 5 years of data for Virginia:
 
-```{r, message=FALSE}
-myFARS <- get_fars(years = c(2022, 2023), proceed = T)
+```{r, message=FALSE, eval=F}
+myFARS <- get_fars(years = 2019:2023, proceed = T, states = "VA")
 ```
+
+```{r, include=FALSE}
+vignette_data <- rfars:::vignette_data
+```
+
 
 Then we can use `counts()` to get the monthly number of crashes in Virginia:
 
-```{r, results='asis'}
+```{r, results='asis', eval=FALSE}
 my_counts <- counts(
   df = myFARS,
   where = list(states = "VA"),
@@ -83,9 +99,14 @@ my_counts <- counts(
   )
 ```
 
+```{r, echo=FALSE}
+my_counts <- vignette_data$counts_1
+```
+
+
 This returns the following dataframe:
 
-```{r, results='asis'}
+```{r}
 knitr::kable(my_counts, format = "html")
 ```
 
@@ -95,15 +116,11 @@ Which we can graph:
 my_counts %>%
   mutate_at("year", factor) %>%
   ggplot(aes(x=month, y=n, group=year, color=year, label=scales::comma(n))) +
-  geom_line(linewidth = 1.5) + 
+  geom_line(linewidth = 1.5, alpha=.9) + 
+  scale_color_brewer() +
   labs(x=NULL, y=NULL, title = "Fatal Crashes in Virginia") +
-  theme_minimal() +
   theme(plot.title.position = "plot")
-```
 
-or
-
-```{r}
 my_counts %>%
   mutate(date = lubridate::make_date(year, month)) %>%
   ggplot(aes(x=date, y=n, label=scales::comma(n))) +
@@ -114,7 +131,7 @@ my_counts %>%
 
 We could alternatively count annual fatalities:
 
-```{r, results='asis'}
+```{r, results='asis', eval=FALSE}
 counts(
   myFARS,
   where = list(states = "VA"),
@@ -124,9 +141,15 @@ counts(
   knitr::kable(format = "html")
 ```
 
+
+```{r, results='asis', echo=FALSE}
+vignette_data$counts_2 %>%
+  knitr::kable(format = "html")
+```
+
 Or fatalities involving speeding:
 
-```{r, results='asis'}
+```{r, results='asis', eval=FALSE}
 counts(
   df = myFARS,
   where = list(states = "VA"),
@@ -137,9 +160,15 @@ counts(
   knitr::kable(format = "html")
 ```
 
+
+```{r, results='asis', echo=FALSE}
+vignette_data$counts_3 %>%
+  knitr::kable(format = "html")
+```
+
 Or fatalities involving speeding in rural areas:
 
-```{r, results='asis'}
+```{r, results='asis', eval=FALSE}
 counts(
   myFARS,
   where = list(states = "VA", urb="rural"),
@@ -150,9 +179,15 @@ counts(
   knitr::kable(format = "html")
 ```
 
+
+```{r, results='asis', echo=FALSE}
+vignette_data$counts_4 %>%
+  knitr::kable(format = "html")
+```
+
 Or we can use involved = 'each' to see all of the problems in one state:
 
-```{r, results='asis'}
+```{r, results='asis', eval=FALSE}
 counts(
   df = myFARS,
   where = list(states = "VA"),
@@ -165,12 +200,20 @@ counts(
   knitr::kable(format = "html")
 ```
 
+
+```{r, results='asis', echo=FALSE}
+vignette_data$counts_5 %>%
+  pivot_wider(names_from = "year", values_from = "n") %>%
+  arrange(desc(`2023`)) %>%
+  knitr::kable(format = "html")
+```
+
 ### Comparing Counts
 
 We can use `compare_counts()` to quickly produce comparison graphs. Below we
 compare speeding-related fatalities in rural and urban areas:
 
-```{r}
+```{r, eval=FALSE}
 compare_counts(
   df = myFARS,
   interval = "year",
@@ -186,9 +229,19 @@ compare_counts(
     labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Virginia", fill=NULL) 
 ```
 
+```{r, echo=FALSE}
+vignette_data$counts_6 %>%
+  ggplot(aes(x=factor(year), y=n, label=scales::comma(n))) +
+  geom_col() +
+  geom_label(vjust=1.2) +
+  facet_wrap(.~urb) +
+  labs(x=NULL, y=NULL, title = "Speeding-Related Fatalities in Virginia", fill=NULL)
+```
+
+
 And here we compare speeding-related crashes to those related to distraction:
 
-```{r}
+```{r, eval=FALSE}
 compare_counts(
   df = myFARS,
   where = list(states = "VA"),
@@ -203,3 +256,13 @@ compare_counts(
     facet_wrap(.~involved) +
     labs(x=NULL, y=NULL, title = "Speeding- and Distraction-Related Crashes in Virginia", fill=NULL)
 ```
+
+```{r, echo=FALSE}
+vignette_data$counts_7 %>%
+  ggplot(aes(x=factor(year), y=n, label=scales::comma(n))) +
+  geom_col() +
+  geom_label(vjust=1.2) +
+  facet_wrap(.~involved) +
+  labs(x=NULL, y=NULL, title = "Speeding- and Distraction-Related Crashes in Virginia", fill=NULL)
+```
+

@@ -73,9 +73,6 @@
 
     
     
-<div class="section level2">
-<h2 id="alcohol-counts">Alcohol Counts<a class="anchor" aria-label="anchor" href="#alcohol-counts"></a>
-</h2>
 <p>Counts involving alcohol are complicated due to a high rate of
 missing BAC values. FARS and GESCRSS include the variables
 <code>alc_res</code> (BAC values) and <code>dr_drink</code>
@@ -105,12 +102,10 @@ Analytical User’s Manual</a> for more information on these files.</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/s87jackson/rfars" class="external-link">rfars</a></span><span class="op">)</span></span></code></pre></div>
 <p>Here we use <code><a href="../reference/counts.html">rfars::counts()</a></code> to count alcohol-involved
-crashes:</p>
+crashes in 2023:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_fars.html">get_fars</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2023</span>, proceed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span><span class="va">myFARS</span>, involved <span class="op">=</span> <span class="st">'alcohol'</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Note: rfars::counts() uses the variables alc_res and dr_drink to determine alcohol involvement. NHTSA reports counts using multiple imputation to estimate missing BAC values. See vignette('Alcohol Counts', package = 'rfars') for more information.</span></span></code></pre>
 <table class="table">
 <thead><tr>
 <th style="text-align:right;">
@@ -165,8 +160,9 @@ alcohol
 </td>
 </tr></tbody>
 </table>
+<pre><code><span><span class="co">## Note: rfars::counts() uses the variables alc_res and dr_drink to determine alcohol involvement. NHTSA reports counts using multiple imputation to estimate missing BAC values. See vignette('Alcohol Counts', package = 'rfars') for more information.</span></span></code></pre>
 <p>And here we use <code><a href="../reference/counts.html">rfars::counts()</a></code> to count the number of
-alcohol-involved fatalities:</p>
+alcohol-involved <em>fatalities</em> in the same year:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">myFARS</span>, </span>
@@ -174,7 +170,6 @@ alcohol-involved fatalities:</p>
 <span>  involved <span class="op">=</span> <span class="st">'alcohol'</span></span>
 <span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Note: rfars::counts() uses the variables alc_res and dr_drink to determine alcohol involvement. NHTSA reports counts using multiple imputation to estimate missing BAC values. See vignette('Alcohol Counts', package = 'rfars') for more information.</span></span></code></pre>
 <table class="table">
 <thead><tr>
 <th style="text-align:right;">
@@ -229,6 +224,7 @@ alcohol
 </td>
 </tr></tbody>
 </table>
+<pre><code><span><span class="co">## Note: rfars::counts() uses the variables alc_res and dr_drink to determine alcohol involvement. NHTSA reports counts using multiple imputation to estimate missing BAC values. See vignette('Alcohol Counts', package = 'rfars') for more information.</span></span></code></pre>
 <p>The MI process produces 10 separate BAC estimates. The
 <strong><em>Miper</em></strong> file provides
 <code>p1</code>:<code>p10</code>, person level BAC estimates for each
@@ -2174,9 +2170,10 @@ iter
 estimates.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">calc</span> <span class="op">&lt;-</span> <span class="va">case_results</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span>  <span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">calc</span> <span class="op">&lt;-</span> <span class="va">calc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span><span class="va">case_results</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">TOTAL</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">}</span></span>
+<span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">calc</span> <span class="op">&lt;-</span> <span class="va">calc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span><span class="va">case_results</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">TOTAL</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
 <span></span>
 <span><span class="va">calc</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">calc</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -2238,7 +2235,6 @@ alcohol-impaired drivers:</p>
 to Multiple Imputation – A New Method to Impute Missing BAC values in
 FARS</a> for more guidance on generating other counts using the MI
 data.</p>
-</div>
   </main>
 </div>
 

@@ -92,629 +92,2260 @@
 </h2>
 <p>The <code><a href="reference/get_fars.html">get_fars()</a></code> and <code><a href="reference/get_gescrss.html">get_gescrss()</a></code> are the primary functions of the <code>rfars</code> package. These functions download and process data files directly from <a href="https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/" class="external-link">NHTSA’s FTP Site</a>, or pull the prepared data stored on your local machine, or (as of Version 2.0) pull the prepared data from Zenodo. The data files hosted on Zenodo are stable, have DOIs, and replicate the data that would be produced by <code><a href="reference/get_fars.html">get_fars()</a></code> and <code><a href="reference/get_gescrss.html">get_gescrss()</a></code>, but in a fraction of the time.</p>
 <p>They take the parameters <code>years</code> and <code>states</code> (FARS) or <code>regions</code> (GES/CRSS). As the source data files follow an annual structure, <code>years</code> determines how many file sets are downloaded or loaded, and <code>states</code>/<code>regions</code> filters the resulting dataset. Downloading and processing these files can take several minutes. Before downloading, <code>rfars</code> will inform you that it’s about to download files and asks your permission to do so. To skip this dialog, set <code>proceed = TRUE</code>. You can use the <code>dir</code> and <code>cache</code> parameters to save an RDS file to your local machine. The <code>dir</code> parameter specifies the directory, and <code>cache</code> names the file (be sure to include the .rds file extension).</p>
-<p>Executing the code below will download the prepared FARS database for 2014-2023.</p>
+<p>Executing the code below will download the prepared FARS and GES/CRSS databases for 2014-2023.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_fars.html">get_fars</a></span><span class="op">(</span>proceed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>We could also download the prepared GES/CRSS database:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myCRSS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_gescrss.html">get_gescrss</a></span><span class="op">(</span>proceed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><code><a href="reference/get_fars.html">get_fars()</a></code> and <code><a href="reference/get_gescrss.html">get_gescrss()</a></code> return a list with six tibbles: <code>flat</code>, <code>multi_acc</code>, <code>multi_veh</code>, <code>multi_per</code>, <code>events</code>, and <code>codebook</code>.</p>
-<p>Each row in the <code>flat</code> tibble corresponds to a person involved in a crash. As there may be multiple people and/or vehicles involved in one crash, some variable-values are repeated within a crash or vehicle. Each crash is uniquely identified with <code>id</code>, which is a combination of <code>year</code> and <code>st_case</code>. Note that <code>st_case</code> is not unique across years, for example, <code>st_case</code> 510001 will appear in each year. The <code>id</code> variable attempts to avoid this issue.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">myFARS</span><span class="op">$</span><span class="va">flat</span>, width <span class="op">=</span> <span class="fl">80</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 867,460</span></span>
-<span><span class="co">#&gt; Columns: 227</span></span>
-<span><span class="co">#&gt; $ year          &lt;dbl&gt; 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 20…</span></span>
-<span><span class="co">#&gt; $ state         &lt;fct&gt; Alabama, Alabama, Alabama, Alabama, Alabama, Alabama, Al…</span></span>
-<span><span class="co">#&gt; $ st_case       &lt;dbl&gt; 10001, 10001, 10002, 10003, 10003, 10003, 10003, 10003, …</span></span>
-<span><span class="co">#&gt; $ id            &lt;dbl&gt; 201410001, 201410001, 201410002, 201410003, 201410003, 2…</span></span>
-<span><span class="co">#&gt; $ veh_no        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 2, 2, 2, 3, 1, 1, 1, 2,…</span></span>
-<span><span class="co">#&gt; $ per_no        &lt;dbl&gt; 1, 2, 1, 1, 2, 3, 4, 1, 2, 3, 1, 1, 2, 3, 1, 1, 1, 1, 1,…</span></span>
-<span><span class="co">#&gt; $ county        &lt;dbl&gt; 71, 71, 59, 125, 125, 125, 125, 125, 125, 125, 121, 121,…</span></span>
-<span><span class="co">#&gt; $ city          &lt;dbl&gt; 0, 0, 0, 3050, 3050, 3050, 3050, 3050, 3050, 3050, 2275,…</span></span>
-<span><span class="co">#&gt; $ lon           &lt;dbl&gt; -85.98141, -85.98141, -87.77212, -87.52591, -87.52591, -…</span></span>
-<span><span class="co">#&gt; $ lat           &lt;dbl&gt; 34.62372, 34.62372, 34.39743, 33.19717, 33.19717, 33.197…</span></span>
-<span><span class="co">#&gt; $ acc_type      &lt;fct&gt; "Drive Off Road", "Drive Off Road", "Drive Off Road", "S…</span></span>
-<span><span class="co">#&gt; $ age           &lt;fct&gt; 24 Years, 30 Years, 52 Years, 22 Years, 21 Years, 18 Yea…</span></span>
-<span><span class="co">#&gt; $ air_bag       &lt;fct&gt; "Deployed- Combination", "Deployed- Combination", "Deplo…</span></span>
-<span><span class="co">#&gt; $ alc_det       &lt;fct&gt; "Observed", "Not Reported", "Not Reported", "Not Reporte…</span></span>
-<span><span class="co">#&gt; $ alc_res       &lt;fct&gt; "0.26 % BAC", "Test Not Given", "0.31 % BAC", "Test Not …</span></span>
-<span><span class="co">#&gt; $ alc_status    &lt;fct&gt; Test Given, Test Not Given, Test Given, Test Not Given, …</span></span>
-<span><span class="co">#&gt; $ arr_hour      &lt;fct&gt; 1:00am-1:59am, 1:00am-1:59am, 1:00pm-1:59pm, 3:00am-3:59…</span></span>
-<span><span class="co">#&gt; $ arr_min       &lt;fct&gt; 35, 35, 50, 10, 10, 10, 10, 10, 10, 10, 15, 15, 15, 15, …</span></span>
-<span><span class="co">#&gt; $ atst_typ      &lt;fct&gt; "Blood", "Test Not Given", "Blood", "Test Not Given", "T…</span></span>
-<span><span class="co">#&gt; $ bikecgp       &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ bikectype     &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ bikedir       &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ bikeloc       &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ bikepos       &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ body_typ      &lt;fct&gt; "4-door sedan, hardtop", "4-door sedan, hardtop", "Stand…</span></span>
-<span><span class="co">#&gt; $ bus_use       &lt;fct&gt; "Not a Bus", "Not a Bus", "Not a Bus", "Not a Bus", "Not…</span></span>
-<span><span class="co">#&gt; $ cargo_bt      &lt;fct&gt; Not Applicable (N/A), Not Applicable (N/A), Not Applicab…</span></span>
-<span><span class="co">#&gt; $ cdl_stat      &lt;fct&gt; Suspended, Suspended, No (CDL), No (CDL), No (CDL), No (…</span></span>
-<span><span class="co">#&gt; $ cert_no       &lt;fct&gt; ************, ************, ************, ************, …</span></span>
-<span><span class="co">#&gt; $ day           &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3,…</span></span>
-<span><span class="co">#&gt; $ day_week      &lt;fct&gt; Wednesday, Wednesday, Wednesday, Wednesday, Wednesday, W…</span></span>
-<span><span class="co">#&gt; $ death_da      &lt;fct&gt; 1, Not Applicable (Non-Fatal), 1, Not Applicable (Non-Fa…</span></span>
-<span><span class="co">#&gt; $ death_hr      &lt;fct&gt; 1:00-1:59, Not Applicable (Non-fatal), 13:00-13:59, Not …</span></span>
-<span><span class="co">#&gt; $ death_mn      &lt;fct&gt; 15, Not Applicable (Non-fatal), 45, Not Applicable (Non-…</span></span>
-<span><span class="co">#&gt; $ death_mo      &lt;fct&gt; January, Not Applicable (Non-Fatal), January, Not Applic…</span></span>
-<span><span class="co">#&gt; $ death_tm      &lt;chr&gt; "115", "8888", "1345", "8888", "8888", "8888", "8888", "…</span></span>
-<span><span class="co">#&gt; $ death_yr      &lt;fct&gt; 2014, Not Applicable (Non-fatal), 2014, Not Applicable (…</span></span>
-<span><span class="co">#&gt; $ deaths        &lt;dbl&gt; 1, 1, 1, 0, 0, 0, 0, 2, 2, 2, 1, 0, 0, 0, 0, 1, 1, 0, 1,…</span></span>
-<span><span class="co">#&gt; $ deformed      &lt;fct&gt; "Disabling Damage", "Disabling Damage", "Disabling Damag…</span></span>
-<span><span class="co">#&gt; $ doa           &lt;fct&gt; Died at Scene, Not Applicable, Not Applicable, Not Appli…</span></span>
-<span><span class="co">#&gt; $ dr_drink      &lt;fct&gt; Yes, Yes, Yes, No, No, No, No, No, No, No, No, No, No, N…</span></span>
-<span><span class="co">#&gt; $ dr_hgt        &lt;fct&gt; 64, 64, 71, 999, 999, 999, 999, 63, 63, 63, 65, 74, 74, …</span></span>
-<span><span class="co">#&gt; $ dr_pres       &lt;fct&gt; Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Yes, Y…</span></span>
-<span><span class="co">#&gt; $ dr_wgt        &lt;fct&gt; 135 lbs., 135 lbs., 225 lbs., Unknown, Unknown, Unknown,…</span></span>
-<span><span class="co">#&gt; $ dr_zip        &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ drinking      &lt;fct&gt; Yes (Alcohol Involved), Not Reported, Yes (Alcohol Invol…</span></span>
-<span><span class="co">#&gt; $ drug_det      &lt;fct&gt; "Not Reported", "Not Reported", "Not Reported", "Not Rep…</span></span>
-<span><span class="co">#&gt; $ drugs         &lt;fct&gt; Unknown, Not Reported, No (drugs not involved), Unknown,…</span></span>
-<span><span class="co">#&gt; $ drunk_dr      &lt;dbl&gt; 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,…</span></span>
-<span><span class="co">#&gt; $ dstatus       &lt;fct&gt; Test Given, Test Not Given, Test Given, Test Not Given, …</span></span>
-<span><span class="co">#&gt; $ ej_path       &lt;fct&gt; "Not Ejected/Not Applicable", "Not Ejected/Not Applicabl…</span></span>
-<span><span class="co">#&gt; $ ejection      &lt;fct&gt; Not Ejected, Not Ejected, Not Ejected, Not Ejected, Not …</span></span>
-<span><span class="co">#&gt; $ emer_use      &lt;fct&gt; "Not Applicable", "Not Applicable", "Not Applicable", "N…</span></span>
-<span><span class="co">#&gt; $ extricat      &lt;fct&gt; Extricated, Not Extricated or Not Applicable, Not Extric…</span></span>
-<span><span class="co">#&gt; $ fatals        &lt;dbl&gt; 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></span>
-<span><span class="co">#&gt; $ fire_exp      &lt;fct&gt; No or Not Reported, No or Not Reported, No or Not Report…</span></span>
-<span><span class="co">#&gt; $ first_mo      &lt;fct&gt; November, November, No Record, No Record, No Record, No …</span></span>
-<span><span class="co">#&gt; $ first_yr      &lt;fct&gt; 2011, 2011, No Record, No Record, No Record, No Record, …</span></span>
-<span><span class="co">#&gt; $ gvwr          &lt;fct&gt; "Not Applicable", "Not Applicable", "Not Applicable", "N…</span></span>
-<span><span class="co">#&gt; $ harm_ev       &lt;fct&gt; "Boulder", "Boulder", "Tree (Standing Only)", "Motor Veh…</span></span>
-<span><span class="co">#&gt; $ haz_cno       &lt;fct&gt; Not Applicable, Not Applicable, Not Applicable, Not Appl…</span></span>
-<span><span class="co">#&gt; $ haz_id        &lt;fct&gt; Not Applicable, Not Applicable, Not Applicable, Not Appl…</span></span>
-<span><span class="co">#&gt; $ haz_inv       &lt;fct&gt; No, No, No, No, No, No, No, No, No, No, No, No, No, No, …</span></span>
-<span><span class="co">#&gt; $ haz_plac      &lt;fct&gt; Not Applicable, Not Applicable, Not Applicable, Not Appl…</span></span>
-<span><span class="co">#&gt; $ haz_rel       &lt;fct&gt; Not Applicable, Not Applicable, Not Applicable, Not Appl…</span></span>
-<span><span class="co">#&gt; $ hispanic      &lt;fct&gt; "Non-Hispanic", "Not A Fatality (not Applicable)", "Non-…</span></span>
-<span><span class="co">#&gt; $ hit_run       &lt;fct&gt; No, No, No, Yes, Yes, Yes, Yes, No, No, No, No, No, No, …</span></span>
-<span><span class="co">#&gt; $ hosp_hr       &lt;fct&gt; Unknown, Unknown, Unknown, Unknown, Unknown, Unknown, Un…</span></span>
-<span><span class="co">#&gt; $ hosp_mn       &lt;fct&gt; Unknown EMS Hospital Arrival Time, Unknown EMS Hospital …</span></span>
-<span><span class="co">#&gt; $ hospital      &lt;fct&gt; Not Transported, EMS Air, EMS Ground, Not Transported, N…</span></span>
-<span><span class="co">#&gt; $ hour          &lt;fct&gt; 1:00am-1:59am, 1:00am-1:59am, 1:00pm-1:59pm, 3:00am-3:59…</span></span>
-<span><span class="co">#&gt; $ impact1       &lt;fct&gt; "11 Clock Point", "11 Clock Point", "12 Clock Point", "1…</span></span>
-<span><span class="co">#&gt; $ inj_sev       &lt;fct&gt; "Fatal Injury (K)", "Suspected Minor Injury(B)", "Fatal …</span></span>
-<span><span class="co">#&gt; $ j_knife       &lt;fct&gt; Not an Articulated Vehicle, Not an Articulated Vehicle, …</span></span>
-<span><span class="co">#&gt; $ l_compl       &lt;fct&gt; No valid license for this class vehicle, No valid licens…</span></span>
-<span><span class="co">#&gt; $ l_endors      &lt;fct&gt; "No Endorsements required for this vehicle", "No Endorse…</span></span>
-<span><span class="co">#&gt; $ l_restri      &lt;fct&gt; "No Restrictions or Not Applicable", "No Restrictions or…</span></span>
-<span><span class="co">#&gt; $ l_state       &lt;fct&gt; Alabama, Alabama, Alabama, Alabama, Alabama, Alabama, Al…</span></span>
-<span><span class="co">#&gt; $ l_status      &lt;fct&gt; Suspended, Suspended, Suspended, Not licensed, Not licen…</span></span>
-<span><span class="co">#&gt; $ l_type        &lt;fct&gt; Full Driver License, Full Driver License, Full Driver Li…</span></span>
-<span><span class="co">#&gt; $ lag_hrs       &lt;fct&gt; 0, 999, 0, 999, 999, 999, 999, 0, 0, 999, 0, 999, 999, 9…</span></span>
-<span><span class="co">#&gt; $ lag_mins      &lt;fct&gt; 0, 99, 15, 99, 99, 99, 99, 0, 13, 99, 0, 99, 99, 99, 99,…</span></span>
-<span><span class="co">#&gt; $ last_mo       &lt;fct&gt; April, April, No Record, No Record, No Record, No Record…</span></span>
-<span><span class="co">#&gt; $ last_yr       &lt;fct&gt; 2013, 2013, No Record, No Record, No Record, No Record, …</span></span>
-<span><span class="co">#&gt; $ lgt_cond      &lt;fct&gt; Dark - Not Lighted, Dark - Not Lighted, Daylight, Dark -…</span></span>
-<span><span class="co">#&gt; $ location      &lt;fct&gt; "Occupant of a Motor Vehicle", "Occupant of a Motor Vehi…</span></span>
-<span><span class="co">#&gt; $ m_harm        &lt;fct&gt; "Tree (Standing Only)", "Tree (Standing Only)", "Tree (S…</span></span>
-<span><span class="co">#&gt; $ mak_mod       &lt;chr&gt; "Toyota Corolla", "Toyota Corolla", "Dodge Ram Pickup", …</span></span>
-<span><span class="co">#&gt; $ make          &lt;fct&gt; Toyota, Toyota, Dodge, Chevrolet, Chevrolet, Chevrolet, …</span></span>
-<span><span class="co">#&gt; $ man_coll      &lt;fct&gt; Not a Collision with Motor Vehicle In-Transport, Not a C…</span></span>
-<span><span class="co">#&gt; $ mcarr_i1      &lt;fct&gt; Not Applicable, Not Applicable, Not Applicable, Not Appl…</span></span>
-<span><span class="co">#&gt; $ mcarr_i2      &lt;fct&gt; Not Applicable, Not Applicable, Not Applicable, Not Appl…</span></span>
-<span><span class="co">#&gt; $ mcarr_id      &lt;fct&gt; Not Applicable, Not Applicable, Not Applicable, Not Appl…</span></span>
-<span><span class="co">#&gt; $ milept        &lt;fct&gt; None, None, None, None, None, None, None, None, None, No…</span></span>
-<span><span class="co">#&gt; $ minute        &lt;fct&gt; 15, 15, 30, 7, 7, 7, 7, 7, 7, 7, 0, 0, 0, 0, 0, 30, 0, 4…</span></span>
-<span><span class="co">#&gt; $ mod_year      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ model         &lt;dbl&gt; 32, 32, 482, 37, 37, 37, 37, 40, 40, 40, 472, 461, 461, …</span></span>
-<span><span class="co">#&gt; $ month         &lt;fct&gt; January, January, January, January, January, January, Ja…</span></span>
-<span><span class="co">#&gt; $ motdir        &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ motman        &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ msafeqmt      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ nhs           &lt;fct&gt; This section IS NOT on the NHS, This section IS NOT on t…</span></span>
-<span><span class="co">#&gt; $ not_hour      &lt;fct&gt; Unknown, Unknown, Unknown, Unknown, Unknown, Unknown, Un…</span></span>
-<span><span class="co">#&gt; $ not_min       &lt;fct&gt; Unknown, Unknown, Unknown, Unknown, Unknown, Unknown, Un…</span></span>
-<span><span class="co">#&gt; $ numoccs       &lt;fct&gt; 02, 02, 01, 04, 04, 04, 04, 03, 03, 03, 01, 03, 03, 03, …</span></span>
-<span><span class="co">#&gt; $ owner         &lt;fct&gt; "Driver (in this crash) Not Registered Owner (Other Priv…</span></span>
-<span><span class="co">#&gt; $ p_crash1      &lt;fct&gt; Negotiating a Curve, Negotiating a Curve, Going Straight…</span></span>
-<span><span class="co">#&gt; $ p_crash2      &lt;fct&gt; "Off the edge of the road on the left side", "Off the ed…</span></span>
-<span><span class="co">#&gt; $ p_crash3      &lt;fct&gt; No Avoidance Maneuver, No Avoidance Maneuver, No Avoidan…</span></span>
-<span><span class="co">#&gt; $ pbcwalk       &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ pbswalk       &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ pbszone       &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ pcrash4       &lt;fct&gt; "Tracking", "Tracking", "Tracking", "Tracking", "Trackin…</span></span>
-<span><span class="co">#&gt; $ pcrash5       &lt;fct&gt; "Departed roadway", "Departed roadway", "Departed roadwa…</span></span>
-<span><span class="co">#&gt; $ pedcgp        &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ pedctype      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ peddir        &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ pedleg        &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ pedloc        &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ pedpos        &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ peds          &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></span>
-<span><span class="co">#&gt; $ pedsnr        &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ per_typ       &lt;fct&gt; "Driver of a Motor Vehicle In-Transport", "Passenger of …</span></span>
-<span><span class="co">#&gt; $ permvit       &lt;dbl&gt; 2, 2, 1, 7, 7, 7, 7, 7, 7, 7, 5, 5, 5, 5, 5, 1, 1, 2, 2,…</span></span>
-<span><span class="co">#&gt; $ pernotmvit    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></span>
-<span><span class="co">#&gt; $ persons       &lt;dbl&gt; 2, 2, 1, 7, 7, 7, 7, 7, 7, 7, 5, 5, 5, 5, 5, 1, 1, 2, 2,…</span></span>
-<span><span class="co">#&gt; $ prev_acc      &lt;fct&gt; None, None, None, None, None, None, None, None, None, No…</span></span>
-<span><span class="co">#&gt; $ prev_dwi      &lt;fct&gt; 2, 2, None, None, None, None, None, None, None, None, No…</span></span>
-<span><span class="co">#&gt; $ prev_oth      &lt;fct&gt; 1, 1, None, None, None, None, None, None, None, None, No…</span></span>
-<span><span class="co">#&gt; $ prev_spd      &lt;fct&gt; 1, 1, None, None, None, None, None, None, None, None, No…</span></span>
-<span><span class="co">#&gt; $ prev_sus      &lt;fct&gt; 6, 6, None, None, None, None, None, None, None, None, No…</span></span>
-<span><span class="co">#&gt; $ pvh_invl      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,…</span></span>
-<span><span class="co">#&gt; $ race          &lt;fct&gt; "White", "Not a Fatality (not Applicable)", "White", "No…</span></span>
-<span><span class="co">#&gt; $ rail          &lt;fct&gt; Not Applicable, Not Applicable, Not Applicable, Not Appl…</span></span>
-<span><span class="co">#&gt; $ reg_stat      &lt;fct&gt; Alabama, Alabama, Alabama, Alabama, Alabama, Alabama, Al…</span></span>
-<span><span class="co">#&gt; $ rel_road      &lt;fct&gt; On Roadside, On Roadside, On Roadside, On Roadway, On Ro…</span></span>
-<span><span class="co">#&gt; $ reljct1       &lt;fct&gt; No, No, No, No, No, No, No, No, No, No, No, No, No, No, …</span></span>
-<span><span class="co">#&gt; $ reljct2       &lt;fct&gt; Non-Junction, Non-Junction, Non-Junction, Intersection, …</span></span>
-<span><span class="co">#&gt; $ rest_mis      &lt;fct&gt; "No", "No", "No", "No", "No", "No", "No", "No", "No", "N…</span></span>
-<span><span class="co">#&gt; $ rest_use      &lt;fct&gt; "Shoulder and Lap Belt Used", "Shoulder and Lap Belt Use…</span></span>
-<span><span class="co">#&gt; $ road_fnc      &lt;fct&gt; Rural-Minor Collector, Rural-Minor Collector, Rural-Loca…</span></span>
-<span><span class="co">#&gt; $ rolinloc      &lt;fct&gt; On Roadside, On Roadside, No Rollover, No Rollover, No R…</span></span>
-<span><span class="co">#&gt; $ rollover      &lt;fct&gt; "Rollover, Tripped by Object/Vehicle", "Rollover, Trippe…</span></span>
-<span><span class="co">#&gt; $ route         &lt;fct&gt; County Road, County Road, County Road, U.S. Highway, U.S…</span></span>
-<span><span class="co">#&gt; $ rur_urb       &lt;fct&gt; Rural, Rural, Rural, Urban, Urban, Urban, Urban, Urban, …</span></span>
-<span><span class="co">#&gt; $ sch_bus       &lt;fct&gt; No, No, No, No, No, No, No, No, No, No, No, No, No, No, …</span></span>
-<span><span class="co">#&gt; $ seat_pos      &lt;fct&gt; "Front Seat, Left Side", "Front Seat, Right Side", "Fron…</span></span>
-<span><span class="co">#&gt; $ sex           &lt;fct&gt; Male, Female, Male, Male, Female, Male, Male, Female, Fe…</span></span>
-<span><span class="co">#&gt; $ sp_jur        &lt;fct&gt; No Special Jurisdiction, No Special Jurisdiction, No Spe…</span></span>
-<span><span class="co">#&gt; $ spec_use      &lt;fct&gt; "No Special Use", "No Special Use", "No Special Use", "N…</span></span>
-<span><span class="co">#&gt; $ speedrel      &lt;fct&gt; "Yes, Exceeded Speed Limit", "Yes, Exceeded Speed Limit"…</span></span>
-<span><span class="co">#&gt; $ str_veh       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></span>
-<span><span class="co">#&gt; $ tow_veh       &lt;fct&gt; "No Trailing Units", "No Trailing Units", "No Trailing U…</span></span>
-<span><span class="co">#&gt; $ towed         &lt;fct&gt; "Towed Due to Disabling Damage", "Towed Due to Disabling…</span></span>
-<span><span class="co">#&gt; $ trav_sp       &lt;fct&gt; 070 MPH, 070 MPH, 040 MPH, Unknown, Unknown, Unknown, Un…</span></span>
-<span><span class="co">#&gt; $ tway_id       &lt;chr&gt; "CR-67", "CR-67", "CR-26", "US-SR 6", "US-SR 6", "US-SR …</span></span>
-<span><span class="co">#&gt; $ tway_id2      &lt;chr&gt; NA, NA, NA, "VERTERAN'S MEMORIAL PKWY", "VERTERAN'S MEMO…</span></span>
-<span><span class="co">#&gt; $ typ_int       &lt;fct&gt; "Not an Intersection", "Not an Intersection", "Not an In…</span></span>
-<span><span class="co">#&gt; $ underide      &lt;fct&gt; "No Underride or Override Noted", "No Underride or Overr…</span></span>
-<span><span class="co">#&gt; $ unittype      &lt;fct&gt; Motor Vehicle In-Transport (Inside or Outside the Traffi…</span></span>
-<span><span class="co">#&gt; $ v_config      &lt;fct&gt; "Not Applicable", "Not Applicable", "Not Applicable", "N…</span></span>
-<span><span class="co">#&gt; $ valign        &lt;fct&gt; Curve Right, Curve Right, Straight, Straight, Straight, …</span></span>
-<span><span class="co">#&gt; $ ve_forms      &lt;dbl&gt; 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 1, 1, 2, 2,…</span></span>
-<span><span class="co">#&gt; $ ve_total      &lt;dbl&gt; 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 1, 1, 3, 3,…</span></span>
-<span><span class="co">#&gt; $ vin           &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ vnum_lan      &lt;fct&gt; Two lanes, Two lanes, Two lanes, Five lanes, Five lanes,…</span></span>
-<span><span class="co">#&gt; $ vpavetyp      &lt;fct&gt; "Blacktop, Bituminous, or Asphalt", "Blacktop, Bituminou…</span></span>
-<span><span class="co">#&gt; $ vprofile      &lt;fct&gt; "Level", "Level", "Level", "Level", "Level", "Level", "L…</span></span>
-<span><span class="co">#&gt; $ vspd_lim      &lt;fct&gt; 45 MPH, 45 MPH, 40 MPH, 45 MPH, 45 MPH, 45 MPH, 45 MPH, …</span></span>
-<span><span class="co">#&gt; $ vsurcond      &lt;fct&gt; "Dry", "Dry", "Dry", "Dry", "Dry", "Dry", "Dry", "Dry", …</span></span>
-<span><span class="co">#&gt; $ vtcont_f      &lt;fct&gt; "No Controls", "No Controls", "No Controls", "Device Fun…</span></span>
-<span><span class="co">#&gt; $ vtrafcon      &lt;fct&gt; No Controls, No Controls, No Controls, Traffic control s…</span></span>
-<span><span class="co">#&gt; $ vtrafway      &lt;fct&gt; "Two-Way, Not Divided", "Two-Way, Not Divided", "Two-Way…</span></span>
-<span><span class="co">#&gt; $ work_inj      &lt;fct&gt; No, Not Applicable (not a fatality), No, Not Applicable …</span></span>
-<span><span class="co">#&gt; $ wrk_zone      &lt;fct&gt; "None", "None", "None", "None", "None", "None", "None", …</span></span>
-<span><span class="co">#&gt; $ func_sys      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ rd_owner      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ cityname      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ countyname    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ statename     &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ trlr1vin      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ trlr2vin      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ trlr3vin      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ nmhelmet      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ nmlight       &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ nmothpre      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ nmothpro      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ nmpropad      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ nmrefclo      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ prev_sus1     &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ prev_sus2     &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ prev_sus3     &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ helm_mis      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ helm_use      &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ gvwr_from     &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ gvwr_to       &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ icfinalbody   &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ trlr1gvwr     &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ trlr2gvwr     &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ trlr3gvwr     &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ vpicbodyclass &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ vpicmake      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ vpicmodel     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ underoverride &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ devmotor      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ devtype       &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ acc_config    &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ a1            &lt;dbl&gt; 26, 26, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17…</span></span>
-<span><span class="co">#&gt; $ a2            &lt;dbl&gt; 26, 26, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 1…</span></span>
-<span><span class="co">#&gt; $ a3            &lt;dbl&gt; 26, 26, 31, 14, 14, 14, 14, 14, 14, 14, 0, 0, 0, 0, 0, 0…</span></span>
-<span><span class="co">#&gt; $ a4            &lt;dbl&gt; 26, 26, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17…</span></span>
-<span><span class="co">#&gt; $ a5            &lt;dbl&gt; 26, 26, 31, 17, 17, 17, 17, 17, 17, 17, 0, 0, 0, 0, 0, 0…</span></span>
-<span><span class="co">#&gt; $ a6            &lt;dbl&gt; 26, 26, 31, 15, 15, 15, 15, 15, 15, 15, 0, 0, 0, 0, 0, 1…</span></span>
-<span><span class="co">#&gt; $ a7            &lt;dbl&gt; 26, 26, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17…</span></span>
-<span><span class="co">#&gt; $ a8            &lt;dbl&gt; 26, 26, 31, 15, 15, 15, 15, 15, 15, 15, 0, 0, 0, 0, 0, 0…</span></span>
-<span><span class="co">#&gt; $ a9            &lt;dbl&gt; 26, 26, 31, 16, 16, 16, 16, 16, 16, 16, 0, 0, 0, 0, 0, 0…</span></span>
-<span><span class="co">#&gt; $ a10           &lt;dbl&gt; 26, 26, 31, 15, 15, 15, 15, 15, 15, 15, 0, 0, 0, 0, 0, 0…</span></span>
-<span><span class="co">#&gt; $ p1            &lt;dbl&gt; 26, NA, 31, 0, NA, NA, NA, 0, NA, NA, 0, 0, NA, NA, 0, 0…</span></span>
-<span><span class="co">#&gt; $ p2            &lt;dbl&gt; 26, NA, 31, 0, NA, NA, NA, 0, NA, NA, 0, 0, NA, NA, 0, 1…</span></span>
-<span><span class="co">#&gt; $ p3            &lt;dbl&gt; 26, NA, 31, 14, NA, NA, NA, 0, NA, NA, 0, 0, NA, NA, 0, …</span></span>
-<span><span class="co">#&gt; $ p4            &lt;dbl&gt; 26, NA, 31, 0, NA, NA, NA, 0, NA, NA, 0, 0, NA, NA, 0, 0…</span></span>
-<span><span class="co">#&gt; $ p5            &lt;dbl&gt; 26, NA, 31, 17, NA, NA, NA, 0, NA, NA, 0, 0, NA, NA, 0, …</span></span>
-<span><span class="co">#&gt; $ p6            &lt;dbl&gt; 26, NA, 31, 15, NA, NA, NA, 0, NA, NA, 0, 0, NA, NA, 0, …</span></span>
-<span><span class="co">#&gt; $ p7            &lt;dbl&gt; 26, NA, 31, 0, NA, NA, NA, 0, NA, NA, 0, 0, NA, NA, 0, 0…</span></span>
-<span><span class="co">#&gt; $ p8            &lt;dbl&gt; 26, NA, 31, 15, NA, NA, NA, 0, NA, NA, 0, 0, NA, NA, 0, …</span></span>
-<span><span class="co">#&gt; $ p9            &lt;dbl&gt; 26, NA, 31, 16, NA, NA, NA, 0, NA, NA, 0, 0, NA, NA, 0, …</span></span>
-<span><span class="co">#&gt; $ p10           &lt;dbl&gt; 26, NA, 31, 15, NA, NA, NA, 0, NA, NA, 0, 0, NA, NA, 0, …</span></span></code></pre></div>
-<p>The <code>multi_</code> tibbles contain those variables for which there may be a varying number of values for any entity (e.g., driver impairments, vehicle events, weather conditions at time of crash). Each tibble has the requisite data elements corresponding to the entity: <code>multi_acc</code> includes <code>st_case</code> and <code>year</code>, <code>multi_veh</code> adds <code>veh_no</code> (vehicle number), and <code>multi_per</code> adds <code>per_no</code> (person number).</p>
-<p>The top name-value pairs of each tibble are shown below.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myFARS</span><span class="op">$</span><span class="va">multi_acc</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span>, <span class="va">n</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span>, caption <span class="op">=</span> <span class="st">"Top Name-Value Pairs for the multi_acc Object"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_fars.html">get_fars</a></span><span class="op">(</span>proceed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">myCRSS</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_gescrss.html">get_gescrss</a></span><span class="op">(</span>proceed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><code><a href="reference/get_fars.html">get_fars()</a></code> and <code><a href="reference/get_gescrss.html">get_gescrss()</a></code> return a list with six dataframes: <code>flat</code>, <code>multi_acc</code>, <code>multi_veh</code>, <code>multi_per</code>, <code>events</code>, and <code>codebook</code>.</p>
+<p>The tables below show records for randomly selected crashes to illustrate the content and structure of the data. The tables are transposed for readability.</p>
+<p>Each row in the <code>flat</code> dataframe corresponds to a person involved in a crash. As there may be multiple people and/or vehicles involved in one crash, some variable-values are repeated within a crash or vehicle. Each crash is uniquely identified with <code>id</code>, which is a combination of <code>year</code> and <code>st_case</code>. Note that <code>st_case</code> is not unique across years, for example, <code>st_case</code> 510001 will appear in each year. The <code>id</code> variable attempts to avoid this issue. The GES/CRSS data includes a <code>weight</code> variable that indicates how many crashes each row represents.</p>
 <table class="table">
 <caption>
-Top Name-Value Pairs for the multi_acc Object
+The ‘flat’ dataframe (transposed for readability)
 </caption>
-<thead><tr>
-<th style="text-align:left;">
-name
-</th>
-<th style="text-align:left;">
-value
-</th>
-<th style="text-align:right;">
-n
-</th>
-</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-weather1
+year
 </td>
 <td style="text-align:left;">
-Clear
+2014
 </td>
-<td style="text-align:right;">
-140091
+<td style="text-align:left;">
+2014
+</td>
+<td style="text-align:left;">
+2014
+</td>
+<td style="text-align:left;">
+2014
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-weather
+state
 </td>
 <td style="text-align:left;">
-Clear
+Illinois
 </td>
-<td style="text-align:right;">
-111657
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+Maryland
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-crashrf
+st_case
 </td>
 <td style="text-align:left;">
-None Noted
+170423
 </td>
-<td style="text-align:right;">
-71250
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+240191
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-weather1
+id
 </td>
 <td style="text-align:left;">
-Cloudy
+2014170423
 </td>
-<td style="text-align:right;">
-29829
+<td style="text-align:left;">
+2014170423
+</td>
+<td style="text-align:left;">
+2014240191
+</td>
+<td style="text-align:left;">
+2014240191
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-weather
-</td>
-<td style="text-align:left;">
-Cloudy
-</td>
-<td style="text-align:right;">
-21034
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-weather1
-</td>
-<td style="text-align:left;">
-Rain
-</td>
-<td style="text-align:right;">
-14058
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-weather
-</td>
-<td style="text-align:left;">
-Rain
-</td>
-<td style="text-align:right;">
-10382
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-cf1
-</td>
-<td style="text-align:left;">
-Motor Vehicle struck by falling cargo,or something that came loose from or something that was set in motion by a vehicle
-</td>
-<td style="text-align:right;">
-3995
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-crashrf
-</td>
-<td style="text-align:left;">
-Motor Vehicle struck by falling cargo,or something that came loose from or something that was set in motion by a vehicle
-</td>
-<td style="text-align:right;">
-3549
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-weather2
-</td>
-<td style="text-align:left;">
-Cloudy
-</td>
-<td style="text-align:right;">
-2205
-</td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myFARS</span><span class="op">$</span><span class="va">multi_veh</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span>, <span class="va">n</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span>, caption <span class="op">=</span> <span class="st">"Top Name-Value Pairs for the multi_veh Object"</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
-<caption>
-Top Name-Value Pairs for the multi_veh Object
-</caption>
-<thead><tr>
-<th style="text-align:left;">
-name
-</th>
-<th style="text-align:left;">
-value
-</th>
-<th style="text-align:right;">
-n
-</th>
-</tr></thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-mvisobsc
-</td>
-<td style="text-align:left;">
-No Obstruction Noted
-</td>
-<td style="text-align:right;">
-282785
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-drimpair
-</td>
-<td style="text-align:left;">
-None/Apparently Normal
-</td>
-<td style="text-align:right;">
-253863
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-vision
-</td>
-<td style="text-align:left;">
-No Obstruction Noted
-</td>
-<td style="text-align:right;">
-220560
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-vehiclecc
-</td>
-<td style="text-align:left;">
-None Noted
-</td>
-<td style="text-align:right;">
-218470
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-mdareas
-</td>
-<td style="text-align:left;">
-12 Clock Value
-</td>
-<td style="text-align:right;">
-211504
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-damage
-</td>
-<td style="text-align:left;">
-12 Clock Value
-</td>
-<td style="text-align:right;">
-169994
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-mdrdstrd
-</td>
-<td style="text-align:left;">
-Not Distracted
-</td>
-<td style="text-align:right;">
-155771
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-vehiclesf
-</td>
-<td style="text-align:left;">
-None Noted
-</td>
-<td style="text-align:right;">
-118399
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-vehiclesf
+veh_no
 </td>
 <td style="text-align:left;">
 0
 </td>
-<td style="text-align:right;">
-115082
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-mdareas
+per_no
 </td>
 <td style="text-align:left;">
-11 Clock Value
+1
 </td>
-<td style="text-align:right;">
-109333
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
 </td>
 </tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myFARS</span><span class="op">$</span><span class="va">multi_per</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span>, <span class="va">n</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span>, caption <span class="op">=</span> <span class="st">"Top Name-Value Pairs for the multi_per Object"</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
-<caption>
-Top Name-Value Pairs for the multi_per Object
-</caption>
-<thead><tr>
-<th style="text-align:left;">
-name
-</th>
-<th style="text-align:left;">
-value
-</th>
-<th style="text-align:right;">
-n
-</th>
-</tr></thead>
-<tbody>
 <tr>
 <td style="text-align:left;">
-multrace
+county
+</td>
+<td style="text-align:left;">
+179
+</td>
+<td style="text-align:left;">
+179
+</td>
+<td style="text-align:left;">
+43
+</td>
+<td style="text-align:left;">
+43
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+city
+</td>
+<td style="text-align:left;">
+2600
+</td>
+<td style="text-align:left;">
+2600
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lon
+</td>
+<td style="text-align:left;">
+-89.56736
+</td>
+<td style="text-align:left;">
+-89.56736
+</td>
+<td style="text-align:left;">
+-77.75684
+</td>
+<td style="text-align:left;">
+-77.75684
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lat
+</td>
+<td style="text-align:left;">
+40.66485
+</td>
+<td style="text-align:left;">
+40.66485
+</td>
+<td style="text-align:left;">
+39.65347
+</td>
+<td style="text-align:left;">
+39.65347
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+acc_type
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Pedestrian/ Animal
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Pedestrian/ Animal
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age
+</td>
+<td style="text-align:left;">
+37 Years
+</td>
+<td style="text-align:left;">
+64 Years
+</td>
+<td style="text-align:left;">
+32 Years
+</td>
+<td style="text-align:left;">
+23 Years
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+air_bag
+</td>
+<td style="text-align:left;">
+Not a Motor Vehicle Occupant
+</td>
+<td style="text-align:left;">
+Not Deployed
+</td>
+<td style="text-align:left;">
+Not a Motor Vehicle Occupant
+</td>
+<td style="text-align:left;">
+Not Deployed
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+alc_det
+</td>
+<td style="text-align:left;">
+Evidential Test (breath, blood, urine)
+</td>
+<td style="text-align:left;">
+Not Reported
+</td>
+<td style="text-align:left;">
+Not Reported
+</td>
+<td style="text-align:left;">
+Not Reported
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+alc_res
+</td>
+<td style="text-align:left;">
+0.16 % BAC
+</td>
+<td style="text-align:left;">
+AC Test Performed,Results Unknown
+</td>
+<td style="text-align:left;">
+Not Reported
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+alc_status
+</td>
+<td style="text-align:left;">
+Test Given
+</td>
+<td style="text-align:left;">
+Test Given
+</td>
+<td style="text-align:left;">
+Not Reported
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+arr_hour
+</td>
+<td style="text-align:left;">
+Unknown EMS Scene Arrival Hour
+</td>
+<td style="text-align:left;">
+Unknown EMS Scene Arrival Hour
+</td>
+<td style="text-align:left;">
+Unknown EMS Scene Arrival Hour
+</td>
+<td style="text-align:left;">
+Unknown EMS Scene Arrival Hour
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+arr_min
+</td>
+<td style="text-align:left;">
+Unknown EMS Scene Arrival Minutes
+</td>
+<td style="text-align:left;">
+Unknown EMS Scene Arrival Minutes
+</td>
+<td style="text-align:left;">
+Unknown EMS Scene Arrival Minutes
+</td>
+<td style="text-align:left;">
+Unknown EMS Scene Arrival Minutes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+atst_typ
+</td>
+<td style="text-align:left;">
+Blood
+</td>
+<td style="text-align:left;">
+Blood
+</td>
+<td style="text-align:left;">
+Not Reported
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+bikecgp
+</td>
+<td style="text-align:left;">
+Bicyclist Failed to Yield - Sign-Controlled Intersection
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not a Cyclist
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+bikectype
+</td>
+<td style="text-align:left;">
+Bicyclist Ride Out - Sign-Controlled Intersection
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not a Cyclist
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+bikedir
+</td>
+<td style="text-align:left;">
+With Traffic
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not a Cyclist
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+bikeloc
+</td>
+<td style="text-align:left;">
+Intersection-Related
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not a Cyclist
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+bikepos
+</td>
+<td style="text-align:left;">
+On a roadway, in a shared travel lane
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not a Cyclist
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+body_typ
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Other Bus Type
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+4-door sedan, hardtop
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+bus_use
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Charter/Tour
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not a Bus
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+cargo_bt
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Bus
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable (N/A)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+cdl_stat
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Valid
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No (CDL)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+cert_no
+</td>
+<td style="text-align:left;">
+************
+</td>
+<td style="text-align:left;">
+************
+</td>
+<td style="text-align:left;">
+************
+</td>
+<td style="text-align:left;">
+************
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+day
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+31
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+day_week
+</td>
+<td style="text-align:left;">
+Sunday
+</td>
+<td style="text-align:left;">
+Sunday
+</td>
+<td style="text-align:left;">
+Thursday
+</td>
+<td style="text-align:left;">
+Thursday
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+death_da
+</td>
+<td style="text-align:left;">
+23
+</td>
+<td style="text-align:left;">
+Not Applicable (Non-Fatal)
+</td>
+<td style="text-align:left;">
+31
+</td>
+<td style="text-align:left;">
+Not Applicable (Non-Fatal)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+death_hr
+</td>
+<td style="text-align:left;">
+10:00-10:59
+</td>
+<td style="text-align:left;">
+Not Applicable (Non-fatal)
+</td>
+<td style="text-align:left;">
+2:00-2:59
+</td>
+<td style="text-align:left;">
+Not Applicable (Non-fatal)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+death_mn
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+Not Applicable (Non-fatal)
+</td>
+<td style="text-align:left;">
+27
+</td>
+<td style="text-align:left;">
+Not Applicable (Non-fatal)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+death_mo
+</td>
+<td style="text-align:left;">
+June
+</td>
+<td style="text-align:left;">
+Not Applicable (Non-Fatal)
+</td>
+<td style="text-align:left;">
+July
+</td>
+<td style="text-align:left;">
+Not Applicable (Non-Fatal)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+death_tm
+</td>
+<td style="text-align:left;">
+1030
+</td>
+<td style="text-align:left;">
+8888
+</td>
+<td style="text-align:left;">
+227
+</td>
+<td style="text-align:left;">
+8888
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+death_yr
+</td>
+<td style="text-align:left;">
+2014
+</td>
+<td style="text-align:left;">
+Not Applicable (Non-fatal)
+</td>
+<td style="text-align:left;">
+2014
+</td>
+<td style="text-align:left;">
+Not Applicable (Non-fatal)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+deaths
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+deformed
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Minor Damage
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Disabling Damage
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+doa
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+dr_drink
+</td>
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:left;">
 No
 </td>
-<td style="text-align:right;">
-370399
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-drugres3
+dr_hgt
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+74
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+72
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+dr_pres
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+dr_wgt
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+225 lbs.
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+dr_zip
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+drinking
+</td>
+<td style="text-align:left;">
+Yes (Alcohol Involved)
+</td>
+<td style="text-align:left;">
+Not Reported
+</td>
+<td style="text-align:left;">
+No (Alcohol Not Involved)
+</td>
+<td style="text-align:left;">
+No (Alcohol Not Involved)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+drug_det
+</td>
+<td style="text-align:left;">
+Evidential Test (Blood, Urine)
+</td>
+<td style="text-align:left;">
+Not Reported
+</td>
+<td style="text-align:left;">
+Not Reported
+</td>
+<td style="text-align:left;">
+Other
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:left;">
+Yes (drugs involved)
+</td>
+<td style="text-align:left;">
+Not Reported
+</td>
+<td style="text-align:left;">
+No (drugs not involved)
+</td>
+<td style="text-align:left;">
+No (drugs not involved)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+drunk_dr
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+dstatus
+</td>
+<td style="text-align:left;">
+Test Given
+</td>
+<td style="text-align:left;">
+Test Given
+</td>
+<td style="text-align:left;">
+Not Reported
 </td>
 <td style="text-align:left;">
 Test Not Given
 </td>
-<td style="text-align:right;">
-317417
+</tr>
+<tr>
+<td style="text-align:left;">
+ej_path
+</td>
+<td style="text-align:left;">
+Not Ejected/Not Applicable
+</td>
+<td style="text-align:left;">
+Not Ejected/Not Applicable
+</td>
+<td style="text-align:left;">
+Not Ejected/Not Applicable
+</td>
+<td style="text-align:left;">
+Not Ejected/Not Applicable
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-drugtst3
+ejection
 </td>
 <td style="text-align:left;">
-Test Not Given
+Not Applicable
 </td>
-<td style="text-align:right;">
-317349
+<td style="text-align:left;">
+Not Ejected
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+Not Ejected
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-drugres2
+emer_use
 </td>
 <td style="text-align:left;">
-Test Not Given
+NA
 </td>
-<td style="text-align:right;">
-305828
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-drugtst2
+extricat
 </td>
 <td style="text-align:left;">
-Test Not Given
+Not Extricated or Not Applicable
 </td>
-<td style="text-align:right;">
-305735
+<td style="text-align:left;">
+Not Extricated or Not Applicable
+</td>
+<td style="text-align:left;">
+Not Extricated or Not Applicable
+</td>
+<td style="text-align:left;">
+Not Extricated or Not Applicable
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-drugspec
+fatals
 </td>
 <td style="text-align:left;">
-Test Not Given
+1
 </td>
-<td style="text-align:right;">
-304882
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-drugres
+fire_exp
 </td>
 <td style="text-align:left;">
-Test Not Given
+NA
 </td>
-<td style="text-align:right;">
-304880
+<td style="text-align:left;">
+No or Not Reported
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No or Not Reported
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-drugspec
+first_mo
 </td>
 <td style="text-align:left;">
-Whole Blood
+NA
 </td>
-<td style="text-align:right;">
-257238
+<td style="text-align:left;">
+No Record
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Record
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+first_yr
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Record
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Record
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gvwr
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+26,001 lbs. or more
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+harm_ev
+</td>
+<td style="text-align:left;">
+Pedalcyclist
+</td>
+<td style="text-align:left;">
+Pedalcyclist
+</td>
+<td style="text-align:left;">
+Pedestrian
+</td>
+<td style="text-align:left;">
+Pedestrian
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+haz_cno
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+haz_id
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+haz_inv
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+haz_plac
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+haz_rel
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hispanic
+</td>
+<td style="text-align:left;">
+Non-Hispanic
+</td>
+<td style="text-align:left;">
+Not A Fatality (not Applicable)
+</td>
+<td style="text-align:left;">
+Non-Hispanic
+</td>
+<td style="text-align:left;">
+Not A Fatality (not Applicable)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hit_run
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hosp_hr
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hosp_mn
+</td>
+<td style="text-align:left;">
+Unknown EMS Hospital Arrival Time
+</td>
+<td style="text-align:left;">
+Unknown EMS Hospital Arrival Time
+</td>
+<td style="text-align:left;">
+Unknown EMS Hospital Arrival Time
+</td>
+<td style="text-align:left;">
+Unknown EMS Hospital Arrival Time
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hospital
+</td>
+<td style="text-align:left;">
+EMS Ground
+</td>
+<td style="text-align:left;">
+Not Transported
+</td>
+<td style="text-align:left;">
+EMS Air
+</td>
+<td style="text-align:left;">
+Not Transported
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hour
+</td>
+<td style="text-align:left;">
+0:00am-0:59am
+</td>
+<td style="text-align:left;">
+0:00am-0:59am
+</td>
+<td style="text-align:left;">
+0:00am-0:59am
+</td>
+<td style="text-align:left;">
+0:00am-0:59am
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+impact1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+12 Clock Point
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+12 Clock Point
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inj_sev
+</td>
+<td style="text-align:left;">
+Fatal Injury (K)
+</td>
+<td style="text-align:left;">
+No Apparent Injury (O)
+</td>
+<td style="text-align:left;">
+Fatal Injury (K)
+</td>
+<td style="text-align:left;">
+No Apparent Injury (O)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+j_knife
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not an Articulated Vehicle
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not an Articulated Vehicle
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+l_compl
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Valid license for this class vehicle
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Valid license for this class vehicle
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+l_endors
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Endorsement(s) Required, Compliance Unknown
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Endorsements required for this vehicle
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+l_restri
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Restrictions, Compliance Unknown
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Restrictions or Not Applicable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+l_state
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Pennsylvania
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+l_status
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Valid
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Valid
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+l_type
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Full Driver License
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Full Driver License
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lag_hrs
+</td>
+<td style="text-align:left;">
+34
+</td>
+<td style="text-align:left;">
+999
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+999
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lag_mins
+</td>
+<td style="text-align:left;">
+25
+</td>
+<td style="text-align:left;">
+99
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+99
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+last_mo
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Record
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Record
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+last_yr
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Record
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Record
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lgt_cond
+</td>
+<td style="text-align:left;">
+Dark - Lighted
+</td>
+<td style="text-align:left;">
+Dark - Lighted
+</td>
+<td style="text-align:left;">
+Dark - Not Lighted
+</td>
+<td style="text-align:left;">
+Dark - Not Lighted
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+location
+</td>
+<td style="text-align:left;">
+Not at Intersection - On Roadway, Not in Marked Crosswalk
+</td>
+<td style="text-align:left;">
+Occupant of a Motor Vehicle
+</td>
+<td style="text-align:left;">
+Not at Intersection - On Roadway, Not in Marked Crosswalk
+</td>
+<td style="text-align:left;">
+Occupant of a Motor Vehicle
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_harm
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Pedalcyclist
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Pedestrian
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mak_mod
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Other Make Bus***: Conventional (Engine out front)
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Pontiac G6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+make
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Other Make
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Pontiac
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+man_coll
+</td>
+<td style="text-align:left;">
+Not a Collision with Motor Vehicle In-Transport
+</td>
+<td style="text-align:left;">
+Not a Collision with Motor Vehicle In-Transport
+</td>
+<td style="text-align:left;">
+Not a Collision with Motor Vehicle In-Transport
+</td>
+<td style="text-align:left;">
+Not a Collision with Motor Vehicle In-Transport
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mcarr_i1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+US DOT
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mcarr_i2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mcarr_id
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+milept
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+minute
+</td>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+24
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mod_year
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+model
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+981
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+22
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+month
+</td>
+<td style="text-align:left;">
+June
+</td>
+<td style="text-align:left;">
+June
+</td>
+<td style="text-align:left;">
+July
+</td>
+<td style="text-align:left;">
+July
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+motdir
+</td>
+<td style="text-align:left;">
+Not a Pedestrian
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+motman
+</td>
+<td style="text-align:left;">
+Not a Pedestrian
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+msafeqmt
+</td>
+<td style="text-align:left;">
+None Used
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+None Used
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nhs
+</td>
+<td style="text-align:left;">
+This section IS NOT on the NHS
+</td>
+<td style="text-align:left;">
+This section IS NOT on the NHS
+</td>
+<td style="text-align:left;">
+This section IS NOT on the NHS
+</td>
+<td style="text-align:left;">
+This section IS NOT on the NHS
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+not_hour
+</td>
+<td style="text-align:left;">
+0:00am-0:59am
+</td>
+<td style="text-align:left;">
+0:00am-0:59am
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+not_min
+</td>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numoccs
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+01
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+owner
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Vehicle Registered as Business/Company/Government Vehicle
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Driver (in this crash) was Registered Owner
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p_crash1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Going Straight
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Going Straight
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p_crash2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Pedalcyclist or other non-motorist in road
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Pedestrian in road
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p_crash3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Avoidance Maneuver
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Steering left
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pbcwalk
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+None Noted
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pbswalk
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+None Noted
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pbszone
+</td>
+<td style="text-align:left;">
+None Noted
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+None Noted
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pcrash4
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Tracking
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Tracking
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pcrash5
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Stayed in original travel lane
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Stayed in original travel lane
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pedcgp
+</td>
+<td style="text-align:left;">
+Not a Pedestrian
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Crossing Roadway - Vehicle Not Turning
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pedctype
+</td>
+<td style="text-align:left;">
+Not a Pedestrian
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Pedestrian Failed to Yield
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+peddir
+</td>
+<td style="text-align:left;">
+Not a Pedestrian
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pedleg
+</td>
+<td style="text-align:left;">
+Not a Pedestrian
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pedloc
+</td>
+<td style="text-align:left;">
+Not a Pedestrian
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not At Intersection
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pedpos
+</td>
+<td style="text-align:left;">
+Not a Pedestrian
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+On a roadway, in a travel lane
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+peds
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pedsnr
+</td>
+<td style="text-align:left;">
+Not a Pedestrian
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+per_typ
+</td>
+<td style="text-align:left;">
+Bicyclist
+</td>
+<td style="text-align:left;">
+Driver of a Motor Vehicle In-Transport
+</td>
+<td style="text-align:left;">
+Pedestrian
+</td>
+<td style="text-align:left;">
+Driver of a Motor Vehicle In-Transport
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+permvit
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pernotmvit
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+persons
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+prev_acc
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+None
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+prev_dwi
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+None
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+prev_oth
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+None
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+prev_spd
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+None
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+prev_sus
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+None
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pvh_invl
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
 </td>
 </tr>
 <tr>
@@ -722,32 +2353,2459 @@ Whole Blood
 race
 </td>
 <td style="text-align:left;">
+White
+</td>
+<td style="text-align:left;">
 Not a Fatality (not Applicable)
 </td>
-<td style="text-align:right;">
-201623
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:left;">
+Not a Fatality (not Applicable)
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+rail
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+reg_stat
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Pennsylvania
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rel_road
+</td>
+<td style="text-align:left;">
+On Roadway
+</td>
+<td style="text-align:left;">
+On Roadway
+</td>
+<td style="text-align:left;">
+On Roadway
+</td>
+<td style="text-align:left;">
+On Roadway
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+reljct1
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+reljct2
+</td>
+<td style="text-align:left;">
+Intersection-Related
+</td>
+<td style="text-align:left;">
+Intersection-Related
+</td>
+<td style="text-align:left;">
+Non-Junction
+</td>
+<td style="text-align:left;">
+Non-Junction
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rest_mis
+</td>
+<td style="text-align:left;">
+Not a Motor Vehicle Occupant
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Not a Motor Vehicle Occupant
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rest_use
+</td>
+<td style="text-align:left;">
+Not a Motor Vehicle Occupant
+</td>
+<td style="text-align:left;">
+Restraint Used - Type Unknown
+</td>
+<td style="text-align:left;">
+Not a Motor Vehicle Occupant
+</td>
+<td style="text-align:left;">
+Shoulder and Lap Belt Used
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+road_fnc
+</td>
+<td style="text-align:left;">
+Urban-Minor Arterial
+</td>
+<td style="text-align:left;">
+Urban-Minor Arterial
+</td>
+<td style="text-align:left;">
+Rural-Minor Arterial
+</td>
+<td style="text-align:left;">
+Rural-Minor Arterial
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rolinloc
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Rollover
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Rollover
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Rollover
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Rollover
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+route
+</td>
+<td style="text-align:left;">
+Local Street - Municipality
+</td>
+<td style="text-align:left;">
+Local Street - Municipality
+</td>
+<td style="text-align:left;">
+U.S. Highway
+</td>
+<td style="text-align:left;">
+U.S. Highway
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rur_urb
+</td>
+<td style="text-align:left;">
+Urban
+</td>
+<td style="text-align:left;">
+Urban
+</td>
+<td style="text-align:left;">
+Rural
+</td>
+<td style="text-align:left;">
+Rural
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sch_bus
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+seat_pos
+</td>
+<td style="text-align:left;">
+Not a Motor Vehicle Occupant
+</td>
+<td style="text-align:left;">
+Front Seat, Left Side
+</td>
+<td style="text-align:left;">
+Not a Motor Vehicle Occupant
+</td>
+<td style="text-align:left;">
+Front Seat, Left Side
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Male
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sp_jur
+</td>
+<td style="text-align:left;">
+No Special Jurisdiction
+</td>
+<td style="text-align:left;">
+No Special Jurisdiction
+</td>
+<td style="text-align:left;">
+No Special Jurisdiction
+</td>
+<td style="text-align:left;">
+No Special Jurisdiction
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+spec_use
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Vehicle Used as Other Bus
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Special Use
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+speedrel
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+str_veh
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+tow_veh
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+towed
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Towed
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Towed Due to Disabling Damage
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trav_sp
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Reported
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Reported
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+tway_id
+</td>
+<td style="text-align:left;">
+WASHINGTON ST
+</td>
+<td style="text-align:left;">
+WASHINGTON ST
+</td>
+<td style="text-align:left;">
+US-40
+</td>
+<td style="text-align:left;">
+US-40
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+tway_id2
+</td>
+<td style="text-align:left;">
+VETERANS DR
+</td>
+<td style="text-align:left;">
+VETERANS DR
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+typ_int
+</td>
+<td style="text-align:left;">
+Four-Way Intersection
+</td>
+<td style="text-align:left;">
+Four-Way Intersection
+</td>
+<td style="text-align:left;">
+Not an Intersection
+</td>
+<td style="text-align:left;">
+Not an Intersection
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+underide
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Underride or Override Noted
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Underride or Override Noted
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+unittype
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Motor Vehicle In-Transport (Inside or Outside the Trafficway)
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Motor Vehicle In-Transport (Inside or Outside the Trafficway)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+v_config
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Bus (seats for more than 15 occupants, including driver)
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+valign
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Straight
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Straight
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ve_forms
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ve_total
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vin
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vnum_lan
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Two lanes
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Three lanes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vpavetyp
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Blacktop, Bituminous, or Asphalt
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Blacktop, Bituminous, or Asphalt
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vprofile
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Level
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Level
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vspd_lim
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+30 MPH
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+40 MPH
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vsurcond
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Dry
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Wet
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vtcont_f
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Device Functioning Properly
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Controls
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vtrafcon
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Traffic control signal (on colors) with Pedestrian Signal
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+No Controls
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vtrafway
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Two-Way, Not Divided
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Two-Way, Divided, Positive Median Barrier
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+work_inj
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Not Applicable (not a fatality)
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+Not Applicable (not a fatality)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+wrk_zone
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+None
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+func_sys
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rd_owner
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+cityname
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+countyname
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+statename
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trlr1vin
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trlr2vin
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trlr3vin
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nmhelmet
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nmlight
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nmothpre
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nmothpro
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nmpropad
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nmrefclo
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+prev_sus1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+prev_sus2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+prev_sus3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+helm_mis
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+helm_use
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gvwr_from
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gvwr_to
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+icfinalbody
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trlr1gvwr
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trlr2gvwr
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trlr3gvwr
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vpicbodyclass
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vpicmake
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vpicmodel
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+underoverride
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+devmotor
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+devtype
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+acc_config
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a1
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a2
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a3
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a4
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a5
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a6
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a7
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a8
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a9
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a10
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p1
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p2
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p3
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p4
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p5
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p6
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p7
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p8
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p9
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p10
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>multi_</code> dataframes contain those variables for which there may be a varying number of values for any entity (e.g., driver impairments, vehicle events, weather conditions at time of crash). Each dataframe has the requisite data elements corresponding to the entity: <code>multi_acc</code> includes <code>st_case</code> and <code>year</code>, <code>multi_veh</code> adds <code>veh_no</code> (vehicle number), and <code>multi_per</code> adds <code>per_no</code> (person number).</p>
+<table class="table">
+<caption>
+The ‘multi_acc’ dataframe
+</caption>
+<thead><tr>
+<th style="text-align:left;">
+state
+</th>
+<th style="text-align:left;">
+st_case
+</th>
+<th style="text-align:left;">
+name
+</th>
+<th style="text-align:left;">
+value
+</th>
+<th style="text-align:left;">
+year
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+weather1
+</td>
+<td style="text-align:left;">
+Clear
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+weather1
+</td>
+<td style="text-align:left;">
+Rain
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table">
+<caption>
+The ‘multi_veh’ dataframe
+</caption>
+<thead><tr>
+<th style="text-align:left;">
+state
+</th>
+<th style="text-align:left;">
+st_case
+</th>
+<th style="text-align:left;">
+name
+</th>
+<th style="text-align:left;">
+value
+</th>
+<th style="text-align:left;">
+year
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+weather1
+</td>
+<td style="text-align:left;">
+Clear
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+weather1
+</td>
+<td style="text-align:left;">
+Rain
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table">
+<caption>
+The ‘multi_per’ dataframe
+</caption>
+<thead><tr>
+<th style="text-align:left;">
+state
+</th>
+<th style="text-align:left;">
+st_case
+</th>
+<th style="text-align:left;">
+veh_no
+</th>
+<th style="text-align:left;">
+per_no
+</th>
+<th style="text-align:left;">
+name
+</th>
+<th style="text-align:left;">
+value
+</th>
+<th style="text-align:left;">
+year
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugtst1
+</td>
+<td style="text-align:left;">
+Both: Blood and Urine Tests
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugtst2
+</td>
+<td style="text-align:left;">
+Both: Blood and Urine Tests
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugtst3
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres1
+</td>
+<td style="text-align:left;">
+DELTA 9
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres2
+</td>
+<td style="text-align:left;">
+Tetrahydrocannabinols (THC)
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres3
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugtst1
+</td>
+<td style="text-align:left;">
+Unknown Test Type
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugtst2
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugtst3
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres1
+</td>
+<td style="text-align:left;">
+Test For Drug, Results Unknown
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres2
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres3
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+mtm_crsh
+</td>
+<td style="text-align:left;">
+Failure to Yield Right-Of-Way
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+mtm_crsh
+</td>
+<td style="text-align:left;">
+Failure to Obey Traffic Signs, Signals or Officer
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+nmimpair
+</td>
+<td style="text-align:left;">
+Under the Influence of Alcohol, Drugs or Medication
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:left;">
+170423
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+mpr_act
+</td>
+<td style="text-align:left;">
+Crossing Roadway
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugtst2
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugtst3
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres2
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres3
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
 <td style="text-align:left;">
 drugtst1
 </td>
 <td style="text-align:left;">
 Test Not Given
 </td>
-<td style="text-align:right;">
-199168
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugtst2
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugtst3
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres1
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres2
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres3
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+mtm_crsh
+</td>
+<td style="text-align:left;">
+Failure to Yield Right-Of-Way
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+mtm_crsh
+</td>
+<td style="text-align:left;">
+Not Visible (Dark clothing, No Lighting, etc.)
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+nmimpair
+</td>
+<td style="text-align:left;">
+None/Apparently Normal
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+mpr_act
+</td>
+<td style="text-align:left;">
+Crossing Roadway
+</td>
+<td style="text-align:left;">
+2014
 </td>
 </tr>
 </tbody>
 </table>
-<p>The <code>events</code> tibble provides a sequence of numbered events for each vehicle in each crash. See the vignette(“Crash Sequence of Events”, package = “rfars”) for more information.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">myFARS</span><span class="op">$</span><span class="va">events</span>, <span class="fl">10</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format<span class="op">=</span><span class="st">"html"</span>, caption <span class="op">=</span> <span class="st">"Preview of events Object"</span><span class="op">)</span></span></code></pre></div>
+<p>The <code>events</code> dataframe provides a sequence of events for each vehicle in each crash. See the vignette(“Crash Sequence of Events”, package = “rfars”) for more information.</p>
 <table class="table">
 <caption>
-Preview of events Object
+The ‘multi_per’ dataframe
 </caption>
 <thead><tr>
 <th style="text-align:left;">
@@ -775,217 +4833,10 @@ year
 <tbody>
 <tr>
 <td style="text-align:left;">
-Alabama
+Illinois
 </td>
 <td style="text-align:left;">
-10001
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-Non-Harmful Event
-</td>
-<td style="text-align:left;">
-Cross Centerline
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Alabama
-</td>
-<td style="text-align:left;">
-10001
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-Non-Harmful Event
-</td>
-<td style="text-align:left;">
-Ran Off Roadway - Left
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Alabama
-</td>
-<td style="text-align:left;">
-10001
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-11 Clock Point
-</td>
-<td style="text-align:left;">
-Boulder
-</td>
-<td style="text-align:left;">
-3
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Alabama
-</td>
-<td style="text-align:left;">
-10001
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-Non-Collision
-</td>
-<td style="text-align:left;">
-Rollover/Overturn
-</td>
-<td style="text-align:left;">
-4
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Alabama
-</td>
-<td style="text-align:left;">
-10001
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-Top
-</td>
-<td style="text-align:left;">
-Tree (Standing Only)
-</td>
-<td style="text-align:left;">
-5
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Alabama
-</td>
-<td style="text-align:left;">
-10001
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-Not Reported
-</td>
-<td style="text-align:left;">
-Boulder
-</td>
-<td style="text-align:left;">
-6
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Alabama
-</td>
-<td style="text-align:left;">
-10001
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-Non-Collision
-</td>
-<td style="text-align:left;">
-Immersion or Partial Immersion
-</td>
-<td style="text-align:left;">
-7
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Alabama
-</td>
-<td style="text-align:left;">
-10002
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-Non-Harmful Event
-</td>
-<td style="text-align:left;">
-Cross Centerline
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Alabama
-</td>
-<td style="text-align:left;">
-10002
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-Non-Harmful Event
-</td>
-<td style="text-align:left;">
-Ran Off Roadway - Left
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Alabama
-</td>
-<td style="text-align:left;">
-10002
+170423
 </td>
 <td style="text-align:left;">
 1
@@ -994,10 +4845,33 @@ Alabama
 12 Clock Point
 </td>
 <td style="text-align:left;">
-Tree (Standing Only)
+Pedalcyclist
 </td>
 <td style="text-align:left;">
-3
+1
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:left;">
+240191
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+12 Clock Point
+</td>
+<td style="text-align:left;">
+Pedestrian
+</td>
+<td style="text-align:left;">
+1
 </td>
 <td style="text-align:left;">
 2014
@@ -1005,12 +4879,12 @@ Tree (Standing Only)
 </tr>
 </tbody>
 </table>
-<p>The <code>codebook</code> tibble provides a searchable codebook for the data, useful if you know what concept you’re looking for but not the variable that describes it. <code>rfars</code> also includes pre-loaded codebooks for FARS and GESCRSS (<code><a href="reference/fars_codebook.html">rfars::fars_codebook</a></code> and <code><a href="reference/gescrss_codebook.html">rfars::gescrss_codebook</a></code>). See <code>vignette('Searchable Codebooks', package = 'rfars')</code> for more information.</p>
+<p>The <code>codebook</code> dataframe provides a searchable codebook for the data, useful if you know what concept you’re looking for but not the variable that describes it. <code>rfars</code> also includes pre-loaded codebooks for FARS and GESCRSS (<code><a href="reference/fars_codebook.html">rfars::fars_codebook</a></code> and <code><a href="reference/gescrss_codebook.html">rfars::gescrss_codebook</a></code>). See <code>vignette('Searchable Codebooks', package = 'rfars')</code> for more information.</p>
 </div>
 <div class="section level2">
 <h2 id="counts">Counts<a class="anchor" aria-label="anchor" href="#counts"></a>
 </h2>
-<p>See <code><a href="articles/Counts.html">vignette("Counts", package = "rfars")</a></code> for information on the pre-loaded <code>annual_counts</code> dataframe and the <code><a href="reference/counts.html">counts()</a></code> function. Also see <code>vignette("Alcohol Counts", package = "rfars")</code> for details on how BAC values are imputed and reported in <em>Traffic Safety Facts</em>.</p>
+<p>See <code><a href="articles/Counts.html">vignette("Counts", package = "rfars")</a></code> for information on the pre-loaded <code>annual_counts</code> dataframe and the <code><a href="reference/counts.html">counts()</a></code> and <code><a href="reference/compare_counts.html">compare_counts()</a></code> functions. Also see <code>vignette("Alcohol Counts", package = "rfars")</code> for details on how BAC values are imputed and reported in <em>Traffic Safety Facts</em>.</p>
 </div>
 <div class="section level2">
 <h2 id="helpful-links">Helpful Links<a class="anchor" aria-label="anchor" href="#helpful-links"></a>

@@ -73,9 +73,6 @@
 
     
     
-<div class="section level2">
-<h2 id="counts">Counts<a class="anchor" aria-label="anchor" href="#counts"></a>
-</h2>
 <p>A first step in many transportation safety analyses involves counting
 the number of relevant crashes, fatalities, or people involved.
 <code><a href="../reference/counts.html">counts()</a></code> lets users specify <em>what</em> to count,
@@ -87,17 +84,9910 @@ crashes. It returns a simple tibble that can be easily piped into
 <p>First we load the required libraries:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: package 'ggplot2' was built under R version 4.4.3</span></span></code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/s87jackson/rfars" class="external-link">rfars</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="annual_counts">annual_counts<a class="anchor" aria-label="anchor" href="#annual_counts"></a>
 </h3>
 <p><code>rfars</code> includes <code>annual_counts</code>, a table of
 annual crash counts:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu">rfars</span><span class="fu">::</span><span class="va"><a href="../reference/annual_counts.html">annual_counts</a></span>, format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr>
+<th style="text-align:right;">
+year
+</th>
+<th style="text-align:left;">
+what
+</th>
+<th style="text-align:left;">
+states
+</th>
+<th style="text-align:left;">
+region
+</th>
+<th style="text-align:left;">
+urb
+</th>
+<th style="text-align:left;">
+who
+</th>
+<th style="text-align:left;">
+involved
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:left;">
+source
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+30056.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+32538.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+34748.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+34560.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+33919.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+33487.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+35935.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+39785.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+39422.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+37654.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+8833.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+725.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+3289.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+2615.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+1527.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+3397.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+4512.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+5574.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+731.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+5607.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+4883.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+326.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+16052.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+7474.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+8289.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+3763.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+9215.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+831.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+3619.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+3058.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+1761.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+3583.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+4942.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+6109.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+831.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+6294.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+5466.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+311.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+16970.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+7854.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+8706.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+4195.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+9308.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+848.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+3512.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+3512.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+2012.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+4134.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+5255.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+6701.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+853.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+6897.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+6054.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+358.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+17936.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+8265.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+9262.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+4412.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+9296.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+805.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+3368.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+3701.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+1956.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+4325.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+5159.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+6774.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+811.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+6842.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+6039.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+367.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+17397.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+7986.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+8955.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+4256.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+8708.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+873.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+2643.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+3780.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+1995.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+4404.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+4953.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+6831.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+876.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+7207.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+6339.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+358.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+16844.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+7393.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+8632.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+4032.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+8647.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+859.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+2872.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+3858.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+1969.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+4460.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+4943.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+7101.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+862.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+7107.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+6251.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+359.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+16317.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+7197.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+8650.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+3863.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+9586.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+945.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+2885.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+5006.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+2519.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+4417.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+5540.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+6517.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+951.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+7481.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+6538.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+462.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+17994.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+8149.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+10286.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+4430.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+10458.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+973.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+3211.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+5431.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+2829.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+5188.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+6073.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+7515.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+978.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+8395.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+7424.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+439.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+19282.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+8826.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+11218.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+4970.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+10318.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+1097.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+3054.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+4915.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+2895.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+5300.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+6192.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+7905.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+1117.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+8636.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+7545.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+490.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+18725.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+8475.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+10934.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+4719.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+9324.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+1155.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+3021.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+4167.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+2783.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+4928.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+6241.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+7807.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+1166.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+8427.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+7277.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+468.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+17464.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+7669.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+10541.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+4933.00
+</td>
+<td style="text-align:left;">
+FARS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+6058523.51
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+6284850.90
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+6821128.97
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+6452284.83
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+6734416.34
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+6755840.82
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+5250837.29
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+6102936.32
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+5930496.12
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+6138358.91
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+269140.40
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+56247.52
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+1149968.36
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+60040.98
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+700267.07
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+408255.97
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+106598.95
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+937430.96
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+56490.52
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+124676.61
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+68459.80
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+12404.93
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+1352350.21
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+215322.27
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+708383.63
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+1222488.56
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+250075.84
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+50854.13
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+1064431.53
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+61216.39
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+733075.41
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+411032.69
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+97843.33
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+1009512.60
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+50864.56
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+122237.95
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+71383.82
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+12692.08
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+1345034.13
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+208245.23
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+693675.77
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+1307826.85
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+321832.97
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+69224.33
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+993146.29
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+76503.99
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+841928.82
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+432537.85
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+131385.26
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+1069849.30
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+69329.61
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+160457.60
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+91259.46
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+19744.56
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+1545720.45
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+252039.55
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+690087.57
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+1409837.75
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+274619.67
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+54316.53
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+972049.91
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+66962.70
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+784883.88
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+446586.50
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+112617.35
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+1065140.17
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+54543.58
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+129658.49
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+75366.12
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+15907.97
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+1445694.83
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+244951.51
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+706448.94
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+1327919.25
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+273189.36
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+50362.67
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+937808.37
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+73992.64
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+810080.69
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+497297.00
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+106237.22
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+1153909.60
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+50452.20
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+128093.34
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+77730.67
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+17858.45
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+1480093.53
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+233167.31
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+696510.74
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+1320542.43
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+297071.04
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+53632.93
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+985770.01
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+62624.73
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+817505.33
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+507107.31
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+107098.52
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+1225046.10
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+53712.82
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+132953.41
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+79345.59
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+16668.46
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+1404305.66
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+216462.62
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+641645.49
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+1279975.03
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+330982.41
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+42619.95
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+679142.23
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+69828.96
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+769418.70
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+413278.58
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+103653.14
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+881531.41
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+42765.98
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+101672.57
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+59052.62
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+22971.13
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+1358867.00
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+215502.63
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+568037.52
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+1040630.77
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+358587.82
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+44833.42
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+803361.79
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+68011.44
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+899282.00
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+502602.80
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+103864.04
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+1063575.40
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+44980.42
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+110164.58
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+65372.62
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+23043.78
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+1447374.35
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+239198.34
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+620670.43
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+1262000.11
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+353018.53
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+49428.59
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+651875.28
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+56628.62
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+861238.09
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+514844.46
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+99605.93
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+1061316.21
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+49919.48
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+121352.06
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+72068.04
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+22239.14
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+1350709.03
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+214248.98
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+558036.20
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+1175382.59
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+332189.64
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+bicyclist
+</td>
+<td style="text-align:right;">
+55985.76
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+distracted driver
+</td>
+<td style="text-align:right;">
+781385.90
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+drugs
+</td>
+<td style="text-align:right;">
+50525.76
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+hit and run
+</td>
+<td style="text-align:right;">
+919123.64
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+large trucks
+</td>
+<td style="text-align:right;">
+510990.74
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+motorcycle
+</td>
+<td style="text-align:right;">
+99029.80
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+older driver
+</td>
+<td style="text-align:right;">
+1156078.12
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedalcyclist
+</td>
+<td style="text-align:right;">
+56574.50
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedbike
+</td>
+<td style="text-align:right;">
+129691.73
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+pedestrian
+</td>
+<td style="text-align:right;">
+73755.20
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+police pursuit
+</td>
+<td style="text-align:right;">
+24997.42
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+roadway departure
+</td>
+<td style="text-align:right;">
+1368092.47
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rollover
+</td>
+<td style="text-align:right;">
+210554.63
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+612133.11
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2023
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+young driver
+</td>
+<td style="text-align:right;">
+1191993.89
+</td>
+<td style="text-align:left;">
+CRSS
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">rfars</span><span class="fu">::</span><span class="va"><a href="../reference/annual_counts.html">annual_counts</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">what</span> <span class="op">==</span> <span class="st">"crashes"</span>, <span class="va">involved</span> <span class="op">==</span> <span class="st">"any"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">year</span>, y<span class="op">=</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -105,8 +9995,8 @@ annual crash counts:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="va">.</span><span class="op">~</span><span class="va">source</span>, nrow<span class="op">=</span><span class="fl">1</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Total annual crashes by type (FARS = fatal, CRSS = general)"</span>, x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p><img src="Counts_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">rfars</span><span class="fu">::</span><span class="va"><a href="../reference/annual_counts.html">annual_counts</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">source</span><span class="op">==</span><span class="st">"FARS"</span>, <span class="va">involved</span> <span class="op">!=</span> <span class="st">"any"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">year</span>, y<span class="op">=</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -115,8 +10005,8 @@ annual crash counts:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Annual fatal crashes by factor involved"</span>, subtitle <span class="op">=</span> <span class="st">"Derived from FARS data files"</span>, x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title.position <span class="op">=</span> <span class="st">"plot"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-2-2.png" width="700"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<p><img src="Counts_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">rfars</span><span class="fu">::</span><span class="va"><a href="../reference/annual_counts.html">annual_counts</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">source</span><span class="op">==</span><span class="st">"CRSS"</span>, <span class="va">involved</span> <span class="op">!=</span> <span class="st">"any"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">year</span>, y<span class="op">=</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -125,18 +10015,19 @@ annual crash counts:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Annual crashes of all severity levels by factor involved"</span>, subtitle <span class="op">=</span> <span class="st">"Derived from CRSS data files"</span>, x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title.position <span class="op">=</span> <span class="st">"plot"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-2-3.png" width="700"></p>
+<p><img src="Counts_files/figure-html/unnamed-chunk-5-2.png" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="generating-custom-counts">Generating Custom Counts<a class="anchor" aria-label="anchor" href="#generating-custom-counts"></a>
 </h3>
 <p>We can use get_fars() and then counts() to generate a variety of
-custom counts. Below we pull two years of data:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_fars.html">get_fars</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2022</span>, <span class="fl">2023</span><span class="op">)</span>, proceed <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+custom counts. Below we pull the latest 5 years of data for
+Virginia:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">myFARS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_fars.html">get_fars</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2019</span><span class="op">:</span><span class="fl">2023</span>, proceed <span class="op">=</span> <span class="cn">T</span>, states <span class="op">=</span> <span class="st">"VA"</span><span class="op">)</span></span></code></pre></div>
 <p>Then we can use <code><a href="../reference/counts.html">counts()</a></code> to get the monthly number of
 crashes in Virginia:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">myFARS</span>,</span>
 <span>  where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>states <span class="op">=</span> <span class="st">"VA"</span><span class="op">)</span>,</span>
@@ -144,7 +10035,7 @@ crashes in Virginia:</p>
 <span>  interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"month"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>This returns the following dataframe:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">my_counts</span>, format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr>
@@ -177,6 +10068,1050 @@ n
 </th>
 </tr></thead>
 <tbody>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+Jan
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+63
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+Feb
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+55
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+Mar
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+57
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+Apr
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+60
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+May
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+66
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+Jun
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+62
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+Jul
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+55
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+Aug
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+69
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+Sep
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+79
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+Oct
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+78
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+Nov
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+70
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+Dec
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+60
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+Jan
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+64
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+Feb
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+57
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+Mar
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+57
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+Apr
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+47
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+May
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+55
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+Jun
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+74
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+Jul
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+79
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+Aug
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+78
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+Sep
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+80
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+Oct
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+72
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+Nov
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+56
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+Dec
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+77
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+Jan
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+50
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+Feb
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+47
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+Mar
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+57
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+Apr
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+83
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+May
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+87
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+Jun
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+65
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+Jul
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+100
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+Aug
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+77
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+Sep
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+79
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+Oct
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+108
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+Nov
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+79
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+Dec
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+74
+</td>
+</tr>
 <tr>
 <td style="text-align:right;">
 2022
@@ -876,26 +11811,25 @@ any
 </tbody>
 </table>
 <p>Which we can graph:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_counts</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html" class="external-link">mutate_at</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="va">factor</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">month</span>, y<span class="op">=</span><span class="va">n</span>, group<span class="op">=</span><span class="va">year</span>, color<span class="op">=</span><span class="va">year</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha<span class="op">=</span><span class="fl">.9</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_color_brewer</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Fatal Crashes in Virginia"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title.position <span class="op">=</span> <span class="st">"plot"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<p>or</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p><img src="Counts_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_counts</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>date <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/make_datetime.html" class="external-link">make_date</a></span><span class="op">(</span><span class="va">year</span>, <span class="va">month</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">date</span>, y<span class="op">=</span><span class="va">n</span>, label<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Fatal Crashes in Virginia"</span><span class="op">)</span>  <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title.position <span class="op">=</span> <span class="st">"plot"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="Counts_files/figure-html/unnamed-chunk-11-2.png" width="672"></p>
 <p>We could alternatively count annual fatalities:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span></span>
 <span>  <span class="va">myFARS</span>,</span>
 <span>  where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>states <span class="op">=</span> <span class="st">"VA"</span><span class="op">)</span>,</span>
@@ -931,6 +11865,84 @@ n
 </th>
 </tr></thead>
 <tbody>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+831
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+850
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+any
+</td>
+<td style="text-align:right;">
+973
+</td>
+</tr>
 <tr>
 <td style="text-align:right;">
 2022
@@ -986,7 +11998,7 @@ any
 </tbody>
 </table>
 <p>Or fatalities involving speeding:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">myFARS</span>,</span>
 <span>  where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>states <span class="op">=</span> <span class="st">"VA"</span><span class="op">)</span>,</span>
@@ -1023,6 +12035,84 @@ n
 </th>
 </tr></thead>
 <tbody>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+228
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+257
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+337
+</td>
+</tr>
 <tr>
 <td style="text-align:right;">
 2022
@@ -1078,7 +12168,7 @@ speeding
 </tbody>
 </table>
 <p>Or fatalities involving speeding in rural areas:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span></span>
 <span>  <span class="va">myFARS</span>,</span>
 <span>  where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>states <span class="op">=</span> <span class="st">"VA"</span>, urb<span class="op">=</span><span class="st">"rural"</span><span class="op">)</span>,</span>
@@ -1115,6 +12205,84 @@ n
 </th>
 </tr></thead>
 <tbody>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rural
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+138
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rural
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+116
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+VA
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+rural
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+speeding
+</td>
+<td style="text-align:right;">
+176
+</td>
+</tr>
 <tr>
 <td style="text-align:right;">
 2022
@@ -1171,7 +12339,7 @@ speeding
 </table>
 <p>Or we can use involved = ‘each’ to see all of the problems in one
 state:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/counts.html">counts</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">myFARS</span>,</span>
 <span>  where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>states <span class="op">=</span> <span class="st">"VA"</span><span class="op">)</span>,</span>
@@ -1182,7 +12350,6 @@ state:</p>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="st">"year"</span>, values_from <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">`2023`</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Note: rfars::counts() uses the variables alc_res and dr_drink to determine alcohol involvement. NHTSA reports counts using multiple imputation to estimate missing BAC values. See vignette('Alcohol Counts', package = 'rfars') for more information.</span></span></code></pre>
 <table class="table">
 <thead><tr>
 <th style="text-align:left;">
@@ -1202,6 +12369,15 @@ who
 </th>
 <th style="text-align:left;">
 involved
+</th>
+<th style="text-align:right;">
+2019
+</th>
+<th style="text-align:right;">
+2020
+</th>
+<th style="text-align:right;">
+2021
 </th>
 <th style="text-align:right;">
 2022
@@ -1231,6 +12407,15 @@ all
 roadway departure
 </td>
 <td style="text-align:right;">
+440
+</td>
+<td style="text-align:right;">
+477
+</td>
+<td style="text-align:right;">
+539
+</td>
+<td style="text-align:right;">
 507
 </td>
 <td style="text-align:right;">
@@ -1255,6 +12440,15 @@ all
 </td>
 <td style="text-align:left;">
 speeding
+</td>
+<td style="text-align:right;">
+209
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+307
 </td>
 <td style="text-align:right;">
 276
@@ -1283,6 +12477,15 @@ all
 rollover
 </td>
 <td style="text-align:right;">
+169
+</td>
+<td style="text-align:right;">
+177
+</td>
+<td style="text-align:right;">
+211
+</td>
+<td style="text-align:right;">
 316
 </td>
 <td style="text-align:right;">
@@ -1307,6 +12510,15 @@ all
 </td>
 <td style="text-align:left;">
 alcohol
+</td>
+<td style="text-align:right;">
+234
+</td>
+<td style="text-align:right;">
+259
+</td>
+<td style="text-align:right;">
+267
 </td>
 <td style="text-align:right;">
 259
@@ -1335,6 +12547,15 @@ all
 older driver
 </td>
 <td style="text-align:right;">
+184
+</td>
+<td style="text-align:right;">
+170
+</td>
+<td style="text-align:right;">
+215
+</td>
+<td style="text-align:right;">
 208
 </td>
 <td style="text-align:right;">
@@ -1359,6 +12580,15 @@ all
 </td>
 <td style="text-align:left;">
 pedbike
+</td>
+<td style="text-align:right;">
+137
+</td>
+<td style="text-align:right;">
+117
+</td>
+<td style="text-align:right;">
+141
 </td>
 <td style="text-align:right;">
 179
@@ -1387,6 +12617,15 @@ all
 pedestrian
 </td>
 <td style="text-align:right;">
+124
+</td>
+<td style="text-align:right;">
+110
+</td>
+<td style="text-align:right;">
+125
+</td>
+<td style="text-align:right;">
 168
 </td>
 <td style="text-align:right;">
@@ -1411,6 +12650,15 @@ all
 </td>
 <td style="text-align:left;">
 motorcycle
+</td>
+<td style="text-align:right;">
+96
+</td>
+<td style="text-align:right;">
+101
+</td>
+<td style="text-align:right;">
+117
 </td>
 <td style="text-align:right;">
 118
@@ -1439,6 +12687,15 @@ all
 large trucks
 </td>
 <td style="text-align:right;">
+97
+</td>
+<td style="text-align:right;">
+95
+</td>
+<td style="text-align:right;">
+109
+</td>
+<td style="text-align:right;">
 109
 </td>
 <td style="text-align:right;">
@@ -1463,6 +12720,15 @@ all
 </td>
 <td style="text-align:left;">
 young driver
+</td>
+<td style="text-align:right;">
+76
+</td>
+<td style="text-align:right;">
+85
+</td>
+<td style="text-align:right;">
+108
 </td>
 <td style="text-align:right;">
 108
@@ -1491,6 +12757,15 @@ all
 distracted driver
 </td>
 <td style="text-align:right;">
+94
+</td>
+<td style="text-align:right;">
+103
+</td>
+<td style="text-align:right;">
+103
+</td>
+<td style="text-align:right;">
 82
 </td>
 <td style="text-align:right;">
@@ -1515,6 +12790,15 @@ all
 </td>
 <td style="text-align:left;">
 hit and run
+</td>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:right;">
+34
 </td>
 <td style="text-align:right;">
 51
@@ -1543,6 +12827,15 @@ all
 drugs
 </td>
 <td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
 37
 </td>
 <td style="text-align:right;">
@@ -1567,6 +12860,15 @@ all
 </td>
 <td style="text-align:left;">
 police pursuit
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+20
 </td>
 <td style="text-align:right;">
 11
@@ -1595,6 +12897,15 @@ all
 bicyclist
 </td>
 <td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
 11
 </td>
 <td style="text-align:right;">
@@ -1621,6 +12932,15 @@ all
 pedalcyclist
 </td>
 <td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
 11
 </td>
 <td style="text-align:right;">
@@ -1636,7 +12956,7 @@ pedalcyclist
 <p>We can use <code><a href="../reference/compare_counts.html">compare_counts()</a></code> to quickly produce
 comparison graphs. Below we compare speeding-related fatalities in rural
 and urban areas:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/compare_counts.html">compare_counts</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">myFARS</span>,</span>
 <span>  interval <span class="op">=</span> <span class="st">"year"</span>,</span>
@@ -1650,10 +12970,10 @@ and urban areas:</p>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="va">.</span><span class="op">~</span><span class="va">urb</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Speeding-Related Fatalities in Virginia"</span>, fill<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p><img src="Counts_files/figure-html/unnamed-chunk-21-1.png" width="672"></p>
 <p>And here we compare speeding-related crashes to those related to
 distraction:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/compare_counts.html">compare_counts</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">myFARS</span>,</span>
 <span>  where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>states <span class="op">=</span> <span class="st">"VA"</span><span class="op">)</span>,</span>
@@ -1667,8 +12987,7 @@ distraction:</p>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span>vjust<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="va">.</span><span class="op">~</span><span class="va">involved</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Speeding- and Distraction-Related Crashes in Virginia"</span>, fill<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Counts_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
-</div>
+<p><img src="Counts_files/figure-html/unnamed-chunk-23-1.png" width="672"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -12,8 +12,6 @@ editor_options:
     wrap: 80
 ---
 
-## Alcohol Counts
-
 Counts involving alcohol are complicated due to a high rate of missing BAC
 values. FARS and GESCRSS include the variables `alc_res` (BAC values) and
 `dr_drink` (police-reported alcohol involvement). NHTSA also uses [multiple
@@ -41,24 +39,35 @@ library(tidyr)
 library(rfars)
 ```
 
-Here we use `rfars::counts()` to count alcohol-involved crashes:
+Here we use `rfars::counts()` to count alcohol-involved crashes in 2023:
 
-```{r, results='asis'}
+```{r, results='asis', eval=FALSE}
 myFARS <- get_fars(years = 2023, proceed = TRUE)
-
 counts(myFARS, involved = 'alcohol') %>% knitr::kable(format = "html")
 ```
 
-And here we use `rfars::counts()` to count the number of alcohol-involved
-fatalities:
 
-```{r, results='asis'}
+```{r, results='asis', echo=F}
+vignette_data <- rfars:::vignette_data
+knitr::kable(vignette_data$alccounts_1, format = "html")
+message("Note: rfars::counts() uses the variables alc_res and dr_drink to determine alcohol involvement. NHTSA reports counts using multiple imputation to estimate missing BAC values. See vignette('Alcohol Counts', package = 'rfars') for more information.")
+```
+
+And here we use `rfars::counts()` to count the number of alcohol-involved
+*fatalities* in the same year:
+
+```{r, results='asis', eval=F}
 counts(
   df = myFARS, 
   what = "fatalities",
   involved = 'alcohol'
 ) %>%
   knitr::kable(format = "html")
+```
+
+```{r, results='asis', echo=F}
+knitr::kable(vignette_data$alccounts_2, format = "html")
+message("Note: rfars::counts() uses the variables alc_res and dr_drink to determine alcohol involvement. NHTSA reports counts using multiple imputation to estimate missing BAC values. See vignette('Alcohol Counts', package = 'rfars') for more information.")
 ```
 
 The MI process produces 10 separate BAC estimates. The ***Miper*** file provides
@@ -76,7 +85,7 @@ SPC that BAC is between 0.01 and 0.07, and TPC that BAC is \>= 0.08. So if `a_1`
 = 5 (representing a BAC of 0.05), then `FPC_1` = 0, `SPC_1` = 1, and `TPC_1` =
 0.
 
-```{r}
+```{r, eval=F}
 temp <- myFARS$flat %>% 
   select(year:per_no, age, sex, per_typ, inj_sev, alc_res, dr_drink, a1:a10) %>%
   filter(inj_sev == "Fatal Injury (K)")
@@ -91,7 +100,7 @@ for(i in 1:10) {
 
 This produces the table below (transposed for easier viewing).
 
-```{r, results='asis'}
+```{r, results='asis', eval=F}
 temp %>% 
   select(st_case, a1:a10, starts_with("FPC"), starts_with("SPC"), starts_with("TPC")) %>% 
   slice(1:10) %>% 
@@ -99,11 +108,19 @@ temp %>%
   knitr::kable(format = "html")
 ```
 
+```{r, results='asis', echo=F}
+vignette_data$alccounts_3 %>% 
+  t() %>%
+  knitr::kable(format = "html")
+```
+
+
+
 We can examine one crash to see the relation between the `a` and `FPC`, `SPS`,
 and `TPC` variables. The table below shows the 10 iterations for `a`, and the
 corresponding indicator variables.
 
-```{r, results='asis'}
+```{r, results='asis', eval=F}
 temp %>% 
   slice(1) %>% 
   select(st_case, a1:a10, starts_with("FPC"), starts_with("SPC"), starts_with("TPC")) %>%
@@ -116,9 +133,15 @@ temp %>%
   knitr::kable(format = "html")
 ```
 
+```{r, results='asis', echo=F}
+vignette_data$alccounts_4 %>%
+  pivot_wider() %>%
+  knitr::kable(format = "html")
+```
+
 **Step 2.** Sum the indicator variables in each iteration.
 
-```{r}
+```{r, eval=F}
 case_results <- list()
 
 for(i in 1:10) {
@@ -142,7 +165,7 @@ This produces 10 estimates of the number of fatalities from crashes where BAC =
 0 (FSBAC), where BAC was between 0.01 and 0.07 (SSBAC), and where BAC \>= 0.08
 (TSBAC). The table below shows all of these estimates.
 
-```{r, results='asis'}
+```{r, results='asis', eval=F}
 bind_rows(
   data.frame(case_results[[1]])  %>% select(TOTAL, FSBAC=2, SSBAC=3, TSBAC=4) %>% mutate(iter=1),
   data.frame(case_results[[2]])  %>% select(TOTAL, FSBAC=2, SSBAC=3, TSBAC=4) %>% mutate(iter=2),
@@ -158,13 +181,18 @@ bind_rows(
   knitr::kable(format = "html")
 ```
 
+```{r, results='asis', echo=F}
+knitr::kable(vignette_data$alccounts_5, format = "html")
+```
+
 **Step 3.** Take the average of each set of estimates.
 
-```{r}
+```{r, eval=F}
 calc <- case_results[[1]]
-  for(i in 2:10) {
-    calc <- calc %>% bind_cols(case_results[[i]] %>% select(-TOTAL))
-  }
+
+for(i in 2:10) {
+  calc <- calc %>% bind_cols(case_results[[i]] %>% select(-TOTAL))
+}
 
 calc <-
   calc %>%
@@ -182,14 +210,19 @@ number of fatalities from crashes where BAC = 0 (SBAC0), where BAC was between
 0.01 and 0.07 (SBAC1), and where BAC \>= 0.08 (SBAC2). The value for SBAC2 is
 12,429, which matches *Traffic Safety Facts* for 2023.
 
-```{r, results='asis'}
+```{r, results='asis', eval=F}
 select(calc, SBAC0:SBAC2) %>% knitr::kable(format = "html")
+```
+
+
+```{r, results='asis', echo=F}
+knitr::kable(vignette_data$alccounts_6, format = "html")
 ```
 
 **Shortcut.** We can do this more directly if we're only interested in the
 number of fatalities from crashes with alcohol-impaired drivers:
 
-```{r}
+```{r, eval=F}
 x <-
   myFARS$flat %>% 
   select(year:per_no, age, sex, per_typ, inj_sev, alc_res, dr_drink, a1:a10) %>%
@@ -202,6 +235,11 @@ x <-
 
 x$a
 ```
+
+```{r, echo=F}
+vignette_data$alccounts_7
+```
+
 
 Please see [Transitioning to Multiple Imputation – A New Method to Impute
 Missing BAC values in
