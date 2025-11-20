@@ -22,7 +22,7 @@ all states. Can be specified as full state name (e.g. "Virginia"),
 abbreviation ("VA"), or FIPS code (51).}
 
 \item{source}{The source of the data: 'zenodo' (the default) pulls the prepared
-dataset from \href{https://zenodo.org/records/17162673}{Zenodo}, 'nhtsa'
+dataset from \href{https://doi.org/10.5281/zenodo.17153210}{Zenodo}, 'nhtsa'
 pulls the raw files from NHTSA's FTP site and prepares them on your machine.
 'zenodo' is much faster and provides the same dataset produced by using source='nhtsa'.}
 

@@ -11,7 +11,7 @@
 #'     all states. Can be specified as full state name (e.g. "Virginia"),
 #'     abbreviation ("VA"), or FIPS code (51).
 #' @param source The source of the data: 'zenodo' (the default) pulls the prepared
-#'    dataset from \href{https://zenodo.org/records/17162673}{Zenodo}, 'nhtsa'
+#'    dataset from \href{https://doi.org/10.5281/zenodo.17153210}{Zenodo}, 'nhtsa'
 #'    pulls the raw files from NHTSA's FTP site and prepares them on your machine.
 #'    'zenodo' is much faster and provides the same dataset produced by using source='nhtsa'.
 #' @param proceed Logical, whether or not to proceed with downloading files without
@@ -115,12 +115,12 @@ get_fars <- function(years   = 2014:2023,
   if(source[1]=="zenodo"){
 
     if(!proceed){
-      x <- readline("We will now download the processed file from https://zenodo.org/records/17162673/files/FARS.rds?download=1 \nProceed? (Y/N) \n")
+      x <- readline("We will now download the processed file from https://zenodo.org/records/17581440/files/FARS.rds?download=1 \nProceed? (Y/N) \n")
       if(!(x %in% c("y", "Y"))) stop(message("Download cancelled.\n"))
     }
 
     # Download
-    url <- "https://zenodo.org/records/17162673/files/FARS.rds?download=1"
+    url <- "https://zenodo.org/records/17581440/files/FARS.rds?download=1"
     dest <- tempfile(fileext = ".rds")
 
     # Check internet connection before attempting download

@@ -20,7 +20,7 @@ defaults to last 10 years).}
 \item{regions}{(Optional) Regions to keep: mw=midwest, ne=northeast, s=south, w=west.}
 
 \item{source}{The source of the data: 'zenodo' (the default) pulls the prepared
-dataset from \href{https://zenodo.org/records/17162674}{Zenodo}, 'nhtsa'
+dataset from \href{https://doi.org/10.5281/zenodo.17155802}{Zenodo}, 'nhtsa'
 pulls the raw files from NHTSA's FTP site and prepares them on your machine.
 'zenodo' is much faster and provides the same dataset produced by using source='nhtsa'.}
 

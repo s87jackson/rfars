@@ -140,7 +140,7 @@ read_basic_sas <- function(x,
         temp_no_attrs <- temp_no_attrs %>%
           dplyr::rename(value = all_of(original_name)) %>%
           left_join(varmap, by = "value") %>%
-          mutate(value = .data$value_label) %>%
+          mutate(value = coalesce(.data$value_label, as.character(.data$value))) %>%
           select(-all_of("value_label"))
 
         names(temp_no_attrs)[col_idx] <- original_name

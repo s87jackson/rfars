@@ -9,7 +9,7 @@
 #'     defaults to last 10 years).
 #' @param regions (Optional) Regions to keep: mw=midwest, ne=northeast, s=south, w=west.
 #' @param source The source of the data: 'zenodo' (the default) pulls the prepared
-#'    dataset from \href{https://zenodo.org/records/17162674}{Zenodo}, 'nhtsa'
+#'    dataset from \href{https://doi.org/10.5281/zenodo.17155802}{Zenodo}, 'nhtsa'
 #'    pulls the raw files from NHTSA's FTP site and prepares them on your machine.
 #'    'zenodo' is much faster and provides the same dataset produced by using source='nhtsa'.
 #' @param proceed Logical, whether or not to proceed with downloading files without
@@ -118,12 +118,12 @@ get_gescrss <- function(years     = 2014:2023,
   if(source[1]=="zenodo"){
 
     if(!proceed){
-      x <- readline("We will now download the processed file from https://zenodo.org/records/17162674/files/GESCRSS.rds?download=1 \nProceed? (Y/N) \n")
+      x <- readline("We will now download the processed file from https://zenodo.org/records/17581418/files/GESCRSS.rds?download=1 \nProceed? (Y/N) \n")
       if(!(x %in% c("y", "Y"))) stop(message("Download cancelled.\n"))
     }
 
     # Download
-    url <- "https://zenodo.org/records/17162674/files/GESCRSS.rds?download=1"
+    url <- "https://zenodo.org/records/17581418/files/GESCRSS.rds?download=1"
     dest <- tempfile(fileext = ".rds")
 
     # Check internet connection before attempting download
