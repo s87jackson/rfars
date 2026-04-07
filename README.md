@@ -32,7 +32,7 @@ files and attempting to stitch them together - after first combing
 through immense data dictionaries to determine the required variables
 and table names.
 
-`rfars` allows users to download the last 10 years of FARS and GES/CRSS
+`rfars` allows users to download the last 10+ years of FARS and GES/CRSS
 data with just one line of code. The result is a full, rich dataset
 ready for mapping, modeling, and other downstream analysis. Codebooks
 with variable definitions and value labels support an informed analysis
@@ -56,7 +56,7 @@ or the CRAN stable release with:
 install.packages("rfars")
 ```
 
-Then load rfars and some helpful packages:
+Then load `rfars` and some helpful packages:
 
 ``` r
 library(rfars)
@@ -74,16 +74,17 @@ pull the prepared data from Zenodo. The data files hosted on Zenodo are
 stable, have DOIs, and replicate the data that would be produced by
 `get_fars()` and `get_gescrss()`, but in a fraction of the time.
 
-They take the parameters `years` and `states` (FARS) or `regions`
-(GES/CRSS). As the source data files follow an annual structure, `years`
-determines how many file sets are downloaded or loaded, and
-`states`/`regions` filters the resulting dataset. Downloading and
-processing these files can take several minutes. Before downloading,
-`rfars` will inform you that it’s about to download files and asks your
-permission to do so. To skip this dialog, set `proceed = TRUE`. You can
-use the `dir` and `cache` parameters to save an RDS file to your local
-machine. The `dir` parameter specifies the directory, and `cache` names
-the file (be sure to include the .rds file extension).
+`get_fars()` and `get_gescrss()` take the parameters `years` and
+`states` (FARS) or `regions` (GES/CRSS). As the source data files follow
+an annual structure, `years` determines how many file sets are
+downloaded or loaded, and `states`/`regions` filters the resulting
+dataset. Downloading and processing these files can take several
+minutes. Before downloading, `rfars` will inform you that it’s about to
+download files and asks your permission to do so. To skip this dialog,
+set `proceed = TRUE`. You can use the `dir` and `cache` parameters to
+save an RDS file to your local machine. The `dir` parameter specifies
+the directory, and `cache` names the file (be sure to include the .rds
+file extension).
 
 Executing the code below will download the prepared FARS and GES/CRSS
 databases for 2014-2023.
@@ -119,19 +120,19 @@ The ‘flat’ dataframe (transposed for readability)
 year
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
@@ -139,19 +140,19 @@ year
 state
 </td>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-South Dakota
+Georgia
 </td>
 <td style="text-align:left;">
-South Dakota
+Ohio
 </td>
 </tr>
 <tr>
@@ -159,19 +160,19 @@ South Dakota
 st_case
 </td>
 <td style="text-align:left;">
-270304
+130177
 </td>
 <td style="text-align:left;">
-270304
+130177
 </td>
 <td style="text-align:left;">
-270304
+130177
 </td>
 <td style="text-align:left;">
-460097
+130177
 </td>
 <td style="text-align:left;">
-460097
+390256
 </td>
 </tr>
 <tr>
@@ -179,19 +180,19 @@ st_case
 id
 </td>
 <td style="text-align:left;">
-2014270304
+2024130177
 </td>
 <td style="text-align:left;">
-2014270304
+2024130177
 </td>
 <td style="text-align:left;">
-2014270304
+2024130177
 </td>
 <td style="text-align:left;">
-2014460097
+2024130177
 </td>
 <td style="text-align:left;">
-2014460097
+2024390256
 </td>
 </tr>
 <tr>
@@ -208,7 +209,7 @@ veh_no
 2
 </td>
 <td style="text-align:left;">
-1
+3
 </td>
 <td style="text-align:left;">
 1
@@ -231,7 +232,7 @@ per_no
 1
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 </tr>
 <tr>
@@ -239,19 +240,19 @@ per_no
 county
 </td>
 <td style="text-align:left;">
-113
+89
 </td>
 <td style="text-align:left;">
-113
+89
 </td>
 <td style="text-align:left;">
-113
+89
 </td>
 <td style="text-align:left;">
-11
+89
 </td>
 <td style="text-align:left;">
-11
+129
 </td>
 </tr>
 <tr>
@@ -259,16 +260,16 @@ county
 city
 </td>
 <td style="text-align:left;">
-0
+1610
 </td>
 <td style="text-align:left;">
-0
+1610
 </td>
 <td style="text-align:left;">
-0
+1610
 </td>
 <td style="text-align:left;">
-0
+1610
 </td>
 <td style="text-align:left;">
 0
@@ -279,19 +280,19 @@ city
 lon
 </td>
 <td style="text-align:left;">
--96.20801
+-84.22238
 </td>
 <td style="text-align:left;">
--96.20801
+-84.22238
 </td>
 <td style="text-align:left;">
--96.20801
+-84.22238
 </td>
 <td style="text-align:left;">
--96.64642
+-84.22238
 </td>
 <td style="text-align:left;">
--96.64642
+-82.92455
 </td>
 </tr>
 <tr>
@@ -299,19 +300,19 @@ lon
 lat
 </td>
 <td style="text-align:left;">
-48.15133
+33.74721
 </td>
 <td style="text-align:left;">
-48.15133
+33.74721
 </td>
 <td style="text-align:left;">
-48.15133
+33.74721
 </td>
 <td style="text-align:left;">
-44.23894
+33.74721
 </td>
 <td style="text-align:left;">
-44.23894
+39.50034
 </td>
 </tr>
 <tr>
@@ -319,19 +320,22 @@ lat
 acc_type
 </td>
 <td style="text-align:left;">
-Initial Opposite Directions (Left/Right)
+K83-Changing Trafficway, Vehicle Turning-Turn Into Path-Turn Into
+Opposite Directions (Going Straight)
 </td>
 <td style="text-align:left;">
-Initial Opposite Directions (Going Straight)
+K82-Changing Trafficway, Vehicle Turning-Turn Into Path-Turn Into
+Opposite Directions (Turning Left)
 </td>
 <td style="text-align:left;">
-Initial Opposite Directions (Going Straight)
+K82-Changing Trafficway, Vehicle Turning-Turn Into Path-Turn Into
+Opposite Directions (Turning Left)
 </td>
 <td style="text-align:left;">
-Drive Off Road
+M98-Other Crash Type
 </td>
 <td style="text-align:left;">
-Drive Off Road
+B7-Single Driver-Left Roadside Departure-Control/Traction Loss
 </td>
 </tr>
 <tr>
@@ -339,19 +343,19 @@ Drive Off Road
 age
 </td>
 <td style="text-align:left;">
-68 Years
+47 Years
+</td>
+<td style="text-align:left;">
+26 Years
+</td>
+<td style="text-align:left;">
+21 Years
 </td>
 <td style="text-align:left;">
 58 Years
 </td>
 <td style="text-align:left;">
-83 Years
-</td>
-<td style="text-align:left;">
-28 Years
-</td>
-<td style="text-align:left;">
-24 Years
+69 Years
 </td>
 </tr>
 <tr>
@@ -359,39 +363,19 @@ age
 air_bag
 </td>
 <td style="text-align:left;">
-Deployed- Front
+Deployed- Combination
 </td>
 <td style="text-align:left;">
-Deployed- Front
+Deployed- Combination
 </td>
 <td style="text-align:left;">
-Deployed- Front
+Deployed- Combination
 </td>
 <td style="text-align:left;">
-Deployed- Front
+Deployed- Combination
 </td>
 <td style="text-align:left;">
-Deployed- Front
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-alc_det
-</td>
-<td style="text-align:left;">
-Not Reported
-</td>
-<td style="text-align:left;">
-Not Reported
-</td>
-<td style="text-align:left;">
-Not Reported
-</td>
-<td style="text-align:left;">
-Not Reported
-</td>
-<td style="text-align:left;">
-Not Reported
+Not Deployed
 </td>
 </tr>
 <tr>
@@ -399,19 +383,19 @@ Not Reported
 alc_res
 </td>
 <td style="text-align:left;">
-0.00 % BAC
+0.169 % BAC
 </td>
 <td style="text-align:left;">
 Test Not Given
 </td>
 <td style="text-align:left;">
-Not Reported
+Test Not Given
 </td>
 <td style="text-align:left;">
-0.25 % BAC
+0.000 % BAC
 </td>
 <td style="text-align:left;">
-Unknown if tested
+Test Not Given
 </td>
 </tr>
 <tr>
@@ -425,13 +409,13 @@ Test Given
 Test Not Given
 </td>
 <td style="text-align:left;">
-Not Reported
+Test Not Given
 </td>
 <td style="text-align:left;">
 Test Given
 </td>
 <td style="text-align:left;">
-UnKnown if Tested
+Test Not Given
 </td>
 </tr>
 <tr>
@@ -439,19 +423,19 @@ UnKnown if Tested
 arr_hour
 </td>
 <td style="text-align:left;">
-6:00pm-6:59pm
+10:00pm-10:59pm
 </td>
 <td style="text-align:left;">
-6:00pm-6:59pm
+10:00pm-10:59pm
 </td>
 <td style="text-align:left;">
-6:00pm-6:59pm
+10:00pm-10:59pm
 </td>
 <td style="text-align:left;">
-Unknown EMS Scene Arrival Hour
+10:00pm-10:59pm
 </td>
 <td style="text-align:left;">
-Unknown EMS Scene Arrival Hour
+9:00am-9:59am
 </td>
 </tr>
 <tr>
@@ -459,19 +443,19 @@ Unknown EMS Scene Arrival Hour
 arr_min
 </td>
 <td style="text-align:left;">
-21
+45
 </td>
 <td style="text-align:left;">
-21
+45
 </td>
 <td style="text-align:left;">
-21
+45
 </td>
 <td style="text-align:left;">
-Unknown EMS Scene Arrival Minutes
+45
 </td>
 <td style="text-align:left;">
-Unknown EMS Scene Arrival Minutes
+14
 </td>
 </tr>
 <tr>
@@ -485,13 +469,13 @@ Blood
 Test Not Given
 </td>
 <td style="text-align:left;">
-Not Reported
+Test Not Given
 </td>
 <td style="text-align:left;">
-Unknown Test Type
+Blood
 </td>
 <td style="text-align:left;">
-Unknown if Tested
+Test Not Given
 </td>
 </tr>
 <tr>
@@ -599,20 +583,20 @@ NA
 body_typ
 </td>
 <td style="text-align:left;">
+5-door/4-door hatchback
+</td>
+<td style="text-align:left;">
+4-door sedan, hardtop
+</td>
+<td style="text-align:left;">
+4-door sedan, hardtop
+</td>
+<td style="text-align:left;">
+Compact Utility (Utility Vehicle Categories "Small" and "Midsize")
+</td>
+<td style="text-align:left;">
 Minivan (Chrysler Town and Country, Caravan, Grand Caravan, Voyager,
 Voyager, Honda-Odyssey, …)
-</td>
-<td style="text-align:left;">
-4-door sedan, hardtop
-</td>
-<td style="text-align:left;">
-4-door sedan, hardtop
-</td>
-<td style="text-align:left;">
-4-door sedan, hardtop
-</td>
-<td style="text-align:left;">
-4-door sedan, hardtop
 </td>
 </tr>
 <tr>
@@ -669,30 +653,50 @@ No (CDL)
 No (CDL)
 </td>
 <td style="text-align:left;">
-Valid
+No (CDL)
 </td>
 <td style="text-align:left;">
-Valid
+No (CDL)
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-cert_no
+cityname
 </td>
 <td style="text-align:left;">
-\*\*\*\*\*\*\*\*\*\*\*\*
+DECATUR
 </td>
 <td style="text-align:left;">
-\*\*\*\*\*\*\*\*\*\*\*\*
+DECATUR
 </td>
 <td style="text-align:left;">
-\*\*\*\*\*\*\*\*\*\*\*\*
+DECATUR
 </td>
 <td style="text-align:left;">
-\*\*\*\*\*\*\*\*\*\*\*\*
+DECATUR
 </td>
 <td style="text-align:left;">
-\*\*\*\*\*\*\*\*\*\*\*\*
+NOT APPLICABLE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+countyname
+</td>
+<td style="text-align:left;">
+DEKALB (89)
+</td>
+<td style="text-align:left;">
+DEKALB (89)
+</td>
+<td style="text-align:left;">
+DEKALB (89)
+</td>
+<td style="text-align:left;">
+DEKALB (89)
+</td>
+<td style="text-align:left;">
+PICKAWAY (129)
 </td>
 </tr>
 <tr>
@@ -700,19 +704,19 @@ cert_no
 day
 </td>
 <td style="text-align:left;">
-11
+3
 </td>
 <td style="text-align:left;">
-11
+3
 </td>
 <td style="text-align:left;">
-11
+3
 </td>
 <td style="text-align:left;">
-28
+3
 </td>
 <td style="text-align:left;">
-28
+20
 </td>
 </tr>
 <tr>
@@ -720,19 +724,19 @@ day
 day_week
 </td>
 <td style="text-align:left;">
-Thursday
+Sunday
 </td>
 <td style="text-align:left;">
-Thursday
-</td>
-<td style="text-align:left;">
-Thursday
+Sunday
 </td>
 <td style="text-align:left;">
 Sunday
 </td>
 <td style="text-align:left;">
 Sunday
+</td>
+<td style="text-align:left;">
+Saturday
 </td>
 </tr>
 <tr>
@@ -740,19 +744,19 @@ Sunday
 death_da
 </td>
 <td style="text-align:left;">
-Not Applicable (Non-Fatal)
+3
 </td>
 <td style="text-align:left;">
 Not Applicable (Non-Fatal)
 </td>
 <td style="text-align:left;">
-11
-</td>
-<td style="text-align:left;">
 Not Applicable (Non-Fatal)
 </td>
 <td style="text-align:left;">
-28
+3
+</td>
+<td style="text-align:left;">
+20
 </td>
 </tr>
 <tr>
@@ -760,19 +764,19 @@ Not Applicable (Non-Fatal)
 death_hr
 </td>
 <td style="text-align:left;">
-Not Applicable (Non-fatal)
+23:00-23:59
 </td>
 <td style="text-align:left;">
 Not Applicable (Non-fatal)
 </td>
 <td style="text-align:left;">
-20:00-20:59
-</td>
-<td style="text-align:left;">
 Not Applicable (Non-fatal)
 </td>
 <td style="text-align:left;">
-1:00-1:59
+23:00-23:59
+</td>
+<td style="text-align:left;">
+10:00-10:59
 </td>
 </tr>
 <tr>
@@ -780,19 +784,19 @@ Not Applicable (Non-fatal)
 death_mn
 </td>
 <td style="text-align:left;">
-Not Applicable (Non-fatal)
+25
 </td>
 <td style="text-align:left;">
 Not Applicable (Non-fatal)
 </td>
 <td style="text-align:left;">
-5
-</td>
-<td style="text-align:left;">
 Not Applicable (Non-fatal)
 </td>
 <td style="text-align:left;">
-6
+42
+</td>
+<td style="text-align:left;">
+9
 </td>
 </tr>
 <tr>
@@ -800,19 +804,19 @@ Not Applicable (Non-fatal)
 death_mo
 </td>
 <td style="text-align:left;">
-Not Applicable (Non-Fatal)
+March
 </td>
 <td style="text-align:left;">
 Not Applicable (Non-Fatal)
 </td>
 <td style="text-align:left;">
-December
-</td>
-<td style="text-align:left;">
 Not Applicable (Non-Fatal)
 </td>
 <td style="text-align:left;">
-September
+March
+</td>
+<td style="text-align:left;">
+April
 </td>
 </tr>
 <tr>
@@ -820,19 +824,19 @@ September
 death_tm
 </td>
 <td style="text-align:left;">
-8888
+2325
 </td>
 <td style="text-align:left;">
-8888
+Not Applicable (Non-fatal)
 </td>
 <td style="text-align:left;">
-2005
+Not Applicable (Non-fatal)
 </td>
 <td style="text-align:left;">
-8888
+2342
 </td>
 <td style="text-align:left;">
-106
+1009
 </td>
 </tr>
 <tr>
@@ -840,19 +844,19 @@ death_tm
 death_yr
 </td>
 <td style="text-align:left;">
-Not Applicable (Non-fatal)
+2024
 </td>
 <td style="text-align:left;">
 Not Applicable (Non-fatal)
 </td>
 <td style="text-align:left;">
-2014
-</td>
-<td style="text-align:left;">
 Not Applicable (Non-fatal)
 </td>
 <td style="text-align:left;">
-2014
+2024
+</td>
+<td style="text-align:left;">
+2024
 </td>
 </tr>
 <tr>
@@ -860,13 +864,13 @@ Not Applicable (Non-fatal)
 deaths
 </td>
 <td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
 0
 </td>
 <td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
+0
 </td>
 <td style="text-align:left;">
 1
@@ -897,6 +901,46 @@ Disabling Damage
 </tr>
 <tr>
 <td style="text-align:left;">
+devmotor
+</td>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+devtype
+</td>
+<td style="text-align:left;">
+Occupant of a Motor Vehicle
+</td>
+<td style="text-align:left;">
+Occupant of a Motor Vehicle
+</td>
+<td style="text-align:left;">
+Occupant of a Motor Vehicle
+</td>
+<td style="text-align:left;">
+Occupant of a Motor Vehicle
+</td>
+<td style="text-align:left;">
+Occupant of a Motor Vehicle
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 doa
 </td>
 <td style="text-align:left;">
@@ -920,19 +964,19 @@ Not Applicable
 dr_drink
 </td>
 <td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
-No
-</td>
-<td style="text-align:left;">
 Yes
 </td>
 <td style="text-align:left;">
-Yes
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+No
 </td>
 </tr>
 <tr>
@@ -940,19 +984,19 @@ Yes
 dr_hgt
 </td>
 <td style="text-align:left;">
-69
+Unknown
 </td>
 <td style="text-align:left;">
-59
+Unknown
 </td>
 <td style="text-align:left;">
-59
+Unknown
 </td>
 <td style="text-align:left;">
-999
+Unknown
 </td>
 <td style="text-align:left;">
-999
+68
 </td>
 </tr>
 <tr>
@@ -980,19 +1024,19 @@ Yes
 dr_wgt
 </td>
 <td style="text-align:left;">
-200 lbs.
+Unknown
 </td>
 <td style="text-align:left;">
-250 lbs.
-</td>
-<td style="text-align:left;">
-250 lbs.
+Unknown
 </td>
 <td style="text-align:left;">
 Unknown
 </td>
 <td style="text-align:left;">
 Unknown
+</td>
+<td style="text-align:left;">
+140 lbs.
 </td>
 </tr>
 <tr>
@@ -1000,19 +1044,19 @@ Unknown
 dr_zip
 </td>
 <td style="text-align:left;">
-NA
+30034
 </td>
 <td style="text-align:left;">
-NA
+30294
 </td>
 <td style="text-align:left;">
-NA
+30294
 </td>
 <td style="text-align:left;">
-NA
+30083
 </td>
 <td style="text-align:left;">
-NA
+43113
 </td>
 </tr>
 <tr>
@@ -1020,36 +1064,16 @@ NA
 drinking
 </td>
 <td style="text-align:left;">
-Unknown (Police Reported)
+Reported as Unknown
 </td>
 <td style="text-align:left;">
-No (Alcohol Not Involved)
-</td>
-<td style="text-align:left;">
-Not Reported
-</td>
-<td style="text-align:left;">
-Yes (Alcohol Involved)
-</td>
-<td style="text-align:left;">
-Not Reported
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-drug_det
+Reported as Unknown
 </td>
 <td style="text-align:left;">
 Not Reported
 </td>
 <td style="text-align:left;">
-Not Reported
-</td>
-<td style="text-align:left;">
-Not Reported
-</td>
-<td style="text-align:left;">
-Not Reported
+Reported as Unknown
 </td>
 <td style="text-align:left;">
 Not Reported
@@ -1060,39 +1084,19 @@ Not Reported
 drugs
 </td>
 <td style="text-align:left;">
-Unknown
+Reported as Unknown
 </td>
 <td style="text-align:left;">
-No (drugs not involved)
-</td>
-<td style="text-align:left;">
-Not Reported
+Reported as Unknown
 </td>
 <td style="text-align:left;">
 Not Reported
 </td>
 <td style="text-align:left;">
+Reported as Unknown
+</td>
+<td style="text-align:left;">
 Not Reported
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-drunk_dr
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
 </td>
 </tr>
 <tr>
@@ -1106,13 +1110,13 @@ Test Given
 Test Not Given
 </td>
 <td style="text-align:left;">
-Not Reported
-</td>
-<td style="text-align:left;">
 Test Not Given
 </td>
 <td style="text-align:left;">
-Unknown if Tested
+Test Given
+</td>
+<td style="text-align:left;">
+Test Given
 </td>
 </tr>
 <tr>
@@ -1120,19 +1124,19 @@ Unknown if Tested
 ej_path
 </td>
 <td style="text-align:left;">
-Not Ejected/Not Applicable
+Ejection Path Not Applicable
 </td>
 <td style="text-align:left;">
-Not Ejected/Not Applicable
+Ejection Path Not Applicable
 </td>
 <td style="text-align:left;">
-Not Ejected/Not Applicable
+Ejection Path Not Applicable
 </td>
 <td style="text-align:left;">
-Not Ejected/Not Applicable
+Ejection Path Not Applicable
 </td>
 <td style="text-align:left;">
-Through Side Window
+Ejection Path Unknown
 </td>
 </tr>
 <tr>
@@ -1189,7 +1193,7 @@ Not Extricated or Not Applicable
 Not Extricated or Not Applicable
 </td>
 <td style="text-align:left;">
-Unknown
+Not Extricated or Not Applicable
 </td>
 <td style="text-align:left;">
 Not Extricated or Not Applicable
@@ -1200,16 +1204,16 @@ Not Extricated or Not Applicable
 fatals
 </td>
 <td style="text-align:left;">
-1
+2
 </td>
 <td style="text-align:left;">
-1
+2
 </td>
 <td style="text-align:left;">
-1
+2
 </td>
 <td style="text-align:left;">
-1
+2
 </td>
 <td style="text-align:left;">
 1
@@ -1240,7 +1244,7 @@ No or Not Reported
 first_mo
 </td>
 <td style="text-align:left;">
-No Record
+February
 </td>
 <td style="text-align:left;">
 No Record
@@ -1252,7 +1256,7 @@ No Record
 No Record
 </td>
 <td style="text-align:left;">
-No Record
+February
 </td>
 </tr>
 <tr>
@@ -1260,7 +1264,7 @@ No Record
 first_yr
 </td>
 <td style="text-align:left;">
-No Record
+2024
 </td>
 <td style="text-align:left;">
 No Record
@@ -1272,27 +1276,67 @@ No Record
 No Record
 </td>
 <td style="text-align:left;">
-No Record
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-gvwr
+func_sys
 </td>
 <td style="text-align:left;">
-Not Applicable
+Minor Arterial
 </td>
 <td style="text-align:left;">
-Not Applicable
+Minor Arterial
 </td>
 <td style="text-align:left;">
-Not Applicable
+Minor Arterial
 </td>
 <td style="text-align:left;">
-Not Applicable
+Minor Arterial
 </td>
 <td style="text-align:left;">
-Not Applicable
+Local
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gvwr_from
+</td>
+<td style="text-align:left;">
+Class 1: 6,000 lbs. or less (2,722 kg or less)
+</td>
+<td style="text-align:left;">
+Class 1: 6,000 lbs. or less (2,722 kg or less)
+</td>
+<td style="text-align:left;">
+Class 1: 6,000 lbs. or less (2,722 kg or less)
+</td>
+<td style="text-align:left;">
+Class 1: 6,000 lbs. or less (2,722 kg or less)
+</td>
+<td style="text-align:left;">
+Class 1: 6,000 lbs. or less (2,722 kg or less)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gvwr_to
+</td>
+<td style="text-align:left;">
+Class 1: 6,000 lbs. or less (2,722 kg or less)
+</td>
+<td style="text-align:left;">
+Class 1: 6,000 lbs. or less (2,722 kg or less)
+</td>
+<td style="text-align:left;">
+Class 1: 6,000 lbs. or less (2,722 kg or less)
+</td>
+<td style="text-align:left;">
+Class 1: 6,000 lbs. or less (2,722 kg or less)
+</td>
+<td style="text-align:left;">
+Class 1: 6,000 lbs. or less (2,722 kg or less)
 </td>
 </tr>
 <tr>
@@ -1309,10 +1353,10 @@ Motor Vehicle In-Transport
 Motor Vehicle In-Transport
 </td>
 <td style="text-align:left;">
-Other Post, Other Pole or Other Supports
+Motor Vehicle In-Transport
 </td>
 <td style="text-align:left;">
-Other Post, Other Pole or Other Supports
+Ditch
 </td>
 </tr>
 <tr>
@@ -1417,7 +1461,50 @@ Not Applicable
 </tr>
 <tr>
 <td style="text-align:left;">
+helm_mis
+</td>
+<td style="text-align:left;">
+None Used/Not Applicable
+</td>
+<td style="text-align:left;">
+None Used/Not Applicable
+</td>
+<td style="text-align:left;">
+None Used/Not Applicable
+</td>
+<td style="text-align:left;">
+None Used/Not Applicable
+</td>
+<td style="text-align:left;">
+None Used/Not Applicable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+helm_use
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 hispanic
+</td>
+<td style="text-align:left;">
+Non-Hispanic
 </td>
 <td style="text-align:left;">
 Not A Fatality (not Applicable)
@@ -1427,9 +1514,6 @@ Not A Fatality (not Applicable)
 </td>
 <td style="text-align:left;">
 Non-Hispanic
-</td>
-<td style="text-align:left;">
-Not A Fatality (not Applicable)
 </td>
 <td style="text-align:left;">
 Non-Hispanic
@@ -1460,19 +1544,19 @@ No
 hosp_hr
 </td>
 <td style="text-align:left;">
-6:00pm-6:59pm
+11:00pm-11:59pm
 </td>
 <td style="text-align:left;">
-6:00pm-6:59pm
+11:00pm-11:59pm
 </td>
 <td style="text-align:left;">
-6:00pm-6:59pm
+11:00pm-11:59pm
 </td>
 <td style="text-align:left;">
-Unknown
+11:00pm-11:59pm
 </td>
 <td style="text-align:left;">
-Unknown
+9:00am-9:59am
 </td>
 </tr>
 <tr>
@@ -1480,19 +1564,19 @@ Unknown
 hosp_mn
 </td>
 <td style="text-align:left;">
-47
+0
 </td>
 <td style="text-align:left;">
-47
+0
 </td>
 <td style="text-align:left;">
-47
+0
 </td>
 <td style="text-align:left;">
-Unknown EMS Hospital Arrival Time
+0
 </td>
 <td style="text-align:left;">
-Unknown EMS Hospital Arrival Time
+45
 </td>
 </tr>
 <tr>
@@ -1506,7 +1590,7 @@ EMS Ground
 EMS Ground
 </td>
 <td style="text-align:left;">
-EMS Ground
+Not Transported for Treatment
 </td>
 <td style="text-align:left;">
 EMS Ground
@@ -1520,19 +1604,39 @@ EMS Ground
 hour
 </td>
 <td style="text-align:left;">
-6:00pm-6:59pm
+10:00pm-10:59pm
 </td>
 <td style="text-align:left;">
-6:00pm-6:59pm
+10:00pm-10:59pm
 </td>
 <td style="text-align:left;">
-6:00pm-6:59pm
+10:00pm-10:59pm
 </td>
 <td style="text-align:left;">
-0:00am-0:59am
+10:00pm-10:59pm
 </td>
 <td style="text-align:left;">
-0:00am-0:59am
+8:00am-8:59am
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+icfinalbody
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+Not Applicable
 </td>
 </tr>
 <tr>
@@ -1540,9 +1644,6 @@ hour
 impact1
 </td>
 <td style="text-align:left;">
-1 Clock Point
-</td>
-<td style="text-align:left;">
 12 Clock Point
 </td>
 <td style="text-align:left;">
@@ -1553,6 +1654,9 @@ impact1
 </td>
 <td style="text-align:left;">
 12 Clock Point
+</td>
+<td style="text-align:left;">
+11 Clock Point
 </td>
 </tr>
 <tr>
@@ -1560,16 +1664,16 @@ impact1
 inj_sev
 </td>
 <td style="text-align:left;">
-Suspected Serious Injury(A)
-</td>
-<td style="text-align:left;">
-Suspected Serious Injury(A)
-</td>
-<td style="text-align:left;">
 Fatal Injury (K)
 </td>
 <td style="text-align:left;">
-Suspected Serious Injury(A)
+Suspected Minor Injury (B)
+</td>
+<td style="text-align:left;">
+No Apparent Injury (O)
+</td>
+<td style="text-align:left;">
+Fatal Injury (K)
 </td>
 <td style="text-align:left;">
 Fatal Injury (K)
@@ -1640,19 +1744,19 @@ No Endorsements required for this vehicle
 l_restri
 </td>
 <td style="text-align:left;">
-Restrictions, Compliance Unknown
+No Restrictions or Not Applicable
+</td>
+<td style="text-align:left;">
+No Restrictions or Not Applicable
+</td>
+<td style="text-align:left;">
+No Restrictions or Not Applicable
+</td>
+<td style="text-align:left;">
+No Restrictions or Not Applicable
 </td>
 <td style="text-align:left;">
 Restrictions, Compliance Unknown
-</td>
-<td style="text-align:left;">
-Restrictions, Compliance Unknown
-</td>
-<td style="text-align:left;">
-Restrictions Complied With
-</td>
-<td style="text-align:left;">
-Restrictions Complied With
 </td>
 </tr>
 <tr>
@@ -1660,19 +1764,19 @@ Restrictions Complied With
 l_state
 </td>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-Minnesota
+Ohio
 </td>
 </tr>
 <tr>
@@ -1720,19 +1824,19 @@ Full Driver License
 lag_hrs
 </td>
 <td style="text-align:left;">
-999
+0
 </td>
 <td style="text-align:left;">
-999
+Unknown
+</td>
+<td style="text-align:left;">
+Unknown
 </td>
 <td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
-999
-</td>
-<td style="text-align:left;">
-0
+1
 </td>
 </tr>
 <tr>
@@ -1740,19 +1844,19 @@ lag_hrs
 lag_mins
 </td>
 <td style="text-align:left;">
-99
+45
 </td>
 <td style="text-align:left;">
-99
+Unknown
 </td>
 <td style="text-align:left;">
-53
+Unknown
 </td>
 <td style="text-align:left;">
-99
+2
 </td>
 <td style="text-align:left;">
-51
+12
 </td>
 </tr>
 <tr>
@@ -1760,7 +1864,7 @@ lag_mins
 last_mo
 </td>
 <td style="text-align:left;">
-No Record
+February
 </td>
 <td style="text-align:left;">
 No Record
@@ -1772,7 +1876,7 @@ No Record
 No Record
 </td>
 <td style="text-align:left;">
-No Record
+February
 </td>
 </tr>
 <tr>
@@ -1780,7 +1884,7 @@ No Record
 last_yr
 </td>
 <td style="text-align:left;">
-No Record
+2024
 </td>
 <td style="text-align:left;">
 No Record
@@ -1792,7 +1896,7 @@ No Record
 No Record
 </td>
 <td style="text-align:left;">
-No Record
+2024
 </td>
 </tr>
 <tr>
@@ -1800,19 +1904,19 @@ No Record
 lgt_cond
 </td>
 <td style="text-align:left;">
-Dark - Not Lighted
+Dark - Lighted
 </td>
 <td style="text-align:left;">
-Dark - Not Lighted
+Dark - Lighted
 </td>
 <td style="text-align:left;">
-Dark - Not Lighted
+Dark - Lighted
 </td>
 <td style="text-align:left;">
-Dark - Not Lighted
+Dark - Lighted
 </td>
 <td style="text-align:left;">
-Dark - Not Lighted
+Daylight
 </td>
 </tr>
 <tr>
@@ -1849,7 +1953,7 @@ Motor Vehicle In-Transport
 Motor Vehicle In-Transport
 </td>
 <td style="text-align:left;">
-Rollover/Overturn
+Motor Vehicle In-Transport
 </td>
 <td style="text-align:left;">
 Rollover/Overturn
@@ -1860,19 +1964,19 @@ Rollover/Overturn
 mak_mod
 </td>
 <td style="text-align:left;">
-Dodge Caravan/Grand Caravan
+Ford Focus
 </td>
 <td style="text-align:left;">
-Ford Taurus/Taurus X
+Nissan/Datsun Altima
 </td>
 <td style="text-align:left;">
-Ford Taurus/Taurus X
+Nissan/Datsun Altima
 </td>
 <td style="text-align:left;">
-Chevrolet Lumina
+Honda CR-V
 </td>
 <td style="text-align:left;">
-Chevrolet Lumina
+Chevrolet Uplander
 </td>
 </tr>
 <tr>
@@ -1880,16 +1984,16 @@ Chevrolet Lumina
 make
 </td>
 <td style="text-align:left;">
-Dodge
-</td>
-<td style="text-align:left;">
 Ford
 </td>
 <td style="text-align:left;">
-Ford
+Nissan/Datsun
 </td>
 <td style="text-align:left;">
-Chevrolet
+Nissan/Datsun
+</td>
+<td style="text-align:left;">
+Honda
 </td>
 <td style="text-align:left;">
 Chevrolet
@@ -1900,19 +2004,20 @@ Chevrolet
 man_coll
 </td>
 <td style="text-align:left;">
-Angle
+Front-to-Front
 </td>
 <td style="text-align:left;">
-Angle
+Front-to-Front
 </td>
 <td style="text-align:left;">
-Angle
+Front-to-Front
 </td>
 <td style="text-align:left;">
-Not a Collision with Motor Vehicle In-Transport
+Front-to-Front
 </td>
 <td style="text-align:left;">
-Not a Collision with Motor Vehicle In-Transport
+The First Harmful Event was Not a Collision with a Motor Vehicle in
+Transport
 </td>
 </tr>
 <tr>
@@ -1980,19 +2085,19 @@ Not Applicable
 milept
 </td>
 <td style="text-align:left;">
-NA
+28
 </td>
 <td style="text-align:left;">
-NA
+28
 </td>
 <td style="text-align:left;">
-NA
+28
 </td>
 <td style="text-align:left;">
-NA
+28
 </td>
 <td style="text-align:left;">
-NA
+None
 </td>
 </tr>
 <tr>
@@ -2000,19 +2105,19 @@ NA
 minute
 </td>
 <td style="text-align:left;">
-12
+40
 </td>
 <td style="text-align:left;">
-12
+40
 </td>
 <td style="text-align:left;">
-12
+40
 </td>
 <td style="text-align:left;">
-15
+40
 </td>
 <td style="text-align:left;">
-15
+57
 </td>
 </tr>
 <tr>
@@ -2020,19 +2125,19 @@ minute
 mod_year
 </td>
 <td style="text-align:left;">
-NA
+2015
 </td>
 <td style="text-align:left;">
-NA
+2019
 </td>
 <td style="text-align:left;">
-NA
+2019
 </td>
 <td style="text-align:left;">
-NA
+2016
 </td>
 <td style="text-align:left;">
-NA
+2005
 </td>
 </tr>
 <tr>
@@ -2040,19 +2145,19 @@ NA
 model
 </td>
 <td style="text-align:left;">
-442
+37
 </td>
 <td style="text-align:left;">
-17
+47
 </td>
 <td style="text-align:left;">
-17
+47
 </td>
 <td style="text-align:left;">
-20
+402
 </td>
 <td style="text-align:left;">
-20
+444
 </td>
 </tr>
 <tr>
@@ -2060,19 +2165,19 @@ model
 month
 </td>
 <td style="text-align:left;">
-December
+March
 </td>
 <td style="text-align:left;">
-December
+March
 </td>
 <td style="text-align:left;">
-December
+March
 </td>
 <td style="text-align:left;">
-September
+March
 </td>
 <td style="text-align:left;">
-September
+April
 </td>
 </tr>
 <tr>
@@ -2117,7 +2222,27 @@ NA
 </tr>
 <tr>
 <td style="text-align:left;">
-msafeqmt
+nhs
+</td>
+<td style="text-align:left;">
+This Section IS NOT on the NHS
+</td>
+<td style="text-align:left;">
+This Section IS NOT on the NHS
+</td>
+<td style="text-align:left;">
+This Section IS NOT on the NHS
+</td>
+<td style="text-align:left;">
+This Section IS NOT on the NHS
+</td>
+<td style="text-align:left;">
+This Section IS NOT on the NHS
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nmhelmet
 </td>
 <td style="text-align:left;">
 NA
@@ -2137,22 +2262,102 @@ NA
 </tr>
 <tr>
 <td style="text-align:left;">
-nhs
+nmlight
 </td>
 <td style="text-align:left;">
-This section IS NOT on the NHS
+NA
 </td>
 <td style="text-align:left;">
-This section IS NOT on the NHS
+NA
 </td>
 <td style="text-align:left;">
-This section IS NOT on the NHS
+NA
 </td>
 <td style="text-align:left;">
-This section IS NOT on the NHS
+NA
 </td>
 <td style="text-align:left;">
-This section IS NOT on the NHS
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nmothpre
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nmothpro
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nmpropad
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nmrefclo
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
 </td>
 </tr>
 <tr>
@@ -2160,19 +2365,19 @@ This section IS NOT on the NHS
 not_hour
 </td>
 <td style="text-align:left;">
-6:00pm-6:59pm
+10:00pm-10:59pm
 </td>
 <td style="text-align:left;">
-6:00pm-6:59pm
+10:00pm-10:59pm
 </td>
 <td style="text-align:left;">
-6:00pm-6:59pm
+10:00pm-10:59pm
 </td>
 <td style="text-align:left;">
-Unknown
+10:00pm-10:59pm
 </td>
 <td style="text-align:left;">
-Unknown
+9:00am-9:59am
 </td>
 </tr>
 <tr>
@@ -2180,19 +2385,19 @@ Unknown
 not_min
 </td>
 <td style="text-align:left;">
-12
+40
 </td>
 <td style="text-align:left;">
-12
+40
 </td>
 <td style="text-align:left;">
-12
+40
 </td>
 <td style="text-align:left;">
-Unknown
+40
 </td>
 <td style="text-align:left;">
-Unknown
+5
 </td>
 </tr>
 <tr>
@@ -2209,10 +2414,10 @@ numoccs
 02
 </td>
 <td style="text-align:left;">
-02
+01
 </td>
 <td style="text-align:left;">
-02
+01
 </td>
 </tr>
 <tr>
@@ -2220,12 +2425,6 @@ numoccs
 owner
 </td>
 <td style="text-align:left;">
-Driver (in this crash) Not Registered Owner (Other Private Owner Listed)
-</td>
-<td style="text-align:left;">
-Driver (in this crash) was Registered Owner
-</td>
-<td style="text-align:left;">
 Driver (in this crash) was Registered Owner
 </td>
 <td style="text-align:left;">
@@ -2233,11 +2432,23 @@ Driver (in this crash) Not Registered Owner (Other Private Owner Listed)
 </td>
 <td style="text-align:left;">
 Driver (in this crash) Not Registered Owner (Other Private Owner Listed)
+</td>
+<td style="text-align:left;">
+Driver (in this crash) was Registered Owner
+</td>
+<td style="text-align:left;">
+Driver (in this crash) was Registered Owner
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 p_crash1
+</td>
+<td style="text-align:left;">
+Going Straight
+</td>
+<td style="text-align:left;">
+Turning Left
 </td>
 <td style="text-align:left;">
 Turning Left
@@ -2246,13 +2457,7 @@ Turning Left
 Going Straight
 </td>
 <td style="text-align:left;">
-Going Straight
-</td>
-<td style="text-align:left;">
-Going Straight
-</td>
-<td style="text-align:left;">
-Going Straight
+Negotiating a Curve
 </td>
 </tr>
 <tr>
@@ -2260,19 +2465,19 @@ Going Straight
 p_crash2
 </td>
 <td style="text-align:left;">
-Turning left at junction
+Crossing Over (Passing Through) Junction
+</td>
+<td style="text-align:left;">
+Turning Left
+</td>
+<td style="text-align:left;">
+Turning Left
 </td>
 <td style="text-align:left;">
 From opposite direction over left lane line
 </td>
 <td style="text-align:left;">
-From opposite direction over left lane line
-</td>
-<td style="text-align:left;">
-Over the lane line on right side of travel lane
-</td>
-<td style="text-align:left;">
-Over the lane line on right side of travel lane
+Traveling Too Fast for Conditions or Road Configuration
 </td>
 </tr>
 <tr>
@@ -2280,19 +2485,19 @@ Over the lane line on right side of travel lane
 p_crash3
 </td>
 <td style="text-align:left;">
+Unknown/Not Reported
+</td>
+<td style="text-align:left;">
+Unknown/Not Reported
+</td>
+<td style="text-align:left;">
+Unknown/Not Reported
+</td>
+<td style="text-align:left;">
 No Avoidance Maneuver
 </td>
 <td style="text-align:left;">
-Steering right
-</td>
-<td style="text-align:left;">
-Steering right
-</td>
-<td style="text-align:left;">
-Unknown
-</td>
-<td style="text-align:left;">
-Unknown
+Unknown/Not Reported
 </td>
 </tr>
 <tr>
@@ -2372,7 +2577,7 @@ Tracking
 Tracking
 </td>
 <td style="text-align:left;">
-Tracking
+Skidding longitudinally rotation less than 30 degrees
 </td>
 </tr>
 <tr>
@@ -2380,7 +2585,7 @@ Tracking
 pcrash5
 </td>
 <td style="text-align:left;">
-Stayed in original travel lane
+Stayed on roadway, but left original travel lane
 </td>
 <td style="text-align:left;">
 Stayed in original travel lane
@@ -2389,7 +2594,7 @@ Stayed in original travel lane
 Stayed in original travel lane
 </td>
 <td style="text-align:left;">
-Departed roadway
+Stayed in original travel lane
 </td>
 <td style="text-align:left;">
 Departed roadway
@@ -2572,7 +2777,7 @@ Passenger of a Motor Vehicle In-Transport
 Driver of a Motor Vehicle In-Transport
 </td>
 <td style="text-align:left;">
-Passenger of a Motor Vehicle In-Transport
+Driver of a Motor Vehicle In-Transport
 </td>
 </tr>
 <tr>
@@ -2580,19 +2785,19 @@ Passenger of a Motor Vehicle In-Transport
 permvit
 </td>
 <td style="text-align:left;">
-3
+4
 </td>
 <td style="text-align:left;">
-3
+4
 </td>
 <td style="text-align:left;">
-3
+4
 </td>
 <td style="text-align:left;">
-2
+4
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 </tr>
 <tr>
@@ -2620,19 +2825,19 @@ pernotmvit
 persons
 </td>
 <td style="text-align:left;">
-3
+4
 </td>
 <td style="text-align:left;">
-3
+4
 </td>
 <td style="text-align:left;">
-3
+4
 </td>
 <td style="text-align:left;">
-2
+4
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 </tr>
 <tr>
@@ -2680,7 +2885,7 @@ None
 prev_oth
 </td>
 <td style="text-align:left;">
-None
+1
 </td>
 <td style="text-align:left;">
 None
@@ -2692,7 +2897,7 @@ None
 None
 </td>
 <td style="text-align:left;">
-None
+1
 </td>
 </tr>
 <tr>
@@ -2717,7 +2922,47 @@ None
 </tr>
 <tr>
 <td style="text-align:left;">
-prev_sus
+prev_sus1
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+None
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+prev_sus2
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:left;">
+None
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+prev_sus3
 </td>
 <td style="text-align:left;">
 None
@@ -2757,26 +3002,6 @@ pvh_invl
 </tr>
 <tr>
 <td style="text-align:left;">
-race
-</td>
-<td style="text-align:left;">
-Not a Fatality (not Applicable)
-</td>
-<td style="text-align:left;">
-Not a Fatality (not Applicable)
-</td>
-<td style="text-align:left;">
-White
-</td>
-<td style="text-align:left;">
-Not a Fatality (not Applicable)
-</td>
-<td style="text-align:left;">
-White
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 rail
 </td>
 <td style="text-align:left;">
@@ -2797,22 +3022,42 @@ Not Applicable
 </tr>
 <tr>
 <td style="text-align:left;">
+rd_owner
+</td>
+<td style="text-align:left;">
+State Highway Agency
+</td>
+<td style="text-align:left;">
+State Highway Agency
+</td>
+<td style="text-align:left;">
+State Highway Agency
+</td>
+<td style="text-align:left;">
+State Highway Agency
+</td>
+<td style="text-align:left;">
+County Highway Agency
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 reg_stat
 </td>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-Minnesota
+Ohio
 </td>
 </tr>
 <tr>
@@ -2829,7 +3074,7 @@ On Roadway
 On Roadway
 </td>
 <td style="text-align:left;">
-On Roadside
+On Roadway
 </td>
 <td style="text-align:left;">
 On Roadside
@@ -2840,16 +3085,16 @@ On Roadside
 reljct1
 </td>
 <td style="text-align:left;">
-No
+Yes
 </td>
 <td style="text-align:left;">
-No
+Yes
 </td>
 <td style="text-align:left;">
-No
+Yes
 </td>
 <td style="text-align:left;">
-No
+Yes
 </td>
 <td style="text-align:left;">
 No
@@ -2869,7 +3114,7 @@ Intersection
 Intersection
 </td>
 <td style="text-align:left;">
-Non-Junction
+Intersection
 </td>
 <td style="text-align:left;">
 Non-Junction
@@ -2880,19 +3125,19 @@ Non-Junction
 rest_mis
 </td>
 <td style="text-align:left;">
-No
+No Indication of Misuse
 </td>
 <td style="text-align:left;">
-No
+No Indication of Misuse
 </td>
 <td style="text-align:left;">
-No
+None Used/Not Applicable
 </td>
 <td style="text-align:left;">
-No
+None Used/Not Applicable
 </td>
 <td style="text-align:left;">
-No
+None Used/Not Applicable
 </td>
 </tr>
 <tr>
@@ -2906,33 +3151,13 @@ Shoulder and Lap Belt Used
 Shoulder and Lap Belt Used
 </td>
 <td style="text-align:left;">
-Unknown
+Reported as Unknown
 </td>
 <td style="text-align:left;">
-None Used
+None Used/Not Applicable
 </td>
 <td style="text-align:left;">
-None Used
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-road_fnc
-</td>
-<td style="text-align:left;">
-Rural-Minor Arterial
-</td>
-<td style="text-align:left;">
-Rural-Minor Arterial
-</td>
-<td style="text-align:left;">
-Rural-Minor Arterial
-</td>
-<td style="text-align:left;">
-Rural-Major Collector
-</td>
-<td style="text-align:left;">
-Rural-Major Collector
+None Used/Not Applicable
 </td>
 </tr>
 <tr>
@@ -2949,7 +3174,7 @@ No Rollover
 No Rollover
 </td>
 <td style="text-align:left;">
-On Roadside
+No Rollover
 </td>
 <td style="text-align:left;">
 On Roadside
@@ -2969,10 +3194,10 @@ No Rollover
 No Rollover
 </td>
 <td style="text-align:left;">
-Rollover, Tripped by Object/Vehicle
+No Rollover
 </td>
 <td style="text-align:left;">
-Rollover, Tripped by Object/Vehicle
+Rollover
 </td>
 </tr>
 <tr>
@@ -2989,10 +3214,10 @@ U.S. Highway
 U.S. Highway
 </td>
 <td style="text-align:left;">
-State Highway
+U.S. Highway
 </td>
 <td style="text-align:left;">
-State Highway
+County
 </td>
 </tr>
 <tr>
@@ -3000,16 +3225,16 @@ State Highway
 rur_urb
 </td>
 <td style="text-align:left;">
-Rural
+Urban
 </td>
 <td style="text-align:left;">
-Rural
+Urban
 </td>
 <td style="text-align:left;">
-Rural
+Urban
 </td>
 <td style="text-align:left;">
-Rural
+Urban
 </td>
 <td style="text-align:left;">
 Rural
@@ -3046,13 +3271,13 @@ Front Seat, Left Side
 Front Seat, Left Side
 </td>
 <td style="text-align:left;">
-Front Seat, Right Side
+Second Seat, Right Side
 </td>
 <td style="text-align:left;">
 Front Seat, Left Side
 </td>
 <td style="text-align:left;">
-Front Seat, Right Side
+Front Seat, Left Side
 </td>
 </tr>
 <tr>
@@ -3066,10 +3291,10 @@ Male
 Female
 </td>
 <td style="text-align:left;">
-Female
+Male
 </td>
 <td style="text-align:left;">
-Male
+Female
 </td>
 <td style="text-align:left;">
 Male
@@ -3100,19 +3325,19 @@ No Special Jurisdiction
 spec_use
 </td>
 <td style="text-align:left;">
-No Special Use
+No Special Use Noted
 </td>
 <td style="text-align:left;">
-No Special Use
+No Special Use Noted
 </td>
 <td style="text-align:left;">
-No Special Use
+No Special Use Noted
 </td>
 <td style="text-align:left;">
-No Special Use
+No Special Use Noted
 </td>
 <td style="text-align:left;">
-No Special Use
+No Special Use Noted
 </td>
 </tr>
 <tr>
@@ -3120,7 +3345,7 @@ No Special Use
 speedrel
 </td>
 <td style="text-align:left;">
-No
+Yes, Specifics Unknown
 </td>
 <td style="text-align:left;">
 No
@@ -3133,6 +3358,26 @@ No
 </td>
 <td style="text-align:left;">
 No
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+statename
+</td>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+Ohio
 </td>
 </tr>
 <tr>
@@ -3160,19 +3405,19 @@ str_veh
 tow_veh
 </td>
 <td style="text-align:left;">
-No Trailing Units
+No Trailers
 </td>
 <td style="text-align:left;">
-No Trailing Units
+No Trailers
 </td>
 <td style="text-align:left;">
-No Trailing Units
+No Trailers
 </td>
 <td style="text-align:left;">
-No Trailing Units
+No Trailers
 </td>
 <td style="text-align:left;">
-No Trailing Units
+No Trailers
 </td>
 </tr>
 <tr>
@@ -3180,19 +3425,19 @@ No Trailing Units
 towed
 </td>
 <td style="text-align:left;">
-Towed Due to Disabling Damage
+Towed
 </td>
 <td style="text-align:left;">
-Towed Due to Disabling Damage
+Towed
 </td>
 <td style="text-align:left;">
-Towed Due to Disabling Damage
+Towed
 </td>
 <td style="text-align:left;">
-Towed Due to Disabling Damage
+Towed
 </td>
 <td style="text-align:left;">
-Towed Due to Disabling Damage
+Towed
 </td>
 </tr>
 <tr>
@@ -3200,19 +3445,139 @@ Towed Due to Disabling Damage
 trav_sp
 </td>
 <td style="text-align:left;">
-Unknown
+Not Reported
 </td>
 <td style="text-align:left;">
-Unknown
+Not Reported
 </td>
 <td style="text-align:left;">
-Unknown
+Not Reported
 </td>
 <td style="text-align:left;">
-031 MPH
+Not Reported
 </td>
 <td style="text-align:left;">
-031 MPH
+Reported as Unknown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trlr1gvwr
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trlr1vin
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trlr2gvwr
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trlr2vin
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trlr3gvwr
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trlr3vin
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
+</td>
+<td style="text-align:left;">
+No Trailing Units
 </td>
 </tr>
 <tr>
@@ -3220,19 +3585,19 @@ Unknown
 tway_id
 </td>
 <td style="text-align:left;">
-US-59
+US-278 SR-12 COVINGTON HWY
 </td>
 <td style="text-align:left;">
-US-59
+US-278 SR-12 COVINGTON HWY
 </td>
 <td style="text-align:left;">
-US-59
+US-278 SR-12 COVINGTON HWY
 </td>
 <td style="text-align:left;">
-SR-324
+US-278 SR-12 COVINGTON HWY
 </td>
 <td style="text-align:left;">
-SR-324
+CR-9 KINGSTON PI
 </td>
 </tr>
 <tr>
@@ -3240,16 +3605,16 @@ SR-324
 tway_id2
 </td>
 <td style="text-align:left;">
-CR-31
+S INDIAN CREEK DRIVE
 </td>
 <td style="text-align:left;">
-CR-31
+S INDIAN CREEK DRIVE
 </td>
 <td style="text-align:left;">
-CR-31
+S INDIAN CREEK DRIVE
 </td>
 <td style="text-align:left;">
-NA
+S INDIAN CREEK DRIVE
 </td>
 <td style="text-align:left;">
 NA
@@ -3260,16 +3625,16 @@ NA
 typ_int
 </td>
 <td style="text-align:left;">
-Four-Way Intersection
+T-Intersection
 </td>
 <td style="text-align:left;">
-Four-Way Intersection
+T-Intersection
 </td>
 <td style="text-align:left;">
-Four-Way Intersection
+T-Intersection
 </td>
 <td style="text-align:left;">
-Not an Intersection
+T-Intersection
 </td>
 <td style="text-align:left;">
 Not an Intersection
@@ -3277,22 +3642,22 @@ Not an Intersection
 </tr>
 <tr>
 <td style="text-align:left;">
-underide
+underoverride
 </td>
 <td style="text-align:left;">
-No Underride or Override Noted
+No Underride or Override
 </td>
 <td style="text-align:left;">
-No Underride or Override Noted
+No Underride or Override
 </td>
 <td style="text-align:left;">
-No Underride or Override Noted
+No Underride or Override
 </td>
 <td style="text-align:left;">
-No Underride or Override Noted
+No Underride or Override
 </td>
 <td style="text-align:left;">
-No Underride or Override Noted
+Not Applicable
 </td>
 </tr>
 <tr>
@@ -3352,7 +3717,7 @@ Straight
 Straight
 </td>
 <td style="text-align:left;">
-Straight
+Curve - Right
 </td>
 </tr>
 <tr>
@@ -3360,16 +3725,16 @@ Straight
 ve_forms
 </td>
 <td style="text-align:left;">
-2
+3
 </td>
 <td style="text-align:left;">
-2
+3
 </td>
 <td style="text-align:left;">
-2
+3
 </td>
 <td style="text-align:left;">
-1
+3
 </td>
 <td style="text-align:left;">
 1
@@ -3380,16 +3745,16 @@ ve_forms
 ve_total
 </td>
 <td style="text-align:left;">
-2
+3
 </td>
 <td style="text-align:left;">
-2
+3
 </td>
 <td style="text-align:left;">
-2
+3
 </td>
 <td style="text-align:left;">
-1
+3
 </td>
 <td style="text-align:left;">
 1
@@ -3400,19 +3765,19 @@ ve_total
 vin
 </td>
 <td style="text-align:left;">
-NA
+1FADP3K2XFL3
 </td>
 <td style="text-align:left;">
-NA
+1N4BL4DV9KC1
 </td>
 <td style="text-align:left;">
-NA
+1N4BL4DV9KC1
 </td>
 <td style="text-align:left;">
-NA
+2HKRM3H73GH5
 </td>
 <td style="text-align:left;">
-NA
+1GNDV23L55D2
 </td>
 </tr>
 <tr>
@@ -3420,16 +3785,16 @@ NA
 vnum_lan
 </td>
 <td style="text-align:left;">
-Two lanes
+Five lanes
 </td>
 <td style="text-align:left;">
-Two lanes
+Three lanes
 </td>
 <td style="text-align:left;">
-Two lanes
+Three lanes
 </td>
 <td style="text-align:left;">
-Two lanes
+Five lanes
 </td>
 <td style="text-align:left;">
 Two lanes
@@ -3457,6 +3822,66 @@ Blacktop, Bituminous, or Asphalt
 </tr>
 <tr>
 <td style="text-align:left;">
+vpicbodyclass
+</td>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vpicmake
+</td>
+<td style="text-align:left;">
+460
+</td>
+<td style="text-align:left;">
+478
+</td>
+<td style="text-align:left;">
+478
+</td>
+<td style="text-align:left;">
+474
+</td>
+<td style="text-align:left;">
+467
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vpicmodel
+</td>
+<td style="text-align:left;">
+1779
+</td>
+<td style="text-align:left;">
+1904
+</td>
+<td style="text-align:left;">
+1904
+</td>
+<td style="text-align:left;">
+1865
+</td>
+<td style="text-align:left;">
+4588
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 vprofile
 </td>
 <td style="text-align:left;">
@@ -3472,7 +3897,7 @@ Level
 Level
 </td>
 <td style="text-align:left;">
-Level
+Grade, Unknown Slope
 </td>
 </tr>
 <tr>
@@ -3480,16 +3905,16 @@ Level
 vspd_lim
 </td>
 <td style="text-align:left;">
-60 MPH
+45 MPH
 </td>
 <td style="text-align:left;">
-60 MPH
+35 MPH
 </td>
 <td style="text-align:left;">
-60 MPH
+35 MPH
 </td>
 <td style="text-align:left;">
-55 MPH
+45 MPH
 </td>
 <td style="text-align:left;">
 55 MPH
@@ -3520,16 +3945,16 @@ Dry
 vtcont_f
 </td>
 <td style="text-align:left;">
-No Controls
+Device Functioning Properly
 </td>
 <td style="text-align:left;">
-No Controls
+Device Functioning Properly
 </td>
 <td style="text-align:left;">
-No Controls
+Device Functioning Properly
 </td>
 <td style="text-align:left;">
-No Controls
+Device Functioning Properly
 </td>
 <td style="text-align:left;">
 No Controls
@@ -3540,16 +3965,20 @@ No Controls
 vtrafcon
 </td>
 <td style="text-align:left;">
-No Controls
+Traffic control signal(on colors) not known whether or not Pedestrian
+Signal
 </td>
 <td style="text-align:left;">
-No Controls
+Traffic control signal(on colors) not known whether or not Pedestrian
+Signal
 </td>
 <td style="text-align:left;">
-No Controls
+Traffic control signal(on colors) not known whether or not Pedestrian
+Signal
 </td>
 <td style="text-align:left;">
-No Controls
+Traffic control signal(on colors) not known whether or not Pedestrian
+Signal
 </td>
 <td style="text-align:left;">
 No Controls
@@ -3560,7 +3989,7 @@ No Controls
 vtrafway
 </td>
 <td style="text-align:left;">
-Two-Way, Not Divided
+Two-Way, Not Divided With a Continuous Left-Turn Lane
 </td>
 <td style="text-align:left;">
 Two-Way, Not Divided
@@ -3569,7 +3998,7 @@ Two-Way, Not Divided
 Two-Way, Not Divided
 </td>
 <td style="text-align:left;">
-Two-Way, Not Divided
+Two-Way, Not Divided With a Continuous Left-Turn Lane
 </td>
 <td style="text-align:left;">
 Two-Way, Not Divided
@@ -3580,6 +4009,9 @@ Two-Way, Not Divided
 work_inj
 </td>
 <td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
 Not Applicable (not a fatality)
 </td>
 <td style="text-align:left;">
@@ -3587,9 +4019,6 @@ Not Applicable (not a fatality)
 </td>
 <td style="text-align:left;">
 No
-</td>
-<td style="text-align:left;">
-Not Applicable (not a fatality)
 </td>
 <td style="text-align:left;">
 No
@@ -3617,662 +4046,22 @@ None
 </tr>
 <tr>
 <td style="text-align:left;">
-func_sys
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-rd_owner
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-cityname
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-countyname
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-statename
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-trlr1vin
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-trlr2vin
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-trlr3vin
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-nmhelmet
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-nmlight
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-nmothpre
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-nmothpro
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-nmpropad
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-nmrefclo
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-prev_sus1
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-prev_sus2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-prev_sus3
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-helm_mis
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-helm_use
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-gvwr_from
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-gvwr_to
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-icfinalbody
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-trlr1gvwr
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-trlr2gvwr
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-trlr3gvwr
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-vpicbodyclass
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-vpicmake
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-vpicmodel
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-underoverride
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-devmotor
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-devtype
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-acc_config
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 a1
 </td>
 <td style="text-align:left;">
-0
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
 </td>
 <td style="text-align:left;">
 0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-25
-</td>
-<td style="text-align:left;">
-25
 </td>
 </tr>
 <tr>
@@ -4280,19 +4069,19 @@ a1
 a2
 </td>
 <td style="text-align:left;">
-0
+45
+</td>
+<td style="text-align:left;">
+45
+</td>
+<td style="text-align:left;">
+45
+</td>
+<td style="text-align:left;">
+45
 </td>
 <td style="text-align:left;">
 0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-25
-</td>
-<td style="text-align:left;">
-25
 </td>
 </tr>
 <tr>
@@ -4300,19 +4089,19 @@ a2
 a3
 </td>
 <td style="text-align:left;">
-0
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
 </td>
 <td style="text-align:left;">
 0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-25
-</td>
-<td style="text-align:left;">
-25
 </td>
 </tr>
 <tr>
@@ -4320,19 +4109,19 @@ a3
 a4
 </td>
 <td style="text-align:left;">
-0
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
 </td>
 <td style="text-align:left;">
 0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-25
-</td>
-<td style="text-align:left;">
-25
 </td>
 </tr>
 <tr>
@@ -4340,19 +4129,19 @@ a4
 a5
 </td>
 <td style="text-align:left;">
-0
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
 </td>
 <td style="text-align:left;">
 0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-25
-</td>
-<td style="text-align:left;">
-25
 </td>
 </tr>
 <tr>
@@ -4360,19 +4149,19 @@ a5
 a6
 </td>
 <td style="text-align:left;">
-0
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
 </td>
 <td style="text-align:left;">
 0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-25
-</td>
-<td style="text-align:left;">
-25
 </td>
 </tr>
 <tr>
@@ -4380,19 +4169,19 @@ a6
 a7
 </td>
 <td style="text-align:left;">
-0
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
 </td>
 <td style="text-align:left;">
 0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-25
-</td>
-<td style="text-align:left;">
-25
 </td>
 </tr>
 <tr>
@@ -4400,19 +4189,19 @@ a7
 a8
 </td>
 <td style="text-align:left;">
-0
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
 </td>
 <td style="text-align:left;">
 0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-25
-</td>
-<td style="text-align:left;">
-25
 </td>
 </tr>
 <tr>
@@ -4420,19 +4209,19 @@ a8
 a9
 </td>
 <td style="text-align:left;">
-0
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+16
 </td>
 <td style="text-align:left;">
 0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-25
-</td>
-<td style="text-align:left;">
-25
 </td>
 </tr>
 <tr>
@@ -4440,19 +4229,19 @@ a9
 a10
 </td>
 <td style="text-align:left;">
-0
+16
 </td>
 <td style="text-align:left;">
-0
+16
 </td>
 <td style="text-align:left;">
-0
+16
 </td>
 <td style="text-align:left;">
-25
+16
 </td>
 <td style="text-align:left;">
-25
+19
 </td>
 </tr>
 <tr>
@@ -4460,7 +4249,7 @@ a10
 p1
 </td>
 <td style="text-align:left;">
-0
+16
 </td>
 <td style="text-align:left;">
 0
@@ -4469,10 +4258,10 @@ p1
 NA
 </td>
 <td style="text-align:left;">
-25
+0
 </td>
 <td style="text-align:left;">
-NA
+0
 </td>
 </tr>
 <tr>
@@ -4480,19 +4269,19 @@ NA
 p2
 </td>
 <td style="text-align:left;">
+16
+</td>
+<td style="text-align:left;">
+45
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
 0
 </td>
 <td style="text-align:left;">
 0
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-25
-</td>
-<td style="text-align:left;">
-NA
 </td>
 </tr>
 <tr>
@@ -4500,7 +4289,7 @@ NA
 p3
 </td>
 <td style="text-align:left;">
-0
+16
 </td>
 <td style="text-align:left;">
 0
@@ -4509,10 +4298,10 @@ p3
 NA
 </td>
 <td style="text-align:left;">
-25
+0
 </td>
 <td style="text-align:left;">
-NA
+0
 </td>
 </tr>
 <tr>
@@ -4520,7 +4309,7 @@ NA
 p4
 </td>
 <td style="text-align:left;">
-0
+16
 </td>
 <td style="text-align:left;">
 0
@@ -4529,10 +4318,10 @@ p4
 NA
 </td>
 <td style="text-align:left;">
-25
+0
 </td>
 <td style="text-align:left;">
-NA
+0
 </td>
 </tr>
 <tr>
@@ -4540,7 +4329,7 @@ NA
 p5
 </td>
 <td style="text-align:left;">
-0
+16
 </td>
 <td style="text-align:left;">
 0
@@ -4549,10 +4338,10 @@ p5
 NA
 </td>
 <td style="text-align:left;">
-25
+0
 </td>
 <td style="text-align:left;">
-NA
+0
 </td>
 </tr>
 <tr>
@@ -4560,7 +4349,7 @@ NA
 p6
 </td>
 <td style="text-align:left;">
-0
+16
 </td>
 <td style="text-align:left;">
 0
@@ -4569,10 +4358,10 @@ p6
 NA
 </td>
 <td style="text-align:left;">
-25
+0
 </td>
 <td style="text-align:left;">
-NA
+0
 </td>
 </tr>
 <tr>
@@ -4580,7 +4369,7 @@ NA
 p7
 </td>
 <td style="text-align:left;">
-0
+16
 </td>
 <td style="text-align:left;">
 0
@@ -4589,10 +4378,10 @@ p7
 NA
 </td>
 <td style="text-align:left;">
-25
+0
 </td>
 <td style="text-align:left;">
-NA
+0
 </td>
 </tr>
 <tr>
@@ -4600,7 +4389,7 @@ NA
 p8
 </td>
 <td style="text-align:left;">
-0
+16
 </td>
 <td style="text-align:left;">
 0
@@ -4609,10 +4398,10 @@ p8
 NA
 </td>
 <td style="text-align:left;">
-25
+0
 </td>
 <td style="text-align:left;">
-NA
+0
 </td>
 </tr>
 <tr>
@@ -4620,7 +4409,7 @@ NA
 p9
 </td>
 <td style="text-align:left;">
-0
+16
 </td>
 <td style="text-align:left;">
 0
@@ -4629,10 +4418,10 @@ p9
 NA
 </td>
 <td style="text-align:left;">
-25
+0
 </td>
 <td style="text-align:left;">
-NA
+0
 </td>
 </tr>
 <tr>
@@ -4640,19 +4429,19 @@ NA
 p10
 </td>
 <td style="text-align:left;">
-0
+16
 </td>
 <td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-25
+9
 </td>
 <td style="text-align:left;">
 NA
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+19
 </td>
 </tr>
 </tbody>
@@ -4691,36 +4480,70 @@ year
 <tbody>
 <tr>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-270304
+130177
 </td>
 <td style="text-align:left;">
-weather1
+weather
 </td>
 <td style="text-align:left;">
-Cloudy
+Clear
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-South Dakota
+Georgia
 </td>
 <td style="text-align:left;">
-460097
+130177
 </td>
 <td style="text-align:left;">
-weather1
+crashrf
 </td>
 <td style="text-align:left;">
-Cloudy
+None Noted
 </td>
 <td style="text-align:left;">
-2014
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+weather
+</td>
+<td style="text-align:left;">
+Clear
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+crashrf
+</td>
+<td style="text-align:left;">
+None Noted
+</td>
+<td style="text-align:left;">
+2024
 </td>
 </tr>
 </tbody>
@@ -4751,36 +4574,70 @@ year
 <tbody>
 <tr>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-270304
+130177
 </td>
 <td style="text-align:left;">
-weather1
+weather
 </td>
 <td style="text-align:left;">
-Cloudy
+Clear
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-South Dakota
+Georgia
 </td>
 <td style="text-align:left;">
-460097
+130177
 </td>
 <td style="text-align:left;">
-weather1
+crashrf
 </td>
 <td style="text-align:left;">
-Cloudy
+None Noted
 </td>
 <td style="text-align:left;">
-2014
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+weather
+</td>
+<td style="text-align:left;">
+Clear
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+crashrf
+</td>
+<td style="text-align:left;">
+None Noted
+</td>
+<td style="text-align:left;">
+2024
 </td>
 </tr>
 </tbody>
@@ -4817,148 +4674,33 @@ year
 <tbody>
 <tr>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-270304
-</td>
-<td style="text-align:left;">
-1
+130177
 </td>
 <td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
-drugtst1
+1
 </td>
 <td style="text-align:left;">
-Blood
+personrf
 </td>
 <td style="text-align:left;">
-2014
+None Noted
+</td>
+<td style="text-align:left;">
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-270304
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-drugtst2
-</td>
-<td style="text-align:left;">
-Test Not Given
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Minnesota
-</td>
-<td style="text-align:left;">
-270304
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-drugtst3
-</td>
-<td style="text-align:left;">
-Test Not Given
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Minnesota
-</td>
-<td style="text-align:left;">
-270304
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-drugres1
-</td>
-<td style="text-align:left;">
-Tested, No Drugs Found/Negative
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Minnesota
-</td>
-<td style="text-align:left;">
-270304
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-drugres2
-</td>
-<td style="text-align:left;">
-Test Not Given
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Minnesota
-</td>
-<td style="text-align:left;">
-270304
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-drugres3
-</td>
-<td style="text-align:left;">
-Test Not Given
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Minnesota
-</td>
-<td style="text-align:left;">
-270304
+130177
 </td>
 <td style="text-align:left;">
 2
@@ -4967,136 +4709,21 @@ Minnesota
 1
 </td>
 <td style="text-align:left;">
-drugtst1
+personrf
 </td>
 <td style="text-align:left;">
-Test Not Given
+None Noted
 </td>
 <td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Minnesota
-</td>
-<td style="text-align:left;">
-270304
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-drugtst2
-</td>
-<td style="text-align:left;">
-Test Not Given
-</td>
-<td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-270304
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-drugtst3
-</td>
-<td style="text-align:left;">
-Test Not Given
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Minnesota
-</td>
-<td style="text-align:left;">
-270304
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-drugres1
-</td>
-<td style="text-align:left;">
-Test Not Given
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Minnesota
-</td>
-<td style="text-align:left;">
-270304
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-drugres2
-</td>
-<td style="text-align:left;">
-Test Not Given
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Minnesota
-</td>
-<td style="text-align:left;">
-270304
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-drugres3
-</td>
-<td style="text-align:left;">
-Test Not Given
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Minnesota
-</td>
-<td style="text-align:left;">
-270304
+130177
 </td>
 <td style="text-align:left;">
 2
@@ -5105,21 +4732,182 @@ Minnesota
 2
 </td>
 <td style="text-align:left;">
-drugtst2
+personrf
 </td>
 <td style="text-align:left;">
-Test Not Given
+None Noted
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-270304
+130177
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+personrf
+</td>
+<td style="text-align:left;">
+None Noted
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+multrace
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+order
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+race
+</td>
+<td style="text-align:left;">
+Black or African American
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+multrace
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+order
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+race
+</td>
+<td style="text-align:left;">
+Not a Fatality (not applicable)
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
 </td>
 <td style="text-align:left;">
 2
@@ -5128,21 +4916,21 @@ Minnesota
 2
 </td>
 <td style="text-align:left;">
-drugtst3
+multrace
 </td>
 <td style="text-align:left;">
-Test Not Given
+No
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-270304
+130177
 </td>
 <td style="text-align:left;">
 2
@@ -5151,21 +4939,21 @@ Minnesota
 2
 </td>
 <td style="text-align:left;">
-drugres2
+order
 </td>
 <td style="text-align:left;">
-Test Not Given
+1
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-270304
+130177
 </td>
 <td style="text-align:left;">
 2
@@ -5174,289 +4962,2382 @@ Minnesota
 2
 </td>
 <td style="text-align:left;">
-drugres3
+race
 </td>
 <td style="text-align:left;">
-Test Not Given
+Not a Fatality (not applicable)
 </td>
 <td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-South Dakota
-</td>
-<td style="text-align:left;">
-460097
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-drugtst1
-</td>
-<td style="text-align:left;">
-Test Not Given
-</td>
-<td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-South Dakota
+Georgia
 </td>
 <td style="text-align:left;">
-460097
+130177
+</td>
+<td style="text-align:left;">
+3
 </td>
 <td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
-1
+multrace
 </td>
 <td style="text-align:left;">
-drugtst2
+No
 </td>
 <td style="text-align:left;">
-Test Not Given
-</td>
-<td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-South Dakota
+Georgia
 </td>
 <td style="text-align:left;">
-460097
+130177
+</td>
+<td style="text-align:left;">
+3
 </td>
 <td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
+order
+</td>
+<td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
-drugtst3
-</td>
-<td style="text-align:left;">
-Test Not Given
-</td>
-<td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-South Dakota
+Georgia
 </td>
 <td style="text-align:left;">
-460097
+130177
+</td>
+<td style="text-align:left;">
+3
 </td>
 <td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
-1
+race
 </td>
 <td style="text-align:left;">
-drugres1
+Black or African American
 </td>
 <td style="text-align:left;">
-Test Not Given
-</td>
-<td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-South Dakota
+Georgia
 </td>
 <td style="text-align:left;">
-460097
-</td>
-<td style="text-align:left;">
-1
+130177
 </td>
 <td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
-drugres2
+1
 </td>
 <td style="text-align:left;">
-Test Not Given
+drugactqty
 </td>
 <td style="text-align:left;">
-2014
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-South Dakota
+Georgia
 </td>
 <td style="text-align:left;">
-460097
-</td>
-<td style="text-align:left;">
-1
+130177
 </td>
 <td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
-drugres3
+1
 </td>
 <td style="text-align:left;">
-Test Not Given
+drugmethod
 </td>
 <td style="text-align:left;">
-2014
+Other Screening Test Method \[Specify:\]
+</td>
+<td style="text-align:left;">
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-South Dakota
+Georgia
 </td>
 <td style="text-align:left;">
-460097
+130177
 </td>
 <td style="text-align:left;">
 1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+Presumptive Positive
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+Narcotic Analgesics, Type Unknown \[Opioids/Opiates\]
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Whole Blood
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugactqty
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugmethod
+</td>
+<td style="text-align:left;">
+Liquid Chromatography/Mass Spectrometry \[LC/MS\]
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+Tested for Drugs, Drugs Detected, Unknown Quantity
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+Cocaethylene (ethylbenzoylecgonine)
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Whole Blood
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugactqty
+</td>
+<td style="text-align:left;">
+0.1
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugmethod
+</td>
+<td style="text-align:left;">
+Liquid Chromatography/Mass Spectrometry \[LC/MS\]
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+Actual Drug Quantity
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+Benzoylecgonine
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Whole Blood
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+mg/L
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugactqty
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugmethod
+</td>
+<td style="text-align:left;">
+Liquid Chromatography/Mass Spectrometry \[LC/MS\]
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+Actual Drug Quantity
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+Delta 9-tetrahydrocannabinol \[THC\]
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Whole Blood
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+ng/mL
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
 </td>
 <td style="text-align:left;">
 2
 </td>
 <td style="text-align:left;">
-drugtst1
+1
 </td>
 <td style="text-align:left;">
-Unknown if Tested
+drugactqty
 </td>
 <td style="text-align:left;">
-2014
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-South Dakota
+Georgia
 </td>
 <td style="text-align:left;">
-460097
-</td>
-<td style="text-align:left;">
-1
+130177
 </td>
 <td style="text-align:left;">
 2
 </td>
 <td style="text-align:left;">
-drugtst2
+1
+</td>
+<td style="text-align:left;">
+drugmethod
 </td>
 <td style="text-align:left;">
 Test Not Given
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-South Dakota
+Georgia
 </td>
 <td style="text-align:left;">
-460097
-</td>
-<td style="text-align:left;">
-1
+130177
 </td>
 <td style="text-align:left;">
 2
 </td>
 <td style="text-align:left;">
-drugtst3
+1
+</td>
+<td style="text-align:left;">
+drugqty
 </td>
 <td style="text-align:left;">
 Test Not Given
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-South Dakota
+Georgia
 </td>
 <td style="text-align:left;">
-460097
-</td>
-<td style="text-align:left;">
-1
+130177
 </td>
 <td style="text-align:left;">
 2
 </td>
 <td style="text-align:left;">
-drugres1
-</td>
-<td style="text-align:left;">
-Unknown if Tested
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-South Dakota
-</td>
-<td style="text-align:left;">
-460097
-</td>
-<td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-drugres2
+drugres
 </td>
 <td style="text-align:left;">
 Test Not Given
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-South Dakota
+Georgia
 </td>
 <td style="text-align:left;">
-460097
-</td>
-<td style="text-align:left;">
-1
+130177
 </td>
 <td style="text-align:left;">
 2
 </td>
 <td style="text-align:left;">
-drugres3
+1
+</td>
+<td style="text-align:left;">
+drugspec
 </td>
 <td style="text-align:left;">
 Test Not Given
 </td>
 <td style="text-align:left;">
-2014
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+drugactqty
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+drugmethod
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Test Not Given
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugactqty
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugmethod
+</td>
+<td style="text-align:left;">
+Other Screening Test Method \[Specify:\]
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+None Detected/Below Threshold
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+None Detected/Below Threshold
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Whole Blood
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugactqty
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugmethod
+</td>
+<td style="text-align:left;">
+Liquid Chromatography/Mass Spectrometry \[LC/MS\]
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+None Detected/Below Threshold
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+None Detected/Below Threshold
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Whole Blood
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+personrf
+</td>
+<td style="text-align:left;">
+None Noted
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+multrace
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+order
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+race
+</td>
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugactqty
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugmethod
+</td>
+<td style="text-align:left;">
+Liquid Chromatography/Time of Flight-Mass Spectrometry \[LC/TOF-MS\]
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+Presumptive Positive
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+Amlodipine
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Whole Blood
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugactqty
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugmethod
+</td>
+<td style="text-align:left;">
+Liquid Chromatography/Time of Flight-Mass Spectrometry \[LC/TOF-MS\]
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+Presumptive Positive
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+Caffeine
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Whole Blood
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugactqty
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugmethod
+</td>
+<td style="text-align:left;">
+Liquid Chromatography/Time of Flight-Mass Spectrometry \[LC/TOF-MS\]
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+Presumptive Positive
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+Cotinine
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Whole Blood
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugactqty
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugmethod
+</td>
+<td style="text-align:left;">
+Liquid Chromatography/Time of Flight-Mass Spectrometry \[LC/TOF-MS\]
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+Presumptive Positive
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+Nicotine
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Whole Blood
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+Not Applicable
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugactqty
+</td>
+<td style="text-align:left;">
+3.4
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugmethod
+</td>
+<td style="text-align:left;">
+Liquid Chromatography/Tandem Mass Spectrometry \[LC/MS-MS\]
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+Actual Drug Quantity
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+Buprenorphine
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Whole Blood
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+ng/mL
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugactqty
+</td>
+<td style="text-align:left;">
+2.3
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugmethod
+</td>
+<td style="text-align:left;">
+Liquid Chromatography/Tandem Mass Spectrometry \[LC/MS-MS\]
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+Actual Drug Quantity
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+Norbuprenorphine
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Whole Blood
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+ng/mL
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugactqty
+</td>
+<td style="text-align:left;">
+130
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugmethod
+</td>
+<td style="text-align:left;">
+Liquid Chromatography/Tandem Mass Spectrometry \[LC/MS-MS\]
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+Actual Drug Quantity
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+Diphenhydramine
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Whole Blood
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+ng/mL
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugactqty
+</td>
+<td style="text-align:left;">
+8.4
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugmethod
+</td>
+<td style="text-align:left;">
+Liquid Chromatography/Tandem Mass Spectrometry \[LC/MS-MS\]
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugqty
+</td>
+<td style="text-align:left;">
+Actual Drug Quantity
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugres
+</td>
+<td style="text-align:left;">
+Lorazepam
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+drugspec
+</td>
+<td style="text-align:left;">
+Whole Blood
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+druguom
+</td>
+<td style="text-align:left;">
+ng/mL
+</td>
+<td style="text-align:left;">
+2024
 </td>
 </tr>
 </tbody>
@@ -5498,16 +7379,16 @@ year
 <tbody>
 <tr>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-270304
+130177
 </td>
 <td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
-1 Clock Point
+12 Clock Point
 </td>
 <td style="text-align:left;">
 Motor Vehicle In-Transport
@@ -5516,15 +7397,38 @@ Motor Vehicle In-Transport
 1
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-270304
+130177
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+Right-Back Side
+</td>
+<td style="text-align:left;">
+Motor Vehicle In-Transport
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+130177
 </td>
 <td style="text-align:left;">
 2
@@ -5539,44 +7443,90 @@ Motor Vehicle In-Transport
 1
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Minnesota
+Georgia
 </td>
 <td style="text-align:left;">
-270304
+130177
 </td>
 <td style="text-align:left;">
-2
+3
+</td>
+<td style="text-align:left;">
+12 Clock Point
+</td>
+<td style="text-align:left;">
+Motor Vehicle In-Transport
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
 </td>
 <td style="text-align:left;">
 Non-Harmful Event
 </td>
 <td style="text-align:left;">
-Ran Off Roadway - Right
+Cross Centerline
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Minnesota
+Ohio
 </td>
 <td style="text-align:left;">
-270304
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+Non-Harmful Event
+</td>
+<td style="text-align:left;">
+Ran Off Roadway - Left
 </td>
 <td style="text-align:left;">
 2
 </td>
 <td style="text-align:left;">
-12 Clock Point
+2024
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ohio
+</td>
+<td style="text-align:left;">
+390256
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+11 Clock Point
 </td>
 <td style="text-align:left;">
 Ditch
@@ -5585,61 +7535,15 @@ Ditch
 3
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-South Dakota
+Ohio
 </td>
 <td style="text-align:left;">
-460097
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-Non-Harmful Event
-</td>
-<td style="text-align:left;">
-Ran Off Roadway - Right
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-South Dakota
-</td>
-<td style="text-align:left;">
-460097
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-12 Clock Point
-</td>
-<td style="text-align:left;">
-Other Post, Other Pole or Other Supports
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-2014
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-South Dakota
-</td>
-<td style="text-align:left;">
-460097
+390256
 </td>
 <td style="text-align:left;">
 1
@@ -5651,10 +7555,10 @@ Non-Collision
 Rollover/Overturn
 </td>
 <td style="text-align:left;">
-3
+4
 </td>
 <td style="text-align:left;">
-2014
+2024
 </td>
 </tr>
 </tbody>
@@ -5684,13 +7588,13 @@ values are imputed and reported in *Traffic Safety Facts*.
 - [Fatality and Injury Reporting System Tool
   (FIRST)](https://cdan.dot.gov/query)
 - [FARS Analytical User’s
-  Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706)
+  Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813794)
 - [General Estimates System
   (GES)](https://www.nhtsa.gov/national-automotive-sampling-system/nass-general-estimates-system)
 - [Crash Report Sampling System
   (CRSS)](https://www.nhtsa.gov/crash-data-systems/crash-report-sampling-system)
 - [CRSS Analytical User’s
-  Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707)
+  Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813796)
 - [NCSA and Other Data
   Sources](https://cdan.dot.gov/Homepage/MotorVehicleCrashDataOverview.htm)
 - [NHTSA FTP

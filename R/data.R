@@ -34,7 +34,6 @@
 #'    \item{Additional Information}{Additional information on the data element, pulled from the Analytical User Manual.}
 #'    \item{value}{The original value of the data element.}
 #'    \item{value_label}{The de-coded value label.}
-#'    \item{2014}{Indicator: 1 if valid for 2014, NA otherwise.}
 #'    \item{2015}{Indicator: 1 if valid for 2015, NA otherwise.}
 #'    \item{2016}{Indicator: 1 if valid for 2016, NA otherwise.}
 #'    \item{2017}{Indicator: 1 if valid for 2017, NA otherwise.}
@@ -44,6 +43,7 @@
 #'    \item{2021}{Indicator: 1 if valid for 2021, NA otherwise.}
 #'    \item{2022}{Indicator: 1 if valid for 2022, NA otherwise.}
 #'    \item{2023}{Indicator: 1 if valid for 2023, NA otherwise.}
+#'    \item{2024}{Indicator: 1 if valid for 2024, NA otherwise.}
 #'    }
 #'
 #' @details This codebook serves as a useful reference for researchers using FARS data.
@@ -67,11 +67,11 @@
 #'    Each data element has a 'label', a more human-readable version of the
 #'    element names. For example, the label for 'road_fnc' is 'Roadway Function Class'.
 #'    These are not definitions but may provide enough information to help users
-#'    conduct their analysis. Consult the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706}{Analytical User’s Manual}
+#'    conduct their analysis. Consult the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813794}{Analytical User’s Manual}
 #'    for definitions and further details.
 #'
 #'    'Definition' and 'Additional Information' were extracted from
-#'    the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706}{Analytical User’s Manual}.
+#'    the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813794}{Analytical User’s Manual}.
 #'
 #'    Each data element has multiple 'value'-'value_label' pairs: 'value' represents
 #'    the original, non-human-readable value (usually a number), and 'value_label'
@@ -108,7 +108,6 @@
 #'    \item{Additional Information}{Additional information on the data element, pulled from the Analytical User Manual.}
 #'    \item{value}{The original value of the data element.}
 #'    \item{value_label}{The de-coded value label.}
-#'    \item{2014}{Indicator: 1 if valid for 2014, NA otherwise.}
 #'    \item{2015}{Indicator: 1 if valid for 2015, NA otherwise.}
 #'    \item{2016}{Indicator: 1 if valid for 2016, NA otherwise.}
 #'    \item{2017}{Indicator: 1 if valid for 2017, NA otherwise.}
@@ -118,6 +117,7 @@
 #'    \item{2021}{Indicator: 1 if valid for 2021, NA otherwise.}
 #'    \item{2022}{Indicator: 1 if valid for 2022, NA otherwise.}
 #'    \item{2023}{Indicator: 1 if valid for 2023, NA otherwise.}
+#'    \item{2024}{Indicator: 1 if valid for 2024, NA otherwise.}
 #'    }
 #'
 #' @details This codebook serves as a useful reference for researchers using GES/CRSS data.
@@ -141,11 +141,11 @@
 #'    Each data element has a 'label', a more human-readable version of the
 #'    element names. For example, the label for 'harm_ev' is 'First Harmful Event'.
 #'    These are not definitions but may provide enough information to help users
-#'    conduct their analysis. Consult the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707}{CRSS User Manual}
+#'    conduct their analysis. Consult the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813796}{CRSS User Manual}
 #'    for definitions and further details.
 #'
 #'    'Definition' and 'Additional Information' were extracted from
-#'    the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707}{Analytical User’s Manual}.
+#'    the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813796}{Analytical User’s Manual}.
 #'
 #'    Each data element has multiple 'value'-'value_label' pairs: 'value' represents
 #'    the original, non-human-readable value (usually a number), and 'value_label'
@@ -170,12 +170,12 @@
 #' Annual Crash Counts by Risk Factors
 #'
 #' Pre-computed annual crash counts from FARS (fatal crashes) and CRSS (general
-#' crash estimates) databases for 2014-2023, broken down by various risk factors and
+#' crash estimates) databases for 2015-2024, broken down by various risk factors and
 #' vulnerable road user categories.
 #'
 #' @format A tibble with 340 rows and 9 variables:
 #' \describe{
-#'   \item{year}{Year (2014-2023)}
+#'   \item{year}{Year (2015-2024)}
 #'   \item{month}{Month, if included in interval, as the three-letter abbreviation and an ordered factor (Jan=1, Feb=2, etc.)}
 #'   \item{what}{Count unit - currently only "crashes"}
 #'   \item{states}{Geographic scope - "all" for national-level data}

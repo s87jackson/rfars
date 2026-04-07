@@ -7,7 +7,7 @@
 \format{
 A tibble with 340 rows and 9 variables:
 \describe{
-  \item{year}{Year (2014-2023)}
+  \item{year}{Year (2015-2024)}
   \item{month}{Month, if included in interval, as the three-letter abbreviation and an ordered factor (Jan=1, Feb=2, etc.)}
   \item{what}{Count unit - currently only "crashes"}
   \item{states}{Geographic scope - "all" for national-level data}
@@ -45,7 +45,7 @@ annual_counts
 }
 \description{
 Pre-computed annual crash counts from FARS (fatal crashes) and CRSS (general
-crash estimates) databases for 2014-2023, broken down by various risk factors and
+crash estimates) databases for 2015-2024, broken down by various risk factors and
 vulnerable road user categories.
 }
 \details{

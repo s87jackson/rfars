@@ -16,7 +16,6 @@ A data frame with 34,662 rows and 8 variables:
    \item{Additional Information}{Additional information on the data element, pulled from the Analytical User Manual.}
    \item{value}{The original value of the data element.}
    \item{value_label}{The de-coded value label.}
-   \item{2014}{Indicator: 1 if valid for 2014, NA otherwise.}
    \item{2015}{Indicator: 1 if valid for 2015, NA otherwise.}
    \item{2016}{Indicator: 1 if valid for 2016, NA otherwise.}
    \item{2017}{Indicator: 1 if valid for 2017, NA otherwise.}
@@ -26,6 +25,7 @@ A data frame with 34,662 rows and 8 variables:
    \item{2021}{Indicator: 1 if valid for 2021, NA otherwise.}
    \item{2022}{Indicator: 1 if valid for 2022, NA otherwise.}
    \item{2023}{Indicator: 1 if valid for 2023, NA otherwise.}
+   \item{2024}{Indicator: 1 if valid for 2024, NA otherwise.}
    }
 }
 \usage{
@@ -56,11 +56,11 @@ This codebook serves as a useful reference for researchers using GES/CRSS data.
    Each data element has a 'label', a more human-readable version of the
    element names. For example, the label for 'harm_ev' is 'First Harmful Event'.
    These are not definitions but may provide enough information to help users
-   conduct their analysis. Consult the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707}{CRSS User Manual}
+   conduct their analysis. Consult the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813796}{CRSS User Manual}
    for definitions and further details.
 
    'Definition' and 'Additional Information' were extracted from
-   the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707}{Analytical User’s Manual}.
+   the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813796}{Analytical User’s Manual}.
 
    Each data element has multiple 'value'-'value_label' pairs: 'value' represents
    the original, non-human-readable value (usually a number), and 'value_label'

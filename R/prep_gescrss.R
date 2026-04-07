@@ -30,7 +30,9 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
 
   if(y %in% 2014:2015) my_catfile <- paste0(wd, "formats.sas7bcat")
   if(y %in% 2016:2021) my_catfile <- paste0(wd, "format-64/formats.sas7bcat")
-  if(y %in% 2022:2023) my_catfile <- NULL
+  #if(y %in% 2022:2024) my_catfile <- paste0(wd, "format-viya/formats.sas7bcat")
+  if(y %in% 2022:2024) my_catfile <- NULL
+
 
   myregions <-
     rfars::geo_relations %>%
@@ -121,7 +123,7 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
 
   ## weather ----
 
-  if(y %in% 2020:2023){
+  if(y %in% 2020:2024){
     gescrss.weather <- read_basic_sas(x = "weather", wd = wd, rawfiles = rawfiles, catfile = my_catfile)
   } else{
     gescrss.weather <- select(gescrss.accident, "casenum", "weather1", "weather2")
@@ -132,7 +134,7 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
 
   ## crashrf ----
 
-  if(y %in% 2020:2023) gescrss.crashrf <- read_basic_sas(x = "crashrf", wd = wd, rawfiles = rawfiles, catfile = my_catfile)
+  if(y %in% 2020:2024) gescrss.crashrf <- read_basic_sas(x = "crashrf", wd = wd, rawfiles = rawfiles, catfile = my_catfile)
 
   if(y %in% 2012:2019) gescrss.crashrf <- select(gescrss.accident, "casenum", "cf1", "cf2", "cf3")
 
@@ -189,7 +191,7 @@ prep_gescrss <- function(y, wd, rawfiles, prepared_dir, regions){
 
   ## pbtype ----
 
-  if(y %in% 2014:2023){
+  if(y %in% 2014:2024){
     cat("PBtype file:\n")
     gescrss.pbtype <-
       read_basic_sas(

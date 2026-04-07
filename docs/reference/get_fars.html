@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rfars</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,9 +49,9 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_fars</span><span class="op">(</span></span>
-<span>  years <span class="op">=</span> <span class="fl">2014</span><span class="op">:</span><span class="fl">2023</span>,</span>
+<span>  years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span>,</span>
 <span>  states <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"zenodo"</span>, <span class="st">"nhtsa"</span><span class="op">)</span>,</span>
+<span>  source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"zenodo"</span>, <span class="st">"nhtsa"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>  proceed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  cache <span class="op">=</span> <span class="cn">NULL</span></span>
@@ -75,9 +75,9 @@ abbreviation ("VA"), or FIPS code (51).</p></dd>
 
 <dt id="arg-source">source<a class="anchor" aria-label="anchor" href="#arg-source"></a></dt>
 <dd><p>The source of the data: 'zenodo' (the default) pulls the prepared
-dataset from <a href="https://doi.org/10.5281/zenodo.17153210" class="external-link">Zenodo</a>, 'nhtsa'
-pulls the raw files from NHTSA's FTP site and prepares them on your machine.
-'zenodo' is much faster and provides the same dataset produced by using source='nhtsa'.</p></dd>
+dataset from <a href="https://zenodo.org/records/19441135" class="external-link">Zenodo</a>, 'nhtsa'
+pulls the raw files from <a href="https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/" class="external-link">NHTSA's FTP site</a> and prepares them on your machine.
+'zenodo' is much faster and provides the same dataset produced by using source='nhtsa' but is limited to the most recent 10 years of data.</p></dd>
 
 
 <dt id="arg-proceed">proceed<a class="anchor" aria-label="anchor" href="#arg-proceed"></a></dt>
@@ -88,13 +88,14 @@ asking for user permission (defaults to FALSE, thus asking permission)</p></dd>
 <dt id="arg-dir">dir<a class="anchor" aria-label="anchor" href="#arg-dir"></a></dt>
 <dd><p>Directory in which to search for or save a 'FARS data' folder. If
 NULL (the default), files are downloaded and unzipped to temporary
-directories and prepared in memory. Ignored if source = 'zenodo'.</p></dd>
+directories and prepared in memory. Required if cache is specified.</p></dd>
 
 
 <dt id="arg-cache">cache<a class="anchor" aria-label="anchor" href="#arg-cache"></a></dt>
-<dd><p>The name of an RDS file to save or use. If the specified file (e.g., 'myFARS.rds')
-exists in 'dir' it will be returned; if not, an RDS file of this name will be
-saved in 'dir' for quick use in subsequent calls. Ignored if source = 'zenodo'.</p></dd>
+<dd><p>The name of an RDS file to save or use (e.g., 'myFARS.rds').
+If the file exists in 'dir', it will be returned directly. If not, data will
+be downloaded and an RDS file of this name will be saved in 'dir'. Requires
+'dir' to be specified.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -106,7 +107,7 @@ saved in 'dir' for quick use in subsequent calls. Ignored if source = 'zenodo'.<
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function provides the FARS database for the specified years and states.
    By default, it pulls from a Zenodo repository for speed and memory efficiency.
-   It can also pull the raw files from <a href="https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/" class="external-link">NHTSA</a> and process them in memory, or
+   It can also pull the raw files from NHTSA and process them in memory, or
    use an RDS file saved on your machine.</p>
 <p>If source = 'nhtsa' and no directory (dir) is specified, SAS files are downloaded into a
    tempdir(), where they are also prepared, combined, and then brought into
@@ -133,7 +134,7 @@ saved in 'dir' for quick use in subsequent calls. Ignored if source = 'zenodo'.<
 <p>The events tibble provides a sequence of events for all vehicles involved
    in the crash. See Crash Sequences vignette for an example.</p>
 <p>Finally, the codebook tibble serves as a searchable codebook for all files of any given year.</p>
-<p>Please review the <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706" class="external-link">FARS Analytical User's Manual</a></p>
+<p>Please review the <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813794" class="external-link">FARS Analytical User's Manual</a></p>
     </div>
 
     <div class="section level2">

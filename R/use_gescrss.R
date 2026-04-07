@@ -53,10 +53,10 @@ use_gescrss <- function(dir, prepared_dir, cache){
 
   class(out) <- c(class(out), "GESCRSS")
 
-  if(!is.null(cache)){
-    saveRDS(out,
-            gsub("//", "/", paste0(dir, "/", cache))
-            )
+  if(!is.null(cache) && !is.null(dir)){
+    cache_path <- file.path(dir, cache)
+    message("Saving data to cache: ", cache_path)
+    saveRDS(out, cache_path)
     }
 
   gc(verbose = F)

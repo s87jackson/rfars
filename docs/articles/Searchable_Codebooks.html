@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rfars</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,8 +87,8 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org" class="external-link">stringr</a></span><span class="op">)</span></span></code></pre></div>
 <p><code>rfars</code> comes pre-loaded with searchable codebooks,
-compiled from SAS format files and the User Manuals (see: <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706" class="external-link">FARS
-Analytical User’s Manual</a> and <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707" class="external-link">CRSS
+compiled from SAS format files and the User Manuals (see: <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813794" class="external-link">FARS
+Analytical User’s Manual</a> and <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813796" class="external-link">CRSS
 Analytical User’s Manual</a>).</p>
 <p>Access the codebooks in RStudio with:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -189,6 +189,32 @@ crash. If a police crash report indicates that opened or unopened
 alcohol bottles were found in the vehicle, then this information does
 not by itself constitute involvement. Prior to 2019 the Data Element ID
 was P16/NM15. From 2019-2021 the Element Data ID was P16/NM16.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FARS
+</td>
+<td style="text-align:left;">
+person
+</td>
+<td style="text-align:left;">
+ALC_DET
+</td>
+<td style="text-align:left;">
+alc_det
+</td>
+<td style="text-align:left;">
+Method of Alcohol Determination by Police
+</td>
+<td style="text-align:left;">
+This data element describes the method by which the police made the
+determination as to whether alcohol was involved for this person.
+</td>
+<td style="text-align:left;">
+1975 to 1979 data on the type of blood alcohol test were collected, but
+this data has since been removed from the analysis data files. Prior to
+2019 the Data Element ID was P17/NM16.
 </td>
 </tr>
 <tr>
@@ -312,14 +338,10 @@ mviolatn
 Violations Charged
 </td>
 <td style="text-align:left;">
-This data element documents the violations, citations, or infractions of
-the Vehicle Code issued on the police crash report for this driver in
-this crash, regardless of whether the driver survived the crash.
+NA
 </td>
 <td style="text-align:left;">
-Prior to 2010 this data element was in the Vehicle data file. In 2010
-this data element changed to identify all violations charged in the
-crash and was therefore moved here to its own data file.
+NA
 </td>
 </tr>
 <tr>
@@ -428,14 +450,33 @@ violation
 Violations Charged
 </td>
 <td style="text-align:left;">
-This data element documents the violations, citations, or infractions of
-the Vehicle Code issued on the police crash report for this driver in
-this crash, regardless of whether the driver survived the crash.
+NA
 </td>
 <td style="text-align:left;">
-Prior to 2010 this data element was in the Vehicle data file. In 2010
-this data element changed to identify all violations charged in the
-crash and was therefore moved here to its own data file.
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FARS
+</td>
+<td style="text-align:left;">
+violatn
+</td>
+<td style="text-align:left;">
+VIOLATION
+</td>
+<td style="text-align:left;">
+violation
+</td>
+<td style="text-align:left;">
+Citations Issued
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
 </td>
 </tr>
 </tbody>
@@ -443,7 +484,7 @@ crash and was therefore moved here to its own data file.
 <p>The <code>drinking</code> variable changed in a very minor way:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cb</span>, <span class="va">name_rfars</span> <span class="op">==</span> <span class="st">"drinking"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">name_rfars</span>, <span class="va">value_label</span>, <span class="va">`2014`</span>, <span class="va">`2015`</span>, <span class="va">`2016`</span>, <span class="va">`2017`</span>, <span class="va">`2018`</span>, <span class="va">`2019`</span>, <span class="va">`2020`</span>, <span class="va">`2021`</span>, <span class="va">`2022`</span>, <span class="va">`2023`</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">name_rfars</span>, <span class="va">value_label</span>, <span class="va">`2015`</span>, <span class="va">`2016`</span>, <span class="va">`2017`</span>, <span class="va">`2018`</span>, <span class="va">`2019`</span>, <span class="va">`2020`</span>, <span class="va">`2021`</span>, <span class="va">`2022`</span>, <span class="va">`2023`</span>, <span class="va">`2024`</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr>
@@ -452,9 +493,6 @@ name_rfars
 </th>
 <th style="text-align:left;">
 value_label
-</th>
-<th style="text-align:left;">
-2014
 </th>
 <th style="text-align:left;">
 2015
@@ -482,6 +520,9 @@ value_label
 </th>
 <th style="text-align:left;">
 2023
+</th>
+<th style="text-align:left;">
+2024
 </th>
 </tr></thead>
 <tbody>
@@ -616,7 +657,7 @@ Unknown (Police Reported)
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -654,7 +695,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -680,7 +721,7 @@ NA
 <p>But the variable for driver distraction changed names in 2020:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cb</span>, <span class="va">name_rfars</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mdrdstrd"</span>, <span class="st">"drdistract"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">name_rfars</span>, <span class="va">value_label</span>, <span class="va">`2014`</span>, <span class="va">`2015`</span>, <span class="va">`2016`</span>, <span class="va">`2017`</span>, <span class="va">`2018`</span>, <span class="va">`2019`</span>, <span class="va">`2020`</span>, <span class="va">`2021`</span>, <span class="va">`2022`</span>, <span class="va">`2023`</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">name_rfars</span>, <span class="va">value_label</span>, <span class="va">`2015`</span>, <span class="va">`2016`</span>, <span class="va">`2017`</span>, <span class="va">`2018`</span>, <span class="va">`2019`</span>, <span class="va">`2020`</span>, <span class="va">`2021`</span>, <span class="va">`2022`</span>, <span class="va">`2023`</span>, <span class="va">`2024`</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">value_label</span>, <span class="va">name_rfars</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -690,9 +731,6 @@ name_rfars
 </th>
 <th style="text-align:left;">
 value_label
-</th>
-<th style="text-align:left;">
-2014
 </th>
 <th style="text-align:left;">
 2015
@@ -721,6 +759,9 @@ value_label
 <th style="text-align:left;">
 2023
 </th>
+<th style="text-align:left;">
+2024
+</th>
 </tr></thead>
 <tbody>
 <tr>
@@ -746,7 +787,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -784,7 +825,7 @@ Adjusting Audio Or Climate Controls
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -822,7 +863,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -860,7 +901,7 @@ By a Moving Object in Vehicle
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -898,7 +939,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -936,7 +977,7 @@ By Other Occupant(s)
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -974,7 +1015,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -1012,7 +1053,7 @@ Careless/Inattentive
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -1050,7 +1091,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -1088,7 +1129,7 @@ Distracted by Outside Person, Object or Event
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -1126,7 +1167,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -1164,7 +1205,7 @@ Distraction (Distracted), Details Unknown
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -1202,7 +1243,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -1240,7 +1281,7 @@ Distraction/Careless
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -1278,7 +1319,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -1316,7 +1357,7 @@ Distraction/Inattention
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -1354,7 +1395,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -1392,7 +1433,7 @@ Eating or Drinking
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -1430,7 +1471,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -1468,7 +1509,7 @@ Inattention (Inattentive), Details Unknown
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -1500,7 +1541,7 @@ Looked But Did Not See
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -1544,7 +1585,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -1582,7 +1623,7 @@ Lost in Thought / Day dreaming
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -1620,7 +1661,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -1658,7 +1699,7 @@ No Driver Present/Unknown if Driver present
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -1696,7 +1737,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -1734,7 +1775,7 @@ Not Distracted
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -1772,7 +1813,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -1810,7 +1851,7 @@ Not Reported
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -1845,7 +1886,7 @@ Other Cellular Phone Related
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -1883,7 +1924,7 @@ Other Distraction
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -1924,7 +1965,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -1959,10 +2000,10 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -2000,7 +2041,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -2035,10 +2076,10 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -2076,7 +2117,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -2108,13 +2149,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
 NA
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
 </td>
 <td style="text-align:left;">
 NA
@@ -2152,7 +2193,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -2190,7 +2231,7 @@ Smoking Related
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -2222,7 +2263,7 @@ Unknown if Distracted
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -2263,7 +2304,7 @@ While Manipulating Cellular Phone
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -2304,7 +2345,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -2339,10 +2380,10 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -2377,7 +2418,7 @@ While Talking or Listening to Cellular Phone
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -2418,7 +2459,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -2453,10 +2494,10 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -2494,7 +2535,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -2532,7 +2573,7 @@ While Using or Reaching for Device/Object Brought into Vehicle
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -2570,7 +2611,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -2608,7 +2649,7 @@ While Using Other Component/Controls Integral to Vehicle
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -2629,7 +2670,7 @@ NA
 more substantial changes over time.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu">rfars</span><span class="fu">::</span><span class="va"><a href="../reference/fars_codebook.html">fars_codebook</a></span>, <span class="va">name_rfars</span> <span class="op">==</span> <span class="st">"per_typ"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">name_rfars</span>, <span class="va">value_label</span>, <span class="va">`2014`</span>, <span class="va">`2015`</span>, <span class="va">`2016`</span>, <span class="va">`2017`</span>, <span class="va">`2018`</span>, <span class="va">`2019`</span>, <span class="va">`2020`</span>, <span class="va">`2021`</span>, <span class="va">`2022`</span>, <span class="va">`2023`</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">name_rfars</span>, <span class="va">value_label</span>, <span class="va">`2015`</span>, <span class="va">`2016`</span>, <span class="va">`2017`</span>, <span class="va">`2018`</span>, <span class="va">`2019`</span>, <span class="va">`2020`</span>, <span class="va">`2021`</span>, <span class="va">`2022`</span>, <span class="va">`2023`</span>, <span class="va">`2024`</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">value_label</span>, <span class="va">name_rfars</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -2639,9 +2680,6 @@ name_rfars
 </th>
 <th style="text-align:left;">
 value_label
-</th>
-<th style="text-align:left;">
-2014
 </th>
 <th style="text-align:left;">
 2015
@@ -2669,6 +2707,9 @@ value_label
 </th>
 <th style="text-align:left;">
 2023
+</th>
+<th style="text-align:left;">
+2024
 </th>
 </tr></thead>
 <tbody>
@@ -2853,7 +2894,7 @@ Other Cyclist
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -2891,7 +2932,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -3005,7 +3046,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -3043,7 +3084,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1
 </td>
 <td style="text-align:left;">
 1
@@ -3075,9 +3116,6 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
@@ -3088,41 +3126,6 @@ NA
 </td>
 <td style="text-align:left;">
 NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-per_typ
-</td>
-<td style="text-align:left;">
-Person on Motorized Personal Conveyance
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-1
 </td>
 <td style="text-align:left;">
 NA
@@ -3151,16 +3154,16 @@ NA
 NA
 </td>
 <td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -3189,9 +3192,6 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
@@ -3202,41 +3202,6 @@ NA
 </td>
 <td style="text-align:left;">
 NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-per_typ
-</td>
-<td style="text-align:left;">
-Person on Personal Conveyance, Unknown if Motorized or Non-Motorized*/
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-1
 </td>
 <td style="text-align:left;">
 NA
@@ -3256,16 +3221,16 @@ NA
 NA
 </td>
 <td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
 NA
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
 </td>
 <td style="text-align:left;">
 NA
@@ -3309,7 +3274,7 @@ Persons In/On Buildings
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA
@@ -3332,7 +3297,7 @@ Persons on Personal Conveyances
 1
 </td>
 <td style="text-align:left;">
-1
+NA
 </td>
 <td style="text-align:left;">
 NA

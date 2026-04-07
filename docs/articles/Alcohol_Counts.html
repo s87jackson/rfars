@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rfars</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,7 +92,7 @@ fatalities and injuries using <code>alc_res</code> and
 <code>p1</code>:<code>p10</code> from the
 <strong><em>Miper</em></strong> file. Below we explore the differences
 and show how to use the MI variables to replicate NHTSA’s reporting. See
-Appendix E of the <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706" class="external-link">FARS
+Appendix E of the <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813794" class="external-link">FARS
 Analytical User’s Manual</a> for more information on these files.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
@@ -133,7 +133,86 @@ involved
 n
 </th>
 </tr></thead>
-<tbody><tr>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+259
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+267
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+259
+</td>
+</tr>
+<tr>
 <td style="text-align:right;">
 2023
 </td>
@@ -156,9 +235,36 @@ all
 alcohol
 </td>
 <td style="text-align:right;">
-9324
+235
 </td>
-</tr></tbody>
+</tr>
+<tr>
+<td style="text-align:right;">
+2024
+</td>
+<td style="text-align:left;">
+crashes
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+8990
+</td>
+</tr>
+</tbody>
 </table>
 <pre><code><span><span class="co">## Note: rfars::counts() uses the variables alc_res and dr_drink to determine alcohol involvement. NHTSA reports counts using multiple imputation to estimate missing BAC values. See vignette('Alcohol Counts', package = 'rfars') for more information.</span></span></code></pre>
 <p>And here we use <code><a href="../reference/counts.html">rfars::counts()</a></code> to count the number of
@@ -197,7 +303,86 @@ involved
 n
 </th>
 </tr></thead>
-<tbody><tr>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+282
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2021
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+282
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2022
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+274
+</td>
+</tr>
+<tr>
 <td style="text-align:right;">
 2023
 </td>
@@ -220,9 +405,36 @@ all
 alcohol
 </td>
 <td style="text-align:right;">
-10446
+254
 </td>
-</tr></tbody>
+</tr>
+<tr>
+<td style="text-align:right;">
+2024
+</td>
+<td style="text-align:left;">
+fatalities
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+all
+</td>
+<td style="text-align:left;">
+alcohol
+</td>
+<td style="text-align:right;">
+9979
+</td>
+</tr>
+</tbody>
 </table>
 <pre><code><span><span class="co">## Note: rfars::counts() uses the variables alc_res and dr_drink to determine alcohol involvement. NHTSA reports counts using multiple imputation to estimate missing BAC values. See vignette('Alcohol Counts', package = 'rfars') for more information.</span></span></code></pre>
 <p>The MI process produces 10 separate BAC estimates. The
@@ -267,34 +479,34 @@ is between 0.01 and 0.07, and TPC that BAC is &gt;= 0.08. So if
 st_case
 </td>
 <td style="text-align:right;">
-10001
+510001
 </td>
 <td style="text-align:right;">
-10002
+510002
 </td>
 <td style="text-align:right;">
-10003
+510003
 </td>
 <td style="text-align:right;">
-10004
+510004
 </td>
 <td style="text-align:right;">
-10005
+510005
 </td>
 <td style="text-align:right;">
-10006
+510006
 </td>
 <td style="text-align:right;">
-10007
+510007
 </td>
 <td style="text-align:right;">
-10007
+510008
 </td>
 <td style="text-align:right;">
-10008
+510009
 </td>
 <td style="text-align:right;">
-10009
+510011
 </td>
 </tr>
 <tr>
@@ -302,31 +514,31 @@ st_case
 a1
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
 21
 </td>
 <td style="text-align:right;">
-21
-</td>
-<td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-25
-</td>
-<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-0
+6
+</td>
+<td style="text-align:right;">
+23
 </td>
 <td style="text-align:right;">
 0
@@ -340,28 +552,28 @@ a2
 0
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
 21
 </td>
 <td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-25
-</td>
-<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-0
+6
+</td>
+<td style="text-align:right;">
+23
 </td>
 <td style="text-align:right;">
 0
@@ -375,28 +587,28 @@ a3
 0
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
 21
 </td>
 <td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-18
-</td>
-<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-0
+6
+</td>
+<td style="text-align:right;">
+23
 </td>
 <td style="text-align:right;">
 0
@@ -410,28 +622,28 @@ a4
 0
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
 21
 </td>
 <td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-0
+6
 </td>
 <td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
+23
 </td>
 <td style="text-align:right;">
 0
@@ -442,31 +654,31 @@ a4
 a5
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 13
+</td>
+<td style="text-align:right;">
+28
 </td>
 <td style="text-align:right;">
 21
 </td>
 <td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-25
-</td>
-<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-0
+6
+</td>
+<td style="text-align:right;">
+23
 </td>
 <td style="text-align:right;">
 0
@@ -477,22 +689,19 @@ a5
 a6
 </td>
 <td style="text-align:right;">
-13
+0
+</td>
+<td style="text-align:right;">
+0
 </td>
 <td style="text-align:right;">
 21
 </td>
 <td style="text-align:right;">
-14
+28
 </td>
 <td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-14
+21
 </td>
 <td style="text-align:right;">
 0
@@ -501,7 +710,10 @@ a6
 0
 </td>
 <td style="text-align:right;">
-0
+6
+</td>
+<td style="text-align:right;">
+23
 </td>
 <td style="text-align:right;">
 0
@@ -512,31 +724,31 @@ a6
 a7
 </td>
 <td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
 0
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+28
 </td>
 <td style="text-align:right;">
 21
 </td>
 <td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-0
+6
 </td>
 <td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
+23
 </td>
 <td style="text-align:right;">
 0
@@ -550,28 +762,28 @@ a8
 0
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
 21
 </td>
 <td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-0
+6
 </td>
 <td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
+23
 </td>
 <td style="text-align:right;">
 0
@@ -585,28 +797,28 @@ a9
 0
 </td>
 <td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
 21
 </td>
 <td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-8
-</td>
-<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-0
+6
+</td>
+<td style="text-align:right;">
+23
 </td>
 <td style="text-align:right;">
 0
@@ -620,28 +832,28 @@ a10
 0
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
 21
 </td>
 <td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-0
+6
 </td>
 <td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
+23
 </td>
 <td style="text-align:right;">
 0
@@ -652,7 +864,10 @@ a10
 FPC1
 </td>
 <td style="text-align:right;">
-0
+1
+</td>
+<td style="text-align:right;">
+1
 </td>
 <td style="text-align:right;">
 0
@@ -667,16 +882,13 @@ FPC1
 1
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
+0
 </td>
 <td style="text-align:right;">
 1
@@ -690,7 +902,10 @@ FPC2
 1
 </td>
 <td style="text-align:right;">
-0
+1
+</td>
+<td style="text-align:right;">
+1
 </td>
 <td style="text-align:right;">
 0
@@ -702,16 +917,13 @@ FPC2
 1
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
+0
 </td>
 <td style="text-align:right;">
 1
@@ -725,6 +937,9 @@ FPC3
 1
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
@@ -737,16 +952,13 @@ FPC3
 1
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
+0
 </td>
 <td style="text-align:right;">
 1
@@ -760,28 +972,28 @@ FPC4
 1
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
+0
 </td>
 <td style="text-align:right;">
 1
@@ -792,7 +1004,10 @@ FPC4
 FPC5
 </td>
 <td style="text-align:right;">
-0
+1
+</td>
+<td style="text-align:right;">
+1
 </td>
 <td style="text-align:right;">
 0
@@ -807,16 +1022,13 @@ FPC5
 1
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
+0
 </td>
 <td style="text-align:right;">
 1
@@ -827,7 +1039,10 @@ FPC5
 FPC6
 </td>
 <td style="text-align:right;">
-0
+1
+</td>
+<td style="text-align:right;">
+1
 </td>
 <td style="text-align:right;">
 0
@@ -842,16 +1057,13 @@ FPC6
 1
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
+0
 </td>
 <td style="text-align:right;">
 1
@@ -862,6 +1074,9 @@ FPC6
 FPC7
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
@@ -880,13 +1095,10 @@ FPC7
 1
 </td>
 <td style="text-align:right;">
-1
+0
 </td>
 <td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
+0
 </td>
 <td style="text-align:right;">
 1
@@ -900,28 +1112,28 @@ FPC8
 1
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
+0
 </td>
 <td style="text-align:right;">
 1
@@ -944,9 +1156,6 @@ FPC9
 0
 </td>
 <td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
@@ -956,7 +1165,10 @@ FPC9
 1
 </td>
 <td style="text-align:right;">
-1
+0
+</td>
+<td style="text-align:right;">
+0
 </td>
 <td style="text-align:right;">
 1
@@ -970,28 +1182,28 @@ FPC10
 1
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
+0
 </td>
 <td style="text-align:right;">
 1
@@ -1023,7 +1235,7 @@ SPC1
 0
 </td>
 <td style="text-align:right;">
-0
+1
 </td>
 <td style="text-align:right;">
 0
@@ -1058,7 +1270,7 @@ SPC2
 0
 </td>
 <td style="text-align:right;">
-0
+1
 </td>
 <td style="text-align:right;">
 0
@@ -1078,7 +1290,7 @@ SPC3
 0
 </td>
 <td style="text-align:right;">
-0
+1
 </td>
 <td style="text-align:right;">
 0
@@ -1093,7 +1305,7 @@ SPC3
 0
 </td>
 <td style="text-align:right;">
-0
+1
 </td>
 <td style="text-align:right;">
 0
@@ -1128,7 +1340,7 @@ SPC4
 0
 </td>
 <td style="text-align:right;">
-0
+1
 </td>
 <td style="text-align:right;">
 0
@@ -1163,7 +1375,7 @@ SPC5
 0
 </td>
 <td style="text-align:right;">
-0
+1
 </td>
 <td style="text-align:right;">
 0
@@ -1198,7 +1410,7 @@ SPC6
 0
 </td>
 <td style="text-align:right;">
-0
+1
 </td>
 <td style="text-align:right;">
 0
@@ -1233,7 +1445,7 @@ SPC7
 0
 </td>
 <td style="text-align:right;">
-0
+1
 </td>
 <td style="text-align:right;">
 0
@@ -1268,7 +1480,7 @@ SPC8
 0
 </td>
 <td style="text-align:right;">
-0
+1
 </td>
 <td style="text-align:right;">
 0
@@ -1285,7 +1497,7 @@ SPC9
 0
 </td>
 <td style="text-align:right;">
-0
+1
 </td>
 <td style="text-align:right;">
 0
@@ -1303,7 +1515,7 @@ SPC9
 0
 </td>
 <td style="text-align:right;">
-0
+1
 </td>
 <td style="text-align:right;">
 0
@@ -1338,7 +1550,7 @@ SPC10
 0
 </td>
 <td style="text-align:right;">
-0
+1
 </td>
 <td style="text-align:right;">
 0
@@ -1352,7 +1564,10 @@ SPC10
 TPC1
 </td>
 <td style="text-align:right;">
-1
+0
+</td>
+<td style="text-align:right;">
+0
 </td>
 <td style="text-align:right;">
 1
@@ -1367,16 +1582,13 @@ TPC1
 0
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
 </td>
 <td style="text-align:right;">
 0
@@ -1390,7 +1602,10 @@ TPC2
 0
 </td>
 <td style="text-align:right;">
-1
+0
+</td>
+<td style="text-align:right;">
+0
 </td>
 <td style="text-align:right;">
 1
@@ -1402,16 +1617,13 @@ TPC2
 0
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
 </td>
 <td style="text-align:right;">
 0
@@ -1425,7 +1637,10 @@ TPC3
 0
 </td>
 <td style="text-align:right;">
-1
+0
+</td>
+<td style="text-align:right;">
+0
 </td>
 <td style="text-align:right;">
 1
@@ -1437,16 +1652,13 @@ TPC3
 0
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
 </td>
 <td style="text-align:right;">
 0
@@ -1460,28 +1672,28 @@ TPC4
 0
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
 </td>
 <td style="text-align:right;">
 0
@@ -1492,7 +1704,10 @@ TPC4
 TPC5
 </td>
 <td style="text-align:right;">
-1
+0
+</td>
+<td style="text-align:right;">
+0
 </td>
 <td style="text-align:right;">
 1
@@ -1507,16 +1722,13 @@ TPC5
 0
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
 </td>
 <td style="text-align:right;">
 0
@@ -1527,7 +1739,10 @@ TPC5
 TPC6
 </td>
 <td style="text-align:right;">
-1
+0
+</td>
+<td style="text-align:right;">
+0
 </td>
 <td style="text-align:right;">
 1
@@ -1542,16 +1757,13 @@ TPC6
 0
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
 </td>
 <td style="text-align:right;">
 0
@@ -1562,6 +1774,9 @@ TPC6
 TPC7
 </td>
 <td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
@@ -1583,10 +1798,7 @@ TPC7
 0
 </td>
 <td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
+1
 </td>
 <td style="text-align:right;">
 0
@@ -1600,28 +1812,28 @@ TPC8
 0
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
 </td>
 <td style="text-align:right;">
 0
@@ -1635,6 +1847,9 @@ TPC9
 0
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
@@ -1647,16 +1862,13 @@ TPC9
 0
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
 </td>
 <td style="text-align:right;">
 0
@@ -1670,28 +1882,28 @@ TPC10
 0
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
 </td>
 <td style="text-align:right;">
 0
@@ -1737,27 +1949,27 @@ TPC
 <tbody>
 <tr>
 <td style="text-align:right;">
-10001
+510001
 </td>
 <td style="text-align:left;">
 1
 </td>
 <td style="text-align:right;">
-21
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 1
 </td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
-10001
+510001
 </td>
 <td style="text-align:left;">
 2
@@ -1777,7 +1989,7 @@ TPC
 </tr>
 <tr>
 <td style="text-align:right;">
-10001
+510001
 </td>
 <td style="text-align:left;">
 3
@@ -1797,7 +2009,7 @@ TPC
 </tr>
 <tr>
 <td style="text-align:right;">
-10001
+510001
 </td>
 <td style="text-align:left;">
 4
@@ -1817,67 +2029,67 @@ TPC
 </tr>
 <tr>
 <td style="text-align:right;">
-10001
+510001
 </td>
 <td style="text-align:left;">
 5
 </td>
 <td style="text-align:right;">
-13
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 1
 </td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
-10001
+510001
 </td>
 <td style="text-align:left;">
 6
 </td>
 <td style="text-align:right;">
-13
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 1
 </td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
-10001
+510001
 </td>
 <td style="text-align:left;">
 7
 </td>
 <td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
 1
 </td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
 </tr>
 <tr>
 <td style="text-align:right;">
-10001
+510001
 </td>
 <td style="text-align:left;">
 8
@@ -1897,7 +2109,7 @@ TPC
 </tr>
 <tr>
 <td style="text-align:right;">
-10001
+510001
 </td>
 <td style="text-align:left;">
 9
@@ -1917,7 +2129,7 @@ TPC
 </tr>
 <tr>
 <td style="text-align:right;">
-10001
+510001
 </td>
 <td style="text-align:left;">
 10
@@ -1996,16 +2208,16 @@ iter
 <tbody>
 <tr>
 <td style="text-align:right;">
-40901
+42997
 </td>
 <td style="text-align:right;">
-26315
+27704
 </td>
 <td style="text-align:right;">
-2117
+2180
 </td>
 <td style="text-align:right;">
-12398
+13030
 </td>
 <td style="text-align:right;">
 1
@@ -2013,16 +2225,16 @@ iter
 </tr>
 <tr>
 <td style="text-align:right;">
-40901
+42997
 </td>
 <td style="text-align:right;">
-26222
+27698
 </td>
 <td style="text-align:right;">
-2121
+2208
 </td>
 <td style="text-align:right;">
-12487
+13008
 </td>
 <td style="text-align:right;">
 2
@@ -2030,16 +2242,16 @@ iter
 </tr>
 <tr>
 <td style="text-align:right;">
-40901
+42997
 </td>
 <td style="text-align:right;">
-26343
+27624
 </td>
 <td style="text-align:right;">
-2129
+2246
 </td>
 <td style="text-align:right;">
-12358
+13044
 </td>
 <td style="text-align:right;">
 3
@@ -2047,16 +2259,16 @@ iter
 </tr>
 <tr>
 <td style="text-align:right;">
-40901
+42997
 </td>
 <td style="text-align:right;">
-26326
+27784
 </td>
 <td style="text-align:right;">
-2071
+2218
 </td>
 <td style="text-align:right;">
-12433
+12912
 </td>
 <td style="text-align:right;">
 4
@@ -2064,16 +2276,16 @@ iter
 </tr>
 <tr>
 <td style="text-align:right;">
-40901
+42997
 </td>
 <td style="text-align:right;">
-26344
+27326
 </td>
 <td style="text-align:right;">
-2102
+2237
 </td>
 <td style="text-align:right;">
-12384
+13351
 </td>
 <td style="text-align:right;">
 5
@@ -2081,16 +2293,16 @@ iter
 </tr>
 <tr>
 <td style="text-align:right;">
-40901
+42997
 </td>
 <td style="text-align:right;">
-26249
+27637
 </td>
 <td style="text-align:right;">
-2156
+2240
 </td>
 <td style="text-align:right;">
-12425
+13037
 </td>
 <td style="text-align:right;">
 6
@@ -2098,16 +2310,16 @@ iter
 </tr>
 <tr>
 <td style="text-align:right;">
-40901
+42997
 </td>
 <td style="text-align:right;">
-26390
+27758
 </td>
 <td style="text-align:right;">
-2070
+2159
 </td>
 <td style="text-align:right;">
-12370
+12997
 </td>
 <td style="text-align:right;">
 7
@@ -2115,16 +2327,16 @@ iter
 </tr>
 <tr>
 <td style="text-align:right;">
-40901
+42997
 </td>
 <td style="text-align:right;">
-26284
+27669
 </td>
 <td style="text-align:right;">
-2127
+2198
 </td>
 <td style="text-align:right;">
-12419
+13047
 </td>
 <td style="text-align:right;">
 8
@@ -2132,16 +2344,16 @@ iter
 </tr>
 <tr>
 <td style="text-align:right;">
-40901
+42997
 </td>
 <td style="text-align:right;">
-26269
+27820
 </td>
 <td style="text-align:right;">
-2159
+2273
 </td>
 <td style="text-align:right;">
-12402
+12821
 </td>
 <td style="text-align:right;">
 9
@@ -2149,16 +2361,16 @@ iter
 </tr>
 <tr>
 <td style="text-align:right;">
-40901
+42997
 </td>
 <td style="text-align:right;">
-26093
+27721
 </td>
 <td style="text-align:right;">
-2120
+2213
 </td>
 <td style="text-align:right;">
-12617
+12980
 </td>
 <td style="text-align:right;">
 10
@@ -2205,13 +2417,13 @@ SBAC2
 </tr></thead>
 <tbody><tr>
 <td style="text-align:right;">
-26284
+27674
 </td>
 <td style="text-align:right;">
-2117
+2217
 </td>
 <td style="text-align:right;">
-12429
+13023
 </td>
 </tr></tbody>
 </table>
@@ -2230,7 +2442,7 @@ alcohol-impaired drivers:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/c_across.html" class="external-link">c_across</a></span><span class="op">(</span><span class="va">a1</span><span class="op">:</span><span class="va">a10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">a</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 12429</span></span></code></pre>
+<pre><code><span><span class="co">## [1]   282   284   289   264 11904</span></span></code></pre>
 <p>Please see <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/809403" class="external-link">Transitioning
 to Multiple Imputation – A New Method to Impute Missing BAC values in
 FARS</a> for more guidance on generating other counts using the MI

@@ -1,3 +1,8 @@
+# rfars 2.0.4
+
+* Added data from 2024
+* Cleaned up get_fars() and get_gescrss() data import sequencing
+
 # rfars 2.0.0
 
 * Added data from 2023

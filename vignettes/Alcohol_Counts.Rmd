@@ -29,7 +29,7 @@ includes the MI variables `a1`:`a10` from the ***Midrvacc*** file, and
 `p1`:`p10` from the ***Miper*** file. Below we explore the differences and show
 how to use the MI variables to replicate NHTSA's reporting. See Appendix E of
 the [FARS Analytical User's
-Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706) for
+Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813794) for
 more information on these files.
 
 ```{r, message=F}

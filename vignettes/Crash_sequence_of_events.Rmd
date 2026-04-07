@@ -14,7 +14,7 @@ This vignette explores the **vsoe** (Vehicle Sequence of Events) data to
 visualize crash sequence patterns.
 
 **vsoe** is one of three event-based data files, the others being **cevent** and
-**vevent**. According to the [CRSS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707),
+**vevent**. According to the [CRSS Analytical User's Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813796),
 **vevent** "has the same data elements as the **cevent** data file" plus "a data
 element that records the sequential event number for each vehicle," and the
 **vsoe** file "has a subset of the data elements contained in the **Vevent**

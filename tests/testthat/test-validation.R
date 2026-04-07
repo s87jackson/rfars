@@ -14,15 +14,15 @@ test_that("get_fars rejects years before 2014", {
   )
 })
 
-test_that("get_fars rejects years after 2023", {
+test_that("get_fars rejects years after 2024", {
   expect_error(
-    get_fars(years = 2024, proceed = TRUE),
-    "Data not yet available beyond 2023"
+    get_fars(years = 2025, proceed = TRUE),
+    "Data not yet available beyond 2024"
   )
 
   expect_error(
-    get_fars(years = 2020:2025, proceed = TRUE),
-    "Data not yet available beyond 2023"
+    get_fars(years = 2020:2026, proceed = TRUE),
+    "Data not yet available beyond 2024"
   )
 })
 
@@ -33,10 +33,10 @@ test_that("get_gescrss rejects years before 2014", {
   )
 })
 
-test_that("get_gescrss rejects years after 2023", {
+test_that("get_gescrss rejects years after 2024", {
   expect_error(
-    get_gescrss(years = 2024, proceed = TRUE),
-    "Data not available beyond 2023"
+    get_gescrss(years = 2025, proceed = TRUE),
+    "Data not available beyond 2024"
   )
 })
 

@@ -69,7 +69,7 @@ download_fars <- function(years,
       }
 
 
-      if(y %in% c(2020:2023)){
+      if(y %in% c(2020:2024)){
         from <-
           paste0(dest_raw_y, "/FARS", y, "NationalSAS") %>%
           list.files(full.names = T, recursive = T)

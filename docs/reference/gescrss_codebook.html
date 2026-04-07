@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rfars</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,9 +77,6 @@
    <dt>value_label</dt>
 <dd><p>The de-coded value label.</p></dd>
 
-   <dt>2014</dt>
-<dd><p>Indicator: 1 if valid for 2014, NA otherwise.</p></dd>
-
    <dt>2015</dt>
 <dd><p>Indicator: 1 if valid for 2015, NA otherwise.</p></dd>
 
@@ -107,6 +104,9 @@
    <dt>2023</dt>
 <dd><p>Indicator: 1 if valid for 2023, NA otherwise.</p></dd>
 
+   <dt>2024</dt>
+<dd><p>Indicator: 1 if valid for 2024, NA otherwise.</p></dd>
+
 
 </dl></div>
     <div class="section level2">
@@ -129,10 +129,10 @@
 <p>Each data element has a 'label', a more human-readable version of the
    element names. For example, the label for 'harm_ev' is 'First Harmful Event'.
    These are not definitions but may provide enough information to help users
-   conduct their analysis. Consult the <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707" class="external-link">CRSS User Manual</a>
+   conduct their analysis. Consult the <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813796" class="external-link">CRSS User Manual</a>
    for definitions and further details.</p>
 <p>'Definition' and 'Additional Information' were extracted from
-   the <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707" class="external-link">Analytical User’s Manual</a>.</p>
+   the <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813796" class="external-link">Analytical User’s Manual</a>.</p>
 <p>Each data element has multiple 'value'-'value_label' pairs: 'value' represents
    the original, non-human-readable value (usually a number), and 'value_label'
    represents the corresponding text value. For example, for 'harm_ev', 1 (the 'value')
@@ -176,15 +176,15 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4:                                                                                                                                                                                                                                   &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:                                                                                                                                                                                                                                   &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: This data element is derived based on the State in which the Primary Sampling Unit is located where the crash occurred. See Appendix B: Rules for Derived Data Elements for an explanation of this data element and how it is derived.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     value                                    value_label   2014   2015   2016</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     value                                    value_label   2015   2016   2017</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;fctr&gt;                                         &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:      1      Within area of population 25,000 - 49,999      1      1   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:      2     Within area of population 50,000 - 100,000      1      1   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:      3             Within area of population 100,000+      1      1   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:      8                                     Other area      1      1   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:      9                                        Unknown      1      1   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:      1      Within area of population 25,000 - 49,999      1   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:      2     Within area of population 50,000 - 100,000      1   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:      3             Within area of population 100,000+      1   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:      8                                     Other area      1   &lt;NA&gt;   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:      9                                        Unknown      1   &lt;NA&gt;   &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:      1 Northeast (PA, NJ, NY, NH, VT, RI, MA, ME, CT)      1      1      1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      2017   2018   2019   2020   2021   2022   2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      2018   2019   2020   2021   2022   2023   2024</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;</span>

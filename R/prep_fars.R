@@ -31,7 +31,7 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   # if(y %in% 2021:2023){
   #   my_catfile <- paste0(wd, "format-viya/formats.sas7bcat")
-  if(y %in% 2020:2023){
+  if(y %in% 2020:2024){
     my_catfile <- NULL
   } else{
     my_catfile <-
@@ -57,7 +57,7 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   cat("Accident file:\n")
 
-  if(y %in% 2015:2023){
+  if(y %in% 2015:2024){
     fars.accident <-
       read_basic_sas(x = "accident", wd = wd, rawfiles = rawfiles, catfile = my_catfile) %>%
       dplyr::distinct()
@@ -120,7 +120,7 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   cat("Weather file(s):\n")
 
-  if(y %in% 2020:2023){
+  if(y %in% 2020:2024){
     fars.weather <- read_basic_sas(x = "weather", wd = wd, rawfiles = rawfiles, catfile = my_catfile)
   } else{
     fars.weather  <- select(fars.accident, "state", "st_case", "weather1", "weather2")
@@ -134,7 +134,7 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   cat("Crash risk factors:\n")
 
-  if(y %in% 2020:2023){
+  if(y %in% 2020:2024){
     fars.crashrf <- read_basic_sas(x = "crashrf", wd = wd, rawfiles = rawfiles, catfile = my_catfile)
   } else{
     fars.crashrf  <- select(fars.accident, "state", "st_case", "cf1", "cf2", "cf3")
@@ -195,7 +195,7 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   ## pbtype ----
 
-  if(y %in% 2014:2023){
+  if(y %in% 2014:2024){
 
     cat("PBtype file:\n")
 
@@ -214,7 +214,7 @@ prep_fars <- function(y, wd, rawfiles, prepared_dir, states){
 
   ## safetyeq ----
 
-  if(y %in% 2011:2023){
+  if(y %in% 2011:2024){
 
     cat("SafetyEq file:\n")
 

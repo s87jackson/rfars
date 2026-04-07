@@ -46,7 +46,7 @@ annual ZIP files and attempting to stitch them together - after first combing
 through immense data dictionaries to determine the required variables and table
 names.
 
-`rfars` allows users to download the last 10 years of FARS and GES/CRSS data
+`rfars` allows users to download the last 10+ years of FARS and GES/CRSS data
 with just one line of code. The result is a full, rich dataset ready for
 mapping, modeling, and other downstream analysis. Codebooks with variable
 definitions and value labels support an informed analysis of the data (see
@@ -69,7 +69,7 @@ or the CRAN stable release with:
 install.packages("rfars")
 ```
 
-Then load rfars and some helpful packages:
+Then load `rfars` and some helpful packages:
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 library(rfars)
@@ -81,23 +81,23 @@ library(dplyr)
 The `get_fars()` and `get_gescrss()` are the primary functions of the `rfars`
 package. These functions download and process data files directly from [NHTSA's
 FTP Site](https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/), or pull the
-prepared data stored on your local machine, or (as of Version 2.0) pull the 
-prepared data from Zenodo. The data files hosted on Zenodo are stable, have DOIs, 
-and replicate the data that would be produced by `get_fars()` and `get_gescrss()`,
-but in a fraction of the time.
+prepared data stored on your local machine, or (as of Version 2.0) pull the
+prepared data from Zenodo. The data files hosted on Zenodo are stable, have
+DOIs, and replicate the data that would be produced by `get_fars()` and
+`get_gescrss()`, but in a fraction of the time.
 
-They take the parameters `years` and
-`states` (FARS) or `regions` (GES/CRSS). As the source data files follow an
-annual structure, `years` determines how many file sets are downloaded or
-loaded, and `states`/`regions` filters the resulting dataset. Downloading and
-processing these files can take several minutes. Before downloading, `rfars`
-will inform you that it's about to download files and asks your permission to do
-so. To skip this dialog, set `proceed = TRUE`. You can use the `dir` and `cache`
-parameters to save an RDS file to your local machine. The `dir` parameter
-specifies the directory, and `cache` names the file (be sure to include the .rds
-file extension).
+`get_fars()` and `get_gescrss()` take the parameters `years` and `states` (FARS)
+or `regions` (GES/CRSS). As the source data files follow an annual structure,
+`years` determines how many file sets are downloaded or loaded, and
+`states`/`regions` filters the resulting dataset. Downloading and processing
+these files can take several minutes. Before downloading, `rfars` will inform
+you that it's about to download files and asks your permission to do so. To skip
+this dialog, set `proceed = TRUE`. You can use the `dir` and `cache` parameters
+to save an RDS file to your local machine. The `dir` parameter specifies the
+directory, and `cache` names the file (be sure to include the .rds file
+extension).
 
-Executing the code below will download the prepared FARS and GES/CRSS databases 
+Executing the code below will download the prepared FARS and GES/CRSS databases
 for 2014-2023.
 
 ```{r, eval=F}
@@ -112,7 +112,7 @@ vignette_data <- rfars:::vignette_data$myFARS_sample
 `get_fars()` and `get_gescrss()` return a list with six dataframes: `flat`,
 `multi_acc`, `multi_veh`, `multi_per`, `events`, and `codebook`.
 
-The tables below show records for randomly selected crashes to illustrate the 
+The tables below show records for randomly selected crashes to illustrate the
 content and structure of the data. The tables are transposed for readability.
 
 Each row in the `flat` dataframe corresponds to a person involved in a crash. As
@@ -120,16 +120,15 @@ there may be multiple people and/or vehicles involved in one crash, some
 variable-values are repeated within a crash or vehicle. Each crash is uniquely
 identified with `id`, which is a combination of `year` and `st_case`. Note that
 `st_case` is not unique across years, for example, `st_case` 510001 will appear
-in each year. The `id` variable attempts to avoid this issue. The GES/CRSS data 
-includes a `weight` variable that indicates how many crashes each row 
-represents. 
+in each year. The `id` variable attempts to avoid this issue. The GES/CRSS data
+includes a `weight` variable that indicates how many crashes each row
+represents.
 
 ```{r, results='asis', echo=FALSE}
 vignette_data$flat %>%
   t() %>%
   knitr::kable(format = "html", caption = "The 'flat' dataframe (transposed for readability)")
 ```
-
 
 The `multi_` dataframes contain those variables for which there may be a varying
 number of values for any entity (e.g., driver impairments, vehicle events,
@@ -159,9 +158,9 @@ vignette_data$multi_per %>%
   knitr::kable(format = "html", caption = "The 'multi_per' dataframe")
 ```
 
-The `events` dataframe provides a sequence of  events for each vehicle in
-each crash. See the vignette("Crash Sequence of Events", package = "rfars") for
-more information.
+The `events` dataframe provides a sequence of events for each vehicle in each
+crash. See the vignette("Crash Sequence of Events", package = "rfars") for more
+information.
 
 ```{r, results='asis', echo=FALSE}
 vignette_data$events %>%
@@ -170,8 +169,8 @@ vignette_data$events %>%
   knitr::kable(format = "html", caption = "The 'events' dataframe")
 ```
 
-The `codebook` dataframe provides a searchable codebook for the data, useful if you
-know what concept you're looking for but not the variable that describes it.
+The `codebook` dataframe provides a searchable codebook for the data, useful if
+you know what concept you're looking for but not the variable that describes it.
 `rfars` also includes pre-loaded codebooks for FARS and GESCRSS
 (`rfars::fars_codebook` and `rfars::gescrss_codebook`). See
 `vignette('Searchable Codebooks', package = 'rfars')` for more information.
@@ -179,8 +178,8 @@ know what concept you're looking for but not the variable that describes it.
 ## Counts
 
 See `vignette("Counts", package = "rfars")` for information on the pre-loaded
-`annual_counts` dataframe and the `counts()` and `compare_counts()` functions. 
-Also see `vignette("Alcohol Counts", package = "rfars")` for details on how BAC 
+`annual_counts` dataframe and the `counts()` and `compare_counts()` functions.
+Also see `vignette("Alcohol Counts", package = "rfars")` for details on how BAC
 values are imputed and reported in *Traffic Safety Facts*.
 
 ## Helpful Links
@@ -192,13 +191,13 @@ values are imputed and reported in *Traffic Safety Facts*.
 -   [Fatality and Injury Reporting System Tool
     (FIRST)](https://cdan.dot.gov/query)
 -   [FARS Analytical User's
-    Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706)
+    Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813794)
 -   [General Estimates System
     (GES)](https://www.nhtsa.gov/national-automotive-sampling-system/nass-general-estimates-system)
 -   [Crash Report Sampling System
     (CRSS)](https://www.nhtsa.gov/crash-data-systems/crash-report-sampling-system)
 -   [CRSS Analytical User's
-    Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707)
+    Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813796)
 -   [NCSA and Other Data
     Sources](https://cdan.dot.gov/Homepage/MotorVehicleCrashDataOverview.htm)
 -   [NHTSA FTP Site](https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/)

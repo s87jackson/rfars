@@ -30,9 +30,9 @@ gescrss_codebook <-
 
 # For uploading to Zenodo
   write_csv(fars_codebook, "fars_codebook.csv")
-  #write_parquet(fars_codebook, "fars_codebook.parquet")
+  write_csv(fars_codebook, "in_development/zenodo/fars_codebook.csv")
   write_csv(gescrss_codebook, "gescrss_codebook.csv")
-  #write_parquet(gescrss_codebook, "gescrss_codebook.parquet")
+  write_csv(gescrss_codebook, "in_development/zenodo/gescrss_codebook.csv")
 
 # For the package
   usethis::use_data(fars_codebook, overwrite = TRUE)

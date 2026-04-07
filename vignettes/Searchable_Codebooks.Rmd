@@ -18,9 +18,9 @@ library(stringr)
 
 `rfars` comes pre-loaded with searchable codebooks, compiled from SAS format
 files and the User Manuals (see: [FARS Analytical User's
-Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813706) and
+Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813794) and
 [CRSS Analytical User's
-Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707)).
+Manual](https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813796)).
 
 Access the codebooks in RStudio with:
 
@@ -29,8 +29,9 @@ View(rfars::fars_codebook)
 View(rfars::gescrss_codebook)
 ```
 
-It can be helpful to search the codebooks for certain concepts. The examples below
-illustrate the content of the codebooks and how variables change over time.
+It can be helpful to search the codebooks for certain concepts. The examples
+below illustrate the content of the codebooks and how variables change over
+time.
 
 Here we search for the word alcohol in any of the codebook fields, including the
 names of tables, various versions of variable names, the definition, all value
@@ -44,24 +45,28 @@ distinct(cb, source, file, name_ncsa, name_rfars, label, Definition, `Additional
 ```
 
 The `drinking` variable changed in a very minor way:
+
 ```{r, results='asis'}
 filter(cb, name_rfars == "drinking") %>%
-  distinct(name_rfars, value_label, `2014`, `2015`, `2016`, `2017`, `2018`, `2019`, `2020`, `2021`, `2022`, `2023`) %>%
+  distinct(name_rfars, value_label, `2015`, `2016`, `2017`, `2018`, `2019`, `2020`, `2021`, `2022`, `2023`, `2024`) %>%
   knitr::kable(format = "html")
 ```
 
 But the variable for driver distraction changed names in 2020:
+
 ```{r, results='asis'}
 filter(cb, name_rfars %in% c("mdrdstrd", "drdistract")) %>%
-  distinct(name_rfars, value_label, `2014`, `2015`, `2016`, `2017`, `2018`, `2019`, `2020`, `2021`, `2022`, `2023`) %>%
+  distinct(name_rfars, value_label, `2015`, `2016`, `2017`, `2018`, `2019`, `2020`, `2021`, `2022`, `2023`, `2024`) %>%
   arrange(value_label, name_rfars) %>%
   knitr::kable(format = "html")
 ```
 
-As another example, the `per_typ` variable has undergone more substantial changes over time.
+As another example, the `per_typ` variable has undergone more substantial
+changes over time.
+
 ```{r, results='asis'}
 filter(rfars::fars_codebook, name_rfars == "per_typ") %>%
-  distinct(name_rfars, value_label, `2014`, `2015`, `2016`, `2017`, `2018`, `2019`, `2020`, `2021`, `2022`, `2023`) %>%
+  distinct(name_rfars, value_label, `2015`, `2016`, `2017`, `2018`, `2019`, `2020`, `2021`, `2022`, `2023`, `2024`) %>%
   arrange(value_label, name_rfars) %>%
   knitr::kable(format = "html")
 ```

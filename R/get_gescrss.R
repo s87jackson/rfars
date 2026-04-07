@@ -9,24 +9,25 @@
 #'     defaults to last 10 years).
 #' @param regions (Optional) Regions to keep: mw=midwest, ne=northeast, s=south, w=west.
 #' @param source The source of the data: 'zenodo' (the default) pulls the prepared
-#'    dataset from \href{https://doi.org/10.5281/zenodo.17155802}{Zenodo}, 'nhtsa'
-#'    pulls the raw files from NHTSA's FTP site and prepares them on your machine.
+#'    dataset from \href{https://zenodo.org/records/19444272}{Zenodo}, 'nhtsa'
+#'    pulls the raw files from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/}{NHTSA's FTP site} and prepares them on your machine.
 #'    'zenodo' is much faster and provides the same dataset produced by using source='nhtsa'.
 #' @param proceed Logical, whether or not to proceed with downloading files without
 #'     asking for user permission (defaults to FALSE, thus asking permission)
 #' @param dir Directory in which to search for or save a 'GESCRSS data' folder. If
 #'     NULL (the default), files are downloaded and unzipped to temporary
-#'     directories and prepared in memory. Ignored if source = 'zenodo'.
-#' @param cache The name of an RDS file to save or use. If the specified file (e.g., 'myFARS.rds')
-#'    exists in 'dir' it will be returned; if not, an RDS file of this name will be
-#'    saved in 'dir' for quick use in subsequent calls. Ignored if source = 'zenodo'.
+#'     directories and prepared in memory. Required if cache is specified.
+#' @param cache The name of an RDS file to save or use (e.g., 'myCRSS.rds').
+#'    If the file exists in 'dir', it will be returned directly. If not, data will
+#'    be downloaded and an RDS file of this name will be saved in 'dir'. Requires
+#'    'dir' to be specified.
 #'
 #' @return A GESCRSS data object (a list with six tibbles: flat, multi_acc,
 #'     multi_veh, multi_per, events, and codebook).
 #'
 #' @details This function provides the GES/CRSS database for the specified years and regions
 #'    By default, it pulls from a Zenodo repository for speed and memory efficiency.
-#'    It can also pull the raw files from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/}{NHTSA} and process them in memory, or
+#'    It can also pull the raw files from NHTSA and process them in memory, or
 #'    use an RDS file saved on your machine.
 #'
 #'    If source = 'nhtsa' and no directory (dir) is specified, SAS files are downloaded into a
@@ -60,7 +61,7 @@
 #'
 #'    The codebook tibble serves as a searchable codebook for all files of any given year.
 #'
-#'    Please review the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707}{CRSS Analytical User's Manual}
+#'    Please review the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813796}{CRSS Analytical User's Manual}
 #'
 #'    Regions are as follows:
 #'       mw = Midwest   = OH, IN, IL, MI, WI, MN, ND, SD, NE, IA, MO, KS
@@ -82,23 +83,34 @@
 #'     myCRSS <- get_gescrss(regions = "s")
 #'   }
 
-get_gescrss <- function(years     = 2014:2023,
+get_gescrss <- function(years     = 2015:2024,
                         regions   = c("mw", "ne", "s", "w"),
-                        source  = c("zenodo", "nhtsa"),
+                        source    = c("zenodo", "nhtsa")[1],
                         proceed   = FALSE,
                         dir       = NULL,
                         cache     = NULL
                         ){
 
 
+  # Validate inputs ----
+  if (!source %in% c("zenodo", "nhtsa")) stop("source must be either 'zenodo' or 'nhtsa'")
+  source <- match.arg(source)
+
+  if (!is.null(cache) && is.null(dir)) stop("`cache` requires `dir` to be specified.")
+
   # Check years ----
   ymax <- max(as.numeric(years), na.rm = TRUE)
   ymin <- min(as.numeric(years), na.rm = TRUE)
   if(ymin < 2014) stop("Data not available prior to 2014.")
-  if(ymax > 2023) stop("Data not available beyond 2023.")
+  if(ymax > 2024) stop("Data not available beyond 2024.")
 
 
-  # Find years in dir ----
+  # Check regions ----
+  if(any(!regions %in% c("mw", "ne", "s", "w"))) stop("Specify regions as: mw (midwest), ne (northeast), s (south), w (west).")
+
+
+  # Find years already on disk ----
+  years_found <- character(0)
   if(!is.null(dir)){
     years_found <-
       data.frame(x=list.files(dir, pattern = "_flat.rds", recursive = TRUE)) %>%
@@ -108,32 +120,58 @@ get_gescrss <- function(years     = 2014:2023,
   }
 
 
-  # Check regions ----
-  if(any(!regions %in% c("mw", "ne", "s", "w"))) stop("Specify regions as: mw (midwest), ne (northeast), s (south), w (west).")
+  # Cache check ----
+  if(!is.null(cache) && !is.null(dir)){
+
+    cache_path <- file.path(dir, cache)
+
+    if(file.exists(cache_path)){
+
+      temp <- readRDS(cache_path)
+      cached_years <- unique(temp$flat$year)
+
+      if(all(years %in% cached_years)){
+        message("Loading cached data from: ", cache_path)
+        temp$flat      <- dplyr::filter(temp$flat, year %in% years)
+        temp$multi_acc <- dplyr::filter(temp$multi_acc, year %in% years)
+        temp$multi_veh <- dplyr::filter(temp$multi_veh, year %in% years)
+        temp$multi_per <- dplyr::filter(temp$multi_per, year %in% years)
+        temp$events    <- dplyr::filter(temp$events, year %in% years)
+        temp$codebook  <- temp$codebook
+        return(temp)
+
+      } else {
+        missing_yrs <- setdiff(years, cached_years)
+        message(
+          "Cache found at ", cache_path, " but is missing years: ",
+          paste(missing_yrs, collapse = ", "), ". Downloading from ", source, "."
+        )
+      }
+
+    } else {
+      message("Cache file not found. Will save to: ", cache_path, " after download.")
+    }
+
+  }
 
 
   # Zenodo ----
-  if(!(source[1] %in% c("zenodo", "nhtsa"))) stop("source must be either 'zenodo' or 'nhtsa'")
-
-  if(source[1]=="zenodo"){
+  if(source == "zenodo"){
 
     if(!proceed){
-      x <- readline("We will now download the processed file from https://zenodo.org/records/17581418/files/GESCRSS.rds?download=1 \nProceed? (Y/N) \n")
+      x <- readline("We will now download the processed file from https://zenodo.org/records/19444272/files/GESCRSS_2015-2024.rds?download=1 \nProceed? (Y/N) \n")
       if(!(x %in% c("y", "Y"))) stop(message("Download cancelled.\n"))
     }
 
-    # Download
-    url <- "https://zenodo.org/records/17581418/files/GESCRSS.rds?download=1"
+    url  <- "https://zenodo.org/records/19444272/files/GESCRSS_2015-2024.rds?download=1"
     dest <- tempfile(fileext = ".rds")
 
-    # Check internet connection before attempting download
     if (!check_internet_connection()) {
       message("Internet connection not available. Unable to download GES/CRSS data from Zenodo.")
       message("Please check your internet connection and try again.")
       return(invisible(NULL))
     }
 
-    # Attempt download with error handling
     download_result <- try(
       downloader::download(url, dest, mode = "wb"),
       silent = TRUE
@@ -177,134 +215,115 @@ get_gescrss <- function(years     = 2014:2023,
 
     }
 
+    # Save to cache if requested
+    if(!is.null(cache) && !is.null(dir)){
+      cache_path <- file.path(dir, cache)
+      message("Saving data to cache: ", cache_path)
+      saveRDS(gescrss_zen, cache_path)
+    }
+
     return(gescrss_zen)
 
   }
 
 
-  # Cached RDS file in dir ----
-  if(!is.null(cache) && !is.null(dir) && cache %in% list.files(dir)){
+  # NHTSA: download to temp (no persistent dir) ----
 
-    temp <- readRDS(gsub("//", "/", paste0(dir, "/", cache)))
+  if(is.null(dir)){
 
-    if(all(years %in% years_found)){
-      temp$flat      <- dplyr::filter(temp$flat, year %in% years)
-      temp$multi_acc <- dplyr::filter(temp$multi_acc, year %in% years)
-      temp$multi_veh <- dplyr::filter(temp$multi_veh, year %in% years)
-      temp$multi_per <- dplyr::filter(temp$multi_per, year %in% years)
-      temp$events    <- dplyr::filter(temp$events, year %in% years)
-      temp$codebook  <- temp$codebook
+    message("No dir specified. Downloading to temporary directory (data will not persist).")
 
-      return(temp)
+    dest_files <-
+      tempdir() %>%
+      stringr::str_replace_all(stringr::fixed("\\"), "/") %>%
+      stringr::str_c("/GESCRSS data")
 
-    } else{
-      message("Not all years requested exist in cache. Downloading data anew for given years.")
-    }
+    dest_raw   <- paste0(dest_files, "/raw")
+    dest_prepd <- paste0(dest_files, "/prepd")
+
+    dir.create(dest_files, showWarnings = FALSE)
+    dir.create(dest_raw,   showWarnings = FALSE)
+    dir.create(dest_prepd, showWarnings = FALSE)
+
+    download_gescrss(
+      years = years,
+      dest_raw = dest_raw,
+      dest_prepd = dest_prepd,
+      regions = regions)
+
+    return(
+      use_gescrss(
+        dir = dir,
+        prepared_dir = dest_prepd,
+        cache = cache
+        )
+      )
 
   }
 
 
-  # Download data without saving or checking hard drive ----
+  # NHTSA: persistent dir ----
 
-    if(is.null(dir)){
+  my_dir <-
+    data.frame(path=list.dirs(dir)) %>%
+    mutate(folder = stringr::word(.data$path, start = -1, end = -1, sep = "/")) %>%
+    filter(.data$folder == "GESCRSS data")
 
-      dest_files <-
-        tempdir() %>%
-        stringr::str_replace_all(stringr::fixed("\\"), "/") %>%
-        stringr::str_c("/GESCRSS data")
+  dest_files <- paste0(dir, "/GESCRSS data")
+  dest_raw   <- paste0(dir, "/GESCRSS data/raw")
+  dest_prepd <- paste0(dir, "/GESCRSS data/prepd")
 
-      dest_raw   <- paste0(dest_files, "/raw")
-      dest_prepd <- paste0(dest_files, "/prepd")
 
-      dir.create(dest_files, showWarnings = FALSE)
-      dir.create(dest_raw,   showWarnings = FALSE)
-      dir.create(dest_prepd, showWarnings = FALSE)
+  if(nrow(my_dir)==0){ ## No data found ----
 
-      download_gescrss(
-        years = years,
-        dest_raw = dest_raw,
-        dest_prepd = dest_prepd,
-        regions = regions)
-
-      return(
-        use_gescrss(
-          dir = dir,
-          prepared_dir = dest_prepd,
-          cache = cache
-          )
-        )
-
+    if(!proceed){
+      x <- readline("We will now download several files from https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/  \nProceed? (Y/N) \n")
+      if(!(x %in% c("y", "Y"))) stop(message("Download cancelled.\n"))
     }
 
+    dir.create(dest_files, showWarnings = FALSE)
+    dir.create(dest_raw,   showWarnings = FALSE)
+    dir.create(dest_prepd, showWarnings = FALSE)
 
-  # Look for pre-existing data ----
+    download_gescrss(years = years, dest_raw = dest_raw, dest_prepd = dest_prepd, regions = regions)
 
-    if(!is.null(dir)){ #...in this folder
+    return(use_gescrss(dir = dir, prepared_dir = dest_prepd, cache = cache))
 
-      my_dir <-
-        data.frame(path=list.dirs(dir)) %>%
-        mutate(folder = stringr::word(.data$path, start = -1, end = -1, sep = "/")) %>%
-        filter(.data$folder == "GESCRSS data")
-
-      dest_files <- paste0(dir, "/GESCRSS data")
-      dest_raw   <- paste0(dir, "/GESCRSS data/raw")
-      dest_prepd <- paste0(dir, "/GESCRSS data/prepd")
+  }
 
 
-      if(nrow(my_dir)==0){ ## No data found ----
+  if(nrow(my_dir)==1){ # Some data found ----
 
-        if(!proceed){
-          x <- readline("We will now download several files from https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/  \nProceed? (Y/N) \n")
-          if(!(x %in% c("y", "Y"))) return(message("Download cancelled.\n"))
+    years_needed  <- setdiff(years, years_found)
+
+    if(length(years_needed) > 0){
+
+      if(!proceed){
+        x <-
+          paste0(
+            paste(years_needed, collapse = ", "),
+            " not found in ", dir,
+            "\nEnter '1' to download them or any other key to skip") %>%
+          readline()
+        if(x == "1"){
+          download_gescrss(years = years, dest_raw = dest_raw, dest_prepd = dest_prepd, regions = regions)
+        } else{
+          stop("Download cancelled.\n")
         }
-
-        dir.create(dest_files, showWarnings = FALSE)
-        dir.create(dest_raw,   showWarnings = FALSE)
-        dir.create(dest_prepd, showWarnings = FALSE)
-
-        download_gescrss(years = years, dest_raw = dest_raw, dest_prepd = dest_prepd, regions = regions)
-
-        return(use_gescrss(dir = dir, prepared_dir = dest_prepd, cache = cache))
-
+      } else{
+        message(paste0("Downloading years ", paste(years_needed, collapse = ", ")))
+        download_gescrss(years = years_needed, dest_raw = dest_raw, dest_prepd = dest_prepd, regions = regions)
       }
-
-
-
-    if(nrow(my_dir)==1){ # Some data found ----
-
-         years_needed  <- setdiff(years, years_found)
-
-         if(length(years_needed) > 0){
-
-           if(!proceed){
-            x <-
-              paste0(
-                paste(years_needed, collapse = ", "),
-                " not found in ", dir,
-                "\nEnter '1' to download them or any other key to skip") %>%
-              readline()
-            if(x == "1"){
-              download_gescrss(years = years, dest_raw = dest_raw, dest_prepd = dest_prepd, regions = regions)
-            } else{
-              stop("Download cancelled.\n")
-            }
-           } else{
-             message(paste0("Downloading years ", paste(years_needed, collapse = ", ")))
-             download_gescrss(years = years_needed, dest_raw = dest_raw, dest_prepd = dest_prepd, regions = regions)
-           }
-         }
-
-         return(use_gescrss(dir = dir, prepared_dir = dest_prepd, cache = cache))
-
-
     }
 
+    return(use_gescrss(dir = dir, prepared_dir = dest_prepd, cache = cache))
 
-    if(nrow(my_dir)>1){ #Ambiguous
-      stop("Multiple 'GESCRSS data' folders found. Please specify using the 'dir' parameter.")
-    }
+  }
 
-    }
+
+  if(nrow(my_dir)>1){ #Ambiguous
+    stop("Multiple 'GESCRSS data' folders found. Please specify using the 'dir' parameter.")
+  }
 
 
 }

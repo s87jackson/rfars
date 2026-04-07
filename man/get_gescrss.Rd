@@ -5,9 +5,9 @@
 \title{Get GES/CRSS data}
 \usage{
 get_gescrss(
-  years = 2014:2023,
+  years = 2015:2024,
   regions = c("mw", "ne", "s", "w"),
-  source = c("zenodo", "nhtsa"),
+  source = c("zenodo", "nhtsa")[1],
   proceed = FALSE,
   dir = NULL,
   cache = NULL
@@ -20,8 +20,8 @@ defaults to last 10 years).}
 \item{regions}{(Optional) Regions to keep: mw=midwest, ne=northeast, s=south, w=west.}
 
 \item{source}{The source of the data: 'zenodo' (the default) pulls the prepared
-dataset from \href{https://doi.org/10.5281/zenodo.17155802}{Zenodo}, 'nhtsa'
-pulls the raw files from NHTSA's FTP site and prepares them on your machine.
+dataset from \href{https://zenodo.org/records/19444272}{Zenodo}, 'nhtsa'
+pulls the raw files from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/}{NHTSA's FTP site} and prepares them on your machine.
 'zenodo' is much faster and provides the same dataset produced by using source='nhtsa'.}
 
 \item{proceed}{Logical, whether or not to proceed with downloading files without
@@ -29,11 +29,12 @@ asking for user permission (defaults to FALSE, thus asking permission)}
 
 \item{dir}{Directory in which to search for or save a 'GESCRSS data' folder. If
 NULL (the default), files are downloaded and unzipped to temporary
-directories and prepared in memory. Ignored if source = 'zenodo'.}
+directories and prepared in memory. Required if cache is specified.}
 
-\item{cache}{The name of an RDS file to save or use. If the specified file (e.g., 'myFARS.rds')
-exists in 'dir' it will be returned; if not, an RDS file of this name will be
-saved in 'dir' for quick use in subsequent calls. Ignored if source = 'zenodo'.}
+\item{cache}{The name of an RDS file to save or use (e.g., 'myCRSS.rds').
+If the file exists in 'dir', it will be returned directly. If not, data will
+be downloaded and an RDS file of this name will be saved in 'dir'. Requires
+'dir' to be specified.}
 }
 \value{
 A GESCRSS data object (a list with six tibbles: flat, multi_acc,
@@ -46,7 +47,7 @@ Bring GES/CRSS data into the current environment, whether by downloading it anew
 \details{
 This function provides the GES/CRSS database for the specified years and regions
    By default, it pulls from a Zenodo repository for speed and memory efficiency.
-   It can also pull the raw files from \href{https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/}{NHTSA} and process them in memory, or
+   It can also pull the raw files from NHTSA and process them in memory, or
    use an RDS file saved on your machine.
 
    If source = 'nhtsa' and no directory (dir) is specified, SAS files are downloaded into a
@@ -80,7 +81,7 @@ This function provides the GES/CRSS database for the specified years and regions
 
    The codebook tibble serves as a searchable codebook for all files of any given year.
 
-   Please review the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813707}{CRSS Analytical User's Manual}
+   Please review the \href{https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813796}{CRSS Analytical User's Manual}
 
    Regions are as follows:
       mw = Midwest   = OH, IN, IL, MI, WI, MN, ND, SD, NE, IA, MO, KS
